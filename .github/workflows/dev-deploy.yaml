@@ -2,8 +2,8 @@ on:
   push:
     branches:
       - dev
-    #paths:
-    #  - 'server/**'
+    paths:
+     - 'server/**'
 
 defaults:
   run:
@@ -12,6 +12,7 @@ defaults:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
