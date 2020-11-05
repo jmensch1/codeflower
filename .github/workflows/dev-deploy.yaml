@@ -25,7 +25,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image
-        run: docker push jmensch1/codeflower
+        run: docker push jmensch1/codeflower:${{github.sha}}
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,10 +39,11 @@ jobs:
           username: ${{ secrets.DEV_USERNAME }}
           key: ${{ secrets.DEV_PRIVATE_KEY }}
           script: |
+            docker pull jmensch1/codeflower:${{github.sha}}
             docker stop codeflower
             docker rm codeflower
             docker run -d \
               --restart always \
               -p 8080:8080 \
               --name codeflower \
-              jmensch1/codeflower
+              jmensch1/codeflower:${{github.sha}}
