@@ -18,5 +18,11 @@ jobs:
       - name: Build image
         run: docker build -t jmensch1/codeflower .
 
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: jmensch1
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Push image
         run: docker push jmensch1/codeflower
