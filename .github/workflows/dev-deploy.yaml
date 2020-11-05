@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'server/**'
+
+defaults:
+  run:
+    working-directory: server
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build -t jmensch1/codeflower .
+
+      - name: Push image
+        run: docker push jmensch1/codeflower
