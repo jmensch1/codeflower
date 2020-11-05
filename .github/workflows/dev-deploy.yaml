@@ -10,19 +10,34 @@ defaults:
     working-directory: server
 
 jobs:
-  build-and-push:
+  # build-and-push:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #
+  #     - name: Build image
+  #       run: docker build -t jmensch1/codeflower .
+  #
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: jmensch1
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #
+  #     - name: Push image
+  #       run: docker push jmensch1/codeflower
+
+  deploy:
     runs-on: ubuntu-latest
+    #needs: build-and-push
+
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Build image
-        run: docker build -t jmensch1/codeflower .
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
         with:
-          username: jmensch1
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push image
-        run: docker push jmensch1/codeflower
+          host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.DEV_USERNAME }}
+          key: ${{ secrets.DEV_PRIVATE_KEY }}
+          script: |
+            whoami
+            ls -al
