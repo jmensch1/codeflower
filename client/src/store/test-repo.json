@@ -1,0 +1,295 @@
+{
+    "owner": "code-flower",
+    "name": "cloc-server",
+    "branch": "master",
+    "fullName": "code-flower/cloc-server",
+    "fNameBr": "code-flower/cloc-server::master",
+    "branches": {
+        "master": "b68bccacb5e862f5477c0c2b0bb4553b6625f64e"
+    },
+    "lastCommit": "b68bccacb5e862f5477c0c2b0bb4553b6625f64e",
+    "githubUrl": "https://github.com/code-flower/cloc-server/tree/master",
+    "cloc": {
+        "tree": {
+            "name": "root",
+            "children": [
+                {
+                    "name": "test",
+                    "children": [
+                        {
+                            "name": "battery.js",
+                            "size": 234,
+                            "language": "JavaScript"
+                        },
+                        {
+                            "name": "_common.js",
+                            "size": 81,
+                            "language": "JavaScript"
+                        },
+                        {
+                            "name": "one.js",
+                            "size": 81,
+                            "language": "JavaScript"
+                        },
+                        {
+                            "name": "trending.js",
+                            "size": 45,
+                            "language": "JavaScript"
+                        },
+                        {
+                            "name": "load.js",
+                            "size": 40,
+                            "language": "JavaScript"
+                        },
+                        {
+                            "name": "stream.js",
+                            "size": 28,
+                            "language": "JavaScript"
+                        }
+                    ]
+                },
+                {
+                    "name": "config",
+                    "children": [
+                        {
+                            "name": "app.config.js",
+                            "size": 119,
+                            "language": "JavaScript"
+                        },
+                        {
+                            "name": "pm2.config.js",
+                            "size": 1,
+                            "language": "JavaScript"
+                        }
+                    ]
+                },
+                {
+                    "name": "bin",
+                    "children": [
+                        {
+                            "name": "pm2",
+                            "children": [
+                                {
+                                    "name": "PM2.js",
+                                    "size": 102,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "conn-monitor.js",
+                                    "size": 56,
+                                    "language": "JavaScript"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "install.sh",
+                            "size": 15,
+                            "language": "Bourne Shell"
+                        },
+                        {
+                            "name": "monitor.sh",
+                            "size": 13,
+                            "language": "Bourne Shell"
+                        },
+                        {
+                            "name": "startup.sh",
+                            "size": 8,
+                            "language": "Bourne Shell"
+                        },
+                        {
+                            "name": "prod.sh",
+                            "size": 4,
+                            "language": "Bourne Shell"
+                        }
+                    ]
+                },
+                {
+                    "name": "README.md",
+                    "size": 94,
+                    "language": "Markdown"
+                },
+                {
+                    "name": "server",
+                    "children": [
+                        {
+                            "name": "api",
+                            "children": [
+                                {
+                                    "name": "endpoints",
+                                    "children": [
+                                        {
+                                            "name": "cloc",
+                                            "children": [
+                                                {
+                                                    "name": "subtasks",
+                                                    "children": [
+                                                        {
+                                                            "name": "06_convertClocFileToJson.js",
+                                                            "size": 93,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "03_cloneRepoInFilesystem.js",
+                                                            "size": 48,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "02_checkRepoClonability.js",
+                                                            "size": 47,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "04_getBranchNameIfNeeded.js",
+                                                            "size": 35,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "01_processRequestParams.js",
+                                                            "size": 31,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "05_convertRepoToClocFile.js",
+                                                            "size": 24,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "09_deleteRepoFromFilesystem.js",
+                                                            "size": 19,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "07_sendJsonToClient.js",
+                                                            "size": 12,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "index.js",
+                                                            "size": 11,
+                                                            "language": "JavaScript"
+                                                        },
+                                                        {
+                                                            "name": "08_handleClocErrors.js",
+                                                            "size": 9,
+                                                            "language": "JavaScript"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "index.js",
+                                                    "size": 23,
+                                                    "language": "JavaScript"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "ping.js",
+                                            "size": 11,
+                                            "language": "JavaScript"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "handleErrors.js",
+                                    "size": 40,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "serveResponse.js",
+                                    "size": 30,
+                                    "language": "JavaScript"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "HTTP",
+                            "children": [
+                                {
+                                    "name": "parseRequest.js",
+                                    "size": 39,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "Responder.js",
+                                    "size": 28,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "createServer.js",
+                                    "size": 15,
+                                    "language": "JavaScript"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "WS",
+                            "children": [
+                                {
+                                    "name": "Responder.js",
+                                    "size": 39,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "parseRequest.js",
+                                    "size": 14,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "createServer.js",
+                                    "size": 11,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "index.js",
+                                    "size": 5,
+                                    "language": "JavaScript"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "index.js",
+                            "size": 39,
+                            "language": "JavaScript"
+                        },
+                        {
+                            "name": "util",
+                            "children": [
+                                {
+                                    "name": "connectionPool.js",
+                                    "size": 29,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "sendAlert.js",
+                                    "size": 25,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "logger.js",
+                                    "size": 9,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "setHostName.js",
+                                    "size": 8,
+                                    "language": "JavaScript"
+                                },
+                                {
+                                    "name": "getCurrentTime.js",
+                                    "size": 7,
+                                    "language": "JavaScript"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "package.json",
+                    "size": 45,
+                    "language": "JSON"
+                }
+            ]
+        },
+        "ignored": ".gitignore,listed in $Not_Code_Extension{gitignore}\n.nvmrc,language unknown (#3)\nserver/HTTP/index.js,duplicate of server/WS/index.js\n"
+    }
+}
