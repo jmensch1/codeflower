@@ -31,6 +31,13 @@ app.get('/cloc', (req, res) => {
   })
 })
 
+app.post('/file', (req, res) => {
+  ctrl.file({
+    resp: responder(res),
+    params: req.body,
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Running on http://localhost:${PORT}`)
 })
