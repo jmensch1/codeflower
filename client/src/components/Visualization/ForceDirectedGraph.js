@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 import { createUseStyles } from 'react-jss'
 import { useTree } from 'store/selectors'
+import { getFile } from 'store/files'
+import { useDispatch } from 'react-redux'
 
 const useStyles = createUseStyles(theme => {
   return {
@@ -21,6 +23,7 @@ const ForceDirectedGraph = () => {
   const container = useRef(null)
   const classes = useStyles()
   const tree = useTree()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!tree) return
@@ -102,6 +105,15 @@ const ForceDirectedGraph = () => {
           .style('display', null)
       })
       .on('mouseout', (e, d) => text.style('display', 'none'))
+      .on('click', (e, d) => {
+        const path = d
+          .ancestors()
+          .map(d => d.data.name)
+          .reverse()
+          .join('/')
+          .replace(/^root/, '')
+        dispatch(getFile(path))
+      })
 
     simulation.on('tick', () => {
       link
@@ -117,7 +129,7 @@ const ForceDirectedGraph = () => {
 
     const containerCurrent = container.current
     return () => containerCurrent.innerHTML = ''
-  }, [tree])
+  }, [tree, dispatch])
 
   if (!tree) return null
   return (

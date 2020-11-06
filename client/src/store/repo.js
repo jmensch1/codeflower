@@ -1,4 +1,4 @@
-import testRepo from './test-repo-2.json'
+import testRepo from './test-repo.json'
 
 export const types = {
   GET_REPO_SUCCESS: 'GET_REPO_SUCCESS'

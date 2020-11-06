@@ -8,6 +8,7 @@ import tree from './tree'
 import languages from './languages'
 import themeId from './themeId'
 import styleSheet from './styleSheet'
+import files from './files'
 
 const rootReducer = combineReducers({
   repo,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   languages,
   themeId,
   styleSheet,
+  files,
 })
 
 const store = createStore(rootReducer, composeWithDevTools(
