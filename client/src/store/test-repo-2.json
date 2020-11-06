@@ -1,16 +1,17 @@
 {
     "owner": "hoffstadt",
     "name": "DearPyGui",
-    "branch": "master",
     "fullName": "hoffstadt/DearPyGui",
     "fNameBr": "hoffstadt/DearPyGui::master",
+    "branch": "master",
+    "repoId": "hoffstadt#DearPyGui#52131_1",
     "branches": {
         "assets": "9b75ce437e1e222e3ec353546545642a5219cbde",
         "embedLegacy": "e91602475878f90f50e84a23da7469aad4259ac4",
-        "gh-pages": "fbb67005245b42480319906c94458a0a6ba697c7",
-        "master": "c8d7940aa3ccd0e95b7aefa661160fb626bb21b0"
+        "gh-pages": "70324a8a9be80d7d5df9da61801c238ecce0d3ed",
+        "master": "be48e0e76d7cc56088892087bff3e352e226d0ca"
     },
-    "lastCommit": "c8d7940aa3ccd0e95b7aefa661160fb626bb21b0",
+    "lastCommit": "be48e0e76d7cc56088892087bff3e352e226d0ca",
     "githubUrl": "https://github.com/hoffstadt/DearPyGui/tree/master",
     "cloc": {
         "tree": {
@@ -100,7 +101,7 @@
                                                 },
                                                 {
                                                     "name": "mvContainerInterface.cpp",
-                                                    "size": 948,
+                                                    "size": 1046,
                                                     "language": "C++"
                                                 },
                                                 {
@@ -110,7 +111,7 @@
                                                 },
                                                 {
                                                     "name": "mvAppInterface.cpp",
-                                                    "size": 690,
+                                                    "size": 688,
                                                     "language": "C++"
                                                 },
                                                 {
@@ -185,7 +186,7 @@
                                                 },
                                                 {
                                                     "name": "mvContainerInterface.h",
-                                                    "size": 26,
+                                                    "size": 27,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
@@ -204,12 +205,12 @@
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvSliderInterface.h",
+                                                    "name": "mvDragInterface.h",
                                                     "size": 13,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvDragInterface.h",
+                                                    "name": "mvSliderInterface.h",
                                                     "size": 13,
                                                     "language": "C/C++ Header"
                                                 },
@@ -222,17 +223,17 @@
                                         },
                                         {
                                             "name": "mvApp.cpp",
-                                            "size": 813,
+                                            "size": 809,
                                             "language": "C++"
                                         },
                                         {
                                             "name": "mvMarvel.cpp",
-                                            "size": 758,
+                                            "size": 759,
                                             "language": "C++"
                                         },
                                         {
                                             "name": "mvValueStorage.cpp",
-                                            "size": 744,
+                                            "size": 759,
                                             "language": "C++"
                                         },
                                         {
@@ -250,7 +251,7 @@
                                                 },
                                                 {
                                                     "name": "mvDocWindow.cpp",
-                                                    "size": 585,
+                                                    "size": 586,
                                                     "language": "C++"
                                                 },
                                                 {
@@ -275,7 +276,7 @@
                                                 },
                                                 {
                                                     "name": "mvAppItem.cpp",
-                                                    "size": 432,
+                                                    "size": 426,
                                                     "language": "C++"
                                                 },
                                                 {
@@ -285,7 +286,7 @@
                                                 },
                                                 {
                                                     "name": "mvTable.cpp",
-                                                    "size": 405,
+                                                    "size": 398,
                                                     "language": "C++"
                                                 },
                                                 {
@@ -314,6 +315,11 @@
                                                     "language": "C++"
                                                 },
                                                 {
+                                                    "name": "mvTab.h",
+                                                    "size": 208,
+                                                    "language": "C/C++ Header"
+                                                },
+                                                {
                                                     "name": "mvLogger.cpp",
                                                     "size": 194,
                                                     "language": "C++"
@@ -329,13 +335,13 @@
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvTab.h",
-                                                    "size": 136,
+                                                    "name": "mvMenu.h",
+                                                    "size": 132,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvMenu.h",
-                                                    "size": 132,
+                                                    "name": "mvAboutWindow.h",
+                                                    "size": 117,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
@@ -344,18 +350,13 @@
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvText.h",
-                                                    "size": 112,
-                                                    "language": "C/C++ Header"
-                                                },
-                                                {
                                                     "name": "mvMiscItems.h",
                                                     "size": 112,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvAboutWindow.h",
-                                                    "size": 111,
+                                                    "name": "mvText.h",
+                                                    "size": 112,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
@@ -379,17 +380,17 @@
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
+                                                    "name": "mvDatePicker.h",
+                                                    "size": 46,
+                                                    "language": "C/C++ Header"
+                                                },
+                                                {
                                                     "name": "mvMetricsWindow.h",
                                                     "size": 46,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
                                                     "name": "mvTimePicker.h",
-                                                    "size": 46,
-                                                    "language": "C/C++ Header"
-                                                },
-                                                {
-                                                    "name": "mvDatePicker.h",
                                                     "size": 46,
                                                     "language": "C/C++ Header"
                                                 },
@@ -404,12 +405,12 @@
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvTooltip.h",
+                                                    "name": "mvFileDialog.h",
                                                     "size": 36,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvFileDialog.h",
+                                                    "name": "mvTooltip.h",
                                                     "size": 36,
                                                     "language": "C/C++ Header"
                                                 },
@@ -494,12 +495,12 @@
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvShadeSeries.h",
+                                                    "name": "mvErrorSeries.h",
                                                     "size": 25,
                                                     "language": "C/C++ Header"
                                                 },
                                                 {
-                                                    "name": "mvErrorSeries.h",
+                                                    "name": "mvShadeSeries.h",
                                                     "size": 25,
                                                     "language": "C/C++ Header"
                                                 },
@@ -551,14 +552,14 @@
                                             "language": "C/C++ Header"
                                         },
                                         {
-                                            "name": "mvDataStorage.cpp",
-                                            "size": 90,
-                                            "language": "C++"
+                                            "name": "mvValueStorage.h",
+                                            "size": 81,
+                                            "language": "C/C++ Header"
                                         },
                                         {
-                                            "name": "mvValueStorage.h",
-                                            "size": 78,
-                                            "language": "C/C++ Header"
+                                            "name": "mvDataStorage.cpp",
+                                            "size": 76,
+                                            "language": "C++"
                                         },
                                         {
                                             "name": "mvWindow.cpp",
@@ -628,7 +629,7 @@
                                         {
                                             "name": "mvMarvel.mm",
                                             "size": 1,
-                                            "language": "Objective C++"
+                                            "language": "Objective-C++"
                                         }
                                     ]
                                 },
@@ -640,7 +641,7 @@
                                             "children": [
                                                 {
                                                     "name": "mvWindowsWindow.cpp",
-                                                    "size": 261,
+                                                    "size": 260,
                                                     "language": "C++"
                                                 },
                                                 {
@@ -660,13 +661,13 @@
                                             "children": [
                                                 {
                                                     "name": "mvAppleWindow.mm",
-                                                    "size": 139,
-                                                    "language": "Objective C++"
+                                                    "size": 138,
+                                                    "language": "Objective-C++"
                                                 },
                                                 {
                                                     "name": "mvAppleUtilities.mm",
                                                     "size": 47,
-                                                    "language": "Objective C++"
+                                                    "language": "Objective-C++"
                                                 },
                                                 {
                                                     "name": "mvAppleWindow.h",
@@ -680,7 +681,7 @@
                                             "children": [
                                                 {
                                                     "name": "mvLinuxWindow.cpp",
-                                                    "size": 131,
+                                                    "size": 130,
                                                     "language": "C++"
                                                 },
                                                 {
@@ -704,7 +705,12 @@
                             "children": [
                                 {
                                     "name": "demo.py",
-                                    "size": 992,
+                                    "size": 1015,
+                                    "language": "Python"
+                                },
+                                {
+                                    "name": "core.pyi",
+                                    "size": 636,
                                     "language": "Python"
                                 },
                                 {
@@ -724,12 +730,12 @@
                             "children": [
                                 {
                                     "name": "mvApp.h",
-                                    "size": 163,
+                                    "size": 162,
                                     "language": "C/C++ Header"
                                 },
                                 {
                                     "name": "mvAppItem.h",
-                                    "size": 124,
+                                    "size": 122,
                                     "language": "C/C++ Header"
                                 },
                                 {
@@ -835,7 +841,7 @@
                                 {
                                     "name": "mvAppleWindow.mm",
                                     "size": 84,
-                                    "language": "Objective C++"
+                                    "language": "Objective-C++"
                                 },
                                 {
                                     "name": "mvLinuxWindow.cpp",
@@ -872,7 +878,7 @@
                         {
                             "name": "main.mm",
                             "size": 1,
-                            "language": "Objective C++"
+                            "language": "Objective-C++"
                         }
                     ]
                 },
@@ -881,7 +887,7 @@
                     "children": [
                         {
                             "name": "README.md",
-                            "size": 114,
+                            "size": 115,
                             "language": "Markdown"
                         },
                         {
@@ -955,6 +961,11 @@
                             "language": "CMake"
                         },
                         {
+                            "name": "sandbox.py",
+                            "size": 52,
+                            "language": "Python"
+                        },
+                        {
                             "name": "main.cpp",
                             "size": 47,
                             "language": "C++"
@@ -968,11 +979,6 @@
                             "name": "mvStdOutput.h",
                             "size": 37,
                             "language": "C/C++ Header"
-                        },
-                        {
-                            "name": "sandbox.py",
-                            "size": 35,
-                            "language": "Python"
                         }
                     ]
                 },
@@ -1018,6 +1024,6 @@
                 }
             ]
         },
-        "ignored": ".gitignore: listed in $Not_Code_Extension{gitignore}\n.gitmodules: language unknown (#3)\n.gitignore: listed in $Not_Code_Extension{gitignore}\nVendor/dirent/LICENSE: language unknown (#3)\nVendor/implot/LICENSE: language unknown (#3)\ndearpygui/core.pyi: language unknown (#3)\nDearSandbox/.gitignore: duplicate of .gitignore\nDependencies/.gitignore: listed in $Not_Code_Extension{gitignore}\nDistribution/.gitignore: listed in $Not_Code_Extension{gitignore}\nDistribution/MANIFEST.IN: language unknown (#3)\nDistribution/setup.cfg: language unknown (#3)\nLICENSE: language unknown (#3)\nResources/.gitignore: listed in $Not_Code_Extension{gitignore}\nScripts/BuildPythonForLinux.sh: duplicate of Scripts/BuildPythonForMac.sh\ndocs/CHANGELOG.txt: listed in $Not_Code_Extension{txt}\ndocs/CODEOWNERS: language unknown (#3)\ndocs/TODO.txt: listed in $Not_Code_Extension{txt}\n"
+        "ignored": ".gitignore,listed in $Not_Code_Extension{gitignore}\n.gitmodules,language unknown (#3)\n.gitignore,listed in $Not_Code_Extension{gitignore}\nVendor/dirent/LICENSE,language unknown (#3)\nVendor/implot/LICENSE,language unknown (#3)\nDearSandbox/.gitignore,duplicate of .gitignore\nDependencies/.gitignore,listed in $Not_Code_Extension{gitignore}\nDistribution/.gitignore,listed in $Not_Code_Extension{gitignore}\nDistribution/MANIFEST.IN,language unknown (#3)\nDistribution/setup.cfg,language unknown (#3)\nLICENSE,language unknown (#3)\nResources/.gitignore,listed in $Not_Code_Extension{gitignore}\nScripts/BuildPythonForLinux.sh,duplicate of Scripts/BuildPythonForMac.sh\ndocs/CHANGELOG.txt,listed in $Not_Code_Extension{txt}\ndocs/CODEOWNERS,language unknown (#3)\ndocs/TODO.txt,listed in $Not_Code_Extension{txt}\n"
     }
 }
