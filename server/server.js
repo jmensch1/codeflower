@@ -23,10 +23,10 @@ app.get('/ping', (req, res) => {
   })
 })
 
-app.get('/cloc', (req, res) => {
+app.post('/cloc', (req, res) => {
   ctrl.cloc({
     resp: responder(res),
-    params: req.query,
+    params: req.body,
     uid: connPool.addConn(),
   })
 })

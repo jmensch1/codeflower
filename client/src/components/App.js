@@ -8,6 +8,7 @@ import Languages from './Languages'
 import ThemeSelect from './ThemeSelect'
 import FolderSelect from './FolderSelect'
 import FileViewer from './FileViewer'
+import { queryParams } from 'services/utils'
 
 function App() {
   const dispatch = useDispatch()
@@ -15,7 +16,8 @@ function App() {
   const folders = useFolders()
 
   useEffect(() => {
-    dispatch(getRepo())
+    const { owner, name, branch } = queryParams()
+    dispatch(getRepo({ owner, name, branch }))
   }, [dispatch])
 
   useEffect(() => {

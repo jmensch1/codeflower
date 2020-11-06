@@ -1,17 +1,27 @@
 import testRepo from './test-repo.json'
+import * as api from 'services/api'
 
 export const types = {
   GET_REPO_SUCCESS: 'GET_REPO_SUCCESS'
 }
 
-export const getRepo = () => {
-  return dispatch => {
-    setTimeout(() => {
+export const getRepo = ({ owner, name, branch }) => {
+  return async dispatch => {
+    if (owner && name) {
+      const repo = await api.getRepo({ owner, name, branch })
       dispatch({
         type: types.GET_REPO_SUCCESS,
-        data: testRepo
+        data: repo,
       })
-    }, 500)
+    } else {
+      // DEVELOPMENT ONLY
+      setTimeout(() => {
+        dispatch({
+          type: types.GET_REPO_SUCCESS,
+          data: testRepo
+        })
+      }, 500)
+    }
   }
 }
 
