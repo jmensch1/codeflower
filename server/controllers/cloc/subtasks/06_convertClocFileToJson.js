@@ -73,7 +73,7 @@ function clocToJson(clocData) {
 function getTree(ctrl) {
   return new Promise((resolve, reject) => {
     // attempt to read the cloc file
-    let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.dataFile}`;
+    let inFile = `${config.paths.repos}${ctrl.repo.repoId}/${config.cloc.dataFile}`;
     fs.readFile(inFile, 'utf8', function(err, clocData) {
       if (err)
         if (err.code === 'ENOENT')
@@ -102,7 +102,7 @@ function cleanIgnoredText(ignoredText, folderName) {
 
 function getIgnored(ctrl) {
   return new Promise((resolve, reject) => {
-    let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.ignoredFile}`;
+    let inFile = `${config.paths.repos}${ctrl.repo.repoId}/${config.cloc.ignoredFile}`;
     fs.readFile(inFile, 'utf8', function(err, ignoredText) {
       if (err)
         reject(new Error(err));

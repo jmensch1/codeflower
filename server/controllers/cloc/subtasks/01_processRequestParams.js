@@ -12,8 +12,9 @@ function processRequestParams(ctrl) {
     if (!ctrl.params)
       reject(config.errors.NeedOwnerAndName);
 
-    let { owner, name, branch, username, password } = ctrl.params;
-    let fNameBr = `${owner}/${name}` + (branch ? `::${branch}` : '');
+    const { owner, name, branch, username, password } = ctrl.params;
+    const fullName = `${owner}/${name}`
+    const fNameBr = fullName + (branch ? `::${branch}` : '');
 
     Log(2, `NEW REPO: ${fNameBr}`);
     Log(2, '1. Processing Request Params');
@@ -23,11 +24,12 @@ function processRequestParams(ctrl) {
       reject(config.errors.NeedOwnerAndName);
 
     ctrl.repo = {
-      owner:    owner,
-      name:     name,
-      branch:   branch || '',
-      fullName: owner + '/' + name,
-      fNameBr:  fNameBr
+      owner,
+      name,
+      fullName,
+      fNameBr,
+      branch: branch || '',
+      repoId: fullName.replace('/', '#') + '#' + ctrl.uid,
     };
 
     //// 2. handle credentials ////
@@ -38,9 +40,6 @@ function processRequestParams(ctrl) {
 
     delete ctrl.params.password;
     delete ctrl.params.username;
-
-    //// 3. generate unique folderName ////
-    ctrl.folderName = ctrl.repo.fullName.replace('/', '#') + '#' + ctrl.uid;
 
     resolve(ctrl);
   });

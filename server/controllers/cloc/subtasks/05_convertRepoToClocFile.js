@@ -1,4 +1,4 @@
-// NOTE: change repo.name to repo.folderName in the cloc command to test the error state
+// NOTE: change repo.name to repo.repoId in the cloc command to test the error state
 
 //////////// IMPORTS ////////////
 
@@ -12,7 +12,7 @@ function convertRepoToClocFile(ctrl) {
   return new Promise((resolve, reject) => {
     Log(2, '5. Converting Repo To Cloc File');
 
-    let cd = 'cd ' + config.paths.repos + ctrl.folderName + '; ',
+    let cd = 'cd ' + config.paths.repos + ctrl.repo.repoId + '; ',
         cloc = 'npx cloc ' + ctrl.repo.name +
                ' --csv --by-file ' +
                `--ignored=${config.cloc.ignoredFile} ` +

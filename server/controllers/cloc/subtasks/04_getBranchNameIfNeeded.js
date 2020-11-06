@@ -17,9 +17,9 @@ function getBranchNameIfNeeded(ctrl) {
       if (ctrl.repo.branch)
         res();
       else {
-        let dir = config.paths.repos + 
-                  ctrl.folderName + '/' + 
-                  ctrl.repo.name + '/' + 
+        let dir = config.paths.repos +
+                  ctrl.repo.repoId + '/' + 
+                  ctrl.repo.name + '/' +
                   '.git/refs/heads/';
         fs.readdir(dir, (err, files) => {
           if (err)
@@ -28,7 +28,7 @@ function getBranchNameIfNeeded(ctrl) {
             ctrl.repo.branch = files[0];
             res();
           }
-        }); 
+        });
       }
     })
     .then(() => {
@@ -47,4 +47,3 @@ function getBranchNameIfNeeded(ctrl) {
 //////////// EXPORTS ////////////
 
 module.exports = getBranchNameIfNeeded;
-

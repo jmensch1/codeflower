@@ -20,7 +20,7 @@ function cloneRepoInFilesystem(ctrl) {
   return new Promise((resolve, reject) => {
     Log(2, '3. Cloning Repo In Filesystem');
 
-    mkpath(config.paths.repos + ctrl.folderName, err => {
+    mkpath(config.paths.repos + ctrl.repo.repoId, err => {
       // it's okay if the error is that the tmp or repos folder already exists
       if (err && err.code !== 'EEXIST') {
         reject(new Error(err));
@@ -28,7 +28,7 @@ function cloneRepoInFilesystem(ctrl) {
       }
 
       let cloneUrl = gitCloneUrl(ctrl.repo, ctrl.creds),
-          cd = `cd ${config.paths.repos}${ctrl.folderName}/; `,
+          cd = `cd ${config.paths.repos}${ctrl.repo.repoId}/; `,
           clone = `git clone ${cloneUrl} --progress --single-branch` +
                   (ctrl.repo.branch ? ` --branch ${ctrl.repo.branch}` : '');
 
