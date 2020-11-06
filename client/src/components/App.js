@@ -7,6 +7,7 @@ import Visualization from './Visualization'
 import Languages from './Languages'
 import ThemeSelect from './ThemeSelect'
 import FolderSelect from './FolderSelect'
+import FileViewer from './FileViewer'
 
 function App() {
   const dispatch = useDispatch()
@@ -27,6 +28,7 @@ function App() {
       <Languages />
       <ThemeSelect />
       <FolderSelect />
+      <FileViewer />
       <Visualization />
     </>
   );
