@@ -20,7 +20,7 @@
     "nodemon": "^2.0.6"
   },
   "_moduleAliases": {
-    "@config": "config/app.config",
+    "@config": "config/index.js",
     "@controllers": "controllers",
     "@log": "util/logger",
     "@util": "util",

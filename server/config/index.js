@@ -22,14 +22,9 @@ module.exports = {
   //   WS:   REMOTE ? 'ws' : 'wss'
   // },
 
-  protocols: {
-    HTTP: 'http',
-    WS: 'ws'
-  },
-
   ports: {
-    HTTP: REMOTE ? 80 : 8000,
-    WS:   REMOTE ? 80 : 8000
+    HTTP: 8080,
+    WS:   8080,
   },
 
   paths: {

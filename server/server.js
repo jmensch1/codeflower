@@ -1,24 +1,34 @@
 require('module-alias/register')
 
-const config = require('@config')
 const express = require('express')
-const serveClocData = require('@controllers/cloc')
+const cors = require('cors')
+const config = require('@config')
 const responder = require('./HTTP/Responder')
+const ctrl = require('@controllers')
 
-const PORT = 8080
-const HOST = '0.0.0.0'
+const PORT = config.ports.HTTP
 
 const app = express()
+app.use(express.json())
+app.use(cors())
+
 app.get('/', (req, res) => {
   res.send('Hello World 4')
 })
 
+app.get('/ping', (req, res) => {
+  ctrl.ping({
+    resp: responder(res)
+  })
+})
+
 app.get('/cloc', (req, res) => {
-  serveClocData({
+  ctrl.cloc({
     resp: responder(res),
     params: req.query,
   })
 })
 
-app.listen(PORT, HOST)
-console.log(`Running on http://${HOST}:${PORT}`)
+app.listen(PORT, () => {
+  console.log(`Running on http://localhost:${PORT}`)
+})
