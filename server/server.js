@@ -4,6 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const config = require('@config')
 const responder = require('./HTTP/Responder')
+const connPool = require('@util/connectionPool')(process.pid)
 const ctrl = require('@controllers')
 
 const PORT = config.ports.HTTP
@@ -26,6 +27,7 @@ app.get('/cloc', (req, res) => {
   ctrl.cloc({
     resp: responder(res),
     params: req.query,
+    uid: connPool.addConn(),
   })
 })
 

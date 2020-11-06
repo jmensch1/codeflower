@@ -139,6 +139,6 @@ module.exports = {
 
   emailUnhandledErrors: PROD,
 
-  deleteAfterClone: true
+  deleteAfterClone: false
 
 };
