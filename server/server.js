@@ -1,16 +1,25 @@
-'use strict';
+require('module-alias/register')
 
-const express = require('express');
+const config = require('@config')
+const express = require('express')
+const serveClocData = require('@controllers/cloc')
+const responder = require('./HTTP/Responder')
 
-// Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
+const PORT = 8080
+const HOST = '0.0.0.0'
 
-// App
-const app = express();
+const app = express()
 app.get('/', (req, res) => {
-  res.send('Hello World 4');
-});
+  res.send('Hello World 4')
+})
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+app.get('/cloc', (req, res) => {
+  serveClocData({
+    resp: responder(res),
+    params: req.query,
+  })
+})
+
+
+app.listen(PORT, HOST)
+console.log(`Running on http://${HOST}:${PORT}`)

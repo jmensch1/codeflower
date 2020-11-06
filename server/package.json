@@ -5,9 +5,25 @@
   "author": "First Last <first.last@example.com>",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "npx nodemon server.js --ignore tmp/ --ignore test/"
   },
   "dependencies": {
-    "express": "^4.16.1"
+    "cloc": "^2.7.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.1",
+    "mkpath": "^1.0.0",
+    "module-alias": "^2.2.2",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "_moduleAliases": {
+    "@config": "config/app.config",
+    "@controllers": "controllers",
+    "@log": "util/logger",
+    "@util": "util",
+    "@root": "."
   }
 }
