@@ -1,0 +1,13 @@
+
+
+This is the text for the "Detailed description" box in the develop dashboard on the Chrome webstore. It appears on the right side of the page in the Chrome store info box.
+
+-----------------------------------------------------
+
+The extension adds a "Codeflower" tab to the navigation bar on github. When you navigate to a repo on github and click on the tab, you'll see the repository, visualized as a d3 force-directed graph.
+
+The inner nodes in the graph correspond to the directories in the repository, and the outer (colored) nodes correspond to the files. The size of the outer nodes is proportional to the number of lines of code in the file, and the color of the outer nodes indicates what language the file is written in.
+
+If you hover on the visualization, you can see the folder and file names, as well as the number of lines of code in each folder or file. Hovering on the table will highlight the files in the language you're hovering on. And you can use the "folder" dropdown to focus on subfolders within the repo.
+
+-----------------------------------------------------
