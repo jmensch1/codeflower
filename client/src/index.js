@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 //import reportWebVitals from './reportWebVitals'
 
-console.log(process.env)
+console.log('environment:', process.env)
 
 ReactDOM.render(
   <React.StrictMode>
