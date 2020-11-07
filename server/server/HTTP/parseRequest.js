@@ -11,7 +11,7 @@ function parseRequest(request) {
     resolve({
       method: request.method,
       endpoint: request.path.substring(1),
-      params: request.body,
+      params: request.method === 'GET' ? request.query : request.body,
     })
     //
     // let urlInfo;

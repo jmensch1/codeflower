@@ -31,6 +31,7 @@ module.exports = (server) => {
   const app = express()
   app.use(express.json())
   app.use(cors())
+  app.get('*', server)
   app.post('*', server)
   return app
 }
