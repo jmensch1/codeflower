@@ -1,12 +1,11 @@
 
-
 ## Overview
 This server generates hierarchically-organized cloc data for a given git repository. This data is useful for visualizing the repository, and possibly for other things.
 
 When the server receives a request, it starts by cloning the repository on the server. Then it uses the `cloc` program to determine the length and type of code for each code file in the repository. Then it converts the `cloc` data to a JSON object whose structure matches the file structure of the repository. Finally, it returns the JSON to the client.
 
 ## Requests
-The server accepts secure requests over both HTTP and Websockets. In both cases, the client receives a `success` response if the cloc analysis is successful, and an `error` response if not. If Websockets is used, the client also receives numerous `update` responses while the server is analyzing the repo. 
+The server accepts secure requests over both HTTP and Websockets. In both cases, the client receives a `success` response if the cloc analysis is successful, and an `error` response if not. If Websockets is used, the client also receives numerous `update` responses while the server is analyzing the repo.
 
 Regardless of what protocol is used, a request to the server contains the following parameters:
 
@@ -26,7 +25,7 @@ GET: https://localhost:8000/cloc?owner=mrcoder&name=theproject&branch=develop
 If a POST is used, the pathname must again be `cloc` and the parameters should be included as stringified JSON in the body of the request, e.g. --
 ```
 POST: https://localhost:8000/cloc
-where the body is the output of 
+where the body is the output of
 JSON.stringify({
     owner: "mrcoder",
     name: "theproject",
@@ -88,7 +87,7 @@ For errors, the server will return the following:
     }
 }
 ```
-The various types of errors, and their codes and messages, are listed in `config/api.config.js`. 
+The various types of errors, and their codes and messages, are listed in `config/api.config.js`.
 
 ### update (websockets only)
 Websockets requests will receive updates in this format:
@@ -103,10 +102,8 @@ Websockets requests will receive updates in this format:
 
 ## Installation/Development
 
-There's an install script from Ubuntu 16.04 in bin/install.sh. 
+There's an install script from Ubuntu 16.04 in bin/install.sh.
 The commands should probably be run individually.
 
 A variety of commands for development/testing are listed in the `package.json`
 The basic dev command is `npm run dev`.
-
-
