@@ -1,5 +1,4 @@
 node_modules/
 repos/
 logs/
-
-secrets.js
+.env

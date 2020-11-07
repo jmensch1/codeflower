@@ -7,47 +7,11 @@ const config = require('@config'),
 //////////// PRIVATE ////////////
 
 function parseRequest(request) {
-  return new Promise((resolve, reject) => {
-    resolve({
-      method: request.method,
-      endpoint: request.path.substring(1),
-      params: request.method === 'GET' ? request.query : request.body,
-    })
-    //
-    // let urlInfo;
-    // try {
-    //   urlInfo = url.parse(request.url, true);
-    // } catch(e) {
-    //   reject(config.errors.ParseError);
-    // }
-    //
-    // let reqInfo = {
-    //   method: request.method,
-    //   endpoint: urlInfo.pathname.substring(1)
-    // };
-    //
-    // switch(request.method) {
-    //   case 'GET':
-    //     reqInfo.params = urlInfo.query;
-    //     resolve(reqInfo);
-    //     break;
-    //   case 'POST':
-    //     let body = '';
-    //     request.on('data', data => body += data);
-    //     request.on('end', () => {
-    //       try {
-    //         reqInfo.params = JSON.parse(body);
-    //       } catch(e) {
-    //         reject(config.errors.ParseError);
-    //       }
-    //       resolve(reqInfo);
-    //     });
-    //     break;
-    //   default:
-    //     reject(config.errors.MethodNotAllowed);
-    //     break;
-    // }
-  });
+  return Promise.resolve({
+    method: request.method,
+    endpoint: request.path.substring(1),
+    params: request.method === 'GET' ? request.query : request.body,
+  })
 }
 
 //////////// PUBLIC /////////////

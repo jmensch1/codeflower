@@ -22,6 +22,7 @@
   "dependencies": {
     "cloc": "^2.7.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "minimist": "^1.2.0",
     "mkpath": "^0.1.0",
@@ -34,7 +35,7 @@
     "nodemon": "^2.0.6"
   },
   "_moduleAliases": {
-    "@config": "./config/app.config",
+    "@config": "./config",
     "@log": "./server/util/logger",
     "@util": "./server/util",
     "@root": "./"

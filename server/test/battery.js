@@ -253,4 +253,3 @@ if (argv.http) {
 allTests.forEach(test => {
   reqFunc(test).then(res => testResponse(test.test, res));
 });
-

@@ -11,10 +11,11 @@ const WebSocket = require('ws'),
 /////////////////// CONSTANTS /////////////////////
 
 // server config
-const HOSTNAME      = argv.remote ? 'api.codeflower.la' : 'localhost',
-      PORT          = argv.remote ? 443 : 8000,
-      WS_PROTOCOL   = argv.remote ? 'wss' : 'ws',
-      HTTP_PROTOCOL = argv.remote ? 'https' : 'http';
+const HOST          = 'localhost',
+      HTTP_PROTOCOL = config.protocols.HTTP,
+      WS_PROTOCOL   = config.protocols.WS,
+      HTTP_PORT     = config.ports.HTTP,
+      WS_PORT       = config.ports.WS
 
 const RES_TYPES = config.responseTypes;
 
@@ -22,7 +23,7 @@ const RES_TYPES = config.responseTypes;
 
 function wsReq({ request, onUpdate=()=>{}, sendRaw=false }) {
   return new Promise((resolve, reject) => {
-    const ws = new WebSocket(`${WS_PROTOCOL}://${HOSTNAME}:${PORT}`, {
+    const ws = new WebSocket(`${WS_PROTOCOL}://${HOST}:${WS_PORT}`, {
       rejectUnauthorized: false
     });
 
@@ -51,10 +52,11 @@ function httpReq({ request, sendRaw=false }) {
     let opts = {
       method: request.method || 'POST',
       protocol: `${HTTP_PROTOCOL}:`,
-      hostname: HOSTNAME,
-      port: PORT,
+      hostname: HOST,
+      port: HTTP_PORT,
       path: `/${request.endpoint}`,
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
+      headers: { 'Content-Type': 'application/json' },
     };
 
     let req = reqModule.request(opts, res => {

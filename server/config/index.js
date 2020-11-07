@@ -1,36 +1,54 @@
-
-//////////////////// IMPORTS ///////////////////////
-
-const path    = require('path');
-      //secrets = require('../secrets');
+require('dotenv').config()
+const path = require('path')
 
 //////// ENVIRONMENT-DEPENDENT CONSTANTS ///////////
 
-const PROD      = process.env.NODE_ENV === 'production';
+function checkEnv(keys) {
+  console.log('\n------------ ENVIRONMENT ------------\n')
 
-const CERT_DIR  = process.env.codeflower_cert_dir ||
-                  path.join(__dirname, '../../sslCert/');
+  const env = {}
+  keys.forEach(key => {
+    env[key] = process.env[key]
+    if (!env[key])
+      console.warn('Environment is missing:', key)
+    else
+      console.log('Found key:', key)
+  })
+
+  console.log('\n-------------------------------------\n')
+  return env
+}
+
+const env = checkEnv([
+  'HOST',
+  'HTTP_PROTOCOL',
+  'WS_PROTOCOL',
+  'HTTP_PORT',
+  'WS_PORT',
+  'GITHUB_TEST_USERNAME',
+  'GITHUB_TEST_PASSWORD',
+  'SENDGRID_EMAIL',
+  'SENDGRID_API_KEY',
+])
 
 ///////////////////// EXPORT ///////////////////////
 
 module.exports = {
 
+  host: env.HOST,
+
   protocols: {
-    HTTP: 'http',
-    WS: 'ws'
+    HTTP: env.HTTP_PROTOCOL,
+    WS: env.WS_PROTOCOL,
   },
 
   ports: {
-    HTTP: 8000,
-    WS:   8000
+    HTTP: env.HTTP_PORT,
+    WS:   env.WS_PORT,
   },
 
   paths: {
     repos: path.join(__dirname, '../tmp/repos/'),
-    SSL: {
-      key:  CERT_DIR + 'privkey.pem',
-      cert: CERT_DIR + 'cert.pem'
-    }
   },
 
   endpoints: {
@@ -42,71 +60,73 @@ module.exports = {
   responseTypes: {
     update:  'update',
     error:   'error',
-    success: 'success'
+    success: 'success',
   },
 
   errors: {
     ParseError: {
       name: 'ParseError',
       message: 'Your request could not be parsed. Please check the format of the request.',
-      statusCode: 400
+      statusCode: 400,
     },
     EndpointNotRecognized: {
       name: 'EndpointNotRecognized',
       message: 'Please check your endpoint.',
-      statusCode: 404
+      statusCode: 404,
     },
     MethodNotAllowed: {
       name: 'MethodNotAllowed',
       message: 'The HTTP server accepts only GET and POST requests.',
-      statusCode: 405
+      statusCode: 405,
     },
     NeedOwnerAndName: {
       name: 'NeedOwnerAndName',
       message: 'The owner and name of a repo are required parameters.',
-      statusCode: 400
+      statusCode: 400,
     },
     NeedCredentials: {
       name: 'NeedCredentials',
       message: 'A github username and password are required to access this repo.',
-      statusCode: 401
+      statusCode: 401,
     },
     CredentialsInvalid: {
       name: 'CredentialsInvalid',
       message: 'The given github username/password combination is invalid.',
-      statusCode: 401
+      statusCode: 401,
     },
     RepoNotFound: {
       name: 'RepoNotFound',
       message: 'The given repo could not be found.',
-      statusCode: 404
+      statusCode: 404,
     },
     BranchNotFound: {
       name: 'BranchNotFound',
       message: 'The given branch could not be found',
-      statusCode: 404
+      statusCode: 404,
     }
   },
 
   cloc: {
     dataFile: 'data.cloc',
-    ignoredFile: 'ignored.txt'
+    ignoredFile: 'ignored.txt',
   },
 
   github: {
-    // creds: secrets.github.creds,
-    // webhookSecret: secrets.github.webhookSecret
+    creds: {
+      username: env.GITHUB_TEST_USERNAME,
+      password: env.GITHUB_TEST_PASSWORD,
+    }
   },
 
   sendgrid: {
-    // email: secrets.sendgrid.email,
-    // apiKey: secrets.sendgrid.apiKey
+    email: env.SENDGRID_EMAIL,
+    apiKey: env.SENDGRID_API_KEY,
   },
 
   logLevel: 1,
 
-  emailUnhandledErrors: PROD,
+  emailUnhandledErrors: false,
 
-  deleteAfterClone: false
+  deleteAfterClone: false,
 
-};
+}
