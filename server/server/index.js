@@ -43,5 +43,4 @@ let port = config.ports.HTTP;
 httpServer.listen(port, () => {
   Log(1, `WS and HTTP servers started on port ${port}...`);
   setHostName();
-  if (process.send) process.send('ready');
 });

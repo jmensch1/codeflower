@@ -26,6 +26,7 @@
 const express = require('express')
 const cors = require('cors')
 const config = require('@config')
+const http = require('http')
 
 module.exports = (server) => {
   const app = express()
@@ -33,5 +34,5 @@ module.exports = (server) => {
   app.use(cors())
   app.get('*', server)
   app.post('*', server)
-  return app
+  return http.createServer(app)
 }
