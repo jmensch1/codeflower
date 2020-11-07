@@ -20,13 +20,11 @@
   },
   "homepage": "",
   "dependencies": {
-    "ascii-progress": "^1.0.5",
     "cloc": "^2.7.0",
     "minimist": "^1.2.0",
     "mkpath": "^0.1.0",
     "module-alias": "^2.0.1",
     "rimraf": "^2.5.2",
-    "sendgrid": "^5.2.2",
     "ws": "^1.1.0"
   },
   "devDependencies": {
