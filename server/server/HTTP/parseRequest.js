@@ -2,8 +2,7 @@
 //////////// IMPORTS ////////////
 
 const config = require('@config'),
-      url = require('url'),
-      Promise = require('bluebird');
+      url = require('url');
 
 //////////// PRIVATE ////////////
 
@@ -23,11 +22,11 @@ function parseRequest(request) {
     };
 
     switch(request.method) {
-      case 'GET': 
+      case 'GET':
         reqInfo.params = urlInfo.query;
         resolve(reqInfo);
         break;
-      case 'POST': 
+      case 'POST':
         let body = '';
         request.on('data', data => body += data);
         request.on('end', () => {
@@ -39,7 +38,7 @@ function parseRequest(request) {
           resolve(reqInfo);
         });
         break;
-      default: 
+      default:
         reject(config.errors.MethodNotAllowed);
         break;
     }
@@ -49,4 +48,3 @@ function parseRequest(request) {
 //////////// PUBLIC /////////////
 
 module.exports = parseRequest;
-

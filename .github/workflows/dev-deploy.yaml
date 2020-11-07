@@ -45,6 +45,6 @@ jobs:
             docker rm codeflower
             docker run -d \
               --restart always \
-              -p 80:8080 \
+              -p 80:8000 \
               --name codeflower \
               jmensch1/codeflower:${{github.sha}}

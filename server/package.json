@@ -1,29 +1,41 @@
 {
-  "name": "docker_web_app",
+  "name": "codeflower",
   "version": "1.0.0",
-  "description": "Node.js on Docker",
-  "author": "First Last <first.last@example.com>",
-  "main": "server.js",
+  "description": "CodeFlower",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "npx nodemon server.js --ignore tmp/ --ignore test/"
+    "dev": "npx nodemon server --ignore tmp/ --ignore test/",
+    "test-local": "node test/battery; node test/battery --http",
+    "test-remote": "node test/battery --remote; node test/battery --http --remote",
+    "ping": "curl https://api.codeflower.la/ping"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/code-flower/cloc-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/code-flower/server/issues"
+  },
+  "homepage": "",
   "dependencies": {
+    "ascii-progress": "^1.0.5",
     "cloc": "^2.7.0",
-    "cors": "^2.8.5",
-    "express": "^4.16.1",
-    "mkpath": "^1.0.0",
-    "module-alias": "^2.2.2",
-    "rimraf": "^3.0.2"
+    "minimist": "^1.2.0",
+    "mkpath": "^0.1.0",
+    "module-alias": "^2.0.1",
+    "rimraf": "^2.5.2",
+    "sendgrid": "^5.2.2",
+    "ws": "^1.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
   },
   "_moduleAliases": {
-    "@config": "config/index.js",
-    "@controllers": "controllers",
-    "@log": "util/logger",
-    "@util": "util",
-    "@root": "."
+    "@config": "./config/app.config",
+    "@log": "./server/util/logger",
+    "@util": "./server/util",
+    "@root": "./"
   }
 }
