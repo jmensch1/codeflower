@@ -8,6 +8,7 @@ import Languages from './Languages'
 import ThemeSelect from './ThemeSelect'
 import FolderSelect from './FolderSelect'
 import FileViewer from './FileViewer'
+import Terminal from './Terminal'
 import { queryParams } from 'services/utils'
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
       <ThemeSelect />
       <FolderSelect />
       <FileViewer />
+      <Terminal />
       <Visualization />
     </>
   );

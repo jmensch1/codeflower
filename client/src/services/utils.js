@@ -7,3 +7,9 @@ export const queryParams = () => {
     return query
   }, {})
 }
+
+export const delay = async (time) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, time)
+  })
+}

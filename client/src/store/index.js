@@ -9,6 +9,7 @@ import languages from './languages'
 import themeId from './themeId'
 import styleSheet from './styleSheet'
 import files from './files'
+import terminal from './terminal'
 
 const rootReducer = combineReducers({
   repo,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   themeId,
   styleSheet,
   files,
+  terminal,
 })
 
 const store = createStore(rootReducer, composeWithDevTools(

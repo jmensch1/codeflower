@@ -10,7 +10,7 @@ const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'
 // }
 
 // WS VERSION
-export const getRepo = async ({ owner, name, branch }) => {
+export const getRepo = async ({ owner, name, branch, onUpdate = (text) => null }) => {
   return new Promise((resolve, reject) => {
     const socket = new WebSocket(WS_URL)
 
@@ -30,7 +30,7 @@ export const getRepo = async ({ owner, name, branch }) => {
       switch(type) {
         case 'success': return resolve(data)
         case 'error':   return reject(data)
-        case 'update':  return console.log(data.text)
+        case 'update':  return onUpdate(data.text)
         default:        return null
       }
     }
