@@ -1,21 +1,12 @@
-////////// INITIALIZE 3RD-PARTY TOOLS ////////////
+require('module-alias/register')
 
-require('module-alias/register');
-
-
-
-
-//////////////////// IMPORTS //////////////////////
-
-const config        = require('@config'),
-      Log           = require('@log'),
-      HTTP          = require('./HTTP/'),
-      WS            = require('./WS/'),
-      connPool      = require('./util/connectionPool')(process.pid),
-      serveResponse = require('./api/serveResponse'),
-      setHostName   = require('./util/setHostName');
-
-
+const config        = require('@config')
+const Log           = require('@log')
+const HTTP          = require('./HTTP/')
+const WS            = require('./WS/')
+const connPool      = require('./util/connectionPool')(process.pid)
+const serveResponse = require('./api/serveResponse')
+const setHostName   = require('./util/setHostName')
 
 
 /////////// A PROTOCOL-AGNOSTIC SERVER ////////////
@@ -25,22 +16,20 @@ function server(protocol, request, response) {
     connId:    connPool.addConn(),
     request:   request,
     parse:     protocol.parseRequest,
-    responder: protocol.Responder(response)
+    responder: protocol.Responder(response),
   });
 }
-
-
 
 
 ////////////////////// MAIN ////////////////////////
 
 // create http and ws servers
-let httpServer = HTTP.createServer(server.bind(null, HTTP)),
-    wsServer   = WS.createServer(server.bind(null, WS), httpServer);
+const httpServer = HTTP.createServer(server.bind(null, HTTP))
+WS.createServer(server.bind(null, WS), httpServer)
 
 // start listening
-let port = config.ports.HTTP;
+const port = config.ports.HTTP
 httpServer.listen(port, () => {
-  Log(1, `WS and HTTP servers started on port ${port}...`);
-  setHostName();
-});
+  Log(1, `WS and HTTP servers started on port ${port}...`)
+  setHostName()
+})
