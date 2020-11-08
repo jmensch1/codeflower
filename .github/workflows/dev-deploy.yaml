@@ -16,6 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Copy environment variables
+      - run: cp .env.dev .env
+
       - name: Build image
         run: docker build -t jmensch1/codeflower:${{github.sha}} .
 
@@ -47,4 +50,5 @@ jobs:
               --restart always \
               -p 80:8000 \
               --name codeflower \
+              -e SENDGRID_EMAIL='jake.mensch@gmail.com' \
               jmensch1/codeflower:${{github.sha}}

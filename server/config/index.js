@@ -10,7 +10,7 @@ function checkEnv(keys) {
   keys.forEach(key => {
     env[key] = process.env[key]
     if (!env[key])
-      console.warn('Environment is missing:', key)
+      console.log('Environment is missing:', key)
     else
       console.log('Found key:', key)
   })
