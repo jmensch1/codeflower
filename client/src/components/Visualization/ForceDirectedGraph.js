@@ -15,12 +15,23 @@ const useStyles = createUseStyles(theme => {
       right: 0,
       ...theme.visualization.default,
       ...theme.visualization.force,
+    },
+    tooltip: {
+      position: 'absolute',
+      visibility: 'hidden',
+      backgroundColor: '#3d3d3d',
+      color: 'white',
+      borderRadius: '5px',
+      padding: '5px 10px',
+      transform: 'translate(-50%, -150%)',
+      pointerEvents: 'none',
     }
   }
 })
 
 const ForceDirectedGraph = () => {
   const container = useRef(null)
+  const tooltip = useRef(null)
   const classes = useStyles()
   const tree = useTree()
   const dispatch = useDispatch()
@@ -28,29 +39,7 @@ const ForceDirectedGraph = () => {
   useEffect(() => {
     if (!tree) return
 
-    const drag = simulation => {
-      function dragstarted(event, d) {
-        if (!event.active) simulation.alphaTarget(0.3).restart()
-        d.fx = d.x
-        d.fy = d.y
-      }
-
-      function dragged(event, d) {
-        d.fx = event.x
-        d.fy = event.y
-      }
-
-      function dragended(event, d) {
-        if (!event.active) simulation.alphaTarget(0)
-        d.fx = null
-        d.fy = null
-      }
-
-      return d3.drag()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended)
-    }
+    //// SETUP ////
 
     const root = d3.hierarchy(tree)
     const links = root.links()
@@ -59,12 +48,7 @@ const ForceDirectedGraph = () => {
     const width = container.current.offsetWidth
     const height = container.current.offsetHeight
 
-    const simulation = d3
-      .forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.id).distance(0).strength(1))
-      .force('charge', d3.forceManyBody().strength(-100))
-      .force('x', d3.forceX())
-      .force('y', d3.forceY())
+    let dragging = false
 
     const svg = d3
       .select(container.current)
@@ -87,33 +71,15 @@ const ForceDirectedGraph = () => {
       .join('circle')
         .attr('class', d => !!d.children ? 'directory' : ('file ' + d.data.class))
         .attr('r', d => d.children ? 3.5 : Math.pow(d.data.size, 2/5) || 1)
-        .call(drag(simulation))
 
-    const text = svg
-      .append('text')
-      .attr('class', 'nodetext')
-      .attr('dx', 0)
-      .attr('dy', 0)
-      .attr('text-anchor', 'middle')
+    //// SIMULATION ////
 
-    node
-      .on('mouseover', (e, d) => {
-        const dy = d.y - 5 - (d.children ? 3.5 : Math.sqrt(d.data.size) / 2)
-        text
-          .attr('transform', `translate(${d.x},${dy})`)
-          .text(d.data.name)
-          .style('display', null)
-      })
-      .on('mouseout', (e, d) => text.style('display', 'none'))
-      .on('click', (e, d) => {
-        const path = d
-          .ancestors()
-          .map(d => d.data.name)
-          .reverse()
-          .join('/')
-          .replace(/^root/, '')
-        dispatch(getFile(path))
-      })
+    const simulation = d3
+      .forceSimulation(nodes)
+      .force('link', d3.forceLink(links).id(d => d.id).distance(0).strength(1))
+      .force('charge', d3.forceManyBody().strength(-100))
+      .force('x', d3.forceX())
+      .force('y', d3.forceY())
 
     simulation.on('tick', () => {
       link
@@ -127,16 +93,94 @@ const ForceDirectedGraph = () => {
         .attr('cy', d => d.y)
     })
 
+    //// DRAGGING ////
+
+    const drag = simulation => {
+      function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart()
+        d.fx = d.x
+        d.fy = d.y
+        dragging = true
+      }
+
+      function dragged(event, d) {
+        d.fx = event.x
+        d.fy = event.y
+      }
+
+      function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0)
+        d.fx = null
+        d.fy = null
+        dragging = false
+      }
+
+      return d3.drag()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended)
+    }
+
+    node.call(drag(simulation))
+
+    //// ZOOMING ////
+
+    svg.call(d3.zoom()
+        .extent([[0, 0], [width, height]])
+        .scaleExtent([0.1, 10])
+        .on("zoom", zoomed))
+
+    function zoomed({ transform }) {
+      node.attr('transform', transform)
+      link.attr('transform', transform)
+    }
+
+    //// TOOLTIP ////
+
+    const tt = d3.select(tooltip.current)
+
+    node
+      .on('mouseover', () => {
+        if (!dragging)
+          tt.style('visibility', 'visible')
+      })
+      .on('mousemove', (e, d) => {
+
+        tt
+          .style('top', `${e.offsetY}px`)
+          .style('left',`${e.offsetX}px`)
+          .html(d.data.name)
+      })
+      .on('mouseout', () => tt.style('visibility', 'hidden'))
+
+    //// GET FILE ////
+
+    node.on('click', (e, d) => {
+      const path = d
+        .ancestors()
+        .map(d => d.data.name)
+        .reverse()
+        .join('/')
+        .replace(/^root/, '')
+      dispatch(getFile(path))
+    })
+
+    //// CLEANUP ////
+
     const containerCurrent = container.current
-    return () => containerCurrent.innerHTML = ''
+    const tooltipCurrent = tooltip.current
+    return () => {
+      containerCurrent.innerHTML = ''
+      tooltipCurrent.innerHTML = ''
+    }
   }, [tree, dispatch])
 
   if (!tree) return null
   return (
-    <div
-      ref={container}
-      className={classes.root}
-    />
+    <>
+      <div ref={container} className={classes.root} />
+      <div ref={tooltip} className={classes.tooltip} />
+    </>
   )
 }
 

@@ -56,18 +56,29 @@ const Sunburst = () => {
       .attr('height', height)
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
-    svg.append('g')
+    const path = svg
+      .append('g')
       .selectAll('path')
       .data(root.descendants().filter(d => d.depth))
       .join('path')
         .attr('class', d => !!d.children ? 'directory' : ('file ' + d.data.class))
         .attr('d', arc)
-      .append('title')
-        .text(d => {
-          const path = d.ancestors().map(d => d.data.name).reverse().join('/')
-          const loc = format(d.data.size)
-          return `${path}\n(${loc} loc)`
-        })
+      // .append('title')
+      //   .text(d => {
+      //     const path = d.ancestors().map(d => d.data.name).reverse().join('/')
+      //     const loc = format(d.data.size)
+      //     return `${path}\n(${loc} loc)`
+      //   })
+
+    svg.call(d3.zoom()
+        .extent([[0, 0], [width, height]])
+        .scaleExtent([0.1, 10])
+        .on("zoom", zoomed))
+
+    function zoomed({ transform }) {
+      path.attr('transform', transform)
+      // link.attr('transform', transform)
+    }
 
     // svg.append('g')
     //     .attr('pointer-events', 'none')

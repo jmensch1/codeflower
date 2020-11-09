@@ -1,4 +1,4 @@
-import testRepo from './test-repo.json'
+import testRepo from './test-repo-2.json'
 import * as api from 'services/api'
 import { openTerminal, closeTerminal } from './terminal'
 import { delay } from 'services/utils'
