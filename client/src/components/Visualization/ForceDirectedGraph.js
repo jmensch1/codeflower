@@ -25,7 +25,7 @@ const useStyles = createUseStyles(theme => {
       padding: '5px 10px',
       transform: 'translate(-50%, -150%)',
       pointerEvents: 'none',
-    }
+    },
   }
 })
 
@@ -128,7 +128,7 @@ const ForceDirectedGraph = () => {
     svg.call(d3.zoom()
         .extent([[0, 0], [width, height]])
         .scaleExtent([0.1, 10])
-        .on("zoom", zoomed))
+        .on('zoom', zoomed))
 
     function zoomed({ transform }) {
       node.attr('transform', transform)
