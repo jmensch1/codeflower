@@ -15,6 +15,7 @@ function serveResponse({ connId, request, parse, responder }) {
           case 'ping': return endpoints.ping
           case 'cloc': return endpoints.cloc
           case 'file': return endpoints.file
+          case 'users': return endpoints.users
           default: return null
         }
       })()
