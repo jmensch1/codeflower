@@ -20,7 +20,9 @@ function getFilesForUser(cwd, email) {
     .then(({ stdout }) => stdout.split('\n').slice(1, -1))
 }
 
-function getUsers({ resp, params: { repoId }}) {
+function getUsers(req) {
+  const { repoId } = req.params
+
   const cwd = `${config.paths.repo(repoId)}/repo`
   const cmd = `git log --pretty=short | git shortlog -nse | cat`
 
@@ -39,12 +41,12 @@ function getUsers({ resp, params: { repoId }}) {
           }
         })
 
-      Promise.all(users.map(user => getFilesForUser(cwd, user.email)))
+      return Promise.all(users.map(user => getFilesForUser(cwd, user.email)))
         .then(userFiles => {
           users.forEach((user, idx) => {
             user.files = userFiles[idx]
           })
-          resp.success(users)
+          return users
         })
     })
 }

@@ -1,8 +1,8 @@
 const fs = require('fs')
 const config = require('@config')
 
-module.exports = ({ resp, params }) => {
-  const { repoId, name, path } = params
+module.exports = (req) => {
+  const { repoId, path } = req.params
 
   if (!repoId || !path)
     return resp.error({
@@ -10,14 +10,6 @@ module.exports = ({ resp, params }) => {
       message:'repoId, name, and path are required.',
     })
 
-  const absPath = `${config.paths.repo(repoId)}/repo${path}`;
-  fs.readFile(absPath, 'utf8', function(err, text) {
-    if (err)
-      resp.error({
-        statusCode: 500,
-        error: err,
-      })
-    else
-      resp.success(text)
-  });
+  const absPath = `${config.paths.repo(repoId)}/repo${path}`
+  return fs.promises.readFile(absPath, 'utf-8')
 }

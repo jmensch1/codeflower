@@ -7,7 +7,7 @@ const config = require('@config'),
 
 //////////// PRIVATE ////////////
 
-function handleErrors(error, responder) {
+function handleErrors(error, onError) {
   Log(2, 'Handling Errors');
 
   // is the error listed in the config?
@@ -22,7 +22,7 @@ function handleErrors(error, responder) {
     let errData = (error.repo && error.repo.fNameBr) ||
                   (typeof error.endpoint !== 'undefined' && '/' + error.endpoint);
     Log(1, 'ERROR:', error.name, errData || '');
-    responder.error(error);
+    onError(error);
 
   } else {
 
@@ -32,7 +32,7 @@ function handleErrors(error, responder) {
 
     Log('error', error);
 
-    responder.error({
+    onError({
       name: 'ServerError',
       statusCode: 500,
       stack:  error.stack,

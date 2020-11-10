@@ -15,6 +15,7 @@ const {
 
 function serveClocData(req, onUpdate) {
   const ctrl = { ...req, onUpdate }
+  
   return processRequestParams(ctrl)
     .then(checkRepoClonability)
     .then(cloneRepoInFilesystem)

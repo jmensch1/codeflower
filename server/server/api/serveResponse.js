@@ -12,31 +12,24 @@ function serveResponse({ request, parse, responder }) {
     .then(({ endpoint, params }) => {
       const handler = (() => {
         switch (endpoint) {
-          case 'ping': return endpoints.ping
-          case 'cloc': return endpoints.cloc
-          case 'file': return endpoints.file
+          case 'ping':  return endpoints.ping
+          case 'cloc':  return endpoints.cloc
+          case 'file':  return endpoints.file
           case 'users': return endpoints.users
-          default: return null
+          default:      return null
         }
       })()
 
       if (!handler)
         return Promise.reject({
           ...config.errors.EndpointNotRecognized,
-          endpoint: endpoint
+          endpoint,
         })
 
-      if (endpoint === 'cloc')
-        return handler({ params, endpoint }, responder.update)
-          .then((data) => responder.success(data))
-
-      return handler({
-        resp: responder,
-        params: params,
-        uid: connId,
-      })
+      return handler({ params, endpoint }, responder.update)
     })
-    .catch(err => handleErrors(err, responder))
+    .then(data => responder.success(data))
+    .catch(err => handleErrors(err, responder.error))
 }
 
 /////////////////////// EXPORTS ////////////////////////
