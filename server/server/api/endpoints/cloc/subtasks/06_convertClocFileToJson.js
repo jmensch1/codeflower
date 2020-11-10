@@ -29,10 +29,11 @@ function getChildren(json) {
     var child = { name: key }
     if (typeof json[key].size !== 'undefined') {
       // value node
-      child.size = json[key].size
-      child.language = json[key].language
-      child.blank = json[key].blank
-      child.comment = json[key].comment
+      child.size = json[key].size;
+      child.language = json[key].language;
+      child.blank = json[key].blank;
+      child.comment = json[key].comment;
+      child.users = json[key].users;
     } else {
       // children node
       var childChildren = getChildren(json[key])
@@ -45,9 +46,24 @@ function getChildren(json) {
   return children
 }
 
-function clocToTree(clocData) {
+function clocToTree(clocData, users) {
   delete clocData.header
   delete clocData.SUM
+
+  // merge in users
+  Object.keys(clocData).forEach(fileName => {
+    const file = clocData[fileName]
+    file.users = []
+    users.forEach(user => {
+      if (user.files.includes(fileName.replace('repo/', '')))
+        file.users.push(user.id)
+    })
+  })
+
+  // delete file lists for users
+  users.forEach(user => {
+    delete user.files
+  })
 
   var json = {}
   Object.keys(clocData).forEach((key) => {
@@ -62,10 +78,11 @@ function clocToTree(clocData) {
       current = current[element]
     })
     const file = clocData[key]
-    current.language = file.language
-    current.size = file.code
-    current.blank = file.blank
-    current.comment = file.comment
+    current.language = file.language;
+    current.size = file.code;
+    current.blank = file.blank;
+    current.comment = file.comment;
+    current.users = file.users
   })
 
   json = getChildren(json)[0]
@@ -77,10 +94,9 @@ function clocToTree(clocData) {
 function getTree(ctrl) {
   const repoDir = config.paths.repo(ctrl.repo.repoId)
   const file = `${repoDir}/${config.cloc.dataFile}`
-  return fs.promises
-    .readFile(file, 'utf-8')
-    .then((clocData) => clocToTree(JSON.parse(clocData)))
-    .catch((err) => {
+  return fs.promises.readFile(file, 'utf-8')
+    .then(clocData => clocToTree(JSON.parse(clocData), ctrl.repo.users))
+    .catch(err => {
       if (err.code === 'ENOENT')
         // if cloc did not create a file (e.g., because there are no
         // code files in the repo), create dummy json

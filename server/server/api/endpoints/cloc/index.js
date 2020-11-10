@@ -6,6 +6,7 @@ const {
   cloneRepoInFilesystem,
   getBranchNameIfNeeded,
   convertRepoToClocFile,
+  getUsersJson,
   convertClocFileToJson,
   sendJsonToClient,
   handleClocErrors,
@@ -21,6 +22,7 @@ function serveClocData(req, onUpdate) {
     .then(cloneRepoInFilesystem)
     .then(getBranchNameIfNeeded)
     .then(convertRepoToClocFile)
+    .then(getUsersJson)
     .then(convertClocFileToJson)
     .then(sendJsonToClient)
     .catch((err) => handleClocErrors(err, ctrl))
