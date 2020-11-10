@@ -74,24 +74,21 @@ function clocToTree(clocData) {
 }
 
 function getTree(ctrl) {
-  return new Promise((resolve, reject) => {
-    // attempt to read the cloc file
-    let inFile = `${config.paths.repo(ctrl.repo.repoId)}/${config.cloc.dataFile}`;
-    fs.readFile(inFile, 'utf8', function(err, clocData) {
-      if (err)
-        if (err.code === 'ENOENT')
-          // if cloc did not create a file (e.g., because there are no
-          // code files in the repo), create dummy json
-          resolve({
-            name: "root",
-            children: []
-          });
-        else
-          reject(new Error(err));
+  const repoDir = config.paths.repo(ctrl.repo.repoId)
+  const file = `${repoDir}/${config.cloc.dataFile}`
+  return fs.promises.readFile(file, 'utf-8')
+    .then(clocData => clocToTree(JSON.parse(clocData)))
+    .catch(err => {
+      if (err.code === 'ENOENT')
+        // if cloc did not create a file (e.g., because there are no
+        // code files in the repo), create dummy json
+        return {
+          name: "root",
+          children: []
+        }
       else
-        resolve(clocToTree(JSON.parse(clocData)));
-    });
-  });
+        throw new Error(err)
+    })
 }
 
 ///////// GET IGNORED FILES FROM CLOC OUTPUT //////////
@@ -106,15 +103,10 @@ function cleanIgnoredFiles(ignoredFiles) {
 }
 
 function getIgnored(ctrl) {
-  return new Promise((resolve, reject) => {
-    let inFile = `${config.paths.repo(ctrl.repo.repoId)}/${config.cloc.ignoredFile}`;
-    fs.readFile(inFile, 'utf8', function(err, ignoredFiles) {
-      if (err)
-        reject(new Error(err));
-      else
-        resolve(cleanIgnoredFiles(JSON.parse(ignoredFiles)));
-    });
-  });
+  const repoDir = config.paths.repo(ctrl.repo.repoId)
+  const file = `${repoDir}/${config.cloc.ignoredFile}`
+  return fs.promises.readFile(file, 'utf8')
+    .then(ignored => cleanIgnoredFiles(JSON.parse(ignored)))
 }
 
 ///////////// UNITE TREE AND IGNORED FILES /////////
