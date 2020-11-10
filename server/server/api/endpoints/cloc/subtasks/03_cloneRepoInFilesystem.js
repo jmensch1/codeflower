@@ -44,9 +44,9 @@ function cloneRepoInFilesystem(ctrl) {
 
       // replace username and password, if any, with asterisks, before sending to client
       let outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
-      ctrl.resp.update('\n>> ' + outText);
+      ctrl.onUpdate('\n>> ' + outText);
 
-      return exec(clone, { cwd, onUpdate: ctrl.resp.update })
+      return exec(clone, { cwd, onUpdate: ctrl.onUpdate })
         .then(() => resolve(ctrl))
     });
   });

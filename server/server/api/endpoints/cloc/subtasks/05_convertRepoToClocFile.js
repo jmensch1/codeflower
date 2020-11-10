@@ -20,11 +20,11 @@ function convertRepoToClocFile(ctrl) {
       `--report-file=${config.cloc.dataFile}`,
     ])
 
-    ctrl.resp.update(`\n>> ${cloc}`)
+    ctrl.onUpdate(`\n>> ${cloc}`)
 
     return exec(cloc, {
       cwd: config.paths.repo(ctrl.repo.repoId),
-      onUpdate: ctrl.resp.update,
+      onUpdate: ctrl.onUpdate,
     })
       .then(() => resolve(ctrl))
   });

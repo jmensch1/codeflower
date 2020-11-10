@@ -42,9 +42,9 @@ function checkRepoClonability(ctrl) {
     ])
 
     // echo the command (but not credentials)
-    ctrl.resp.update('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
+    ctrl.onUpdate('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
 
-    return exec(lsRemote, { onUpdate: ctrl.resp.update })
+    return exec(lsRemote, { onUpdate: ctrl.onUpdate })
       .then(({ stdout }) => {
         // no error if the repo exists and the credentials are correct (if required)
         ctrl.repo.branches = getBranches(stdout);

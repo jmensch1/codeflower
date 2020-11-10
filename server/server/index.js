@@ -4,7 +4,6 @@ const config        = require('@config')
 const Log           = require('@log')
 const HTTP          = require('./HTTP/')
 const WS            = require('./WS/')
-const connPool      = require('./util/connectionPool')(process.pid)
 const serveResponse = require('./api/serveResponse')
 const setHostName   = require('./util/setHostName')
 
@@ -13,7 +12,6 @@ const setHostName   = require('./util/setHostName')
 
 function server(protocol, request, response) {
   serveResponse({
-    connId:    connPool.addConn(),
     request:   request,
     parse:     protocol.parseRequest,
     responder: protocol.Responder(response),

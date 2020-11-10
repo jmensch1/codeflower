@@ -1,7 +1,8 @@
 //////////// IMPORTS ////////////
 
 const config = require('@config'),
-      Log = require('@log');
+      Log = require('@log'),
+      connPool = require('@util/connectionPool')(process.pid)
 
 //////////// PRIVATE ////////////
 
@@ -22,6 +23,8 @@ function processRequestParams(ctrl) {
     //// 1. construct repo object ////
     if (!owner || !name)
       reject(config.errors.NeedOwnerAndName);
+
+    ctrl.uid = connPool.addConn()
 
     ctrl.repo = {
       owner,

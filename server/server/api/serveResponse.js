@@ -7,7 +7,7 @@ const handleErrors = require('./handleErrors')
 
 /////////////////////// PRIVATE ////////////////////////
 
-function serveResponse({ connId, request, parse, responder }) {
+function serveResponse({ request, parse, responder }) {
   return parse(request)
     .then(({ endpoint, params }) => {
       const handler = (() => {
@@ -25,6 +25,10 @@ function serveResponse({ connId, request, parse, responder }) {
           ...config.errors.EndpointNotRecognized,
           endpoint: endpoint
         })
+
+      if (endpoint === 'cloc')
+        return handler({ params, endpoint }, responder.update)
+          .then((data) => responder.success(data))
 
       return handler({
         resp: responder,
