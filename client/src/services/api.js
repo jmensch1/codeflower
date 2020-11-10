@@ -42,7 +42,7 @@ export const getRepo = async ({ owner, name, branch, onUpdate = (text) => null }
   })
 }
 
-export const getFile = async ({ repoId, name, path }) => {
-  const { data } = await axios.post(`${HTTP_URL}/file`, { repoId, name, path })
+export const getFile = async ({ repoId, path }) => {
+  const { data } = await axios.post(`${HTTP_URL}/file`, { repoId, path })
   return data.data
 }

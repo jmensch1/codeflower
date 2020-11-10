@@ -17,10 +17,7 @@ function getBranchNameIfNeeded(ctrl) {
       if (ctrl.repo.branch)
         res();
       else {
-        let dir = config.paths.repos +
-                  ctrl.repo.repoId + '/' + 
-                  ctrl.repo.name + '/' +
-                  '.git/refs/heads/';
+        let dir = `${config.paths.repo(ctrl.repo.repoId)}/repo/.git/refs/heads`
         fs.readdir(dir, (err, files) => {
           if (err)
             rej(new Error(err))

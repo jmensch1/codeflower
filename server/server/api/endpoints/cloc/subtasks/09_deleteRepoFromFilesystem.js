@@ -13,7 +13,7 @@ function deleteRepoFromFilesystem(ctrl) {
     if (!config.deleteAfterClone)
       resolve(ctrl);
     else
-      rimraf(config.paths.repos + ctrl.repo.repoId, (err) => {
+      rimraf(config.paths.repo(ctrl.repo.repoId), (err) => {
         if (err)
           reject(new Error(err));
         else

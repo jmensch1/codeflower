@@ -1,47 +1,52 @@
 //////////// IMPORTS ////////////
 
-const { exec } = require('child_process'),
-      config = require('@config'),
-      Log = require('@log');
+const { exec, concat } = require('@util/shell')
+const config = require('@config')
+const Log = require('@log')
 
 //////////// PRIVATE ////////////
 
 function getFilesForUser(cwd, email) {
-  return new Promise((resolve, reject) => {
-    const cmd = `git log --no-merges --author="${email}" --name-only --pretty=format:"" | sort -u`
+  const cmd = concat([
+    'git log',
+    '--no-merges',
+    `--author="${email}"`,
+    '--name-only',
+    '--pretty=format:""',
+    '| sort -u',
+  ])
 
-    let proc = exec(cmd, { cwd }, (err, stdout, stderr) => {
-      const files = stdout.split('\n').slice(1, -1)
-      resolve(files)
-    })
-  })
+  return exec(cmd, { cwd })
+    .then(({ stdout }) => stdout.split('\n').slice(1, -1))
 }
 
-function getUsers({ resp, params: { repoId, repoName }}) {
-  const cwd = `${config.paths.repos}${repoId}/${repoName}`
+function getUsers({ resp, params: { repoId }}) {
+  const cwd = `${config.paths.repo(repoId)}/repo`
   const cmd = `git log --pretty=short | git shortlog -nse | cat`
 
-  let proc = exec(cmd, { cwd }, (err, stdout, stderr) => {
-    const users = stdout.split('\n').slice(0, -1).map(line => {
-      let [count, user] = line.split('\t')
-      const [_, name, email] = user.match(/^(.*?)\s<(.*?)>$/)
-      return {
-        count: +count.trim(),
-        name,
-        email,
-      }
-    })
-
-    Promise.all(users.map(user => {
-      return getFilesForUser(cwd, user.email)
-    }))
-      .then(userFiles => {
-        users.forEach((user, idx) => {
-          user.files = userFiles[idx]
+  return exec(cmd, { cwd })
+    .then(({ stdout }) => {
+      const users = stdout
+        .split('\n')
+        .slice(0, -1)
+        .map(line => {
+          const [count, user] = line.split('\t')
+          const [_, name, email] = user.match(/^(.*?)\s<(.*?)>$/)
+          return {
+            count: +count.trim(),
+            name,
+            email,
+          }
         })
-        resp.success(users)
-      })
-  });
+
+      Promise.all(users.map(user => getFilesForUser(cwd, user.email)))
+        .then(userFiles => {
+          users.forEach((user, idx) => {
+            user.files = userFiles[idx]
+          })
+          resp.success(users)
+        })
+    })
 }
 
 module.exports = getUsers

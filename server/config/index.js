@@ -49,6 +49,7 @@ module.exports = {
 
   paths: {
     repos: path.join(__dirname, '../tmp/repos/'),
+    repo: repoId => path.join(__dirname, '../tmp/repos', repoId),
   },
 
   endpoints: {
@@ -123,7 +124,7 @@ module.exports = {
     apiKey: env.SENDGRID_API_KEY,
   },
 
-  logLevel: 1,
+  logLevel: 2,
 
   emailUnhandledErrors: false,
 
