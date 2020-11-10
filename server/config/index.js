@@ -49,6 +49,7 @@ module.exports = {
 
   paths: {
     repos: path.join(__dirname, '../tmp/repos/'),
+    repo: repoId => path.join(__dirname, '../tmp/repos', repoId),
   },
 
   endpoints: {
@@ -107,8 +108,8 @@ module.exports = {
   },
 
   cloc: {
-    dataFile: 'data.cloc',
-    ignoredFile: 'ignored.txt',
+    dataFile: 'cloc.json',
+    ignoredFile: 'ignored.json',
   },
 
   github: {
@@ -123,7 +124,7 @@ module.exports = {
     apiKey: env.SENDGRID_API_KEY,
   },
 
-  logLevel: 1,
+  logLevel: 2,
 
   emailUnhandledErrors: false,
 

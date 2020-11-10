@@ -8,7 +8,7 @@ const GRAPH_TYPES = {
 }
 
 const Visualization = () => {
-  const [graphType, setGraphType] = useState('force')
+  const [graphType, setGraphType] = useState('sunburst')
 
   const Vis = GRAPH_TYPES[graphType]
 

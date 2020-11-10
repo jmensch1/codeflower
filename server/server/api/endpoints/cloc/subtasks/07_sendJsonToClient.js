@@ -10,8 +10,7 @@ function sendJsonToClient(ctrl) {
     Log(2, '7. Sending Json To Client');
     Log(1, 'SUCCESS:', ctrl.repo.fNameBr, ctrl.uid);
 
-    ctrl.resp.success(ctrl.repo);
-    resolve(ctrl);
+    resolve(ctrl.repo)
   });
 }
 

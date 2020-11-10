@@ -2,7 +2,7 @@ const themes = {
   periwinkle: {
     visualization: {
       default: {
-        backgroundColor: 'white',
+        backgroundColor: 'black',
       },
       force: {
         '& line.link': {

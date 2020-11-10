@@ -1,6 +1,6 @@
 //////////// IMPORTS ////////////
 
-const { exec } = require('child_process'),
+const { exec, concat } = require('@util/shell'),
       config = require('@config'),
       Log = require('@log');
 
@@ -33,21 +33,31 @@ function checkRepoClonability(ctrl) {
     // using '******' as a fallback is a trick that lets us
     // distinguish between invalid credentials and non-existent repos,
     // without triggering a username/password prompt
-    let user =  ctrl.creds.username || '******',
-        pass =  ctrl.creds.password || '******',
-        fName = ctrl.repo.fullName,
-        lsRemote = `git ls-remote -h "https://${user}:${pass}@github.com/${fName}"`;
+    const user =  ctrl.creds.username || '******'
+    const pass =  ctrl.creds.password || '******'
+    const fName = ctrl.repo.fullName
+    const lsRemote = concat([
+      'git ls-remote',
+      `-h "https://${user}:${pass}@github.com/${fName}"`,
+    ])
 
     // echo the command (but not credentials)
-    ctrl.resp.update('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
+    ctrl.onUpdate('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
 
-    // execute the command
-    let proc = exec(lsRemote, (err, stdout, stderr) => {
-
-      // err happens if the credentials are wrong or the repo doesn't exist
-      // Repository not found => credentials are correct AND repository does not exist
-      // Invalid username or password => credentials are not correct AND repository may or may not exist
-      if (err) {
+    return exec(lsRemote, { onUpdate: ctrl.onUpdate })
+      .then(({ stdout }) => {
+        // no error if the repo exists and the credentials are correct (if required)
+        ctrl.repo.branches = getBranches(stdout);
+        let { branch } = ctrl.repo;
+        if (branch && Object.keys(ctrl.repo.branches).indexOf(branch) === -1)
+          reject(config.errors.BranchNotFound);
+        else
+          resolve(ctrl);
+      })
+      .catch(({ err, stderr }) => {
+        // err happens if the credentials are wrong or the repo doesn't exist
+        // Repository not found => credentials are correct AND repository does not exist
+        // Invalid username or password => credentials are not correct AND repository may or may not exist
         if (stderr.match(/Invalid username or password/))
           if (ctrl.creds.username && ctrl.creds.password)
             reject(config.errors.CredentialsInvalid);
@@ -56,20 +66,7 @@ function checkRepoClonability(ctrl) {
         else if (stderr.match(/Repository not found/))
           reject(config.errors.RepoNotFound);
         else reject(new Error(err));
-
-      // no error if the repo exists and the credentials are correct (if required)
-      } else {
-        ctrl.repo.branches = getBranches(stdout);
-        let { branch } = ctrl.repo;
-        if (branch && Object.keys(ctrl.repo.branches).indexOf(branch) === -1)
-          reject(config.errors.BranchNotFound);
-        else
-          resolve(ctrl);
-      }
-    });
-
-    proc.stdout.on('data', ctrl.resp.update);
-    proc.stderr.on('data', ctrl.resp.update);
+      })
   });
 }
 

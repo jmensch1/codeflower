@@ -31,6 +31,8 @@ function getChildren(json) {
       // value node
       child.size = json[key].size;
       child.language = json[key].language;
+      child.blank = json[key].blank;
+      child.comment = json[key].comment;
     } else {
       // children node
       var childChildren = getChildren(json[key]);
@@ -42,15 +44,13 @@ function getChildren(json) {
   return children;
 }
 
-// convert the text in a cloc file to JSON
-function clocToJson(clocData) {
-  var lines = clocData.split("\n");
-  lines.shift(); // drop the header line
+function clocToTree(clocData) {
+  clocData = clocData['by_file']
+  delete clocData.header
 
-  var json = {};
-  lines.forEach(function(line) {
-    var cols = line.split(',');
-    var filename = cols[1];
+  var json = {}
+  Object.keys(clocData).forEach(key => {
+    var filename = key;
     if (!filename) return;
     var elements = filename.split(/[\/\\]/);
     var current = json;
@@ -60,9 +60,12 @@ function clocToJson(clocData) {
       }
       current = current[element];
     });
-    current.language = cols[0];
-    current.size = parseInt(cols[4], 10);
-  });
+    const file = clocData[key]
+    current.language = file.language;
+    current.size = file.code;
+    current.blank = file.blank;
+    current.comment = file.comment;
+  })
 
   json = getChildren(json)[0];
   json.name = 'root';
@@ -71,45 +74,39 @@ function clocToJson(clocData) {
 }
 
 function getTree(ctrl) {
-  return new Promise((resolve, reject) => {
-    // attempt to read the cloc file
-    let inFile = `${config.paths.repos}${ctrl.repo.repoId}/${config.cloc.dataFile}`;
-    fs.readFile(inFile, 'utf8', function(err, clocData) {
-      if (err)
-        if (err.code === 'ENOENT')
-          // if cloc did not create a file (e.g., because there are no
-          // code files in the repo), create dummy json
-          resolve({
-            name: "root",
-            children: []
-          });
-        else
-          reject(new Error(err));
+  const repoDir = config.paths.repo(ctrl.repo.repoId)
+  const file = `${repoDir}/${config.cloc.dataFile}`
+  return fs.promises.readFile(file, 'utf-8')
+    .then(clocData => clocToTree(JSON.parse(clocData)))
+    .catch(err => {
+      if (err.code === 'ENOENT')
+        // if cloc did not create a file (e.g., because there are no
+        // code files in the repo), create dummy json
+        return {
+          name: "root",
+          children: []
+        }
       else
-        resolve(clocToJson(clocData));
-    });
-  });
+        throw new Error(err)
+    })
 }
 
 ///////// GET IGNORED FILES FROM CLOC OUTPUT //////////
 
-function cleanIgnoredText(ignoredText, folderName) {
-  var regex = new RegExp(folderName + '/', 'g');
-  return ignoredText.split('\n').slice(1).map(function(line) {
-    return line.replace(regex, '');
-  }).join('\n');
+function cleanIgnoredFiles(ignoredFiles) {
+  return ignoredFiles
+    .filter(el => el.file !== 'repo')
+    .map(el => ({
+      ...el,
+      file: el.file.replace('repo', '')
+    }))
 }
 
 function getIgnored(ctrl) {
-  return new Promise((resolve, reject) => {
-    let inFile = `${config.paths.repos}${ctrl.repo.repoId}/${config.cloc.ignoredFile}`;
-    fs.readFile(inFile, 'utf8', function(err, ignoredText) {
-      if (err)
-        reject(new Error(err));
-      else
-        resolve(cleanIgnoredText(ignoredText, ctrl.repo.name));
-    });
-  });
+  const repoDir = config.paths.repo(ctrl.repo.repoId)
+  const file = `${repoDir}/${config.cloc.ignoredFile}`
+  return fs.promises.readFile(file, 'utf8')
+    .then(ignored => cleanIgnoredFiles(JSON.parse(ignored)))
 }
 
 ///////////// UNITE TREE AND IGNORED FILES /////////
@@ -117,7 +114,7 @@ function getIgnored(ctrl) {
 // converts a cloc file to json
 function convertClocFileToJson(ctrl) {
   Log(2, '6. Converting Cloc File To Json');
-  ctrl.resp.update('\nConverting cloc file to json...');
+  ctrl.onUpdate('\nConverting cloc file to json...');
 
   return Promise.all([
     getTree(ctrl),

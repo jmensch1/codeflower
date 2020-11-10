@@ -24,13 +24,22 @@ const useStyles = createUseStyles(theme => {
     },
     header: {
       textAlign: 'right',
-      padding: 5,
-      paddingRight: 20,
+      padding: '5px 10px 5px 12px',
+      paddingRight: 15,
       cursor: 'pointer',
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    arrow: {
+      transform: ({ isOpen }) => isOpen
+        ? 'rotate(180deg) translateY(2px)'
+        : 'translateY(3px)',
+    },
+    divider: {
+      borderTop: '1px white solid',
     },
     body: {
       position: 'relative',
-      borderTop: '1px white solid',
       lineHeight: '18px',
       transition: 'height 0.5s ease-in-out',
       height: ({ isOpen }) => isOpen ? 400 : 0,
@@ -45,8 +54,12 @@ const Terminal = () => {
 
   return (
     <div onClick={()=> dispatch(toggleTerminal())} className={classes.root}>
-      <div className={classes.header}>term</div>
+      <div className={classes.header}>
+        <span className={classes.arrow}>^</span>
+        <span>term</span>
+      </div>
       <div className={classes.body}>
+        <div className={classes.divider} />
         <Content />
       </div>
     </div>

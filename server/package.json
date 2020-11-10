@@ -36,6 +36,7 @@
   },
   "_moduleAliases": {
     "@config": "./config",
+    "@exec": "./server/util/exec",
     "@log": "./server/util/logger",
     "@util": "./server/util",
     "@root": "./"

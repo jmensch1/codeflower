@@ -7,8 +7,8 @@ export const types = {
 export const getFile = (path) => {
   return async (dispatch, getState) => {
     const state = getState()
-    const { repoId, name } = state.repo
-    const file = await api.getFile({ repoId, name, path })
+    const { repoId } = state.repo
+    const file = await api.getFile({ repoId, path })
     console.log(file)
     dispatch({
       type: types.GET_FILE_SUCCESS,
