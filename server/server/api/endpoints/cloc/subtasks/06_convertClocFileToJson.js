@@ -31,6 +31,8 @@ function getChildren(json) {
       // value node
       child.size = json[key].size;
       child.language = json[key].language;
+      child.blank = json[key].blank;
+      child.comment = json[key].comment;
     } else {
       // children node
       var childChildren = getChildren(json[key]);
@@ -42,15 +44,13 @@ function getChildren(json) {
   return children;
 }
 
-// convert the text in a cloc file to JSON
-function clocToJson(clocData) {
-  var lines = clocData.split("\n");
-  lines.shift(); // drop the header line
+function clocToTree(clocData) {
+  clocData = clocData['by_file']
+  delete clocData.header
 
-  var json = {};
-  lines.forEach(function(line) {
-    var cols = line.split(',');
-    var filename = cols[1];
+  var json = {}
+  Object.keys(clocData).forEach(key => {
+    var filename = key;
     if (!filename) return;
     var elements = filename.split(/[\/\\]/);
     var current = json;
@@ -60,9 +60,12 @@ function clocToJson(clocData) {
       }
       current = current[element];
     });
-    current.language = cols[0];
-    current.size = parseInt(cols[4], 10);
-  });
+    const file = clocData[key]
+    current.language = file.language;
+    current.size = file.code;
+    current.blank = file.blank;
+    current.comment = file.comment;
+  })
 
   json = getChildren(json)[0];
   json.name = 'root';
@@ -86,28 +89,30 @@ function getTree(ctrl) {
         else
           reject(new Error(err));
       else
-        resolve(clocToJson(clocData));
+        resolve(clocToTree(JSON.parse(clocData)));
     });
   });
 }
 
 ///////// GET IGNORED FILES FROM CLOC OUTPUT //////////
 
-function cleanIgnoredText(ignoredText, folderName) {
-  var regex = new RegExp(folderName + '/', 'g');
-  return ignoredText.split('\n').slice(1).map(function(line) {
-    return line.replace(regex, '');
-  }).join('\n');
+function cleanIgnoredFiles(ignoredFiles) {
+  return ignoredFiles
+    .filter(el => el.file !== 'repo')
+    .map(el => ({
+      ...el,
+      file: el.file.replace('repo', '')
+    }))
 }
 
 function getIgnored(ctrl) {
   return new Promise((resolve, reject) => {
     let inFile = `${config.paths.repo(ctrl.repo.repoId)}/${config.cloc.ignoredFile}`;
-    fs.readFile(inFile, 'utf8', function(err, ignoredText) {
+    fs.readFile(inFile, 'utf8', function(err, ignoredFiles) {
       if (err)
         reject(new Error(err));
       else
-        resolve(cleanIgnoredText(ignoredText, ctrl.repo.name));
+        resolve(cleanIgnoredFiles(JSON.parse(ignoredFiles)));
     });
   });
 }

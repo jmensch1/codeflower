@@ -108,8 +108,8 @@ module.exports = {
   },
 
   cloc: {
-    dataFile: 'data.cloc',
-    ignoredFile: 'ignored.txt',
+    dataFile: 'cloc.json',
+    ignoredFile: 'ignored.json',
   },
 
   github: {
