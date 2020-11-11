@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createUseStyles } from 'react-jss'
 import { useLanguages } from 'store/selectors'
-import { selectLanguage } from 'store/styleSheet'
+import { selectLanguage } from 'store/languages'
 
 const useStyles = createUseStyles({
   root: {
@@ -60,7 +60,7 @@ const Languages = () => {
             <th>color</th>
           </tr>
         </thead>
-        <tbody onMouseLeave={() => onSelectLanguage(null)}>
+        <tbody onMouseLeave={() => onSelectLanguage(undefined)}>
           {languages.map(lang => (
             <tr
               key={lang.language}

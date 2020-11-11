@@ -7,7 +7,6 @@ import folders from './folders'
 import tree from './tree'
 import languages from './languages'
 import themeId from './themeId'
-import styleSheet from './styleSheet'
 import files from './files'
 import terminal from './terminal'
 
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   tree,
   languages,
   themeId,
-  styleSheet,
   files,
   terminal,
 })

@@ -1,7 +1,6 @@
 import { types as repoTypes } from './repo'
 import { types as treeTypes } from './tree'
 import { types as languagesTypes } from './languages'
-import { updateStyleSheet } from './styleSheet'
 import utils from 'utils'
 
 export const types = {
@@ -27,7 +26,6 @@ export const setFolderPath = (folderPath) => {
       type: languagesTypes.SET_LANGUAGES,
       data: languages,
     })
-    dispatch(updateStyleSheet())
   }
 }
 

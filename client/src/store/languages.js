@@ -1,13 +1,32 @@
 export const types = {
-  SET_LANGUAGES: 'SET_LANGUAGES'
+  SET_LANGUAGES: 'languages/SET_LANGUAGES',
+  SELECT_LANGUAGE: 'languages/SELECT_LANGUAGE',
 }
 
-const initialState = null
+export const selectLanguage = (langClass) => {
+  return {
+    type: types.SELECT_LANGUAGE,
+    data: langClass,
+  }
+}
+
+const initialState = {
+  selectedLanguage: undefined,
+  languages: [],
+}
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_LANGUAGES:
-      return action.data
+      return {
+        ...state,
+        languages: action.data,
+      }
+    case types.SELECT_LANGUAGE:
+      return {
+        ...state,
+        selectedLanguage: action.data,
+      }
     default:
       return state
   }

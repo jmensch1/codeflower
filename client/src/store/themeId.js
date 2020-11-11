@@ -1,5 +1,4 @@
 import themes from 'themes'
-import { updateStyleSheet } from './styleSheet'
 
 export const types = {
   SET_THEME_ID: 'SET_THEME_ID'
@@ -11,7 +10,6 @@ export const setThemeId = (themeId) => {
       type: types.SET_THEME_ID,
       data: themeId,
     })
-    dispatch(updateStyleSheet())
   }
 }
 
