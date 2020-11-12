@@ -115,7 +115,7 @@ const themes = {
         },
         '& .file': {
           stroke: '#000',
-          strokeWidth: 0.5,
+          strokeWidth: 0,
         },
         '& .nodetext': {
           fill: 'white',

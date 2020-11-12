@@ -1,7 +1,8 @@
 import * as api from 'services/api'
 
 export const types = {
-  GET_FILE_SUCCESS: 'GET_FILE_SUCCESS'
+  GET_FILE_SUCCESS: 'files/GET_FILE_SUCCESS',
+  CLOSE_FILE: 'files/CLOSE_FILE',
 }
 
 export const getFile = (path) => {
@@ -9,13 +10,16 @@ export const getFile = (path) => {
     const state = getState()
     const { repoId } = state.repo
     const file = await api.getFile({ repoId, path })
-    console.log(file)
     dispatch({
       type: types.GET_FILE_SUCCESS,
       data: { path, file },
     })
   }
 }
+
+export const closeFile = () => ({
+  type: types.CLOSE_FILE,
+})
 
 const initialState = {
   selectedFile: undefined,
@@ -31,6 +35,11 @@ const reducer = (state = initialState, action) => {
           ...state.files,
           [action.data.path]: action.data.file,
         }
+      }
+    case types.CLOSE_FILE:
+      return {
+        ...state,
+        selectedFile: undefined,
       }
     default:
       return state
