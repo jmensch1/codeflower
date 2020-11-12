@@ -17,7 +17,7 @@ const Visualization = () => {
       <div
         style={{
           position: 'absolute',
-          top: 50,
+          top: 200,
           right: 10,
           zIndex: 1,
         }}

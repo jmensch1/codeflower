@@ -5,10 +5,9 @@ import { setFolderPath } from 'store/folders'
 import { useRepo, useFolders } from 'store/selectors'
 import Visualization from './Visualization'
 import Languages from './Languages'
-import ThemeSelect from './ThemeSelect'
-import FolderSelect from './FolderSelect'
 import FileViewer from './FileViewer'
 import Terminal from './Terminal'
+import Control from './Control'
 import { queryParams } from 'services/utils'
 
 function App() {
@@ -29,8 +28,7 @@ function App() {
   return (
     <>
       <Languages />
-      <ThemeSelect />
-      <FolderSelect />
+      <Control />
       <FileViewer />
       <Terminal />
       <Visualization />
