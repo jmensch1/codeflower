@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
-import { createUseStyles } from 'react-jss'
+import { makeStyles } from '@material-ui/core/styles'
 import { useTree } from 'store/selectors'
 import { getFile } from 'store/files'
 import { useDispatch } from 'react-redux'
@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 const RADIUS_RATIO = 0.9
 const PAD_ANGLE = 0 // 0.005
 
-const useStyles = createUseStyles(theme => {
+const useStyles = makeStyles(theme => {
   return {
     root: {
       position: 'absolute',
@@ -18,6 +18,7 @@ const useStyles = createUseStyles(theme => {
       right: 0,
       ...theme.visualization.default,
       ...theme.visualization.sunburst,
+      ...theme.languages,
     },
     tooltip: {
       position: 'absolute',

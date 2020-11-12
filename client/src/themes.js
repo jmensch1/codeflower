@@ -2,7 +2,7 @@ const themes = {
   periwinkle: {
     visualization: {
       default: {
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
       },
       force: {
         '& line.link': {
@@ -53,7 +53,7 @@ const themes = {
   bumblebee: {
     visualization: {
       default: {
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
       },
       force: {
         '& line.link': {
@@ -89,7 +89,7 @@ const themes = {
     },
     dynamic: {
       nodeColor: (languages, index) => {
-        return 'black'
+        return 'transparent'
       },
       highlightNode: (language) => {
         return { fill: 'red !important' }
@@ -102,7 +102,7 @@ const themes = {
   rainbow: {
     visualization: {
       default: {
-        backgroundColor: '#333',
+        // backgroundColor: '#333',
       },
       force: {
         '& line.link': {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { createUseStyles } from 'react-jss'
 import { useLanguages } from 'store/selectors'
 import { selectLanguage } from 'store/languages'
+import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = createUseStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'absolute',
     top: 10,
@@ -14,12 +14,13 @@ const useStyles = createUseStyles({
     borderRadius: 10,
     padding: 10,
     userSelect: 'none',
+    ...theme.languages,
   },
   table: {
     borderCollapse: 'collapse',
     '& th, & td': {
       textAlign: 'left',
-      padding: [5, 10],
+      padding: '5px 10px',
     },
     '& td:last-child': {
       textAlign: 'center',
@@ -37,7 +38,7 @@ const useStyles = createUseStyles({
       },
     },
   }
-})
+}))
 
 const Languages = () => {
   const classes = useStyles()

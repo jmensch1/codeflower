@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ThemeProvider as JSSThemeProvider } from 'react-jss'
+import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import themes from 'themes'
 import { useThemeId, useLanguages, useSelectedLanguage } from 'store/selectors'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 const ThemeProvider = ({ children }) => {
   const themeId = useThemeId()
@@ -10,9 +11,11 @@ const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(null)
 
   useEffect(() => {
-    let theme = themes[themeId]
+    const theme = themes[themeId]
 
-    if (languages) {
+    const languageStyles = (() => {
+      if (!languages) return null
+
       const styles = languages.reduce((styles, lang, index) => {
         const color = theme.dynamic.nodeColor(languages, index)
         styles[`& .${lang.class}`] = {
@@ -27,27 +30,22 @@ const ThemeProvider = ({ children }) => {
         styles[`& .file:not(.${selectedLanguage})`] = theme.dynamic.suppressNode()
       }
 
-      theme = {
-        themeName: 'test',
-        ...theme,
-        visualization: {
-          ...theme.visualization,
-          default: {
-            ...theme.visualization.default,
-            ...styles,
-          }
-        }
-      }
-    }
+      return styles
+    })()
 
-    setTheme(theme)
+    setTheme(createMuiTheme({
+      palette: { type: 'dark' },
+      languages: languageStyles,
+      ...theme,
+    }))
   }, [themeId, languages, selectedLanguage])
 
   if (!theme) return null
   return (
-    <JSSThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
       { children }
-    </JSSThemeProvider>
+    </MuiThemeProvider>
   )
 }
 
