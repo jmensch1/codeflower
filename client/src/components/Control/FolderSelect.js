@@ -8,7 +8,7 @@ const FolderSelect = () => {
   const folders = useFolders()
   const dispatch = useDispatch()
 
-  if (!folders) return null
+  if (!folders || !folders.selectedFolder) return null
 
   return (
     <Select

@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     '& td:last-child': {
       textAlign: 'center',
       '& > div': {
-        display: 'inline-block',
+        margin: '0 auto',
         height: 16,
         width: 16,
         borderRadius: 8,

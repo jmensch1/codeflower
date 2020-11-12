@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import themes from 'themes'
-import { useThemeId, useLanguages, useSelectedLanguage } from 'store/selectors'
+import { useSettings, useLanguages, useSelectedLanguage } from 'store/selectors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 const ThemeProvider = ({ children }) => {
-  const themeId = useThemeId()
+  const { visThemeId, mainThemeId } = useSettings()
   const languages = useLanguages()
   const selectedLanguage = useSelectedLanguage()
   const [theme, setTheme] = useState(null)
 
   useEffect(() => {
-    const theme = themes[themeId]
+    const theme = themes[visThemeId]
 
     const languageStyles = (() => {
       if (!languages) return null
@@ -34,11 +34,11 @@ const ThemeProvider = ({ children }) => {
     })()
 
     setTheme(createMuiTheme({
-      palette: { type: 'dark' },
+      palette: { type: mainThemeId },
       languages: languageStyles,
       ...theme,
     }))
-  }, [themeId, languages, selectedLanguage])
+  }, [mainThemeId, visThemeId, languages, selectedLanguage])
 
   if (!theme) return null
   return (

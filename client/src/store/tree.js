@@ -1,5 +1,5 @@
 export const types = {
-  SET_TREE: 'SET_TREE'
+  SET_TREE: 'tree/SET_TREE'
 }
 
 const initialState = null

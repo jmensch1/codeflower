@@ -4,7 +4,7 @@ import { types as languagesTypes } from './languages'
 import utils from 'utils'
 
 export const types = {
-  SET_FOLDER_PATH: 'SET_FOLDER_PATH'
+  SET_FOLDER_PATH: 'folders/SET_FOLDER_PATH'
 }
 
 export const setFolderPath = (folderPath) => {

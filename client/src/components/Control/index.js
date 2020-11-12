@@ -2,7 +2,9 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Typography } from '@material-ui/core'
 import FolderSelect from './FolderSelect'
-import ThemeSelect from './ThemeSelect'
+import VisThemeSelect from './VisThemeSelect'
+import MainThemeSelect from './MainThemeSelect'
+import VisTypeSelect from './VisTypeSelect'
 import { useRepo } from 'store/selectors'
 
 const useStyles = makeStyles(theme => ({
@@ -15,9 +17,10 @@ const useStyles = makeStyles(theme => ({
     userSelect: 'none',
     '& > .MuiFormControl-root:not(:first-of-type)': {
       display: 'block',
+      width: '100%',
       '&:not(:first-child)': {
         marginTop: '20px',
-      }
+      },
     }
   },
 }))
@@ -25,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 const Control = () => {
   const classes = useStyles()
   const repo = useRepo()
-  
+
   if (!repo) return null
   return (
     <Paper className={classes.root}>
@@ -34,7 +37,9 @@ const Control = () => {
         ({ repo.branch })
       </Typography>
       <FolderSelect />
-      <ThemeSelect />
+      <VisThemeSelect />
+      <VisTypeSelect />
+      <MainThemeSelect />
     </Paper>
   )
 }
