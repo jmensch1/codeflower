@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useLanguages } from 'store/selectors'
 import { selectLanguage } from 'store/languages'
 import { makeStyles } from '@material-ui/core/styles'
+import { Paper } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -10,9 +11,7 @@ const useStyles = makeStyles(theme => ({
     top: 10,
     left: 10,
     zIndex: 1,
-    border: '1px black solid',
-    borderRadius: 10,
-    padding: 10,
+    padding: theme.spacing(1),
     userSelect: 'none',
     ...theme.languages,
   },
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     '& tbody tr': {
       cursor: 'pointer',
       '&:hover': {
-        backgroundColor: 'red'
+        backgroundColor: theme.palette.grey[600],
       },
     },
   }
@@ -51,7 +50,7 @@ const Languages = () => {
 
   if (!languages) return null
   return (
-    <div className={classes.root}>
+    <Paper className={classes.root}>
       <table className={classes.table}>
         <thead>
           <tr>
@@ -75,7 +74,7 @@ const Languages = () => {
           ))}
         </tbody>
       </table>
-    </div>
+    </Paper>
   )
 }
 
