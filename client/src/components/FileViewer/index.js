@@ -7,7 +7,6 @@ import { Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
-
     '& pre': {
       whiteSpace: 'pre-wrap',
       wordWrap: 'break-word',
@@ -16,8 +15,7 @@ const useStyles = makeStyles(theme => ({
     '& .MuiDialog-paper': {
       boxShadow: 'none'
     },
-  }
-
+  },
 }))
 
 const FileViewer = () => {

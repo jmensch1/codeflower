@@ -21,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ButtonGroupBar = ({ children }) => {
+const Bar = ({ children }) => {
   const classes = useStyles()
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -33,4 +32,4 @@ const ButtonGroupBar = ({ children }) => {
   )
 }
 
-export default ButtonGroupBar
+export default Bar

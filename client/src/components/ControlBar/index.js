@@ -8,10 +8,12 @@ import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter'
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
+import AdjustIcon from '@material-ui/icons/Adjust'
+import GrainIcon from '@material-ui/icons/Grain'
 
+import Bar from './Bar'
 import Divider from './Divider'
 import ButtonGroup from './ButtonGroup'
-import ButtonGroupBar from './ButtonGroupBar'
 import ToggleButton from './ToggleButton'
 
 const ControlBar = () => {
@@ -19,20 +21,20 @@ const ControlBar = () => {
   const dispatch = useDispatch()
 
   return (
-    <ButtonGroupBar>
-      <ToggleButton
-        value={mainThemeId}
-        onChange={mainThemeId => dispatch(setMainTheme(mainThemeId))}
+    <Bar>
+      <ButtonGroup
+        value={visType}
+        onChange={visType => dispatch(setVisType(visType))}
         buttons={[
           {
-            value: 'dark',
-            Icon: Brightness4Icon,
-            text: 'toggle light/dark theme',
+            value: 'force',
+            Icon: GrainIcon,
+            text: 'force',
           },
           {
-            value: 'light',
-            Icon: Brightness7Icon,
-            text: 'toggle light/dark theme',
+            value: 'sunburst',
+            Icon: AdjustIcon,
+            text: 'sunburst',
           },
         ]}
       />
@@ -59,23 +61,23 @@ const ControlBar = () => {
         ]}
       />
       <Divider />
-      <ButtonGroup
-        value={visType}
-        onChange={visType => dispatch(setVisType(visType))}
+      <ToggleButton
+        value={mainThemeId}
+        onChange={mainThemeId => dispatch(setMainTheme(mainThemeId))}
         buttons={[
           {
-            value: 'force',
-            Icon: FormatAlignLeftIcon,
-            text: 'force',
+            value: 'dark',
+            Icon: Brightness4Icon,
+            text: 'toggle light/dark theme',
           },
           {
-            value: 'sunburst',
-            Icon: FormatAlignRightIcon,
-            text: 'sunburst',
+            value: 'light',
+            Icon: Brightness7Icon,
+            text: 'toggle light/dark theme',
           },
         ]}
       />
-    </ButtonGroupBar>
+    </Bar>
   )
 }
 
