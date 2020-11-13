@@ -3,7 +3,7 @@ import { types as treeTypes } from './tree'
 import { updateLanguages } from './languages'
 
 export const types = {
-  SET_FOLDER_PATH: 'folders/SET_FOLDER_PATH'
+  SELECT_FOLDER: 'folders/SELECT_FOLDER'
 }
 
 // returns an array of all the paths in the given repo
@@ -52,12 +52,12 @@ function getFolder(root, folderPath, depth) {
   return folder
 }
 
-export const setFolderPath = (folderPath) => {
+export const selectFolder = (folderPath) => {
   return (dispatch, getState) => {
     const { tree } = getState().repo.cloc
     const folder = getFolder(tree, folderPath)
     dispatch({
-      type: types.SET_FOLDER_PATH,
+      type: types.SELECT_FOLDER,
       data: folderPath,
     })
     dispatch({
@@ -80,7 +80,7 @@ const reducer = (state = initialState, action) => {
         selectedFolder: null,
         folderPaths: getFolderPaths(action.data.cloc.tree),
       }
-    case types.SET_FOLDER_PATH:
+    case types.SELECT_FOLDER:
       return {
         ...(state || {}),
         selectedFolder: action.data,

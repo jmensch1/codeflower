@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/repo'
-import { setFolderPath } from 'store/folders'
+import { selectFolder } from 'store/folders'
 import { useRepo, useFolders } from 'store/selectors'
 import Visualization from './Visualization'
 import Languages from './Languages'
@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     if (repo && !folders.selectedFolder)
-      dispatch(setFolderPath(folders.folderPaths[0].pathName))
+      dispatch(selectFolder(folders.folderPaths[0].pathName))
   }, [repo, folders, dispatch])
 
   return (
