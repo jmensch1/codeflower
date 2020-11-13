@@ -42,12 +42,15 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.grey[600],
       },
     },
+    '& tfoot tr': {
+      fontWeight: 'bold',
+    },
   }
 }))
 
 const Languages = () => {
   const classes = useStyles()
-  const { counts, classes: langClasses } = useLanguages()
+  const { counts, totals, classes: langClasses } = useLanguages()
   const repo = useRepo()
   const dispatch = useDispatch()
 
@@ -84,7 +87,16 @@ const Languages = () => {
               <td><div className={langClasses[count.language]} /></td>
             </tr>
           ))}
+
         </tbody>
+        <tfoot>
+          <tr>
+            <td>totals</td>
+            <td>{ totals.files }</td>
+            <td>{ totals.lines }</td>
+            <td></td>
+          </tr>
+        </tfoot>
       </table>
     </Paper>
   )
