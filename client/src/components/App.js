@@ -7,7 +7,7 @@ import Visualization from './Visualization'
 import Languages from './Languages'
 import FileViewer from './FileViewer'
 import Terminal from './Terminal'
-import Control from './Control'
+// import Control from './Control'
 import ControlBar from './ControlBar'
 import { queryParams } from 'services/utils'
 
@@ -30,7 +30,7 @@ function App() {
     <>
       <Languages />
       <ControlBar />
-      <Control />
+      {/*<Control />*/}
       <FileViewer />
       <Terminal />
       <Visualization />

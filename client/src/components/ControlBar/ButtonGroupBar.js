@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper'
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
-    top: 400,
+    top: 200,
     right: 10,
     zIndex: 1,
     width: 50,
