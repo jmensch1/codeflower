@@ -8,6 +8,7 @@ import Languages from './Languages'
 import FileViewer from './FileViewer'
 import Terminal from './Terminal'
 import Control from './Control'
+import ControlBar from './ControlBar'
 import { queryParams } from 'services/utils'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
   return (
     <>
       <Languages />
+      <ControlBar />
       <Control />
       <FileViewer />
       <Terminal />
