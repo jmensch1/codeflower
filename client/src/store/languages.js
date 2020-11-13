@@ -10,6 +10,7 @@ export const selectLanguage = (langClass) => {
   }
 }
 
+// returns the counts of languages in the given folder
 function getCounts(folder) {
   const counts = {}
 
@@ -49,19 +50,19 @@ function getSortedCounts(counts, sortParams) {
   })
 }
 
-function getClasses(sortedCounts) {
-  return sortedCounts.reduce((classes, count, index) => {
-    classes[count.language] = `lang-${index}`
-    return classes
-  }, {})
-}
-
 function getTotals(sortedCounts) {
   return sortedCounts.reduce((totals, count) => {
     totals.files += count.files
     totals.lines += count.lines
     return totals
   }, { files: 0, lines: 0 })
+}
+
+function getClasses(sortedCounts) {
+  return sortedCounts.reduce((classes, count, index) => {
+    classes[count.language] = `lang-${index}`
+    return classes
+  }, {})
 }
 
 export const updateLanguages = (folder) => {
