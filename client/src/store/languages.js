@@ -1,5 +1,4 @@
 export const types = {
-  SET_LANGUAGES: 'languages/SET_LANGUAGES',
   UPDATE_LANGUAGES: 'languages/UPDATE_LANGAUGES',
   SELECT_LANGUAGE: 'languages/SELECT_LANGUAGE',
 }
@@ -83,17 +82,15 @@ export const updateLanguages = (folder) => {
 }
 
 const initialState = {
-  selectedLanguage: undefined,
-  languages: [],
+  selectedLanguage: null,
+  counts: null,
+  totals: null,
+  classes: null,
+  sortParams: null,
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_LANGUAGES:
-      return {
-        ...state,
-        languages: action.data,
-      }
     case types.SELECT_LANGUAGE:
       return {
         ...state,
@@ -102,7 +99,7 @@ const reducer = (state = initialState, action) => {
     case types.UPDATE_LANGUAGES:
       return {
         ...state,
-        newLanguages: action.data,
+        ...action.data,
       }
     default:
       return state

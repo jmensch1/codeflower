@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 
 const Languages = () => {
   const classes = useStyles()
-  const languages = useLanguages()
+  const { counts, classes: langClasses } = useLanguages()
   const repo = useRepo()
   const dispatch = useDispatch()
 
@@ -55,7 +55,7 @@ const Languages = () => {
     dispatch(selectLanguage(langClass))
   }
 
-  if (!repo || !languages) return null
+  if (!repo || !counts) return null
   return (
     <Paper className={classes.root}>
       <Typography variant='h6' align='center'>{ repo.fullName }</Typography>
@@ -72,16 +72,16 @@ const Languages = () => {
             <th>color</th>
           </tr>
         </thead>
-        <tbody onMouseLeave={() => onSelectLanguage(undefined)}>
-          {languages.map(lang => (
+        <tbody onMouseLeave={() => onSelectLanguage(null)}>
+          {counts.map(count => (
             <tr
-              key={lang.language}
-              onMouseEnter={() => onSelectLanguage(lang.class)}
+              key={count.language}
+              onMouseEnter={() => onSelectLanguage(count.language)}
             >
-              <td>{ lang.language }</td>
-              <td>{ lang.files }</td>
-              <td>{ lang.lines }</td>
-              <td><div className={lang.class} /></td>
+              <td>{ count.language }</td>
+              <td>{ count.files }</td>
+              <td>{ count.lines }</td>
+              <td><div className={langClasses[count.language]} /></td>
             </tr>
           ))}
         </tbody>

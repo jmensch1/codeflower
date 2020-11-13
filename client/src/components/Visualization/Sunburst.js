@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useTree } from 'store/selectors'
+import { useTree, useLanguages } from 'store/selectors'
 import { getFile } from 'store/files'
 import { useDispatch } from 'react-redux'
 
@@ -39,6 +39,7 @@ const Sunburst = () => {
   const classes = useStyles()
   const tree = useTree()
   const dispatch = useDispatch()
+  const { classes: langClasses } = useLanguages()
 
   useEffect(() => {
     if (!tree) return
@@ -77,7 +78,7 @@ const Sunburst = () => {
       .selectAll('path')
       .data(root.descendants().filter(d => d.depth))
       .join('path')
-        .attr('class', d => !!d.children ? 'directory' : ('file ' + d.data.class))
+        .attr('class', d => !!d.children ? 'directory' : ('file ' + langClasses[d.data.language]))
         .attr('d', arc)
 
     // svg.append('g')
@@ -142,7 +143,7 @@ const Sunburst = () => {
       containerCurrent.innerHTML = ''
       tooltipCurrent.innerHTML = ''
     }
-  }, [tree, dispatch])
+  }, [tree, langClasses, dispatch])
 
   if (!tree) return null
   return (

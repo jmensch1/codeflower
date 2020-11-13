@@ -1,6 +1,6 @@
 import { types as repoTypes } from './repo'
 import { types as treeTypes } from './tree'
-import { types as languagesTypes, updateLanguages } from './languages'
+import { updateLanguages } from './languages'
 import utils from 'utils'
 
 export const types = {
@@ -11,9 +11,6 @@ export const setFolderPath = (folderPath) => {
   return (dispatch, getState) => {
     const { tree } = getState().repo.cloc
     const folder = utils.getFolder(tree, folderPath)
-    const languages = utils.getLanguages(folder)
-    utils.sortLanguages(languages, { sortCol: 'lines', sortDesc: true })
-    utils.applyLanguageColorsToJson(folder, languages)
     dispatch({
       type: types.SET_FOLDER_PATH,
       data: folderPath,
@@ -22,21 +19,20 @@ export const setFolderPath = (folderPath) => {
       type: treeTypes.SET_TREE,
       data: folder,
     })
-    dispatch({
-      type: languagesTypes.SET_LANGUAGES,
-      data: languages,
-    })
     dispatch(updateLanguages(folder))
   }
 }
 
-const initialState = null
+const initialState = {
+  selectedFolder: null,
+  folderPaths: null,
+}
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case repoTypes.GET_REPO_SUCCESS:
       return {
-        selectedFolder: undefined,
+        selectedFolder: null,
         folderPaths: utils.getFolderPaths(action.data.cloc.tree),
       }
     case types.SET_FOLDER_PATH:
