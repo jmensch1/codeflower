@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useFiles } from 'store/selectors'
 import { closeFile } from 'store/files'
 import { makeStyles } from '@material-ui/core/styles'
-import { Dialog, DialogTitle, DialogContent } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, CircularProgress } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,32 +13,50 @@ const useStyles = makeStyles(theme => ({
       fontSize: 12,
     },
     '& .MuiDialog-paper': {
-      boxShadow: 'none'
+      minHeight: 'calc(100% - 64px)',
+      boxShadow: 'none',
+    },
+    '& .MuiDialogContent-root': {
+      position: 'relative',
     },
   },
+  progress: {
+    position: 'absolute',
+    zIndex: 1,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  }
 }))
 
 const FileViewer = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { files, selectedFile } = useFiles()
+  const { files, selectedFile, isLoading } = useFiles()
   const file = selectedFile ? files[selectedFile] : null
 
   const handleClose = () => dispatch(closeFile())
 
-  if (!file) return null
   return (
     <Dialog
-      className={classes.root}
+      classes={classes}
       onClose={handleClose}
-      open={!!file}
+      open={!!file || isLoading}
       fullWidth
     >
       <DialogTitle onClose={handleClose}>
         { selectedFile }
       </DialogTitle>
       <DialogContent dividers>
-        <pre><code>{ file }</code></pre>
+        {
+          isLoading
+          ? (
+            <div className={classes.progress}>
+              <CircularProgress color='text' />
+            </div>
+          )
+          : <pre><code>{ file }</code></pre>
+        }
       </DialogContent>
     </Dialog>
   )
