@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 const FileViewer = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { files, selectedFile, isLoading } = useFiles()
+  const { files, selectedFile, isLoading, error } = useFiles()
   const file = selectedFile ? files[selectedFile] : null
 
   const handleClose = () => dispatch(closeFile())
@@ -41,7 +41,7 @@ const FileViewer = () => {
     <Dialog
       classes={classes}
       onClose={handleClose}
-      open={!!file || isLoading}
+      open={!!file || !!error || isLoading}
       fullWidth
     >
       <DialogTitle onClose={handleClose}>
@@ -55,7 +55,7 @@ const FileViewer = () => {
               <CircularProgress color='text' />
             </div>
           )
-          : <pre><code>{ file }</code></pre>
+          : <pre><code>{ file || error && error.message }</code></pre>
         }
       </DialogContent>
     </Dialog>

@@ -3,6 +3,7 @@ import * as api from 'services/api'
 export const types = {
   GET_FILE_PENDING: 'files/GET_FILE_PENDING',
   GET_FILE_SUCCESS: 'files/GET_FILE_SUCCESS',
+  GET_FILE_ERROR: 'files/GET_FILE_ERROR',
   CLOSE_FILE: 'files/CLOSE_FILE',
 }
 
@@ -15,11 +16,18 @@ export const getFile = (path) => {
 
     const state = getState()
     const { repoId } = state.repo
-    const file = await api.getFile({ repoId, path })
-    dispatch({
-      type: types.GET_FILE_SUCCESS,
-      data: { path, file },
-    })
+    try {
+      const file = await api.getFile({ repoId, path })
+      dispatch({
+        type: types.GET_FILE_SUCCESS,
+        data: { path, file },
+      })
+    } catch(e) {
+      dispatch({
+        type: types.GET_FILE_ERROR,
+      })
+    }
+
   }
 }
 
@@ -29,6 +37,7 @@ export const closeFile = () => ({
 
 const initialState = {
   isLoading: false,
+  error: null,
   selectedFile: null,
   files: {}
 }
@@ -50,10 +59,19 @@ const reducer = (state = initialState, action) => {
         },
         isLoading: false,
       }
+    case types.GET_FILE_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: {
+          message: 'Error loading file.'
+        },
+      }
     case types.CLOSE_FILE:
       return {
         ...state,
         selectedFile: null,
+        error: null,
       }
     default:
       return state

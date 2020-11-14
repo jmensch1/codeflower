@@ -16,6 +16,12 @@ const useStyles = makeStyles(theme => {
       ...theme.visualization.default,
       ...theme.visualization.force,
       ...theme.languages,
+      '& .file': {
+        cursor: 'pointer',
+      },
+      '& circle:not(.file)': {
+        cursor: 'move',
+      },
     },
     tooltip: {
       position: 'absolute',
@@ -158,6 +164,7 @@ const ForceDirectedGraph = () => {
     //// GET FILE ////
 
     node.on('click', (e, d) => {
+      if (d.children) return
       const path = d
         .ancestors()
         .map(d => d.data.name)

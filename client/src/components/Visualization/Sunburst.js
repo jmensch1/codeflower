@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => {
       ...theme.visualization.default,
       ...theme.visualization.sunburst,
       ...theme.languages,
+      '& .file': {
+        cursor: 'pointer',
+      }
     },
     tooltip: {
       position: 'absolute',
@@ -126,6 +129,7 @@ const Sunburst = () => {
     //// GET FILE ////
 
     path.on('click', (e, d) => {
+      if (d.children) return
       const p = d
         .ancestors()
         .map(d => d.data.name)
