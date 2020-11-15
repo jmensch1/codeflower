@@ -21,7 +21,14 @@ const useStyles = makeStyles(theme => {
       ...theme.languages,
       '& .file': {
         cursor: 'pointer',
-      }
+      },
+      '& svg': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+      },
     },
     tooltip: {
       position: 'absolute',
@@ -72,8 +79,6 @@ const Sunburst = () => {
     const svg = d3
       .select(container.current)
       .append('svg')
-      .attr('width', width)
-      .attr('height', height)
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
     const path = svg
@@ -117,7 +122,6 @@ const Sunburst = () => {
     //// ZOOMING ////
 
     svg.call(d3.zoom()
-        .extent([[0, 0], [width, height]])
         .scaleExtent([0.1, 10])
         .on('zoom', zoomed))
 

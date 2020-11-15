@@ -22,6 +22,13 @@ const useStyles = makeStyles(theme => {
       '& circle:not(.file)': {
         cursor: 'move',
       },
+      '& svg': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+      },
     },
     tooltip: {
       position: 'absolute',
@@ -61,8 +68,6 @@ const ForceDirectedGraph = () => {
     const svg = d3
       .select(container.current)
       .append('svg')
-      .attr('width', width)
-      .attr('height', height)
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
     const link = svg
@@ -134,7 +139,6 @@ const ForceDirectedGraph = () => {
     //// ZOOMING ////
 
     svg.call(d3.zoom()
-        .extent([[0, 0], [width, height]])
         .scaleExtent([0.1, 10])
         .on('zoom', zoomed))
 
@@ -153,7 +157,6 @@ const ForceDirectedGraph = () => {
           tt.style('visibility', 'visible')
       })
       .on('mousemove', (e, d) => {
-
         tt
           .style('top', `${e.offsetY}px`)
           .style('left',`${e.offsetX}px`)
