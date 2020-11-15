@@ -45,8 +45,8 @@ function getChildren(json) {
 }
 
 function clocToTree(clocData) {
-  clocData = clocData['by_file']
   delete clocData.header
+  delete clocData.SUM
 
   var json = {}
   Object.keys(clocData).forEach(key => {

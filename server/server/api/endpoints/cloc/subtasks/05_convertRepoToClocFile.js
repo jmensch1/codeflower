@@ -15,9 +15,10 @@ function convertRepoToClocFile(ctrl) {
     const cloc = concat([
       'npx cloc repo',
       '--json',
-      '--by-file-by-lang',
-      `--ignored=${config.cloc.ignoredFile}`,
+      '--skip-uniqueness',
+      '--by-file',
       `--report-file=${config.cloc.dataFile}`,
+      `--ignored=${config.cloc.ignoredFile}`,
     ])
 
     ctrl.onUpdate(`\n>> ${cloc}`)
