@@ -1,4 +1,3 @@
-import testRepo from './test-repo-2.json'
 import * as api from 'services/api'
 import { openTerminal, closeTerminal } from './terminal'
 import { delay } from 'services/utils'
@@ -27,28 +26,21 @@ function onUpdate(data) {
 
 export const getRepo = ({ owner, name, branch }) => {
   return async dispatch => {
-    if (owner && name) {
-      dispatch(openTerminal())
-      await delay(750)
 
-      const repo = await api.getRepo({ owner, name, branch, onUpdate })
+    await delay(250)
+    dispatch(openTerminal())
+    await delay(750)
 
-      dispatch(closeTerminal())
-      await delay(750)
+    const repo = await api.getRepo({ owner, name, branch, onUpdate })
 
-      dispatch({
-        type: types.GET_REPO_SUCCESS,
-        data: repo,
-      })
-    } else {
-      // DEVELOPMENT ONLY
-      setTimeout(() => {
-        dispatch({
-          type: types.GET_REPO_SUCCESS,
-          data: testRepo
-        })
-      }, 500)
-    }
+    await delay(750)
+    dispatch(closeTerminal())
+    await delay(750)
+
+    dispatch({
+      type: types.GET_REPO_SUCCESS,
+      data: repo,
+    })
   }
 }
 
