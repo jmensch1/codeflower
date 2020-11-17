@@ -15,7 +15,7 @@ const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'
 
 // WS VERSION
 export const getRepo = async ({ owner, name, branch, onUpdate = (text) => null }) => {
-  if (USE_TEST_REPO && (!owner || !branch)) {
+  if (USE_TEST_REPO && (!owner || !name)) {
     onUpdate('using test repo')
     return Promise.resolve(testRepo)
   }

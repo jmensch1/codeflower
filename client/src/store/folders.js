@@ -30,8 +30,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case repoTypes.GET_REPO_SUCCESS:
       return {
-        selectedFolder: null,
-        folderPaths: repo.getFolderPaths(action.data.cloc.tree),
+        selectedFolder: action.data.selectedFolder,
+        folderPaths: action.data.folderPaths,
       }
     case types.SELECT_FOLDER:
       return {

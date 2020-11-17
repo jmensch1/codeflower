@@ -1,3 +1,4 @@
+import { types as repoTypes } from './repo'
 import { types as foldersTypes } from './folders'
 
 export const types = {
@@ -26,6 +27,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedLanguage: action.data,
       }
+    case repoTypes.GET_REPO_SUCCESS:
     case foldersTypes.SELECT_FOLDER:
       return {
         ...state,
