@@ -1,0 +1,44 @@
+export const types = {
+  OPEN_MODAL: 'modals/OPEN_MODAL',
+  CLOSE_MODAL: 'modals/CLOSE_MODAL',
+}
+
+export const openModal = (modalType, params = {}) => ({
+  type: types.OPEN_MODAL,
+  data: {
+    modalType,
+    params,
+  }
+})
+
+export const closeModal = (modalType) => ({
+  type: types.CLOSE_MODAL,
+  type: modalType,
+})
+
+const initialState = {}
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case types.OPEN_MODAL:
+      return {
+        ...state,
+        [action.data.modalType]: {
+          isOpen: true,
+          params: action.data.params,
+        },
+      }
+    case types.CLOSE_MODAL:
+      return {
+        ...state,
+        [action.data.modalType]: {
+          isOpen: false,
+          params: {},
+        },
+      }
+    default:
+      return state
+  }
+}
+
+export default reducer

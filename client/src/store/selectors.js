@@ -8,3 +8,5 @@ export const useThemeId = () => useSelector(state => state.themeId)
 export const useFiles = () => useSelector(state => state.files)
 export const useTerminal = () => useSelector(state => state.terminal)
 export const useSettings = () => useSelector(state => state.settings)
+export const useModal = (modalType) =>
+  useSelector(state => state[modalType] || { isOpen: false, params: {} })
