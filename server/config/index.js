@@ -80,6 +80,8 @@ module.exports = {
       message: 'The HTTP server accepts only GET and POST requests.',
       statusCode: 405,
     },
+
+    // cloc endpoint
     NeedOwnerAndName: {
       name: 'NeedOwnerAndName',
       message: 'The owner and name of a repo are required parameters.',
@@ -104,7 +106,19 @@ module.exports = {
       name: 'BranchNotFound',
       message: 'The given branch could not be found',
       statusCode: 404,
-    }
+    },
+
+    // file endpoint
+    BadFileRequest: {
+      name: 'BadFileRequest',
+      message: 'repoId and path are required params',
+      statusCode: 400,
+    },
+    FileNotFound: {
+      name: 'FileNotFound',
+      message: 'The given file could not be found',
+      statusCode: 404,
+    },
   },
 
   cloc: {
