@@ -1,7 +1,9 @@
 import * as api from 'services/api'
 import repo from 'services/repo'
 import { openTerminal, closeTerminal } from './terminal'
+import { openModal } from './modals'
 import { delay } from 'services/utils'
+import { MAX_NODES } from 'constants.js'
 
 export const types = {
   SUBSCRIBE: 'repo/SUBSCRIBE',
@@ -28,6 +30,8 @@ function onUpdate(data) {
 export const getRepo = ({ owner, name, branch }) => {
   return async dispatch => {
 
+    //// GET REPO ////
+
     await delay(250)
     dispatch(openTerminal())
     await delay(750)
@@ -41,21 +45,41 @@ export const getRepo = ({ owner, name, branch }) => {
     const { tree } = data.cloc
     const folderPaths = repo.getFolderPaths(tree)
 
-    // need to check max nodes before selecting folder
-    const selectedFolder = folderPaths[0].pathName
-    const folder = repo.getFolder(tree, selectedFolder)
-    const languages = repo.getLanguages(folder)
+    //// FOLDER SELECTION ////
 
-    dispatch({
-      type: types.GET_REPO_SUCCESS,
-      data: {
-        repo: data,
-        folderPaths,
-        selectedFolder,
-        folder,
-        languages,
-      }
-    })
+    const onSelectFolder = (selectedFolder) => {
+      const folder = repo.getFolder(tree, selectedFolder)
+      const languages = repo.getLanguages(folder)
+
+      dispatch({
+        type: types.GET_REPO_SUCCESS,
+        data: {
+          repo: data,
+          folderPaths,
+          selectedFolder,
+          folder,
+          languages,
+        }
+      })
+    }
+
+    const getLargestFolderUnderMax = (folderPaths) => {
+      const largest = folderPaths
+        .slice()
+        .sort((a, b) => b.totalNodes - a.totalNodes)
+        .find(el => el.totalNodes < MAX_NODES)
+
+      return largest ? largest.pathName : 'root'
+    }
+
+    if (folderPaths[0].totalNodes < MAX_NODES)
+      return onSelectFolder(folderPaths[0].pathName)
+
+    return dispatch(openModal('maxNodes', {
+      totalNodes: folderPaths[0].totalNodes,
+      onRenderAll: () => onSelectFolder(folderPaths[0].pathName),
+      onRenderSub: () => onSelectFolder(getLargestFolderUnderMax(folderPaths)),
+    }))
   }
 }
 

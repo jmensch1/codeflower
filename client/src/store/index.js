@@ -9,6 +9,7 @@ import languages from './languages'
 import files from './files'
 import terminal from './terminal'
 import settings from './settings'
+import modals from './modals'
 
 const rootReducer = combineReducers({
   repo,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   files,
   terminal,
   settings,
+  modals,
 })
 
 const store = createStore(rootReducer, composeWithDevTools(

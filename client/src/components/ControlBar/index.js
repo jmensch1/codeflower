@@ -14,7 +14,6 @@ import GrainIcon from '@material-ui/icons/Grain'
 import FullscreenIcon from '@material-ui/icons/Fullscreen'
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit'
 
-
 import Bar from './Bar'
 import Divider from './Divider'
 import ButtonGroup from './ButtonGroup'

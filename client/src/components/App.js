@@ -7,6 +7,7 @@ import Languages from './Languages'
 import FileViewer from './FileViewer'
 import Terminal from './Terminal'
 import ControlBar from './ControlBar'
+import MaxNodes from './modals/MaxNodes'
 
 function App() {
   const dispatch = useDispatch()
@@ -23,6 +24,7 @@ function App() {
       <FileViewer />
       <Terminal />
       <Visualization />
+      <MaxNodes />
     </>
   );
 }

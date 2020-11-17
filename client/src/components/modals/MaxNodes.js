@@ -1,98 +1,91 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useModal } from 'store/selectors'
+import { closeModal } from 'store/modals'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Dialog,
-  DialogTitle,
-  DialogContent,
-  CircularProgress,
   Typography,
-  IconButton,
-
-  // transitions
-  // Slide,
+  Button,
+  Box,
   Zoom,
-  // Grow,
-  // Collapse,
-  // Fade,
 } from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Zoom ref={ref} {...props} />
-  // return <Slide direction='up' ref={ref} {...props} />
 })
 
 const useStyles = makeStyles(theme => ({
   root: {
-    '& pre': {
-      whiteSpace: 'pre-wrap',
-      wordWrap: 'break-word',
-      fontSize: 12,
-    },
     '& .MuiDialog-paper': {
-      minHeight: 'calc(100% - 64px)',
       boxShadow: 'none',
+      padding: 20,
     },
-    '& .MuiDialogContent-root': {
-      position: 'relative',
+    '& .MuiTypography-root': {
+      maxWidth: 400,
+      marginBottom: 15,
     },
+    '& .MuiButton-root': {
+      margin: '0 10px',
+    }
   },
-  progress: {
-    position: 'absolute',
-    zIndex: 1,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+  renderAllButton: {
+    backgroundColor: theme.palette.warning.main,
   },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  }
+  renderSubButton: {
+    backgroundColor: theme.palette.info.main,
+  },
 }))
 
 const MaxNodes = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { isOpen } = useModal('maxNodes')
+  const {
+    isOpen,
+    params: { totalNodes, onRenderAll, onRenderSub }
+  } = useModal('maxNodes')
 
-  return null
+  if (!isOpen) return null
 
-  // const handleClose = () => dispatch(closeFile())
-  //
-  // return (
-  //   <Dialog
-  //     className={classes.root}
-  //     onClose={handleClose}
-  //     open={!!file || !!error || isLoading}
-  //     fullWidth
-  //     TransitionComponent={Transition}
-  //   >
-  //     <DialogTitle>
-  //       <Typography variant='h6' component='div'>{ selectedFile }</Typography>
-  //       <IconButton
-  //         aria-label='close'
-  //         className={classes.closeButton}
-  //         onClick={handleClose}>
-  //         <CloseIcon />
-  //       </IconButton>
-  //     </DialogTitle>
-  //     <DialogContent dividers>
-  //       {
-  //         isLoading
-  //         ? (
-  //           <div className={classes.progress}>
-  //             <CircularProgress color='inherit' />
-  //           </div>
-  //         )
-  //         : <pre><code>{ file || (error && error.message) }</code></pre>
-  //       }
-  //     </DialogContent>
-  //   </Dialog>
-  // )
+  const renderAll = () => {
+    onRenderAll()
+    dispatch(closeModal('maxNodes'))
+  }
+
+  const renderSub = () => {
+    onRenderSub()
+    dispatch(closeModal('maxNodes'))
+  }
+
+  return (
+    <Dialog
+      className={classes.root}
+      open={isOpen}
+      TransitionComponent={Transition}
+    >
+      <Typography>
+        This repo contains { totalNodes } files and folders.
+        Rendering the whole thing might crash your browser.
+        What do you want to do?
+      </Typography>
+      <Box style={{ display: 'flex', justifyContent: 'center' }}>
+        <Button
+          className={classes.renderAllButton}
+          variant='contained'
+          onClick={renderAll}
+        >
+          Go for it!
+        </Button>
+        <Button
+          className={classes.renderSubButton}
+          variant='contained'
+          onClick={renderSub}
+        >
+          Render a subfolder
+        </Button>
+      </Box>
+    </Dialog>
+  )
 }
 
 export default MaxNodes

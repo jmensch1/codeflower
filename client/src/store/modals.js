@@ -13,7 +13,7 @@ export const openModal = (modalType, params = {}) => ({
 
 export const closeModal = (modalType) => ({
   type: types.CLOSE_MODAL,
-  type: modalType,
+  data: modalType,
 })
 
 const initialState = {}
@@ -31,7 +31,7 @@ const reducer = (state = initialState, action) => {
     case types.CLOSE_MODAL:
       return {
         ...state,
-        [action.data.modalType]: {
+        [action.data]: {
           isOpen: false,
           params: {},
         },
