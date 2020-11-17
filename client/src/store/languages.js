@@ -1,21 +1,13 @@
-import repo from 'services/repo'
+import { types as foldersTypes } from './folders'
 
 export const types = {
-  UPDATE_LANGUAGES: 'languages/UPDATE_LANGAUGES',
   SELECT_LANGUAGE: 'languages/SELECT_LANGUAGE',
 }
 
-export const selectLanguage = (langClass) => {
+export const selectLanguage = (language) => {
   return {
     type: types.SELECT_LANGUAGE,
-    data: langClass,
-  }
-}
-
-export const updateLanguages = (folder) => {
-  return {
-    type: types.UPDATE_LANGUAGES,
-    data: repo.getLanguages(folder),
+    data: language,
   }
 }
 
@@ -34,10 +26,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedLanguage: action.data,
       }
-    case types.UPDATE_LANGUAGES:
+    case foldersTypes.SELECT_FOLDER:
       return {
         ...state,
-        ...action.data,
+        ...action.data.languages,
       }
     default:
       return state

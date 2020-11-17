@@ -1,7 +1,5 @@
-import { types as repoTypes } from './repo'
-import { types as treeTypes } from './tree'
-import { updateLanguages } from './languages'
 import repo from 'services/repo'
+import { types as repoTypes } from './repo'
 
 export const types = {
   SELECT_FOLDER: 'folders/SELECT_FOLDER'
@@ -11,15 +9,15 @@ export const selectFolder = (folderPath) => {
   return (dispatch, getState) => {
     const { tree } = getState().repo.cloc
     const folder = repo.getFolder(tree, folderPath)
+    const languages = repo.getLanguages(folder)
     dispatch({
       type: types.SELECT_FOLDER,
-      data: folderPath,
+      data: {
+        folderPath,
+        folder,
+        languages,
+      },
     })
-    dispatch({
-      type: treeTypes.SET_TREE,
-      data: folder,
-    })
-    dispatch(updateLanguages(folder))
   }
 }
 
@@ -37,8 +35,8 @@ const reducer = (state = initialState, action) => {
       }
     case types.SELECT_FOLDER:
       return {
-        ...(state || {}),
-        selectedFolder: action.data,
+        ...state,
+        selectedFolder: action.data.folderPath,
       }
     default:
       return state

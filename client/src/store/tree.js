@@ -1,13 +1,11 @@
-export const types = {
-  SET_TREE: 'tree/SET_TREE'
-}
+import { types as foldersTypes } from './folders'
 
 const initialState = null
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_TREE:
-      return action.data
+    case foldersTypes.SELECT_FOLDER:
+      return action.data.folder
     default:
       return state
   }
