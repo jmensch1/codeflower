@@ -10,20 +10,8 @@ import {
   CircularProgress,
   Typography,
   IconButton,
-
-  // transitions
-  // Slide,
-  Zoom,
-  // Grow,
-  // Collapse,
-  // Fade,
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Zoom ref={ref} {...props} />
-  // return <Slide direction='up' ref={ref} {...props} />
-})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,7 +57,6 @@ const FileViewer = () => {
       onClose={handleClose}
       open={!!file || !!error || isLoading}
       fullWidth
-      TransitionComponent={Transition}
     >
       <DialogTitle>
         <Typography variant='h6' component='div'>{ selectedFile }</Typography>

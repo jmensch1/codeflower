@@ -8,12 +8,8 @@ import {
   Typography,
   Button,
   Box,
-  Zoom,
 } from '@material-ui/core'
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Zoom ref={ref} {...props} />
-})
+import { Zoom } from 'components/Transitions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,7 +57,7 @@ const MaxNodes = () => {
     <Dialog
       className={classes.root}
       open={isOpen}
-      TransitionComponent={Transition}
+      TransitionComponent={Zoom}
     >
       <Typography>
         This repo contains { totalNodes } files and folders.
