@@ -5,43 +5,41 @@ import { useTree, useLanguages } from 'store/selectors'
 import { getFile } from 'store/files'
 import { useDispatch } from 'react-redux'
 
-const useStyles = makeStyles(theme => {
-  return {
-    root: {
+const useStyles = makeStyles(theme => ({
+  root: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    ...theme.visualization.default,
+    ...theme.visualization.force,
+    ...theme.languages,
+    '& svg': {
       position: 'absolute',
       top: 0,
-      bottom: 0,
       left: 0,
-      right: 0,
-      ...theme.visualization.default,
-      ...theme.visualization.force,
-      ...theme.languages,
+      width: '100%',
+      height: '100%',
       '& .file': {
         cursor: 'pointer',
       },
       '& circle:not(.file)': {
         cursor: 'move',
       },
-      '& svg': {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-      },
     },
-    tooltip: {
-      position: 'absolute',
-      visibility: 'hidden',
-      backgroundColor: '#3d3d3d',
-      color: 'white',
-      borderRadius: '5px',
-      padding: '5px 10px',
-      transform: 'translate(-50%, -150%)',
-      pointerEvents: 'none',
-    },
-  }
-})
+  },
+  tooltip: {
+    position: 'absolute',
+    visibility: 'hidden',
+    backgroundColor: '#3d3d3d',
+    color: 'white',
+    borderRadius: '5px',
+    padding: '5px 10px',
+    transform: 'translate(-50%, -150%)',
+    pointerEvents: 'none',
+  },
+}))
 
 const ForceDirectedGraph = () => {
   const container = useRef(null)
