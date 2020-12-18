@@ -17,7 +17,7 @@ const ThemeProvider = ({ children }) => {
 
       const languages = Object.keys(classes)
       const styles = languages.reduce((styles, lang, index) => {
-        const color = theme.languages.nodeColor(languages, index)
+        const color = theme.languages.color(languages, index)
         styles[`& .${classes[lang]}`] = {
           fill: color,
           'background-color': color,
@@ -27,8 +27,8 @@ const ThemeProvider = ({ children }) => {
 
       if (selectedLanguage) {
         const langClass = classes[selectedLanguage]
-        styles[`& .file.${langClass}`] = theme.languages.highlightNode()
-        styles[`& .file:not(.${langClass})`] = theme.languages.suppressNode()
+        styles[`& .file.${langClass}`] = theme.languages.highlight()
+        styles[`& .file:not(.${langClass})`] = theme.languages.suppress()
       }
 
       return styles

@@ -37,15 +37,14 @@ const themes = {
       },
     },
     languages: {
-      nodeColor: (languages, index) => {
-        var total = languages.length
-        var hue = 170 + Math.round(190 * index / total)
+      color: (languages, index) => {
+        const hue = 170 + Math.round(190 * index / languages.length)
         return `hsl(${hue}, 100%, 50%)`
       },
-      highlightNode: (language) => {
+      highlight: (language) => {
         return {}
       },
-      suppressNode: (language) => {
+      suppress: (language) => {
         return { display: 'none' }
       },
     },
@@ -88,13 +87,13 @@ const themes = {
       },
     },
     languages: {
-      nodeColor: (languages, index) => {
+      color: (languages, index) => {
         return 'transparent'
       },
-      highlightNode: (language) => {
+      highlight: (language) => {
         return { fill: 'red !important' }
       },
-      suppressNode: (language) => {
+      suppress: (language) => {
         return {}
       },
     },
@@ -135,15 +134,14 @@ const themes = {
       },
     },
     languages: {
-      nodeColor: (languages, index) => {
-        var total = languages.length
-        var hue = Math.round(360 * index / total)
+      color: (languages, index) => {
+        const hue = Math.round(360 * index / languages.length)
         return `hsl(${hue}, 90%, 70%)`
       },
-      highlightNode: (language) => {
+      highlight: (language) => {
         return {}
       },
-      suppressNode: (language) => {
+      suppress: (language) => {
         return { display: 'none' }
       },
     },
