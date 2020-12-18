@@ -97,8 +97,9 @@ const ForceDirectedGraph = () => {
         .forceManyBody()
         .strength(d => d.children ? -d.size / 300 : -150)
       )
-      .force('x', d3.forceX())
-      .force('y', d3.forceY())
+      // .force('center', d3.forceCenter())
+      .force('x', d3.forceX().strength(0.1))
+      .force('y', d3.forceY().strength(0.1))
 
     simulation.on('tick', () => {
       link
@@ -174,13 +175,13 @@ const ForceDirectedGraph = () => {
 
     node.on('click', (e, d) => {
       if (d.children) return
-      const path = d
+      const filePath = d
         .ancestors()
         .map(d => d.data.name)
         .reverse()
         .join('/')
         .replace(/^root/, '')
-      dispatch(getFile(path))
+      dispatch(getFile(filePath))
     })
 
     //// CLEANUP ////

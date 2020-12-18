@@ -17,7 +17,7 @@ const ThemeProvider = ({ children }) => {
 
       const languages = Object.keys(classes)
       const styles = languages.reduce((styles, lang, index) => {
-        const color = theme.dynamic.nodeColor(languages, index)
+        const color = theme.languages.nodeColor(languages, index)
         styles[`& .${classes[lang]}`] = {
           fill: color,
           'background-color': color,
@@ -27,8 +27,8 @@ const ThemeProvider = ({ children }) => {
 
       if (selectedLanguage) {
         const langClass = classes[selectedLanguage]
-        styles[`& .file.${langClass}`] = theme.dynamic.highlightNode()
-        styles[`& .file:not(.${langClass})`] = theme.dynamic.suppressNode()
+        styles[`& .file.${langClass}`] = theme.languages.highlightNode()
+        styles[`& .file:not(.${langClass})`] = theme.languages.suppressNode()
       }
 
       return styles
@@ -36,8 +36,8 @@ const ThemeProvider = ({ children }) => {
 
     setTheme(createMuiTheme({
       palette: { type: mainThemeId },
+      visualization: theme.visualization,
       languages: languageStyles,
-      ...theme,
     }))
   }, [mainThemeId, visThemeId, classes, selectedLanguage])
 

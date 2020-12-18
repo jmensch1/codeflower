@@ -132,13 +132,13 @@ const Sunburst = () => {
 
     path.on('click', (e, d) => {
       if (d.children) return
-      const p = d
+      const filePath = d
         .ancestors()
         .map(d => d.data.name)
         .reverse()
         .join('/')
         .replace(/^root/, '')
-      dispatch(getFile(p))
+      dispatch(getFile(filePath))
     })
 
     //// CLEANUP ////

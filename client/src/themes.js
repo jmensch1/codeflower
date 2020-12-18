@@ -36,7 +36,7 @@ const themes = {
         },
       },
     },
-    dynamic: {
+    languages: {
       nodeColor: (languages, index) => {
         var total = languages.length
         var hue = 170 + Math.round(190 * index / total)
@@ -87,7 +87,7 @@ const themes = {
         },
       },
     },
-    dynamic: {
+    languages: {
       nodeColor: (languages, index) => {
         return 'transparent'
       },
@@ -134,7 +134,7 @@ const themes = {
         },
       },
     },
-    dynamic: {
+    languages: {
       nodeColor: (languages, index) => {
         var total = languages.length
         var hue = Math.round(360 * index / total)
