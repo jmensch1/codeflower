@@ -1,56 +1,34 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-// import Select from '@material-ui/core/Select'
-import NativeSelect from '@material-ui/core/NativeSelect'
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+const useStyles = makeStyles(theme => ({
+  select: {
+    backgroundColor: 'transparent',
+    color: theme.palette.text.primary,
+    outline: 0,
+    border: 0,
+    borderBottom: `1px solid ${theme.palette.text.primary}`,
+    padding: '4px 0',
+    cursor: 'pointer',
+    textOverflow: 'ellipsis',
+    maxWidth: '100%',
+    ...theme.typography.body1,
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+}))
 
-const Selector = ({
+const Select = ({
   value = null,
   onChange = () => {},
   options = [],
-  helperText = null,
-  label = null,
-  htmlFor = null,
 }) => {
   const classes = useStyles()
   return (
-    <FormControl className={classes.formControl}>
-      { label && (
-        <InputLabel htmlFor={htmlFor}>
-          { label }
-        </InputLabel>
-      )}
-      <NativeSelect
-        value={value}
-        onChange={onChange}
-        // inputProps={{
-        //   name: 'age',
-        //   id: 'age-native-helper',
-        // }}
-      >
-        {options.map(opt => (
-          <option key={opt} value={opt}>{opt}</option>
-        ))}
-      </NativeSelect>
-      {helperText && (
-        <FormHelperText>
-          { helperText }
-        </FormHelperText>
-      )}
-    </FormControl>
+    <select className={classes.select} value={value} onChange={onChange}>
+      {options.map(opt => (
+        <option key={opt} value={opt}>{opt}</option>
+      ))}
+    </select>
   )
 }
 
-export default Selector
+export default Select

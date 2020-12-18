@@ -11,11 +11,13 @@ const FolderSelect = () => {
   if (!folders || !folders.selectedFolder) return null
 
   return (
-    <Select
-      value={folders.selectedFolder}
-      onChange={e => dispatch(selectFolder(e.target.value))}
-      options={folders.folderPaths.map(({ pathName }) => pathName )}
-    />
+    <div style={{ margin: 10 }}>
+      <Select
+        value={folders.selectedFolder}
+        onChange={e => dispatch(selectFolder(e.target.value))}
+        options={folders.folderPaths.map(({ pathName }) => pathName)}
+      />
+    </div>
   )
 }
 
