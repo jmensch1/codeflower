@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import themes from 'themes'
 import { useSettings, useLanguages } from 'store/selectors'
@@ -7,17 +7,16 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 const ThemeProvider = ({ children }) => {
   const { visThemeId, mainThemeId } = useSettings()
   const { classes, selectedLanguage } = useLanguages()
-  const [theme, setTheme] = useState(null)
 
-  useEffect(() => {
-    const theme = themes[visThemeId]
+  const theme = useMemo(() => {
+    const visTheme = themes[visThemeId]
 
     const languageStyles = (() => {
       if (!classes) return null
 
       const languages = Object.keys(classes)
       const styles = languages.reduce((styles, lang, index) => {
-        const color = theme.languages.color(languages, index)
+        const color = visTheme.languages.color(languages, index)
         styles[`& .${classes[lang]}`] = {
           fill: color,
           'background-color': color,
@@ -27,21 +26,20 @@ const ThemeProvider = ({ children }) => {
 
       if (selectedLanguage) {
         const langClass = classes[selectedLanguage]
-        styles[`& .file.${langClass}`] = theme.languages.highlight()
-        styles[`& .file:not(.${langClass})`] = theme.languages.suppress()
+        styles[`& .file.${langClass}`] = visTheme.languages.highlight()
+        styles[`& .file:not(.${langClass})`] = visTheme.languages.suppress()
       }
 
       return styles
     })()
 
-    setTheme(createMuiTheme({
+    return createMuiTheme({
       palette: { type: mainThemeId },
-      visualization: theme.visualization,
+      visualization: visTheme.visualization,
       languages: languageStyles,
-    }))
+    })
   }, [mainThemeId, visThemeId, classes, selectedLanguage])
 
-  if (!theme) return null
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />

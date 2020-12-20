@@ -87,7 +87,6 @@ const Languages = () => {
               <td><div className={langClasses[count.language]} /></td>
             </tr>
           ))}
-
         </tbody>
         <tfoot>
           <tr>
