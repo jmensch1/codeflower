@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useFullscreen } from '@straw-hat/react-fullscreen'
 import { setVisTheme, setVisType, setMainTheme } from 'store/settings'
 import { useSettings } from 'store/selectors'
+import { openModal } from 'store/modals'
 
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft'
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter'
@@ -13,6 +14,7 @@ import AdjustIcon from '@material-ui/icons/Adjust'
 import GrainIcon from '@material-ui/icons/Grain'
 import FullscreenIcon from '@material-ui/icons/Fullscreen'
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit'
+import SearchIcon from '@material-ui/icons/Search'
 
 import Bar from './Bar'
 import Divider from './Divider'
@@ -98,6 +100,18 @@ const ControlBar = () => {
             value: false,
             Icon: FullscreenIcon,
             text: 'enter full screen mode',
+          },
+        ]}
+      />
+      <Divider />
+      <ToggleButton
+        value={false}
+        onChange={() => dispatch(openModal('search'))}
+        buttons={[
+          {
+            value: false,
+            Icon: SearchIcon,
+            text: 'search',
           },
         ]}
       />

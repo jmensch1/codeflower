@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 
+export const useLocation = () => useSelector(state => state.router.location)
 export const useRepo = () => useSelector(state => state.repo)
 export const useFolders = () => useSelector(state => state.folders)
 export const useTree = () => useSelector(state => state.tree)

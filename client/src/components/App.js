@@ -1,21 +1,25 @@
 import React, { useEffect } from 'react'
+import { useLocation } from 'store/selectors'
 import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/repo'
-import { queryParams } from 'services/utils'
+import { openModal } from 'store/modals'
 import Visualization from './Visualization'
 import Languages from './Languages'
 import FileViewer from './FileViewer'
 import Terminal from './Terminal'
 import ControlBar from './ControlBar'
-import MaxNodes from './modals/MaxNodes'
+import Modals from './modals'
 
 function App() {
   const dispatch = useDispatch()
+  const { query: { owner, name, branch } } = useLocation()
 
   useEffect(() => {
-    const { owner, name, branch } = queryParams()
-    dispatch(getRepo({ owner, name, branch }))
-  }, [dispatch])
+    if (owner && name)
+      dispatch(getRepo({ owner, name, branch }))
+    else
+      dispatch(openModal('search'))
+  }, [dispatch, owner, name, branch])
 
   return (
     <>
@@ -24,7 +28,7 @@ function App() {
       <FileViewer />
       <Terminal />
       <Visualization />
-      <MaxNodes />
+      <Modals />
     </>
   );
 }

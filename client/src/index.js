@@ -1,8 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router'
+import history from 'services/history'
 import App from './components/App'
 import ThemeProvider from './components/ThemeProvider'
-import { Provider } from 'react-redux'
 import store from './store'
 //import reportWebVitals from './reportWebVitals'
 
@@ -11,7 +13,9 @@ console.log('environment:', process.env)
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider>
-      <App />
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')
