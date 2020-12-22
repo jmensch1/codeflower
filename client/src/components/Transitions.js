@@ -1,11 +1,9 @@
 import React from 'react'
-import {
-  Slide as SlideTransition,
-  Zoom as ZoomTransition,
-  Grow as GrowTransition,
-  Collapse as CollapseTransition,
-  Fade as FadeTransition,
-} from '@material-ui/core'
+import SlideTransition from '@material-ui/core/Slide'
+import ZoomTransition from '@material-ui/core/Zoom'
+import GrowTransition from '@material-ui/core/Grow'
+import CollapseTransition from '@material-ui/core/Collapse'
+import FadeTransition from '@material-ui/core/Fade'
 
 export const Slide = React.forwardRef(function (props, ref) {
   return <SlideTransition ref={ref} {...props} />

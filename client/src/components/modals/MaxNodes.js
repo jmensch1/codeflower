@@ -3,12 +3,10 @@ import { useDispatch } from 'react-redux'
 import { useModal } from 'store/selectors'
 import { closeModal } from 'store/modals'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Dialog,
-  Typography,
-  Button,
-  Box,
-} from '@material-ui/core'
+import Dialog from '@material-ui/core/Dialog'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 import { Zoom } from 'components/Transitions'
 
 const useStyles = makeStyles(theme => ({

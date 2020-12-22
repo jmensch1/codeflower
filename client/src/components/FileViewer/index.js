@@ -3,14 +3,12 @@ import { useDispatch } from 'react-redux'
 import { useFiles } from 'store/selectors'
 import { closeFile } from 'store/files'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  CircularProgress,
-  Typography,
-  IconButton,
-} from '@material-ui/core'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles(theme => ({

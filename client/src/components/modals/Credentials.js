@@ -4,12 +4,9 @@ import { useModal } from 'store/selectors'
 import { closeModal } from 'store/modals'
 import { getRepo } from 'store/repo'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Dialog,
-  Typography,
-  Button,
-  Box,
-} from '@material-ui/core'
+import Dialog from '@material-ui/core/Dialog'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { Zoom } from 'components/Transitions'
 
