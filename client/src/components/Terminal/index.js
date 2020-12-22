@@ -5,45 +5,51 @@ import Content from './Content'
 import { toggleTerminal } from 'store/terminal'
 import { useTerminal } from 'store/selectors'
 
+const HEADER_HEIGHT = 36
+const SMALL_BODY_WIDTH = 400
+
 const useStyles = createUseStyles(theme => {
   return {
     root: {
       position: 'absolute',
       bottom: 0,
       right: 0,
-      width: 400,
+      width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,
+      height: ({ isOpen }) => isOpen ? '100%' : HEADER_HEIGHT - 1,
       zIndex: 1,
       backgroundColor: 'black',
-      opacity: 0.8,
+      opacity: 0.9,
       color: 'white',
       overflow: 'hidden',
       borderTopLeftRadius: 5,
-      fontFamily: 'Arial',
-      fontSize: 12,
+      fontFamily: 'Roboto',
+      fontSize: 16,
       userSelect: 'none',
+      transition: 'all 0.35s ease-in-out',
+      cursor: 'pointer',
+      lineHeight: '20px',
+
     },
     header: {
-      textAlign: 'right',
-      padding: '5px 10px 5px 12px',
-      paddingRight: 15,
+      height: HEADER_HEIGHT,
+      padding: '0 15px',
       cursor: 'pointer',
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'center',
     },
     arrow: {
       transform: ({ isOpen }) => isOpen
         ? 'rotate(180deg) translateY(2px)'
         : 'translateY(3px)',
     },
+    body: {
+      position: 'relative',
+      height: `calc(100% - ${HEADER_HEIGHT}px)`,
+    },
     divider: {
       borderTop: '1px white solid',
     },
-    body: {
-      position: 'relative',
-      lineHeight: '18px',
-      transition: 'height 0.5s ease-in-out',
-      height: ({ isOpen }) => isOpen ? 400 : 0,
-    }
   }
 })
 

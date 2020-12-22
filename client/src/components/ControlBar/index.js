@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useFullscreen } from '@straw-hat/react-fullscreen'
 import { setVisTheme, setVisType, setMainTheme } from 'store/settings'
-import { useSettings } from 'store/selectors'
+import { useRepo, useSettings } from 'store/selectors'
 import { openModal } from 'store/modals'
 
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft'
@@ -22,6 +22,7 @@ import ButtonGroup from './ButtonGroup'
 import ToggleButton from './ToggleButton'
 
 const ControlBar = () => {
+  const repo = useRepo()
   const { mainThemeId, visThemeId, visType } = useSettings()
   const dispatch = useDispatch()
 
@@ -29,6 +30,8 @@ const ControlBar = () => {
     isFullscreen,
     toggleFullscreen,
   } = useFullscreen(useRef(window.document.body))
+
+  if (!repo) return null
 
   return (
     <Bar>

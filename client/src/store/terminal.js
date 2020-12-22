@@ -17,7 +17,7 @@ export const toggleTerminal = () => ({
 })
 
 const initialState = {
-  isOpen: false
+  isOpen: true
 }
 
 const reducer = (state = initialState, action) => {

@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     textOverflow: 'ellipsis',
     maxWidth: '100%',
+    width: '100%',
     ...theme.typography.body1,
   },
 }))
