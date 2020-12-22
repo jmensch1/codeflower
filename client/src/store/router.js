@@ -8,16 +8,23 @@ export const types = {
 
 export const push = router.push
 
-export const updateQuery = (newQuery={}) => {
+// merge new query params with old ones
+export const updateQuery = (newParams = {}) => {
   return (dispatch, getState) => {
-    const { pathname, location: { query } } = getState().router
-    return dispatch(push({
+    const {
       pathname,
-      search: queryString.stringify({
-        ...query,
-        ...newQuery,
+      location: { search },
+    } = getState().router
+    const oldParams = queryString.parse(search)
+    return dispatch(
+      push({
+        pathname,
+        search: queryString.stringify({
+          ...oldParams,
+          ...newParams,
+        }),
       })
-    }))
+    )
   }
 }
 

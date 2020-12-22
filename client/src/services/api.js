@@ -2,7 +2,7 @@ import axios from 'axios'
 import testRepo from './data/test-repo-2.json'
 
 // FOR DEVELOPMENT ONLY
-const USE_TEST_REPO = true
+const USE_TEST_REPO = false
 
 const HTTP_URL = process.env.REACT_APP_API_URL_HTTP || 'http://localhost:8000'
 const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'
@@ -14,7 +14,7 @@ const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'
 // }
 
 // WS VERSION
-export const getRepo = async ({ owner, name, branch, onUpdate = (text) => null }) => {
+export const getRepo = async ({ owner, name, branch, username, password, onUpdate = (text) => null }) => {
   if (USE_TEST_REPO) {
     onUpdate(`getting: ${owner}/${name}`)
     onUpdate('using test repo')
@@ -31,6 +31,8 @@ export const getRepo = async ({ owner, name, branch, onUpdate = (text) => null }
           owner,
           name,
           branch,
+          username,
+          password,
         }
       }))
     }

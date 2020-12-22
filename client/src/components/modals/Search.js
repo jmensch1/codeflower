@@ -33,11 +33,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function parseGitUrl(url) {
-  const match = url.match(/https:\/\/github.com\/(.*?)\/(.*?)\.git/)
-  if (!match) return {}
+  url = url
+    .replace(/^.*?github\.com\//, '')
+    .replace(/\/$/, '')
+    .replace(/\.git$/, '')
+
+  const [owner, name, tree, branch] = url.split('/')
   return {
-    owner: match[1],
-    name: match[2],
+    owner,
+    name,
+    branch: tree === 'tree' ? branch : undefined,
   }
 }
 
@@ -49,12 +54,12 @@ const Search = () => {
   const [error, setError] = useState('')
 
   const search = () => {
-    const { owner, name } = parseGitUrl(url)
+    const { owner, name, branch } = parseGitUrl(url)
     if (!owner || !name) {
       setError('Could not parse url.')
     } else {
       setUrl('')
-      dispatch(updateQuery({ owner, name }))
+      dispatch(updateQuery({ owner, name, branch }))
       dispatch(closeModal('search'))
     }
   }
@@ -68,18 +73,23 @@ const Search = () => {
       onClose={() => dispatch(closeModal('search'))}
       TransitionComponent={Zoom}
     >
-      <Typography>
-        Enter a git clone url:
+      <Typography variant='h6'>
+        Enter the URL of a repo hosted on Github
       </Typography>
       <Box style={{ display: 'flex', justifyContent: 'center' }}>
         <TextField
+          style={{ width: 500 }}
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          autoFocus
+          variant='outlined'
+          label='Github URL'
         />
         <Button
           className={classes.searchButton}
-          variant='contained'
+          variant='outlined'
           onClick={search}
+          disabled={!url}
         >
           Go
         </Button>

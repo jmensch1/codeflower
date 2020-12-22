@@ -9,6 +9,7 @@ export const types = {
   SUBSCRIBE: 'repo/SUBSCRIBE',
   UNSUBSCRIBE: 'repo/UNSUBSCRIBE',
   GET_REPO_SUCCESS: 'repo/GET_REPO_SUCCESS',
+  GET_REPO_FAILURE: 'repo/GET_REPO_FAILURE',
 }
 
 let subscriptions = []
@@ -27,7 +28,7 @@ function onUpdate(data) {
   subscriptions.forEach(sub => sub(data))
 }
 
-export const getRepo = ({ owner, name, branch }) => {
+export const getRepo = ({ owner, name, branch, username, password }) => {
   return async dispatch => {
 
     //// GET REPO ////
@@ -36,7 +37,19 @@ export const getRepo = ({ owner, name, branch }) => {
     dispatch(openTerminal())
     await delay(750)
 
-    const data = await api.getRepo({ owner, name, branch, onUpdate })
+    let data
+    try {
+      data = await api.getRepo({ owner, name, branch, username, password, onUpdate })
+    } catch(error) {
+      console.log(error)
+      if (!['NeedCredentials', 'CredentialsInvalid'].includes(error.name))
+        return dispatch({
+          type: types.GET_REPO_FAILURE,
+          data: error,
+        })
+
+      return dispatch(openModal('credentials', { owner, name, branch, error }))
+    }
 
     await delay(750)
     dispatch(closeTerminal())
