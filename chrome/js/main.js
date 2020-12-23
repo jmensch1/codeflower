@@ -102,10 +102,13 @@
   function injectCodeflower() {
 
     var verticalMargin = 30;
+    var horizontalMargin = 50;
 
     var contStyle = (
       'height: calc(100vh - ' + (2 * verticalMargin) + 'px); ' +
-      'padding: 0px; margin: 0 auto;'
+      'width: calc(100vw - ' + (2 * horizontalMargin) + 'px); ' +
+      'padding: 0px; ' +
+      'margin: 0 auto;'
     );
 
     // add a container to the page to hold the iframe
@@ -115,7 +118,7 @@
         'style="' + contStyle + '">' +
       '</div>'
     );
-    $('.repository-content').replaceWith(container);
+    $('#js-repo-pjax-container .container-xl').replaceWith(container);
 
     // get around chrome's content security policy regarding iframes
     // by creating an iframe whose src is within the extension. Inside that

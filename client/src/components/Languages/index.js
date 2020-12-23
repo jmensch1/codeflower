@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 10,
     left: 10,
-    width: 400,
+    width: 360,
     maxHeight: 'calc(100% - 20px)',
     overflow: 'auto',
     zIndex: 1,
