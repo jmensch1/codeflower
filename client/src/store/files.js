@@ -7,7 +7,7 @@ export const types = {
   CLOSE_FILE: 'files/CLOSE_FILE',
 }
 
-export const getFile = (path) => {
+export const getFile = ({ path, data }) => {
   return async (dispatch, getState) => {
     const state = getState()
     const { repoId } = state.repo
@@ -18,14 +18,14 @@ export const getFile = (path) => {
 
     dispatch({
       type: types.GET_FILE_PENDING,
-      data: path,
+      data: { path, data },
     })
 
     try {
       const file = await api.getFile({ repoId, path })
       dispatch({
         type: types.GET_FILE_SUCCESS,
-        data: { path, file },
+        data: { path, data, file },
       })
     } catch(e) {
       dispatch({

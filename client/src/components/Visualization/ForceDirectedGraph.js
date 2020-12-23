@@ -168,7 +168,11 @@ const ForceDirectedGraph = () => {
         tt
           .style('top', `${e.offsetY}px`)
           .style('left',`${e.offsetX}px`)
-          .html(d.data.name)
+          .html(
+            d.children
+              ? d.data.name
+              : `${d.data.name} (${d.data.size} loc)`
+          )
       })
       .on('mouseout', () => tt.style('visibility', 'hidden'))
 
@@ -182,7 +186,10 @@ const ForceDirectedGraph = () => {
         .reverse()
         .slice(1)
         .join('/')
-      dispatch(getFile(filePath))
+      dispatch(getFile({
+        path: filePath,
+        data: d.data,
+      }))
     })
 
     //// CLEANUP ////

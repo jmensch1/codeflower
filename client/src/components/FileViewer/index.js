@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useFiles } from 'store/selectors'
 import { closeFile } from 'store/files'
@@ -20,6 +20,8 @@ const useStyles = makeStyles(theme => ({
     },
     '& .MuiDialog-paper': {
       minHeight: 'calc(100% - 64px)',
+      width: 800,
+      maxWidth: 'calc(100% - 64px)',
       boxShadow: 'none',
     },
     '& .MuiDialogContent-root': {
@@ -38,17 +40,31 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
-  }
+  },
+  header: {
+    textAlign: 'center',
+  },
+  name: {
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  meta: {
+    fontStyle: 'italic',
+    fontSize: 14,
+  },
 }))
 
 const FileViewer = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { files, selectedFile, isLoading, error } = useFiles()
-  const file = selectedFile ? files[selectedFile] : null
 
-  const handleClose = () => dispatch(closeFile())
+  const handleClose = useCallback(() => {
+    dispatch(closeFile())
+  }, [dispatch])
 
+  if (!selectedFile) return null
+  const file = files[selectedFile.path]
   return (
     <Dialog
       className={classes.root}
@@ -56,8 +72,16 @@ const FileViewer = () => {
       open={!!file || !!error || isLoading}
       fullWidth
     >
-      <DialogTitle>
-        <Typography variant='h6' component='div'>{ selectedFile }</Typography>
+      <DialogTitle className={classes.header}>
+        <Typography className={classes.name} variant='h6' component='div'>
+          { selectedFile.data.name }
+        </Typography>
+        <Typography className={classes.meta} variant='body1' component='div'>
+          { selectedFile.data.size } lines of { selectedFile.data.language }
+        </Typography>
+        <Typography className={classes.meta} variant='body1' component='div'>
+          { selectedFile.path.split('/').join(' • ') }
+        </Typography>
         <IconButton
           aria-label='close'
           className={classes.closeButton}
