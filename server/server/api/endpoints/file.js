@@ -7,7 +7,7 @@ module.exports = (req) => {
   if (!repoId || !path)
     throw config.errors.BadFileRequest
 
-  const absPath = `${config.paths.repo(repoId)}/repo${path}`
+  const absPath = `${config.paths.repo(repoId)}/repo/${path}`
   return fs.promises.readFile(absPath, 'utf-8')
     .catch(err => {
       if (err.code === 'ENOENT')

@@ -95,11 +95,12 @@ const ForceDirectedGraph = () => {
       )
       .force('charge', d3
         .forceManyBody()
-        .strength(d => d.children ? -d.size / 300 : -150)
+        .strength(d => d.children ? -120 : -150)
       )
       // .force('center', d3.forceCenter())
-      .force('x', d3.forceX().strength(0.1))
-      .force('y', d3.forceY().strength(0.1))
+      // TODO: maybe make strength proportional to number of nodes (nodes.length)
+      .force('x', d3.forceX().strength(0.4))
+      .force('y', d3.forceY().strength(0.4))
 
     simulation.on('tick', () => {
       link
@@ -179,8 +180,8 @@ const ForceDirectedGraph = () => {
         .ancestors()
         .map(d => d.data.name)
         .reverse()
+        .slice(1)
         .join('/')
-        .replace(/^root/, '')
       dispatch(getFile(filePath))
     })
 

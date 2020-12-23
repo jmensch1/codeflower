@@ -136,8 +136,8 @@ const Sunburst = () => {
         .ancestors()
         .map(d => d.data.name)
         .reverse()
+        .slice(1)
         .join('/')
-        .replace(/^root/, '')
       dispatch(getFile(filePath))
     })
 

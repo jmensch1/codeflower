@@ -8,7 +8,7 @@ const themes = {
         '& line.link': {
           fill: 'none',
           stroke: '#9ecae1',
-          strokeWidth: 1.5,
+          strokeWidth: 1,
         },
         '& .directory': {
           stroke: '#9ecae1',
