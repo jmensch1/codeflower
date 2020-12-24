@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import FolderSelect from './FolderSelect'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  paper: {
     position: 'absolute',
     top: 10,
     left: 10,
@@ -18,7 +18,20 @@ const useStyles = makeStyles(theme => ({
     zIndex: 1,
     padding: theme.spacing(1),
     userSelect: 'none',
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    border: `1px solid ${theme.palette.divider}`,
     ...theme.languages,
+  },
+  background: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: -1,
+    opacity: 0.95,
+    backgroundColor: theme.palette.background.paper,
   },
   table: {
     borderCollapse: 'collapse',
@@ -64,7 +77,9 @@ const Languages = () => {
 
   if (!repo || !counts) return null
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.paper}>
+      <div className={classes.background} />
+      <div>
       <Typography variant='h6' align='center'>{ repo.fullName }</Typography>
       <Typography variable='subtitle2' align='center'>
         ({ repo.branch })
@@ -101,6 +116,7 @@ const Languages = () => {
           </tr>
         </tfoot>
       </table>
+      </div>
     </Paper>
   )
 }
