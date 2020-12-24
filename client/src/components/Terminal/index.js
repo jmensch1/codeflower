@@ -6,7 +6,7 @@ import { toggleTerminal } from 'store/terminal'
 import { useTerminal } from 'store/selectors'
 
 const HEADER_HEIGHT = 36
-const SMALL_BODY_WIDTH = 400
+const SMALL_BODY_WIDTH = 500
 
 const useStyles = createUseStyles(theme => {
   return {
@@ -14,8 +14,6 @@ const useStyles = createUseStyles(theme => {
       position: 'absolute',
       bottom: 0,
       right: 0,
-      width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,
-      height: ({ isOpen }) => isOpen ? '100%' : HEADER_HEIGHT - 1,
       zIndex: 1,
       backgroundColor: 'black',
       opacity: 0.9,
@@ -23,11 +21,19 @@ const useStyles = createUseStyles(theme => {
       overflow: 'hidden',
       borderTopLeftRadius: 5,
       fontFamily: 'Roboto',
-      fontSize: 16,
       userSelect: 'none',
       transition: 'all 0.35s ease-in-out',
       cursor: 'pointer',
       lineHeight: '20px',
+
+      // full-screen option
+      // width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,
+      // height: ({ isOpen }) => isOpen ? '100%' : HEADER_HEIGHT - 1,
+      // fontSize: 16,
+
+      // right corner option
+      width: SMALL_BODY_WIDTH,
+      height: ({ isOpen }) => isOpen ? 500 : HEADER_HEIGHT - 1,
 
     },
     header: {
