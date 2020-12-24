@@ -12,7 +12,7 @@
 
       // construct url for the inner iframe
       var url = config.originUrl +
-                '?context=chrome' +
+                '?context=extension' +
                 '&owner=' + repo.owner +
                 '&name='  + repo.name +
                 (repo.branch ? '&branch=' + repo.branch : '');
@@ -30,7 +30,7 @@
       // remove the loading mask when frame loads
       frame.on('load', function() {
         $('.loading-mask').remove()
-      })
+      });
     });
   });
 

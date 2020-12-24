@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useFullscreen } from '@straw-hat/react-fullscreen'
 import { setVisTheme, setVisType, setMainTheme } from 'store/settings'
-import { useRepo, useSettings } from 'store/selectors'
+import { useRepo, useSettings, useContext } from 'store/selectors'
 import { openModal } from 'store/modals'
 
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft'
@@ -26,6 +26,7 @@ const ControlBar = () => {
   const repo = useRepo()
   const { mainThemeId, visThemeId, visType } = useSettings()
   const dispatch = useDispatch()
+  const { isWeb } = useContext()
 
   const {
     isFullscreen,
@@ -107,18 +108,22 @@ const ControlBar = () => {
           },
         ]}
       />
-      <Divider />
-      <ToggleButton
-        value={false}
-        onChange={() => dispatch(openModal('search'))}
-        buttons={[
-          {
-            value: false,
-            Icon: SearchIcon,
-            text: 'search',
-          },
-        ]}
-      />
+      {isWeb && (
+        <>
+          <Divider />
+          <ToggleButton
+            value={false}
+            onChange={() => dispatch(openModal('search'))}
+            buttons={[
+              {
+                value: false,
+                Icon: SearchIcon,
+                text: 'search',
+              },
+            ]}
+          />
+        </>
+      )}
       <Divider />
       <LinkButton />
     </Bar>

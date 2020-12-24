@@ -1,19 +1,20 @@
 import React, { useState, useCallback } from 'react'
+import { useShareLink } from 'store/selectors'
 import LinkIcon from '@material-ui/icons/Link'
 import ToggleButton from './ToggleButton'
 
 const LinkButton = () => {
   const [tooltip, setTooltip] = useState('copy link to this vis')
+  const shareLink = useShareLink()
 
   const copyLink = useCallback(() => {
     try {
-      const { href } = window.location
-      navigator.clipboard.writeText(href)
+      navigator.clipboard.writeText(shareLink)
       setTooltip('link copied')
     } catch (e) {
       setTooltip('could not copy link')
     }
-  }, [])
+  }, [shareLink])
 
   const reset = useCallback(() => {
     setTimeout(() => {
