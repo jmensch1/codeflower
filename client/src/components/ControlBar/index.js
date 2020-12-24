@@ -20,6 +20,7 @@ import Bar from './Bar'
 import Divider from './Divider'
 import ButtonGroup from './ButtonGroup'
 import ToggleButton from './ToggleButton'
+import LinkButton from './LinkButton'
 
 const ControlBar = () => {
   const repo = useRepo()
@@ -118,6 +119,8 @@ const ControlBar = () => {
           },
         ]}
       />
+      <Divider />
+      <LinkButton />
     </Bar>
   )
 }
