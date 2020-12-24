@@ -27,8 +27,10 @@
       );
       $('body').append(frame);
 
-      // when src is loaded...
-      //frame.on('load', function() {})
+      // remove the loading mask when frame loads
+      frame.on('load', function() {
+        $('.loading-mask').remove()
+      })
     });
   });
 
