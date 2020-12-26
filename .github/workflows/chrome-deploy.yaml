@@ -9,10 +9,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Zip extension
-        run: zip -r chrome.zip chrome
+        run: zip -r chrome.zip chrome/*
 
-      - name: Copy zip to xpi
-        run: cp chrome.zip chrome.xpi
+      # - name: Copy zip to xpi
+      #   run: cp chrome.zip chrome.xpi
 
       - name: Check zip
         run: ls -la
@@ -30,7 +30,7 @@ jobs:
         uses: trmcnvn/firefox-addon@v1
         with:
           uuid: ${{ secrets.FIREFOX_UUID }}
-          xpi: chrome.xpi
-          manifest: chrome/manifest.json
+          xpi: ./chrome.zip
+          manifest: ./chrome/manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
