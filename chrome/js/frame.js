@@ -12,7 +12,7 @@
 
       // construct url for the inner iframe
       var url = config.originUrl +
-                '?context=extension' +
+                '?context=chrome' +
                 '&owner=' + repo.owner +
                 '&name='  + repo.name +
                 (repo.branch ? '&branch=' + repo.branch : '');

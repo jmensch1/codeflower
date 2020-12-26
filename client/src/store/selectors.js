@@ -19,8 +19,8 @@ export const useModal = (modalType) => useSelector(state => {
 export const useContext = () => useSelector(state => {
   const { context } = state.router.location.query
   return {
-    isExtension: context === 'extension',
-    isWeb: context !== 'extension',
+    isExtension: context === 'chrome',
+    isWeb: context !== 'chrome',
   }
 })
 
