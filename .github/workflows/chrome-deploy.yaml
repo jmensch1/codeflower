@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Zip extension
-        run: zip chrome
+        run: zip -r chrome.zip chrome
 
       - name: Check zip
         run: ls -la
