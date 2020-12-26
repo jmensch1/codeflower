@@ -29,7 +29,7 @@ jobs:
       - name: Deploy to FireFox Developer Hub
         uses: trmcnvn/firefox-addon@v1
         with:
-          uuid: '${{ secrets.FIREFOX_UUID }}'
+          uuid: '{2a741b8c-188f-42ff-ac49-6b6de990ceb5}'
           xpi: ./chrome.xpi
           manifest: ./chrome/manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
