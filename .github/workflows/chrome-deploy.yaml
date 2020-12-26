@@ -9,25 +9,25 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Zip extension
-        run: zip -r chrome.zip chrome/*
+        run: (cd chrome; zip -r -FS ../chrome.zip *)
 
-      - name: Deploy to Chrome Store
-        uses: mnao305/chrome-extension-upload@1.1.1
-        with:
-          file-path: ./chrome.zip
-          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      # - name: Deploy to Chrome Store
+      #   uses: mnao305/chrome-extension-upload@1.1.1
+      #   with:
+      #     file-path: ./chrome.zip
+      #     extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+      #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
+      #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+      #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
       # - name: Copy zip to xpi
       #   run: cp chrome.zip chrome.xpi
       #
-      # - name: Deploy to FireFox Developer Hub
-      #   uses: trmcnvn/firefox-addon@v1
-      #   with:
-      #     uuid: ${{ secrets.FIREFOX_UUID }}
-      #     xpi: ./chrome.xpi
-      #     manifest: ./chrome/manifest.json
-      #     api-key: ${{ secrets.FIREFOX_API_KEY }}
-      #     api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+      - name: Deploy to FireFox Developer Hub
+        uses: trmcnvn/firefox-addon@v1
+        with:
+          uuid: ${{ secrets.FIREFOX_UUID }}
+          xpi: ./chrome.zip
+          manifest: ./chrome/manifest.json
+          api-key: ${{ secrets.FIREFOX_API_KEY }}
+          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
