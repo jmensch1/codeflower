@@ -4,6 +4,7 @@ on:
       - main
     paths:
      - 'server/**'
+  workflow_dispatch:
 
 defaults:
   run:
@@ -52,3 +53,4 @@ jobs:
               --name codeflower \
               -e SENDGRID_EMAIL='jake.mensch@gmail.com' \
               jmensch1/codeflower:${{github.sha}}
+            docker system prune -af
