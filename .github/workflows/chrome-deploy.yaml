@@ -11,34 +11,23 @@ jobs:
       - name: Zip extension
         run: zip -r chrome.zip chrome/*
 
-      - name: Copy zip to xpi
-        run: cp chrome.zip chrome.xpi
-
-      - name: Check zip
-        run: ls -la
-
-      # - name: Deploy to Chrome Store
-      #   uses: mnao305/chrome-extension-upload@1.1.1
-      #   with:
-      #     file-path: ./chrome.zip
-      #     extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-      #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
-      #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-      #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-
-      - name: Deploy to FireFox Developer Hub
-        uses: trmcnvn/firefox-addon@v1
+      - name: Deploy to Chrome Store
+        uses: mnao305/chrome-extension-upload@1.1.1
         with:
-          uuid: '{2a741b8c-188f-42ff-ac49-6b6de990ceb5}'
-          xpi: ./chrome.xpi
-          manifest: ./chrome/manifest.json
-          api-key: ${{ secrets.FIREFOX_API_KEY }}
-          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+          file-path: ./chrome.zip
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-      # - name: Deploy to Firefox Developer Hub
-      #   uses: saphareas/sign-web-extension-action@master
+      # - name: Copy zip to xpi
+      #   run: cp chrome.zip chrome.xpi
+      #
+      # - name: Deploy to FireFox Developer Hub
+      #   uses: trmcnvn/firefox-addon@v1
       #   with:
-      #     web-ext-id: ${{ secrets.FIREFOX_UUID }}
-      #     sign-listed: true
-      #     amo-api-key: ${{ secrets.FIREFOX_API_KEY }}
-      #     amo-api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+      #     uuid: ${{ secrets.FIREFOX_UUID }}
+      #     xpi: ./chrome.xpi
+      #     manifest: ./chrome/manifest.json
+      #     api-key: ${{ secrets.FIREFOX_API_KEY }}
+      #     api-secret: ${{ secrets.FIREFOX_API_SECRET }}
