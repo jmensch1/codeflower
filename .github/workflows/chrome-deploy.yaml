@@ -14,11 +14,20 @@ jobs:
       - name: Check zip
         run: ls -la
 
-      - name: Deploy to Chrome Store
-        uses: mnao305/chrome-extension-upload@1.1.1
+      # - name: Deploy to Chrome Store
+      #   uses: mnao305/chrome-extension-upload@1.1.1
+      #   with:
+      #     file-path: ./chrome.zip
+      #     extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+      #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
+      #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+      #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+      - name: Deploy to FireFox Developer Hub
+        uses: trmcnvn/firefox-addon@v1
         with:
-          file-path: ./chrome.zip
-          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          uuid: ${{ secrets.FIREFOX_UUID }}
+          xpi: ./chrome.zip
+          manifest: manifest.json
+          api-key: ${{ secrets.FIREFOX_API_KEY }}
+          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
