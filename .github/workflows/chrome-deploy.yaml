@@ -11,6 +11,9 @@ jobs:
       - name: Zip extension
         run: zip -r chrome.zip chrome
 
+      - name: Copy zip to xpi
+        run: cp chrome.zip chrome.xpi
+
       - name: Check zip
         run: ls -la
 
