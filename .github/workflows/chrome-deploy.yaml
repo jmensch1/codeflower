@@ -10,14 +10,14 @@ jobs:
 
       - name: Zip extension
         run: zip -r chrome.zip chrome
-      #
-      # - name: Check zip
-      #   run: ls -la
+
+      - name: Check zip
+        run: ls -la
 
       - name: Deploy to Chrome Store
         uses: mnao305/chrome-extension-upload@1.1.1
         with:
-          file-path: chrome.zip
+          file-path: ./chrome.zip
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
