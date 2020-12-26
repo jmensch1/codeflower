@@ -87,7 +87,7 @@ const SearchBar = ({ onComplete }) => {
           onKeyPress={onKeyPress}
           className={classes.input}
           spellCheck={false}
-          placeholder='e.g. https://github.com/bob/burger'
+          placeholder='e.g. https://github.com/bob/burgers'
         />
         <IconButton
           onClick={search}
