@@ -29,8 +29,16 @@ jobs:
       - name: Deploy to FireFox Developer Hub
         uses: trmcnvn/firefox-addon@v1
         with:
-          uuid: ${{ secrets.FIREFOX_UUID }}
+          uuid: '${{ secrets.FIREFOX_UUID }}'
           xpi: ./chrome.xpi
           manifest: ./chrome/manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+
+      # - name: Deploy to Firefox Developer Hub
+      #   uses: saphareas/sign-web-extension-action@master
+      #   with:
+      #     web-ext-id: ${{ secrets.FIREFOX_UUID }}
+      #     sign-listed: true
+      #     amo-api-key: ${{ secrets.FIREFOX_API_KEY }}
+      #     amo-api-secret: ${{ secrets.FIREFOX_API_SECRET }}
