@@ -9,23 +9,31 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { Zoom } from 'components/Transitions'
+import TextInput from 'components/core/TextInput'
 
 const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiDialog-paper': {
       boxShadow: 'none',
-      padding: 20,
+      padding: '20px 30px',
+      maxWidth: 500,
     },
-    '& .MuiTypography-root': {
-      maxWidth: 400,
-      marginBottom: 15,
-    },
-    '& .MuiButton-root': {
-      margin: '0 10px',
-    }
+  },
+  textField: {
+    backgroundColor: 'transparent',
+    border: 'none',
+    borderBottom: '1px white solid',
+    outline: 'none',
+    color: theme.palette.text.primary,
+    fontSize: 16,
+    marginBottom: 20,
+    width: '100%',
+    padding: '6px 0',
+    fontFamily: 'Roboto',
   },
   searchButton: {
     backgroundColor: theme.palette.info.main,
+    marginTop: 15,
   },
 }))
 
@@ -59,43 +67,67 @@ const MaxNodes = () => {
       className={classes.root}
       open={isOpen}
       onClose={() => dispatch(closeModal('credentials'))}
-      TransitionComponent={Zoom}
+      // TransitionComponent={Zoom}
     >
+      <Typography variant='h6' align='center'>
+        Private repo
+      </Typography>
       {(() => {
         switch(error.name) {
           case 'NeedCredentials':
             return (
               <Typography>
-                This is a private repo. To continue, please provide credentials for
-                a github account with read access for this repo.
+                <p>
+                  {owner}/{name} is a private repo, so it can't be cloned without credentials.
+                </p>
+                <p>
+                  Obvi you shouldn't share your personal creds, so if you want to continue,
+                  here's how you could do it relatively safely:
+                </p>
+                <ul>
+                  <li>Create a dummy github account</li>
+                  <li>Give that account read access to this repo</li>
+                  <li>Enter the creds for that account below</li>
+                </ul>
+                <p>
+                  Note that if 2FA is enabled on the account, cloning requires
+                  a personal access token in place of a password.
+                </p>
               </Typography>
             )
           case 'CredentialsInvalid':
             return (
               <Typography>
-                The credentials you provided are invalid.
+                <p>The credentials you provided didn't work.
+                Feel free to try other ones.</p>
               </Typography>
             )
           default:
             throw new Error('Invalid error name.')
         }
       })()}
-      <div>
-        <TextField
-          style={{ width: 500 }}
+      <div style={{
+        textAlign: 'center',
+        margin: '10px 30px 0',
+      }}>
+        <input
+          className={classes.textField}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          placeholder='github username'
         />
-        <TextField
-          style={{ width: 500 }}
+        <input
+          className={classes.textField}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
+          placeholder='github password or token'
         />
         <Button
           className={classes.searchButton}
-          variant='contained'
+          variant='outlined'
           onClick={search}
+          disabled={!username || !password}
         >
           Go
         </Button>
