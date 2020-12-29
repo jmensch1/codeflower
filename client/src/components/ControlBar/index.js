@@ -15,6 +15,7 @@ import GrainIcon from '@material-ui/icons/Grain'
 import FullscreenIcon from '@material-ui/icons/Fullscreen'
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit'
 import SearchIcon from '@material-ui/icons/Search'
+import InfoIcon from '@material-ui/icons/Info'
 
 import Bar from './Bar'
 import Divider from './Divider'
@@ -37,7 +38,23 @@ const ControlBar = () => {
 
   return (
     <Bar>
-      <ButtonGroup
+      {isWeb && (
+        <>
+          <ToggleButton
+            value={false}
+            onChange={() => dispatch(openModal('search'))}
+            buttons={[
+              {
+                value: false,
+                Icon: SearchIcon,
+                text: 'search',
+              },
+            ]}
+          />
+          <Divider />
+        </>
+      )}
+      {/*<ButtonGroup
         value={visType}
         onChange={visType => dispatch(setVisType(visType))}
         buttons={[
@@ -53,7 +70,7 @@ const ControlBar = () => {
           },
         ]}
       />
-      <Divider />
+      <Divider />*/}
       <ButtonGroup
         value={visThemeId}
         onChange={visThemeId => dispatch(setVisTheme(visThemeId))}
@@ -83,12 +100,12 @@ const ControlBar = () => {
           {
             value: 'dark',
             Icon: Brightness4Icon,
-            text: 'toggle light/dark theme',
+            text: 'light mode',
           },
           {
             value: 'light',
             Icon: Brightness7Icon,
-            text: 'toggle light/dark theme',
+            text: 'dark mode',
           },
         ]}
       />
@@ -99,33 +116,28 @@ const ControlBar = () => {
           {
             value: true,
             Icon: FullscreenExitIcon,
-            text: 'exit full screen mode',
+            text: 'exit full screen',
           },
           {
             value: false,
             Icon: FullscreenIcon,
-            text: 'enter full screen mode',
+            text: 'go full screen',
           },
         ]}
       />
-      {isWeb && (
-        <>
-          <Divider />
-          <ToggleButton
-            value={false}
-            onChange={() => dispatch(openModal('search'))}
-            buttons={[
-              {
-                value: false,
-                Icon: SearchIcon,
-                text: 'search',
-              },
-            ]}
-          />
-        </>
-      )}
-      <Divider />
-      <LinkButton />
+      <ToggleButton
+        value={false}
+        onChange={() => dispatch(openModal('about'))}
+        buttons={[
+          {
+            value: false,
+            Icon: InfoIcon,
+            text: 'about the app',
+          },
+        ]}
+      />
+      {/*<Divider />
+      <LinkButton />*/}
     </Bar>
   )
 }

@@ -7,9 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import { Zoom } from 'components/Transitions'
-import TextInput from 'components/core/TextInput'
+// import { Zoom } from 'components/Transitions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const MaxNodes = () => {
+const Credentials = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [username, setUsername] = useState('')
@@ -78,11 +76,12 @@ const MaxNodes = () => {
             return (
               <Typography>
                 <p>
-                  {owner}/{name} is a private repo, so it can't be cloned without credentials.
+                  {owner}/{name} is a private repo, so it can't be cloned
+                  without credentials.
                 </p>
                 <p>
-                  Obvi you shouldn't share your personal creds, so if you want to continue,
-                  here's how you could do it relatively safely:
+                  Obvi you shouldn't share your personal creds, so if you want
+                  to continue, here's how you could do it relatively safely:
                 </p>
                 <ul>
                   <li>Create a dummy github account</li>
@@ -136,4 +135,4 @@ const MaxNodes = () => {
   )
 }
 
-export default MaxNodes
+export default Credentials
