@@ -86,7 +86,9 @@ const Languages = () => {
     <Paper className={classes.paper}>
       <div className={classes.background} />
       <div className={classes.scroller}>
-        <Typography variant='h6' align='center'>{ repo.fullName }</Typography>
+        <Typography variant='h6' align='center'>
+          { repo.owner } / { repo.name }
+        </Typography>
         <Typography variable='subtitle2' align='center'>
           ({ repo.branch })
         </Typography>
