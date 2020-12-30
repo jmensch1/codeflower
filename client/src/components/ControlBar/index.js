@@ -4,7 +4,7 @@ import { useFullscreen } from '@straw-hat/react-fullscreen'
 import {
   setVisTheme,
   // setVisType,
-  setMainTheme
+  // setMainTheme
 } from 'store/settings'
 import { useRepo, useSettings, useContext } from 'store/selectors'
 import { openModal } from 'store/modals'
@@ -12,8 +12,8 @@ import { openModal } from 'store/modals'
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft'
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter'
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight'
-import Brightness4Icon from '@material-ui/icons/Brightness4'
-import Brightness7Icon from '@material-ui/icons/Brightness7'
+// import Brightness4Icon from '@material-ui/icons/Brightness4'
+// import Brightness7Icon from '@material-ui/icons/Brightness7'
 // import AdjustIcon from '@material-ui/icons/Adjust'
 // import GrainIcon from '@material-ui/icons/Grain'
 import FullscreenIcon from '@material-ui/icons/Fullscreen'
@@ -32,7 +32,7 @@ const ControlBar = () => {
   const {
     mainThemeId,
     visThemeId,
-    // visType, 
+    // visType,
   } = useSettings()
   const dispatch = useDispatch()
   const { isWeb } = useContext()
@@ -101,7 +101,7 @@ const ControlBar = () => {
         ]}
       />
       <Divider />
-      <ToggleButton
+      {/*<ToggleButton
         value={mainThemeId}
         onChange={mainThemeId => dispatch(setMainTheme(mainThemeId))}
         buttons={[
@@ -116,7 +116,7 @@ const ControlBar = () => {
             text: 'dark mode',
           },
         ]}
-      />
+      />*/}
       <ToggleButton
         value={isFullscreen}
         onChange={toggleFullscreen}
