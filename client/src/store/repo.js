@@ -33,7 +33,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
 
     //// GET REPO ////
 
-    await delay(250)
+    // await delay(250)
     dispatch(openTerminal())
     await delay(750)
 

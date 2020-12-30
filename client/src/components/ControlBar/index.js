@@ -1,7 +1,11 @@
 import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useFullscreen } from '@straw-hat/react-fullscreen'
-import { setVisTheme, setVisType, setMainTheme } from 'store/settings'
+import {
+  setVisTheme,
+  // setVisType,
+  setMainTheme
+} from 'store/settings'
 import { useRepo, useSettings, useContext } from 'store/selectors'
 import { openModal } from 'store/modals'
 
@@ -10,8 +14,8 @@ import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter'
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
-import AdjustIcon from '@material-ui/icons/Adjust'
-import GrainIcon from '@material-ui/icons/Grain'
+// import AdjustIcon from '@material-ui/icons/Adjust'
+// import GrainIcon from '@material-ui/icons/Grain'
 import FullscreenIcon from '@material-ui/icons/Fullscreen'
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit'
 import SearchIcon from '@material-ui/icons/Search'
@@ -21,11 +25,15 @@ import Bar from './Bar'
 import Divider from './Divider'
 import ButtonGroup from './ButtonGroup'
 import ToggleButton from './ToggleButton'
-import LinkButton from './LinkButton'
+// import LinkButton from './LinkButton'
 
 const ControlBar = () => {
   const repo = useRepo()
-  const { mainThemeId, visThemeId, visType } = useSettings()
+  const {
+    mainThemeId,
+    visThemeId,
+    // visType, 
+  } = useSettings()
   const dispatch = useDispatch()
   const { isWeb } = useContext()
 

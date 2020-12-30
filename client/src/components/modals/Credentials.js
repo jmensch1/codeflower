@@ -74,7 +74,7 @@ const Credentials = () => {
         switch(error.name) {
           case 'NeedCredentials':
             return (
-              <Typography>
+              <Typography component='div'>
                 <p>
                   {owner}/{name} is a private repo, so it can't be cloned
                   without credentials.
@@ -96,7 +96,7 @@ const Credentials = () => {
             )
           case 'CredentialsInvalid':
             return (
-              <Typography>
+              <Typography component='div'>
                 <p>The credentials you provided didn't work.
                 Feel free to try other ones.</p>
               </Typography>

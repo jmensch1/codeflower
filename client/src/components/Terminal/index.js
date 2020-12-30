@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { createUseStyles } from 'react-jss'
+import { makeStyles } from '@material-ui/core/styles'
 import Content from './Content'
 import { toggleTerminal } from 'store/terminal'
 import { useTerminal } from 'store/selectors'
@@ -8,23 +8,24 @@ import { useTerminal } from 'store/selectors'
 const HEADER_HEIGHT = 36
 const SMALL_BODY_WIDTH = 500
 
-const useStyles = createUseStyles(theme => {
+const useStyles = makeStyles(theme => {
   return {
     root: {
       position: 'absolute',
       bottom: 0,
       right: 0,
       zIndex: 1,
+      // backgroundColor: theme.palette.background.paper,
       backgroundColor: 'black',
       opacity: 0.9,
       color: 'white',
       overflow: 'hidden',
       borderTopLeftRadius: 5,
-      fontFamily: 'Roboto',
+      fontFamily: 'monospace',
       userSelect: 'none',
       transition: 'all 0.35s ease-in-out',
       cursor: 'pointer',
-      lineHeight: '20px',
+      fontSize: 12,
 
       // full-screen option
       // width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,

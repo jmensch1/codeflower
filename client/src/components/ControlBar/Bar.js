@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     width: 50,
     display: 'flex',
     flexDirection: 'column',
-    border: `1px solid ${theme.palette.divider}`,
+    // border: `1px solid ${theme.palette.divider}`,
     flexWrap: 'wrap',
     backgroundColor: 'transparent',
     boxShadow: 'none',
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: -1,
     backgroundColor: theme.palette.background.paper,
     opacity: 0.95,
+    borderRadius: 4,
   },
   divider: {
     margin: theme.spacing(1, 0.5),

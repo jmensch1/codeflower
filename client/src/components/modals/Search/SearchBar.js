@@ -1,35 +1,43 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
-import SearchIcon from '@material-ui/icons/Search'
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 import { useDispatch } from 'react-redux'
 import { updateQuery } from 'store/router'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    alignItems: 'center',
-    width: 500,
+    display: 'table',
+    verticalAlign: 'middle',
+    width: 900,
     maxWidth: '100%',
-    borderBottom: '1px white solid',
-    height: 44,
+    fontSize: 24,
+    fontFamily: 'monospace',
+  },
+  label: {
+    whiteSpace: 'nowrap',
+    display: 'table-cell',
+    width: 1,
   },
   input: {
     backgroundColor: 'transparent',
     border: 'none',
     outline: 'none',
     color: theme.palette.text.primary,
-    fontSize: 16,
-    marginBottom: 0,
-    height: '100%',
+    fontSize: 'inherit',
+    fontFamily: 'inherit',
+    display: 'table-cell',
     width: '100%',
+    padding: '2px 0',
+    backgroundImage: 'linear-gradient(to right, #fff 50%, rgba(255,255,255,0) 0%)',
+    backgroundPosition: 'bottom',
+    backgroundSize: '4px 1px',
+    backgroundRepeat: 'repeat-x',
   },
-  repo: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 30,
-    color: theme.palette.grey[500],
+  icon: {
+    display: 'table-cell',
+    paddingLeft: 6,
+    width: 1,
   },
 }))
 
@@ -78,26 +86,26 @@ const SearchBar = ({ onComplete }) => {
   }, [repoString, search])
 
   return (
-    <div className={classes.outer}>
-      <div className={classes.root}>
-        <input
-          type="text"
-          value={url}
-          onChange={onChange}
-          onKeyPress={onKeyPress}
-          className={classes.input}
-          spellCheck={false}
-          placeholder='e.g. https://github.com/bob/burgers'
-        />
+    <div className={classes.root}>
+      <label className={classes.label}>git clone&nbsp;</label>
+      <input
+        type='text'
+        value={url}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+        className={classes.input}
+        spellCheck={false}
+        autoFocus
+      />
+      <div className={classes.icon}>
         <IconButton
           onClick={search}
           size='small'
           disabled={!repoString}
         >
-          <SearchIcon fontSize='large' />
+          <KeyboardReturnIcon fontSize='large'/>
         </IconButton>
       </div>
-      <div className={classes.repo}>{repoString}</div>
     </div>
   )
 }

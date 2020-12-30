@@ -34,11 +34,19 @@ const ThemeProvider = ({ children }) => {
     })()
 
     return createMuiTheme({
-      palette: { type: mainThemeId },
+      palette: {
+        type: mainThemeId,
+        background: {
+          default: '#232323',
+          paper: '#363636',
+        },
+      },
       visualization: visTheme.visualization,
       languages: languageStyles,
     })
   }, [mainThemeId, visThemeId, classes, selectedLanguage])
+
+  console.log(theme)
 
   return (
     <MuiThemeProvider theme={theme}>

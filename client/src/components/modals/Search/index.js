@@ -1,28 +1,31 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useModal } from 'store/selectors'
+import { useRepo } from 'store/selectors'
 import { closeModal } from 'store/modals'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
-import Typography from '@material-ui/core/Typography'
 // import { Zoom } from 'components/Transitions'
 import SearchBar from './SearchBar'
 
 const useStyles = makeStyles(theme => ({
   root: {
+    backgroundColor: ({ repo }) => repo ? undefined : theme.palette.background.default,
     '& .MuiDialog-paper': {
       boxShadow: 'none',
       padding: 30,
-      paddingBottom: 15,
+      maxWidth: 'none',
+      backgroundColor: ({ repo }) => repo ? undefined : 'transparent',
     },
-    '& .MuiTypography-root': {
-      marginBottom: 20,
-    },
+    '& .MuiBackdrop-root': {
+      backgroundColor: ({ repo }) => repo ? undefined : 'transparent',
+    }
   },
 }))
 
 const Search = () => {
-  const classes = useStyles()
+  const repo = useRepo()
+  const classes = useStyles({ repo })
   const dispatch = useDispatch()
   const { isOpen } = useModal('search')
 
@@ -39,9 +42,6 @@ const Search = () => {
       onClose={close}
       // TransitionComponent={Zoom}
     >
-      <Typography variant='h6' align='center'>
-        Enter the URL of a Github repo
-      </Typography>
       <SearchBar onComplete={close} />
     </Dialog>
   )

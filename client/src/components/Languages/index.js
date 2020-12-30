@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     userSelect: 'none',
     backgroundColor: 'transparent',
     boxShadow: 'none',
-    border: `1px solid ${theme.palette.divider}`,
+    // border: `1px solid ${theme.palette.divider}`,
     ...theme.languages,
   },
   background: {
