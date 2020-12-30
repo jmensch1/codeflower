@@ -5,7 +5,7 @@ import { useRepo } from 'store/selectors'
 import { closeModal } from 'store/modals'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
-// import { Zoom } from 'components/Transitions'
+// import { Zoom } from 'components/core/Transitions'
 import SearchBar from './SearchBar'
 
 const useStyles = makeStyles(theme => ({
