@@ -46,8 +46,6 @@ const ThemeProvider = ({ children }) => {
     })
   }, [mainThemeId, visThemeId, classes, selectedLanguage])
 
-  console.log(theme)
-
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />

@@ -1,9 +1,7 @@
 const themes = {
   periwinkle: {
     visualization: {
-      default: {
-        // backgroundColor: 'black',
-      },
+      default: {},
       force: {
         '& line.link': {
           fill: 'none',
@@ -51,9 +49,7 @@ const themes = {
   },
   bumblebee: {
     visualization: {
-      default: {
-        // backgroundColor: 'black',
-      },
+      default: {},
       force: {
         '& line.link': {
           fill: 'none',
@@ -100,9 +96,7 @@ const themes = {
   },
   rainbow: {
     visualization: {
-      default: {
-        // backgroundColor: '#333',
-      },
+      default: {},
       force: {
         '& line.link': {
           fill: 'none',
