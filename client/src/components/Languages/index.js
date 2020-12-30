@@ -14,12 +14,12 @@ const useStyles = makeStyles(theme => ({
     left: 10,
     width: 360,
     maxHeight: 'calc(100% - 20px)',
-    overflow: 'auto',
     zIndex: 1,
-    padding: theme.spacing(1),
+    padding: 0,
     userSelect: 'none',
     backgroundColor: 'transparent',
     boxShadow: 'none',
+    display: 'flex',
     // border: `1px solid ${theme.palette.divider}`,
     ...theme.languages,
   },
@@ -32,6 +32,12 @@ const useStyles = makeStyles(theme => ({
     zIndex: -1,
     opacity: 0.95,
     backgroundColor: theme.palette.background.paper,
+    borderRadius: 4,
+  },
+  scroller: {
+    flex: 1,
+    overflow: 'auto',
+    padding: theme.spacing(1),
   },
   table: {
     borderCollapse: 'collapse',
@@ -79,43 +85,43 @@ const Languages = () => {
   return (
     <Paper className={classes.paper}>
       <div className={classes.background} />
-      <div>
-      <Typography variant='h6' align='center'>{ repo.fullName }</Typography>
-      <Typography variable='subtitle2' align='center'>
-        ({ repo.branch })
-      </Typography>
-      <FolderSelect />
-      <table className={classes.table}>
-        <thead>
-          <tr>
-            <th>language</th>
-            <th>files</th>
-            <th>lines</th>
-            <th>color</th>
-          </tr>
-        </thead>
-        <tbody onMouseLeave={() => onSelectLanguage(null)}>
-          {counts.map(count => (
-            <tr
-              key={count.language}
-              onMouseEnter={() => onSelectLanguage(count.language)}
-            >
-              <td>{ count.language }</td>
-              <td>{ count.files }</td>
-              <td>{ count.lines }</td>
-              <td><div className={langClasses[count.language]} /></td>
+      <div className={classes.scroller}>
+        <Typography variant='h6' align='center'>{ repo.fullName }</Typography>
+        <Typography variable='subtitle2' align='center'>
+          ({ repo.branch })
+        </Typography>
+        <FolderSelect />
+        <table className={classes.table}>
+          <thead>
+            <tr>
+              <th>language</th>
+              <th>files</th>
+              <th>lines</th>
+              <th>color</th>
             </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>totals</td>
-            <td>{ totals.files }</td>
-            <td>{ totals.lines }</td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
+          </thead>
+          <tbody onMouseLeave={() => onSelectLanguage(null)}>
+            {counts.map(count => (
+              <tr
+                key={count.language}
+                onMouseEnter={() => onSelectLanguage(count.language)}
+              >
+                <td>{ count.language }</td>
+                <td>{ count.files }</td>
+                <td>{ count.lines }</td>
+                <td><div className={langClasses[count.language]} /></td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>totals</td>
+              <td>{ totals.files }</td>
+              <td>{ totals.lines }</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </Paper>
   )
