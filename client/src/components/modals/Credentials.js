@@ -6,7 +6,7 @@ import { getRepo } from 'store/repo'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
+import TextButton from 'components/core/TextButton'
 // import { Zoom } from 'components/Transitions'
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +30,6 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Roboto',
   },
   searchButton: {
-    backgroundColor: theme.palette.info.main,
     marginTop: 15,
   },
 }))
@@ -122,14 +121,12 @@ const Credentials = () => {
           type="password"
           placeholder='github password or token'
         />
-        <Button
-          className={classes.searchButton}
-          variant='outlined'
+        <TextButton
+          label='Go'
           onClick={search}
           disabled={!username || !password}
-        >
-          Go
-        </Button>
+          className={classes.searchButton}
+        />
       </div>
     </Dialog>
   )

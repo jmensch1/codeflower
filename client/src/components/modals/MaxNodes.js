@@ -5,8 +5,7 @@ import { closeModal } from 'store/modals'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Box from '@material-ui/core/Box'
+import TextButton from 'components/core/TextButton'
 // import { Zoom } from 'components/Transitions'
 
 const useStyles = makeStyles(theme => ({
@@ -19,15 +18,13 @@ const useStyles = makeStyles(theme => ({
       maxWidth: 400,
       marginBottom: 15,
     },
-    '& .MuiButton-root': {
-      margin: '0 10px',
-    }
   },
-  renderAllButton: {
-    backgroundColor: theme.palette.warning.main,
+  buttons: {
+    display: 'flex',
+    justifyContent: 'center',
   },
-  renderSubButton: {
-    backgroundColor: theme.palette.info.main,
+  button: {
+    margin: '0 10px',
   },
 }))
 
@@ -62,22 +59,18 @@ const MaxNodes = () => {
         Rendering the whole thing might crash your browser.
         What do you want to do?
       </Typography>
-      <Box style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          className={classes.renderAllButton}
-          variant='contained'
+      <div className={classes.buttons}>
+        <TextButton
+          label='Go for it!'
           onClick={renderAll}
-        >
-          Go for it!
-        </Button>
-        <Button
-          className={classes.renderSubButton}
-          variant='contained'
+          className={classes.button}
+        />
+        <TextButton
+          label='Render a subfolder'
           onClick={renderSub}
-        >
-          Render a subfolder
-        </Button>
-      </Box>
+          className={classes.button}
+        />
+      </div>
     </Dialog>
   )
 }
