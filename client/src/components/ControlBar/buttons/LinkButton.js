@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { useShareLink } from 'store/selectors'
 import LinkIcon from '@material-ui/icons/Link'
-import ToggleButton from './ToggleButton'
+import ToggleButton from '../core/ToggleButton'
 
 const LinkButton = () => {
   const [tooltip, setTooltip] = useState('copy link to this vis')
