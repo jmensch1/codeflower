@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import InfoIcon from '@material-ui/icons/Info'
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
 import { openModal } from 'store/modals'
 import ToggleButton from '../core/ToggleButton'
 
@@ -18,7 +18,7 @@ const AboutButton = () => {
       buttons={[
         {
           value: false,
-          Icon: InfoIcon,
+          Icon: HelpOutlineIcon,
           text: 'about the app',
         },
       ]}
