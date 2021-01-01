@@ -64,9 +64,9 @@ const useStyles = makeStyles((theme) => ({
       // TODO: remove this span
       '& > span': {
         display: 'inline-block',
-        height: 16,
-        width: 16,
-        borderRadius: 8,
+        height: 14,
+        width: 14,
+        borderRadius: 7,
         position: 'absolute',
         top: '50%',
         left: '50%',
