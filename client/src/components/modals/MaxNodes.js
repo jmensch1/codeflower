@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
 import TextButton from 'components/core/TextButton'
-// import { Zoom } from 'components/core/Transitions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +51,6 @@ const MaxNodes = () => {
     <Dialog
       className={classes.root}
       open={isOpen}
-      // TransitionComponent={Zoom}
     >
       <Typography>
         This repo contains { totalNodes } files and folders.

@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
 import TextButton from 'components/core/TextButton'
-// import { Zoom } from 'components/core/Transitions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,7 +63,6 @@ const Credentials = () => {
       className={classes.root}
       open={isOpen}
       onClose={() => dispatch(closeModal('credentials'))}
-      // TransitionComponent={Zoom}
     >
       <Typography variant='h6' align='center'>
         Private repo

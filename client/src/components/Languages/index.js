@@ -89,9 +89,7 @@ const Languages = () => {
         <Typography variant='h6' align='center'>
           { repo.owner } / { repo.name }
         </Typography>
-        <Typography variable='subtitle2' align='center'>
-          ({ repo.branch })
-        </Typography>
+        <Typography align='center'>({ repo.branch })</Typography>
         <FolderSelect />
         <table className={classes.table}>
           <thead>

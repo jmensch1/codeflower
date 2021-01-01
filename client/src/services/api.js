@@ -2,19 +2,19 @@ import axios from 'axios'
 import testRepo from './data/test-repo-2.json'
 
 // FOR DEVELOPMENT ONLY
-const USE_TEST_REPO = false
+const USE_TEST_REPO = true
 
 const HTTP_URL = process.env.REACT_APP_API_URL_HTTP || 'http://localhost:8000'
 const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'
 
-// HTTP VERSION
-// export const getRepo = async ({ owner, name, branch }) => {
-//   const { data } = await axios.post(`${HTTP_URL}/cloc`, { owner, name, branch})
-//   return data.data
-// }
-
-// WS VERSION
-export const getRepo = async ({ owner, name, branch, username, password, onUpdate = (text) => null }) => {
+export const getRepo = async ({
+  owner,
+  name,
+  branch,
+  username,
+  password,
+  onUpdate = (text) => null,
+}) => {
   if (USE_TEST_REPO) {
     onUpdate(`getting: ${owner}/${name}`)
     onUpdate('using test repo')
