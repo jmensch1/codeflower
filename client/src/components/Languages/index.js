@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     boxShadow: 'none',
     display: 'flex',
-    // border: `1px solid ${theme.palette.divider}`,
     ...theme.languages,
   },
   background: {
@@ -51,18 +50,35 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& td:last-child': {
-      textAlign: 'center',
+      position: 'relative',
       '& > div': {
-        margin: '0 auto',
         height: 16,
         width: 16,
         borderRadius: 8,
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1,
+      },
+      // TODO: remove this span
+      '& > span': {
+        display: 'inline-block',
+        height: 16,
+        width: 16,
+        borderRadius: 8,
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        border: '1px white solid',
+        zIndex: 0,
       },
     },
     '& tbody tr': {
       cursor: 'pointer',
       '&:hover': {
-        backgroundColor: theme.palette.grey[600],
+        backgroundColor: theme.palette.grey[700],
       },
     },
     '& tfoot tr': {
@@ -111,6 +127,7 @@ const Languages = () => {
                 <td>{count.lines}</td>
                 <td>
                   <div className={langClasses[count.language]} />
+                  <span /> {/* a hack to render a circle for the bumblebee theme */}
                 </td>
               </tr>
             ))}

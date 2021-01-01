@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
     width: 50,
     display: 'flex',
     flexDirection: 'column',
-    // border: `1px solid ${theme.palette.divider}`,
     flexWrap: 'wrap',
     backgroundColor: 'transparent',
     boxShadow: 'none',
