@@ -1,4 +1,3 @@
-
 /////////////////////// IMPORTS ////////////////////////
 
 const config = require('@config')
@@ -12,11 +11,16 @@ function serveResponse({ request, parse, responder }) {
     .then(({ endpoint, params }) => {
       const handler = (() => {
         switch (endpoint) {
-          case 'ping':  return endpoints.ping
-          case 'cloc':  return endpoints.cloc
-          case 'file':  return endpoints.file
-          case 'users': return endpoints.users
-          default:      return null
+          case 'ping':
+            return endpoints.ping
+          case 'cloc':
+            return endpoints.cloc
+          case 'file':
+            return endpoints.file
+          case 'users':
+            return endpoints.users
+          default:
+            return null
         }
       })()
 
@@ -28,10 +32,10 @@ function serveResponse({ request, parse, responder }) {
 
       return handler({ params, endpoint }, responder.update)
     })
-    .then(data => responder.success(data))
-    .catch(err => handleErrors(err, responder.error))
+    .then((data) => responder.success(data))
+    .catch((err) => handleErrors(err, responder.error))
 }
 
 /////////////////////// EXPORTS ////////////////////////
 
-module.exports = serveResponse;
+module.exports = serveResponse

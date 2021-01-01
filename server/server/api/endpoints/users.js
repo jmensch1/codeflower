@@ -16,8 +16,9 @@ function getFilesForUser(cwd, email) {
     '| sort -u',
   ])
 
-  return exec(cmd, { cwd })
-    .then(({ stdout }) => stdout.split('\n').slice(1, -1))
+  return exec(cmd, { cwd }).then(({ stdout }) =>
+    stdout.split('\n').slice(1, -1)
+  )
 }
 
 function getUsers(req) {
@@ -26,29 +27,29 @@ function getUsers(req) {
   const cwd = `${config.paths.repo(repoId)}/repo`
   const cmd = `git log --pretty=short | git shortlog -nse | cat`
 
-  return exec(cmd, { cwd })
-    .then(({ stdout }) => {
-      const users = stdout
-        .split('\n')
-        .slice(0, -1)
-        .map(line => {
-          const [count, user] = line.split('\t')
-          const [_, name, email] = user.match(/^(.*?)\s<(.*?)>$/)
-          return {
-            count: +count.trim(),
-            name,
-            email,
-          }
-        })
+  return exec(cmd, { cwd }).then(({ stdout }) => {
+    const users = stdout
+      .split('\n')
+      .slice(0, -1)
+      .map((line) => {
+        const [count, user] = line.split('\t')
+        const [_, name, email] = user.match(/^(.*?)\s<(.*?)>$/)
+        return {
+          count: +count.trim(),
+          name,
+          email,
+        }
+      })
 
-      return Promise.all(users.map(user => getFilesForUser(cwd, user.email)))
-        .then(userFiles => {
-          users.forEach((user, idx) => {
-            user.files = userFiles[idx]
-          })
-          return users
-        })
+    return Promise.all(
+      users.map((user) => getFilesForUser(cwd, user.email))
+    ).then((userFiles) => {
+      users.forEach((user, idx) => {
+        user.files = userFiles[idx]
+      })
+      return users
     })
+  })
 }
 
 module.exports = getUsers

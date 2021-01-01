@@ -1,8 +1,7 @@
-
 //////////// IMPORTS ////////////
 
 const config = require('@config'),
-      url = require('url');
+  url = require('url')
 
 //////////// PRIVATE ////////////
 
@@ -16,4 +15,4 @@ function parseRequest(request) {
 
 //////////// PUBLIC /////////////
 
-module.exports = parseRequest;
+module.exports = parseRequest

@@ -1,23 +1,21 @@
 require('module-alias/register')
 
-const config        = require('@config')
-const Log           = require('@log')
-const HTTP          = require('./HTTP/')
-const WS            = require('./WS/')
+const config = require('@config')
+const Log = require('@log')
+const HTTP = require('./HTTP/')
+const WS = require('./WS/')
 const serveResponse = require('./api/serveResponse')
-const setHostName   = require('./util/setHostName')
-
+const setHostName = require('./util/setHostName')
 
 /////////// A PROTOCOL-AGNOSTIC SERVER ////////////
 
 function server(protocol, request, response) {
   serveResponse({
-    request:   request,
-    parse:     protocol.parseRequest,
+    request: request,
+    parse: protocol.parseRequest,
     responder: protocol.Responder(response),
-  });
+  })
 }
-
 
 ////////////////////// MAIN ////////////////////////
 

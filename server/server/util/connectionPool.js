@@ -5,16 +5,16 @@
 /////////////// PRIVATE ////////////////
 
 function connectionPool(processId) {
-  let curId = 0;
+  let curId = 0
 
   return {
     addConn: () => {
       curId = (curId + 1) % (1 << 16)
       return processId + '_' + curId
     },
-  };
+  }
 }
 
 //////////////// PUBLIC ////////////////
 
-module.exports = connectionPool;
+module.exports = connectionPool

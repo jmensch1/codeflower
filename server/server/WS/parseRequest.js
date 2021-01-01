@@ -1,22 +1,21 @@
-
 //////////// IMPORTS ////////////
 
-const config = require('@config');
+const config = require('@config')
 
 //////////// PRIVATE ////////////
 
 function parseRequest(request) {
   return new Promise((resolve, reject) => {
-    let reqInfo;
+    let reqInfo
     try {
-      reqInfo = JSON.parse(request);
-    } catch(e) {
-      reject(config.errors.ParseError);
+      reqInfo = JSON.parse(request)
+    } catch (e) {
+      reject(config.errors.ParseError)
     }
-    resolve(reqInfo);
-  });
+    resolve(reqInfo)
+  })
 }
 
 //////////// PUBLIC /////////////
 
-module.exports = parseRequest;
+module.exports = parseRequest

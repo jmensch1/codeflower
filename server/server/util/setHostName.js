@@ -1,7 +1,6 @@
-
 /////////////////// IMPORTS ////////////////////
 
-const fs = require('fs');
+const fs = require('fs')
 
 ////////////////// FUNCTIONS ///////////////////
 
@@ -10,12 +9,11 @@ const fs = require('fs');
 // to send back the host name in the /ping response,
 // which is useful for testing the load balancer.
 function setHostName() {
-  let hostsText = fs.readFileSync('/etc/hosts', 'utf8');
-  let match = hostsText.match(/127\.0\.1\.1\s(.*?)\s/);
-  if (match)
-    process.env.HOSTNAME = match[1];
+  let hostsText = fs.readFileSync('/etc/hosts', 'utf8')
+  let match = hostsText.match(/127\.0\.1\.1\s(.*?)\s/)
+  if (match) process.env.HOSTNAME = match[1]
 }
 
 /////////////////// EXPORTS ////////////////////
 
-module.exports = setHostName;
+module.exports = setHostName
