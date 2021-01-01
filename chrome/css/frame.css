@@ -9,10 +9,12 @@ body {
   right: 0;
   bottom: 0;
   overflow: hidden;
-  background-color: #303030;
+  background-color: #232323;
+  z-index: -1;
 }
 
 .loading-mask .background {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -23,6 +25,7 @@ body {
 }
 
 .loading-mask .loader {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;

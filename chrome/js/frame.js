@@ -28,9 +28,9 @@
       $('body').append(frame);
 
       // remove the loading mask when frame loads
-      frame.on('load', function() {
-        $('.loading-mask').remove()
-      });
+      // frame.on('load', function() {
+      //   $('.loading-mask').remove()
+      // });
     });
   });
 
