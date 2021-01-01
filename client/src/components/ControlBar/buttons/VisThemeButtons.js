@@ -11,9 +11,12 @@ const VisThemeButtons = () => {
   const dispatch = useDispatch()
   const { visThemeId } = useSettings()
 
-  const onChange = useCallback((visThemeId) => {
-    dispatch(setVisTheme(visThemeId))
-  }, [dispatch])
+  const onChange = useCallback(
+    (visThemeId) => {
+      dispatch(setVisTheme(visThemeId))
+    },
+    [dispatch]
+  )
 
   return (
     <ButtonGroup

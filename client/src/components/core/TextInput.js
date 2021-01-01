@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
   },
@@ -35,11 +35,9 @@ const TextInput = ({ onChange, className, style, ...rest }) => {
         onChange={(e) => onChange(e.target.value)}
         className={clsx(classes.input, className)}
         spellCheck={false}
-        { ...rest }
+        {...rest}
       />
-      <div className={classes.error}>
-        Hello
-      </div>
+      <div className={classes.error}>Hello</div>
     </div>
   )
 }

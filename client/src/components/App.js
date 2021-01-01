@@ -12,13 +12,13 @@ import Modals from './modals'
 
 function App() {
   const dispatch = useDispatch()
-  const { query: { owner, name, branch } } = useLocation()
+  const {
+    query: { owner, name, branch },
+  } = useLocation()
 
   useEffect(() => {
-    if (owner && name)
-      dispatch(getRepo({ owner, name, branch }))
-    else
-      dispatch(openModal('search'))
+    if (owner && name) dispatch(getRepo({ owner, name, branch }))
+    else dispatch(openModal('search'))
   }, [dispatch, owner, name, branch])
 
   return (
@@ -30,7 +30,7 @@ function App() {
       <Visualization />
       <Modals />
     </>
-  );
+  )
 }
 
 export default App

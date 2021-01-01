@@ -19,17 +19,17 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
 
 const ButtonGroup = ({ value, onChange, buttons }) => (
   <StyledToggleButtonGroup
-    size='small'
+    size="small"
     value={value}
     exclusive
     onChange={(e, val) => val && onChange(val)}
-    orientation='vertical'
+    orientation="vertical"
   >
     {buttons.map((button, idx) => {
       const { Icon } = button
       return (
         <ToggleButton key={button.value} value={button.value}>
-          <Tooltip title={button.text} placement='right'>
+          <Tooltip title={button.text} placement="right">
             <Icon />
           </Tooltip>
         </ToggleButton>

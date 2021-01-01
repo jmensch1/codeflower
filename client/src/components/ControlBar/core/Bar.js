@@ -37,7 +37,7 @@ const Bar = ({ children }) => {
   return (
     <Paper className={classes.paper}>
       <div className={classes.background} />
-      { children }
+      {children}
     </Paper>
   )
 }

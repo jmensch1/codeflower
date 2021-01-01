@@ -5,7 +5,7 @@ import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 import { useDispatch } from 'react-redux'
 import { updateQuery } from 'store/router'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'table',
     verticalAlign: 'middle',
@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     display: 'table-cell',
     width: '100%',
     padding: '2px 0',
-    backgroundImage: 'linear-gradient(to right, #fff 50%, rgba(255,255,255,0) 0%)',
+    backgroundImage:
+      'linear-gradient(to right, #fff 50%, rgba(255,255,255,0) 0%)',
     backgroundPosition: 'bottom',
     backgroundSize: '4px 1px',
     backgroundRepeat: 'repeat-x',
@@ -79,17 +80,20 @@ const SearchBar = ({ onComplete }) => {
     setRepo(parseGitUrl(value))
   }, [])
 
-  const onKeyPress = useCallback((e) => {
-    if (!repoString) return
-    const code = e.keyCode ? e.keyCode : e.which
-    if (code === 13) search()
-  }, [repoString, search])
+  const onKeyPress = useCallback(
+    (e) => {
+      if (!repoString) return
+      const code = e.keyCode ? e.keyCode : e.which
+      if (code === 13) search()
+    },
+    [repoString, search]
+  )
 
   return (
     <div className={classes.root}>
       <label className={classes.label}>git clone&nbsp;</label>
       <input
-        type='text'
+        type="text"
         value={url}
         onChange={onChange}
         onKeyPress={onKeyPress}
@@ -98,12 +102,8 @@ const SearchBar = ({ onComplete }) => {
         autoFocus
       />
       <div className={classes.icon}>
-        <IconButton
-          onClick={search}
-          size='small'
-          disabled={!repoString}
-        >
-          <KeyboardReturnIcon fontSize='large'/>
+        <IconButton onClick={search} size="small" disabled={!repoString}>
+          <KeyboardReturnIcon fontSize="large" />
         </IconButton>
       </div>
     </div>

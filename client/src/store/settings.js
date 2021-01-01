@@ -7,7 +7,7 @@ export const types = {
 }
 
 export const setMainTheme = (mainThemeId) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.SET_MAIN_THEME,
       data: mainThemeId,
@@ -16,7 +16,7 @@ export const setMainTheme = (mainThemeId) => {
 }
 
 export const setVisTheme = (visThemeId) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.SET_VIS_THEME,
       data: visThemeId,
@@ -25,7 +25,7 @@ export const setVisTheme = (visThemeId) => {
 }
 
 export const setVisType = (visType) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: types.SET_VIS_TYPE,
       data: visType,

@@ -27,12 +27,11 @@ export const getFile = ({ path, data }) => {
         type: types.GET_FILE_SUCCESS,
         data: { path, data, file },
       })
-    } catch(e) {
+    } catch (e) {
       dispatch({
         type: types.GET_FILE_ERROR,
       })
     }
-
   }
 }
 
@@ -44,7 +43,7 @@ const initialState = {
   isLoading: false,
   error: null,
   selectedFile: null,
-  files: {}
+  files: {},
 }
 
 const reducer = (state = initialState, action) => {
@@ -69,7 +68,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: {
-          message: 'Error loading file.'
+          message: 'Error loading file.',
         },
       }
     case types.CLOSE_FILE:

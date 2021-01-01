@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import FolderSelect from './FolderSelect'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     top: 10,
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
       padding: '5px 10px',
       '&:last-child': {
         textAlign: 'center',
-      }
+      },
     },
     '& td:last-child': {
       textAlign: 'center',
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
         height: 16,
         width: 16,
         borderRadius: 8,
-      }
+      },
     },
     '& tbody tr': {
       cursor: 'pointer',
@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
     '& tfoot tr': {
       fontWeight: 'bold',
     },
-  }
+  },
 }))
 
 const Languages = () => {
@@ -86,10 +86,10 @@ const Languages = () => {
     <Paper className={classes.paper}>
       <div className={classes.background} />
       <div className={classes.scroller}>
-        <Typography variant='h6' align='center'>
-          { repo.owner } / { repo.name }
+        <Typography variant="h6" align="center">
+          {repo.owner} / {repo.name}
         </Typography>
-        <Typography align='center'>({ repo.branch })</Typography>
+        <Typography align="center">({repo.branch})</Typography>
         <FolderSelect />
         <table className={classes.table}>
           <thead>
@@ -101,23 +101,25 @@ const Languages = () => {
             </tr>
           </thead>
           <tbody onMouseLeave={() => onSelectLanguage(null)}>
-            {counts.map(count => (
+            {counts.map((count) => (
               <tr
                 key={count.language}
                 onMouseEnter={() => onSelectLanguage(count.language)}
               >
-                <td>{ count.language }</td>
-                <td>{ count.files }</td>
-                <td>{ count.lines }</td>
-                <td><div className={langClasses[count.language]} /></td>
+                <td>{count.language}</td>
+                <td>{count.files}</td>
+                <td>{count.lines}</td>
+                <td>
+                  <div className={langClasses[count.language]} />
+                </td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
               <td>totals</td>
-              <td>{ totals.files }</td>
-              <td>{ totals.lines }</td>
+              <td>{totals.files}</td>
+              <td>{totals.lines}</td>
               <td></td>
             </tr>
           </tfoot>

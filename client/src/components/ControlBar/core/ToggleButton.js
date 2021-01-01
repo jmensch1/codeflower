@@ -11,22 +11,21 @@ const StyledToggleButton = withStyles((theme) => ({
 }))(ToggleButton)
 
 const Toggle = ({ value, onChange, buttons }) => {
-  const buttonIdx = buttons.findIndex(button => button.value === value)
+  const buttonIdx = buttons.findIndex((button) => button.value === value)
   const nextIdx = (buttonIdx + 1) % buttons.length
   const button = buttons[buttonIdx]
   const { Icon } = button
   return (
     <StyledToggleButton
-      size='small'
-      value=''
+      size="small"
+      value=""
       onClick={() => onChange(buttons[nextIdx].value)}
     >
-      <Tooltip title={button.text} placement='left'>
+      <Tooltip title={button.text} placement="left">
         <Icon />
       </Tooltip>
     </StyledToggleButton>
   )
 }
-
 
 export default Toggle

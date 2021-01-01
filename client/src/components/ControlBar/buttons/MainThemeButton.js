@@ -10,9 +10,12 @@ const MainThemeButton = () => {
   const dispatch = useDispatch()
   const { mainThemeId } = useSettings()
 
-  const onChange = useCallback((mainThemeId) => {
-    dispatch(setMainTheme(mainThemeId))
-  }, [dispatch])
+  const onChange = useCallback(
+    (mainThemeId) => {
+      dispatch(setMainTheme(mainThemeId))
+    },
+    [dispatch]
+  )
 
   return (
     <ToggleButton

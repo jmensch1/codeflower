@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { subscribe, unsubscribe } from 'store/repo'
 import { createUseStyles } from 'react-jss'
 
-const useStyles = createUseStyles(theme => {
+const useStyles = createUseStyles((theme) => {
   return {
     root: {
       position: 'absolute',
@@ -15,7 +15,7 @@ const useStyles = createUseStyles(theme => {
       overflowY: 'auto',
       wordBreak: 'break-all',
       '&::-webkit-scrollbar': {
-        width: 6
+        width: 6,
       },
       '&::-webkit-scrollbar-track': {
         background: 'rgba(0, 0, 0, 0.0)',
@@ -23,8 +23,8 @@ const useStyles = createUseStyles(theme => {
       '&::-webkit-scrollbar-thumb': {
         background: 'rgba(255, 105, 180, 1.0)',
         borderRadius: '4px',
-      }
-    }
+      },
+    },
   }
 })
 
@@ -62,12 +62,7 @@ const Terminal = () => {
     }
   }, [])
 
-  return (
-    <div
-      ref={container}
-      className={classes.root}
-    />
-  )
+  return <div ref={container} className={classes.root} />
 }
 
 export default Terminal

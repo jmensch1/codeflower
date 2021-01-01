@@ -7,18 +7,19 @@ import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import SearchBar from './SearchBar'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: ({ repo }) => repo ? undefined : theme.palette.background.default,
+    backgroundColor: ({ repo }) =>
+      repo ? undefined : theme.palette.background.default,
     '& .MuiDialog-paper': {
       boxShadow: 'none',
       padding: 30,
       maxWidth: 'none',
-      backgroundColor: ({ repo }) => repo ? undefined : 'transparent',
+      backgroundColor: ({ repo }) => (repo ? undefined : 'transparent'),
     },
     '& .MuiBackdrop-root': {
-      backgroundColor: ({ repo }) => repo ? undefined : 'transparent',
-    }
+      backgroundColor: ({ repo }) => (repo ? undefined : 'transparent'),
+    },
   },
 }))
 
@@ -35,11 +36,7 @@ const Search = () => {
   if (!isOpen) return null
 
   return (
-    <Dialog
-      className={classes.root}
-      open={isOpen}
-      onClose={close}
-    >
+    <Dialog className={classes.root} open={isOpen} onClose={close}>
       <SearchBar onComplete={close} />
     </Dialog>
   )

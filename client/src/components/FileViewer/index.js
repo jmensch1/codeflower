@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiDialog-paper': {
       minHeight: 'calc(100% - 64px)',
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
     fontSize: '1rem',
-  }
+  },
 }))
 
 const FileViewer = () => {
@@ -72,38 +72,33 @@ const FileViewer = () => {
       fullWidth
     >
       <DialogTitle className={classes.header}>
-        <Typography className={classes.name} variant='h6' component='div'>
-          { selectedFile.data.name }
+        <Typography className={classes.name} variant="h6" component="div">
+          {selectedFile.data.name}
         </Typography>
-        <Typography className={classes.meta} variant='body2' component='div'>
-          { selectedFile.data.size } lines of { selectedFile.data.language }
+        <Typography className={classes.meta} variant="body2" component="div">
+          {selectedFile.data.size} lines of {selectedFile.data.language}
         </Typography>
-        <Typography className={classes.meta} variant='body2' component='div'>
-          { selectedFile.path.split('/').join(' • ') }
+        <Typography className={classes.meta} variant="body2" component="div">
+          {selectedFile.path.split('/').join(' • ')}
         </Typography>
         <IconButton
-          aria-label='close'
+          aria-label="close"
           className={classes.closeButton}
-          onClick={handleClose}>
+          onClick={handleClose}
+        >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent dividers>
-        {
-          isLoading
-          ? (
-            <div className={classes.progress}>
-              <CircularProgress color='inherit' />
-            </div>
-          )
-          : (
-            <pre className={classes.code}>
-              <code>
-                { file || (error && error.message) }
-              </code>
-            </pre>
-          )
-        }
+        {isLoading ? (
+          <div className={classes.progress}>
+            <CircularProgress color="inherit" />
+          </div>
+        ) : (
+          <pre className={classes.code}>
+            <code>{file || (error && error.message)}</code>
+          </pre>
+        )}
       </DialogContent>
     </Dialog>
   )

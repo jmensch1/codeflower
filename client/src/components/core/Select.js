@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   select: {
     backgroundColor: 'transparent',
     color: theme.palette.text.primary,
@@ -17,16 +17,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Select = ({
-  value = null,
-  onChange = () => {},
-  options = [],
-}) => {
+const Select = ({ value = null, onChange = () => {}, options = [] }) => {
   const classes = useStyles()
   return (
     <select className={classes.select} value={value} onChange={onChange}>
-      {options.map(opt => (
-        <option key={opt} value={opt}>{opt}</option>
+      {options.map((opt) => (
+        <option key={opt} value={opt}>
+          {opt}
+        </option>
       ))}
     </select>
   )

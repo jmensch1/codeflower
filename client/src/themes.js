@@ -36,7 +36,7 @@ const themes = {
     },
     languages: {
       color: (languages, index) => {
-        const hue = 170 + Math.round(190 * index / languages.length)
+        const hue = 170 + Math.round((190 * index) / languages.length)
         return `hsl(${hue}, 100%, 50%)`
       },
       highlight: (language) => {
@@ -129,7 +129,7 @@ const themes = {
     },
     languages: {
       color: (languages, index) => {
-        const hue = Math.round(360 * index / languages.length)
+        const hue = Math.round((360 * index) / languages.length)
         return `hsl(${hue}, 90%, 70%)`
       },
       highlight: (language) => {

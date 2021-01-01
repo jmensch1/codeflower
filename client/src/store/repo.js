@@ -20,17 +20,16 @@ export const subscribe = (callback) => {
 }
 
 export const unsubscribe = (callback) => {
-  subscriptions = subscriptions.filter(sub => sub !== callback)
+  subscriptions = subscriptions.filter((sub) => sub !== callback)
   return { type: types.UNSUBSCRIBE }
 }
 
 function onUpdate(data) {
-  subscriptions.forEach(sub => sub(data))
+  subscriptions.forEach((sub) => sub(data))
 }
 
 export const getRepo = ({ owner, name, branch, username, password }) => {
-  return async dispatch => {
-
+  return async (dispatch) => {
     //// GET REPO ////
 
     // await delay(250)
@@ -39,8 +38,15 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
 
     let data
     try {
-      data = await api.getRepo({ owner, name, branch, username, password, onUpdate })
-    } catch(error) {
+      data = await api.getRepo({
+        owner,
+        name,
+        branch,
+        username,
+        password,
+        onUpdate,
+      })
+    } catch (error) {
       console.log(error)
       if (!['NeedCredentials', 'CredentialsInvalid'].includes(error.name))
         return dispatch({
@@ -72,7 +78,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
           selectedFolder,
           folder,
           languages,
-        }
+        },
       })
     }
 
@@ -80,7 +86,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
       const largest = folderPaths
         .slice()
         .sort((a, b) => b.totalNodes - a.totalNodes)
-        .find(el => el.totalNodes < MAX_NODES)
+        .find((el) => el.totalNodes < MAX_NODES)
 
       return largest ? largest.pathName : 'root'
     }
@@ -88,11 +94,14 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     if (folderPaths[0].totalNodes < MAX_NODES)
       return onSelectFolder(folderPaths[0].pathName)
 
-    return dispatch(openModal('maxNodes', {
-      totalNodes: folderPaths[0].totalNodes,
-      onRenderAll: () => onSelectFolder(folderPaths[0].pathName),
-      onRenderSub: () => onSelectFolder(getLargestFolderUnderMax(folderPaths)),
-    }))
+    return dispatch(
+      openModal('maxNodes', {
+        totalNodes: folderPaths[0].totalNodes,
+        onRenderAll: () => onSelectFolder(folderPaths[0].pathName),
+        onRenderSub: () =>
+          onSelectFolder(getLargestFolderUnderMax(folderPaths)),
+      })
+    )
   }
 }
 

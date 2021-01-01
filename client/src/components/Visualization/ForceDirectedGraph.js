@@ -5,7 +5,7 @@ import { useTree, useLanguages } from 'store/selectors'
 import { getFile } from 'store/files'
 import { useDispatch } from 'react-redux'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
     top: 0,
@@ -73,29 +73,33 @@ const ForceDirectedGraph = () => {
       .selectAll('line')
       .data(links)
       .join('line')
-        .attr('class', 'link')
+      .attr('class', 'link')
 
     const node = svg
       .append('g')
       .selectAll('circle')
       .data(nodes)
       .join('circle')
-        .attr('class', d => !!d.children ? 'directory' : ('file ' + langClasses[d.data.language]))
-        .attr('r', d => d.children ? 3.5 : Math.pow(d.data.size, 2/5) || 1)
+      .attr('class', (d) =>
+        !!d.children ? 'directory' : 'file ' + langClasses[d.data.language]
+      )
+      .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
 
     //// SIMULATION ////
 
     const simulation = d3
       .forceSimulation(nodes)
-      .force('link', d3
-        .forceLink(links)
-        .id(d => d.id)
-        .distance(d => d.children ? 40 : 10)
-        .strength(1)
+      .force(
+        'link',
+        d3
+          .forceLink(links)
+          .id((d) => d.id)
+          .distance((d) => (d.children ? 40 : 10))
+          .strength(1)
       )
-      .force('charge', d3
-        .forceManyBody()
-        .strength(d => d.children ? -120 : -150)
+      .force(
+        'charge',
+        d3.forceManyBody().strength((d) => (d.children ? -120 : -150))
       )
       // .force('center', d3.forceCenter())
       // TODO: maybe make strength proportional to number of nodes (nodes.length)
@@ -104,19 +108,17 @@ const ForceDirectedGraph = () => {
 
     simulation.on('tick', () => {
       link
-        .attr('x1', d => d.source.x)
-        .attr('y1', d => d.source.y)
-        .attr('x2', d => d.target.x)
-        .attr('y2', d => d.target.y)
+        .attr('x1', (d) => d.source.x)
+        .attr('y1', (d) => d.source.y)
+        .attr('x2', (d) => d.target.x)
+        .attr('y2', (d) => d.target.y)
 
-      node
-        .attr('cx', d => d.x)
-        .attr('cy', d => d.y)
+      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
     })
 
     //// DRAGGING ////
 
-    const drag = simulation => {
+    const drag = (simulation) => {
       function dragstarted(event, d) {
         if (!event.active) simulation.alphaTarget(0.3).restart()
         d.fx = d.x
@@ -136,7 +138,8 @@ const ForceDirectedGraph = () => {
         dragging = false
       }
 
-      return d3.drag()
+      return d3
+        .drag()
         .on('start', dragstarted)
         .on('drag', dragged)
         .on('end', dragended)
@@ -146,9 +149,7 @@ const ForceDirectedGraph = () => {
 
     //// ZOOMING ////
 
-    svg.call(d3.zoom()
-        .scaleExtent([0.1, 10])
-        .on('zoom', zoomed))
+    svg.call(d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed))
 
     function zoomed({ transform }) {
       node.attr('transform', transform)
@@ -161,17 +162,13 @@ const ForceDirectedGraph = () => {
 
     node
       .on('mouseover', () => {
-        if (!dragging)
-          tt.style('visibility', 'visible')
+        if (!dragging) tt.style('visibility', 'visible')
       })
       .on('mousemove', (e, d) => {
-        tt
-          .style('top', `${e.offsetY}px`)
-          .style('left',`${e.offsetX}px`)
+        tt.style('top', `${e.offsetY}px`)
+          .style('left', `${e.offsetX}px`)
           .html(
-            d.children
-              ? d.data.name
-              : `${d.data.name} (${d.data.size} loc)`
+            d.children ? d.data.name : `${d.data.name} (${d.data.size} loc)`
           )
       })
       .on('mouseout', () => tt.style('visibility', 'hidden'))
@@ -182,14 +179,16 @@ const ForceDirectedGraph = () => {
       if (d.children) return
       const filePath = d
         .ancestors()
-        .map(d => d.data.name)
+        .map((d) => d.data.name)
         .reverse()
         .slice(1)
         .join('/')
-      dispatch(getFile({
-        path: filePath,
-        data: d.data,
-      }))
+      dispatch(
+        getFile({
+          path: filePath,
+          data: d.data,
+        })
+      )
     })
 
     //// CLEANUP ////

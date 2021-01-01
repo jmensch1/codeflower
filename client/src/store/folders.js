@@ -2,7 +2,7 @@ import repo from 'services/repo'
 import { types as repoTypes } from './repo'
 
 export const types = {
-  SELECT_FOLDER: 'folders/SELECT_FOLDER'
+  SELECT_FOLDER: 'folders/SELECT_FOLDER',
 }
 
 export const selectFolder = (folderPath) => {

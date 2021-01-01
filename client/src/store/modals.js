@@ -8,7 +8,7 @@ export const openModal = (modalType, params = {}) => ({
   data: {
     modalType,
     params,
-  }
+  },
 })
 
 export const closeModal = (modalType) => ({

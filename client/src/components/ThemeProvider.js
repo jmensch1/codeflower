@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react'
-import { ThemeProvider as MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import {
+  ThemeProvider as MuiThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core/styles'
 import themes from 'themes'
 import { useSettings, useLanguages } from 'store/selectors'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -49,7 +52,7 @@ const ThemeProvider = ({ children }) => {
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      { children }
+      {children}
     </MuiThemeProvider>
   )
 }

@@ -10,9 +10,12 @@ const VisTypeButtons = () => {
   const dispatch = useDispatch()
   const { visType } = useSettings()
 
-  const onChange = useCallback((visType) => {
-    dispatch(setVisType(visType))
-  }, [dispatch])
+  const onChange = useCallback(
+    (visType) => {
+      dispatch(setVisType(visType))
+    },
+    [dispatch]
+  )
 
   return (
     <ButtonGroup

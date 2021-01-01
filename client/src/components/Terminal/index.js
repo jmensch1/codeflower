@@ -8,7 +8,7 @@ import { useTerminal } from 'store/selectors'
 const HEADER_HEIGHT = 36
 const SMALL_BODY_WIDTH = 500
 
-const useStyles = makeStyles(theme => {
+const useStyles = makeStyles((theme) => {
   return {
     root: {
       position: 'absolute',
@@ -33,8 +33,7 @@ const useStyles = makeStyles(theme => {
 
       // right corner option
       width: SMALL_BODY_WIDTH,
-      height: ({ isOpen }) => isOpen ? 500 : HEADER_HEIGHT - 1,
-
+      height: ({ isOpen }) => (isOpen ? 500 : HEADER_HEIGHT - 1),
     },
     header: {
       height: HEADER_HEIGHT,
@@ -45,9 +44,8 @@ const useStyles = makeStyles(theme => {
       alignItems: 'center',
     },
     arrow: {
-      transform: ({ isOpen }) => isOpen
-        ? 'rotate(180deg) translateY(2px)'
-        : 'translateY(3px)',
+      transform: ({ isOpen }) =>
+        isOpen ? 'rotate(180deg) translateY(2px)' : 'translateY(3px)',
     },
     body: {
       position: 'relative',
@@ -65,7 +63,7 @@ const Terminal = () => {
   const dispatch = useDispatch()
 
   return (
-    <div onClick={()=> dispatch(toggleTerminal())} className={classes.root}>
+    <div onClick={() => dispatch(toggleTerminal())} className={classes.root}>
       <div className={classes.header}>
         <span className={classes.arrow}>^</span>
         <span>term</span>

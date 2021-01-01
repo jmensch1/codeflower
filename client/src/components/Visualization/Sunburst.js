@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 const RADIUS_RATIO = 0.9
 const PAD_ANGLE = 0 // 0.005
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
     top: 0,
@@ -56,21 +56,24 @@ const Sunburst = () => {
 
     const width = container.current.offsetWidth
     const height = container.current.offsetHeight
-    const radius = RADIUS_RATIO * Math.min(width, height) / 2
+    const radius = (RADIUS_RATIO * Math.min(width, height)) / 2
 
-    const arc = d3.arc()
-      .startAngle(d => d.x0)
-      .endAngle(d => d.x1)
-      .padAngle(d => Math.min((d.x1 - d.x0) / 2, PAD_ANGLE))
+    const arc = d3
+      .arc()
+      .startAngle((d) => d.x0)
+      .endAngle((d) => d.x1)
+      .padAngle((d) => Math.min((d.x1 - d.x0) / 2, PAD_ANGLE))
       .padRadius(radius / 2)
-      .innerRadius(d => d.y0)
-      .outerRadius(d => d.y1 - 1)
+      .innerRadius((d) => d.y0)
+      .outerRadius((d) => d.y1 - 1)
 
-    const partition = data => d3.partition()
-        .size([2 * Math.PI, radius])
-      (d3.hierarchy(data)
-        .sum(d => d.size)
-        .sort((a, b) => b.size - a.size))
+    const partition = (data) =>
+      d3.partition().size([2 * Math.PI, radius])(
+        d3
+          .hierarchy(data)
+          .sum((d) => d.size)
+          .sort((a, b) => b.size - a.size)
+      )
 
     const root = partition(tree)
 
@@ -82,10 +85,12 @@ const Sunburst = () => {
     const path = svg
       .append('g')
       .selectAll('path')
-      .data(root.descendants().filter(d => d.depth))
+      .data(root.descendants().filter((d) => d.depth))
       .join('path')
-        .attr('class', d => !!d.children ? 'directory' : ('file ' + langClasses[d.data.language]))
-        .attr('d', arc)
+      .attr('class', (d) =>
+        !!d.children ? 'directory' : 'file ' + langClasses[d.data.language]
+      )
+      .attr('d', arc)
 
     // svg.append('g')
     //     .attr('pointer-events', 'none')
@@ -110,22 +115,17 @@ const Sunburst = () => {
     path
       .on('mouseover', () => tt.style('visibility', 'visible'))
       .on('mousemove', (e, d) => {
-        tt
-          .style('top', `${e.offsetY}px`)
-          .style('left',`${e.offsetX}px`)
+        tt.style('top', `${e.offsetY}px`)
+          .style('left', `${e.offsetX}px`)
           .html(
-            d.children
-              ? d.data.name
-              : `${d.data.name} (${d.data.size} loc)`
+            d.children ? d.data.name : `${d.data.name} (${d.data.size} loc)`
           )
       })
       .on('mouseout', () => tt.style('visibility', 'hidden'))
 
     //// ZOOMING ////
 
-    svg.call(d3.zoom()
-        .scaleExtent([0.1, 10])
-        .on('zoom', zoomed))
+    svg.call(d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed))
 
     function zoomed({ transform }) {
       tt.style('visibility', 'hidden')
@@ -138,14 +138,16 @@ const Sunburst = () => {
       if (d.children) return
       const filePath = d
         .ancestors()
-        .map(d => d.data.name)
+        .map((d) => d.data.name)
         .reverse()
         .slice(1)
         .join('/')
-      dispatch(getFile({
-        path: filePath,
-        data: d.data,
-      }))
+      dispatch(
+        getFile({
+          path: filePath,
+          data: d.data,
+        })
+      )
     })
 
     //// CLEANUP ////

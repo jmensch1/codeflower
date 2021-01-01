@@ -7,7 +7,7 @@ import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
 import TextButton from 'components/core/TextButton'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiDialog-paper': {
       boxShadow: 'none',
@@ -32,7 +32,7 @@ const MaxNodes = () => {
   const dispatch = useDispatch()
   const {
     isOpen,
-    params: { totalNodes, onRenderAll, onRenderSub }
+    params: { totalNodes, onRenderAll, onRenderSub },
   } = useModal('maxNodes')
 
   if (!isOpen) return null
@@ -48,23 +48,19 @@ const MaxNodes = () => {
   }
 
   return (
-    <Dialog
-      className={classes.root}
-      open={isOpen}
-    >
+    <Dialog className={classes.root} open={isOpen}>
       <Typography>
-        This repo contains { totalNodes } files and folders.
-        Rendering the whole thing might crash your browser.
-        What do you want to do?
+        This repo contains {totalNodes} files and folders. Rendering the whole
+        thing might crash your browser. What do you want to do?
       </Typography>
       <div className={classes.buttons}>
         <TextButton
-          label='Go for it!'
+          label="Go for it!"
           onClick={renderAll}
           className={classes.button}
         />
         <TextButton
-          label='Render a subfolder'
+          label="Render a subfolder"
           onClick={renderSub}
           className={classes.button}
         />

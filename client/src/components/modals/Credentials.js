@@ -8,7 +8,7 @@ import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
 import TextButton from 'components/core/TextButton'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiDialog-paper': {
       boxShadow: 'none',
@@ -40,17 +40,19 @@ const Credentials = () => {
   const [password, setPassword] = useState('')
   const {
     isOpen,
-    params: { owner, name, branch, error }
+    params: { owner, name, branch, error },
   } = useModal('credentials')
 
   const search = () => {
-    dispatch(getRepo({
-      owner,
-      name,
-      branch,
-      username,
-      password,
-    }))
+    dispatch(
+      getRepo({
+        owner,
+        name,
+        branch,
+        username,
+        password,
+      })
+    )
     setUsername('')
     setPassword('')
     dispatch(closeModal('credentials'))
@@ -64,14 +66,14 @@ const Credentials = () => {
       open={isOpen}
       onClose={() => dispatch(closeModal('credentials'))}
     >
-      <Typography variant='h6' align='center'>
+      <Typography variant="h6" align="center">
         Private repo
       </Typography>
       {(() => {
-        switch(error.name) {
+        switch (error.name) {
           case 'NeedCredentials':
             return (
-              <Typography component='div'>
+              <Typography component="div">
                 <p>
                   {owner}/{name} is a private repo, so it can't be cloned
                   without credentials.
@@ -86,41 +88,45 @@ const Credentials = () => {
                   <li>Enter the creds for that account below</li>
                 </ul>
                 <p>
-                  Note that if 2FA is enabled on the account, cloning requires
-                  a personal access token in place of a password.
+                  Note that if 2FA is enabled on the account, cloning requires a
+                  personal access token in place of a password.
                 </p>
               </Typography>
             )
           case 'CredentialsInvalid':
             return (
-              <Typography component='div'>
-                <p>The credentials you provided didn't work.
-                Feel free to try other ones.</p>
+              <Typography component="div">
+                <p>
+                  The credentials you provided didn't work. Feel free to try
+                  other ones.
+                </p>
               </Typography>
             )
           default:
             throw new Error('Invalid error name.')
         }
       })()}
-      <div style={{
-        textAlign: 'center',
-        margin: '10px 30px 0',
-      }}>
+      <div
+        style={{
+          textAlign: 'center',
+          margin: '10px 30px 0',
+        }}
+      >
         <input
           className={classes.textField}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder='github username'
+          placeholder="github username"
         />
         <input
           className={classes.textField}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
-          placeholder='github password or token'
+          placeholder="github password or token"
         />
         <TextButton
-          label='Go'
+          label="Go"
           onClick={search}
           disabled={!username || !password}
           className={classes.searchButton}

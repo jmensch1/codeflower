@@ -25,25 +25,31 @@ export const getRepo = async ({
     const socket = new WebSocket(WS_URL)
 
     socket.onopen = (e) => {
-      socket.send(JSON.stringify({
-        endpoint: 'cloc',
-        params: {
-          owner,
-          name,
-          branch,
-          username,
-          password,
-        }
-      }))
+      socket.send(
+        JSON.stringify({
+          endpoint: 'cloc',
+          params: {
+            owner,
+            name,
+            branch,
+            username,
+            password,
+          },
+        })
+      )
     }
 
     socket.onmessage = (e) => {
       const { type, data } = JSON.parse(e.data)
-      switch(type) {
-        case 'success': return resolve(data)
-        case 'error':   return reject(data)
-        case 'update':  return onUpdate(data.text)
-        default:        return null
+      switch (type) {
+        case 'success':
+          return resolve(data)
+        case 'error':
+          return reject(data)
+        case 'update':
+          return onUpdate(data.text)
+        default:
+          return null
       }
     }
 

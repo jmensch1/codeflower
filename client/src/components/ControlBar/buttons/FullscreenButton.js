@@ -5,10 +5,9 @@ import { useFullscreen } from '@straw-hat/react-fullscreen'
 import ToggleButton from '../core/ToggleButton'
 
 const FullscreenButton = () => {
-  const {
-    isFullscreen,
-    toggleFullscreen,
-  } = useFullscreen(useRef(window.document.body))
+  const { isFullscreen, toggleFullscreen } = useFullscreen(
+    useRef(window.document.body)
+  )
 
   return (
     <ToggleButton

@@ -12,14 +12,17 @@ const FolderSelect = () => {
   const options = useMemo(() => {
     if (!folders || !folders.selectedFolder) return null
 
-    return folders.folderPaths.map(({ pathName, totalNodes }) => (
+    return folders.folderPaths.map(({ pathName, totalNodes }) =>
       totalNodes <= MAX_NODES ? pathName : `${pathName} (${totalNodes} nodes)`
-    ))
+    )
   }, [folders])
 
-  const onChange = useCallback((e) => {
-    dispatch(selectFolder(e.target.value))
-  }, [dispatch])
+  const onChange = useCallback(
+    (e) => {
+      dispatch(selectFolder(e.target.value))
+    },
+    [dispatch]
+  )
 
   if (!folders || !folders.selectedFolder) return null
 
