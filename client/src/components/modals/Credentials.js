@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     borderBottom: '1px white solid',
     outline: 'none',
     color: theme.palette.text.primary,
-    fontSize: 16,
+    fontSize: '1rem',
     marginBottom: 20,
     width: '100%',
     padding: '6px 0',

@@ -13,11 +13,6 @@ import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    '& pre': {
-      whiteSpace: 'pre-wrap',
-      wordWrap: 'break-word',
-      fontSize: 12,
-    },
     '& .MuiDialog-paper': {
       minHeight: 'calc(100% - 64px)',
       width: 800,
@@ -50,8 +45,12 @@ const useStyles = makeStyles(theme => ({
   },
   meta: {
     fontStyle: 'italic',
-    fontSize: 14,
   },
+  code: {
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word',
+    fontSize: '1rem',
+  }
 }))
 
 const FileViewer = () => {
@@ -76,10 +75,10 @@ const FileViewer = () => {
         <Typography className={classes.name} variant='h6' component='div'>
           { selectedFile.data.name }
         </Typography>
-        <Typography className={classes.meta} variant='body1' component='div'>
+        <Typography className={classes.meta} variant='body2' component='div'>
           { selectedFile.data.size } lines of { selectedFile.data.language }
         </Typography>
-        <Typography className={classes.meta} variant='body1' component='div'>
+        <Typography className={classes.meta} variant='body2' component='div'>
           { selectedFile.path.split('/').join(' • ') }
         </Typography>
         <IconButton
@@ -97,7 +96,13 @@ const FileViewer = () => {
               <CircularProgress color='inherit' />
             </div>
           )
-          : <pre><code>{ file || (error && error.message) }</code></pre>
+          : (
+            <pre className={classes.code}>
+              <code>
+                { file || (error && error.message) }
+              </code>
+            </pre>
+          )
         }
       </DialogContent>
     </Dialog>

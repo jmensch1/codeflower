@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: 'middle',
     width: 900,
     maxWidth: '100%',
-    fontSize: 24,
+    fontSize: '1.875rem',
     fontFamily: 'monospace',
   },
   label: {

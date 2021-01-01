@@ -25,12 +25,11 @@ const useStyles = makeStyles(theme => {
       userSelect: 'none',
       transition: 'all 0.35s ease-in-out',
       cursor: 'pointer',
-      fontSize: 12,
+      fontSize: '1rem',
 
       // full-screen option
       // width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,
       // height: ({ isOpen }) => isOpen ? '100%' : HEADER_HEIGHT - 1,
-      // fontSize: 16,
 
       // right corner option
       width: SMALL_BODY_WIDTH,
