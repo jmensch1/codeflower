@@ -38,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     padding: theme.spacing(1),
   },
+  break: {
+    wordBreak: 'break-word',
+  },
+  noBreak: {
+    whiteSpace: 'nowrap',
+  },
   table: {
     borderCollapse: 'collapse',
     width: '100%',
@@ -102,8 +108,10 @@ const Languages = () => {
     <Paper className={classes.paper}>
       <div className={classes.background} />
       <div className={classes.scroller}>
-        <Typography variant="h6" align="center">
-          {repo.owner} / {repo.name}
+        <Typography variant="h6" align="center" className={classes.break}>
+          <span className={classes.noBreak}>{repo.owner}</span>
+          /
+          <span className={classes.noBreak}>{repo.name}</span>
         </Typography>
         <Typography align="center">({repo.branch})</Typography>
         <FolderSelect />
