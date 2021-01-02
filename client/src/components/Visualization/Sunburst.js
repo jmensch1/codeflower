@@ -115,8 +115,8 @@ const Sunburst = () => {
     path
       .on('mouseover', () => tt.style('visibility', 'visible'))
       .on('mousemove', (e, d) => {
-        tt.style('top', `${e.offsetY}px`)
-          .style('left', `${e.offsetX}px`)
+        tt.style('top', `${e.pageY}px`)
+          .style('left', `${e.pageX}px`)
           .html(
             d.children ? d.data.name : `${d.data.name} (${d.data.size} loc)`
           )
