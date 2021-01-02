@@ -34,8 +34,8 @@ function processRequestParams(ctrl) {
 
     //// 2. handle credentials ////
     ctrl.creds = {
-      username: username && username.replace(/@/g, '%40'),
-      password: password && password.replace(/@/g, '%40'),
+      username: username && encodeURIComponent(username),
+      password: password && encodeURIComponent(password),
     }
 
     delete ctrl.params.password
