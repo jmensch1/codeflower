@@ -19,6 +19,8 @@ function serveResponse({ request, parse, responder }) {
             return endpoints.file
           case 'users':
             return endpoints.users
+          case 'error':
+            throw new Error('testing error')
           default:
             return null
         }
