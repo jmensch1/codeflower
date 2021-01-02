@@ -1,8 +1,8 @@
 //////////// IMPORTS ////////////
 
 const config = require('@config'),
-  Log = require('@log'),
-  sendAlert = require('@util/sendAlert')
+      Log = require('@log'),
+      Sentry = require('@util/sentry')
 
 //////////// PRIVATE ////////////
 
@@ -39,20 +39,7 @@ function handleErrors(error, onError) {
       repo: error.repo,
     })
 
-    if (config.emailUnhandledErrors) {
-      let errorEmail =
-        '<!DOCTYPE html><html><body>' +
-        '<h3>Stack Trace</h3>' +
-        '<p>' +
-        (error.stack || '').replace(/\n/g, '<br/>') +
-        '</p>' +
-        '<h3>Request Params</h3>' +
-        '<p>' +
-        JSON.stringify(error.params || '') +
-        '</p>' +
-        '</body></html>'
-      sendAlert('codeflower: cloc-server error', errorEmail)
-    }
+    Sentry.captureException(error)
   }
 }
 

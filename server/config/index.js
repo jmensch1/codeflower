@@ -25,10 +25,10 @@ const env = checkEnv([
   'WS_PROTOCOL',
   'HTTP_PORT',
   'WS_PORT',
+  'MIXPANEL_TOKEN',
+  'SENTRY_DSN',
   'GITHUB_TEST_USERNAME',
   'GITHUB_TEST_PASSWORD',
-  'SENDGRID_EMAIL',
-  'SENDGRID_API_KEY',
 ])
 
 ///////////////////// EXPORT ///////////////////////
@@ -126,6 +126,14 @@ module.exports = {
     ignoredFile: 'ignored.json',
   },
 
+  mixpanel: {
+    token: env.MIXPANEL_TOKEN,
+  },
+
+  sentry: {
+    dsn: env.SENTRY_DSN,
+  },
+
   github: {
     creds: {
       username: env.GITHUB_TEST_USERNAME,
@@ -133,14 +141,7 @@ module.exports = {
     }
   },
 
-  sendgrid: {
-    email: env.SENDGRID_EMAIL,
-    apiKey: env.SENDGRID_API_KEY,
-  },
-
   logLevel: 2,
-
-  emailUnhandledErrors: false,
 
   deleteAfterClone: false,
 
