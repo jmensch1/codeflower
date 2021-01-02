@@ -12,9 +12,6 @@ jobs:
 
       - name: Zip extension
         run: (cd chrome; zip -r -FS ../chrome.zip *)
-        # the command below didn't work for firefox, but did for chrome.
-        # Haven't checked whether the above command works in chrome.
-        # run: zip -r chrome.zip chrome/*
 
       - name: Deploy to Chrome Store
         uses: mnao305/chrome-extension-upload@1.1.1
@@ -24,12 +21,3 @@ jobs:
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-
-      - name: Deploy to FireFox Developer Hub
-        uses: trmcnvn/firefox-addon@v1
-        with:
-          uuid: ${{ secrets.FIREFOX_UUID }}
-          xpi: ./chrome.zip
-          manifest: ./chrome/manifest.json
-          api-key: ${{ secrets.FIREFOX_API_KEY }}
-          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
