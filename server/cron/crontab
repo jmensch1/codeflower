@@ -1,0 +1,5 @@
+# run clean script every 24 hours
+
+0 0 * * * /usr/local/bin/node /usr/src/app/cron/clean.js >> /var/log/cron.log 2>&1
+
+# An empty line is required at the end of this file for a valid cron file.

@@ -1,5 +1,8 @@
 FROM node:12
 
+# install cron
+RUN apt-get update && apt-get -y install cron
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -14,5 +17,11 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
+# cron setup
+COPY ./cron/crontab /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab
+RUN crontab /etc/cron.d/crontab
+RUN touch /var/log/cron.log
+
 EXPOSE 8000
-CMD [ "node", "server/index.js" ]
+CMD cron && node server/index.js
