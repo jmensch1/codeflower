@@ -102,8 +102,5 @@ Websockets requests will receive updates in this format:
 
 ## Installation/Development
 
-There's an install script from Ubuntu 16.04 in bin/install.sh.
-The commands should probably be run individually.
-
 A variety of commands for development/testing are listed in the `package.json`
 The basic dev command is `npm run dev`.
