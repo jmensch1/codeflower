@@ -5,7 +5,15 @@ import { closeModal } from 'store/modals'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
-import { WEB_URL, GITHUB_URL, CHROME_URL, FIREFOX_URL } from 'constants.js'
+import {
+  WEB_URL,
+  GITHUB_URL,
+  CHROME_URL,
+  FIREFOX_URL,
+  CONTRIBUTORS_URL,
+  BUG_REPORT_URL,
+  FEATURE_REQUEST_URL,
+} from 'constants.js'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,8 +96,11 @@ const About = () => {
         directly in Github.
       </Graph>
       <Graph>
-        The code is <Link href={GITHUB_URL}>here</Link>. Contributions, bug
-        reports, and feature requests are most welcome. 🙏
+        The code is <Link href={GITHUB_URL}>here</Link>.{' '}
+        <Link href={CONTRIBUTORS_URL}>Contributions</Link>,{' '}
+        <Link href={BUG_REPORT_URL}>bug reports</Link>, and{' '}
+        <Link href={FEATURE_REQUEST_URL}>feature requests</Link>{' '}
+        are most welcome. 🙏
       </Graph>
 
       <Heading>Credits</Heading>

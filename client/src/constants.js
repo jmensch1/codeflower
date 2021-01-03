@@ -7,3 +7,9 @@ export const CHROME_URL =
 export const FIREFOX_URL =
   'https://addons.mozilla.org/en-US/firefox/addon/codeflower/'
 export const GITHUB_URL = 'https://github.com/jmensch1/codeflower'
+export const CONTRIBUTORS_URL =
+  'https://github.com/jmensch1/codeflower/blob/dev/.github/CONTRIBUTING.md'
+export const BUG_REPORT_URL =
+  'https://github.com/jmensch1/codeflower/issues/new?assignees=&labels=&template=bug_report.md&title='
+export const FEATURE_REQUEST_URL =
+  'https://github.com/jmensch1/codeflower/issues/new?assignees=&labels=&template=feature_request.md&title='

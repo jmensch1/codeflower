@@ -4,4 +4,4 @@
 - write the code
 - submit a PR
 
-see (Github Flow)[https://guides.github.com/introduction/flow/index.html]
+see [Github Flow](https://guides.github.com/introduction/flow/index.html).
