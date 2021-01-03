@@ -9,7 +9,8 @@
     "test-remote": "node test/battery --remote; node test/battery --http --remote",
     "ping": "curl https://api.codeflower.la/ping",
     "lint": "npx prettier --write 'server/**/*.{js,jsx,json}'",
-    "lint:check": "npx prettier --check 'server/**/*.{js,jsx,json}'"
+    "lint:check": "npx prettier --check 'server/**/*.{js,jsx,json}'",
+    "clean-repos": "node cron/clean.js"
   },
   "repository": {
     "type": "git",
