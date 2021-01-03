@@ -91,9 +91,12 @@ const SearchBar = ({ onComplete }) => {
 
   return (
     <div className={classes.root}>
-      <label className={classes.label}>git clone&nbsp;</label>
+      <label htmlFor="url-input" className={classes.label}>
+        git clone&nbsp;
+      </label>
       <input
         type="text"
+        id="url-input"
         value={url}
         onChange={onChange}
         onKeyPress={onKeyPress}
@@ -102,7 +105,12 @@ const SearchBar = ({ onComplete }) => {
         autoFocus
       />
       <div className={classes.icon}>
-        <IconButton onClick={search} size="small" disabled={!repoString}>
+        <IconButton
+          aria-label="go"
+          onClick={search}
+          size="small"
+          disabled={!repoString}
+        >
           <KeyboardReturnIcon fontSize="large" />
         </IconButton>
       </div>

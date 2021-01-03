@@ -109,8 +109,7 @@ const Languages = () => {
       <div className={classes.background} />
       <div className={classes.scroller}>
         <Typography variant="h6" align="center" className={classes.break}>
-          <span className={classes.noBreak}>{repo.owner}</span>
-          /
+          <span className={classes.noBreak}>{repo.owner}</span>/
           <span className={classes.noBreak}>{repo.name}</span>
         </Typography>
         <Typography align="center">({repo.branch})</Typography>
@@ -135,7 +134,8 @@ const Languages = () => {
                 <td>{count.lines}</td>
                 <td>
                   <div className={langClasses[count.language]} />
-                  <span /> {/* a hack to render a circle for the bumblebee theme */}
+                  <span />{' '}
+                  {/* a hack to render a circle for the bumblebee theme */}
                 </td>
               </tr>
             ))}
