@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => {
       bottom: 0,
       right: 0,
       zIndex: 1,
-      // backgroundColor: theme.palette.background.paper,
       backgroundColor: 'black',
       opacity: 0.9,
       color: 'white',
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => {
       userSelect: 'none',
       transition: 'all 0.35s ease-in-out',
       cursor: 'pointer',
-      fontSize: '1rem',
+      fontSize: 13,
 
       // full-screen option
       // width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,

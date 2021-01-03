@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   code: {
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
-    fontSize: '1rem',
+    fontSize: 14,
   },
 }))
 
