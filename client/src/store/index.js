@@ -7,7 +7,6 @@ import { routerMiddleware } from 'connected-react-router'
 import router from './router'
 import repo from './repo'
 import folders from './folders'
-import tree from './tree'
 import languages from './languages'
 import files from './files'
 import settings from './settings'
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   router,
   repo,
   folders,
-  tree,
   languages,
   files,
   settings,

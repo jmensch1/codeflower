@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useTree, useLanguages } from 'store/selectors'
+import { useSelectedFolder, useLanguages } from 'store/selectors'
 import { openModal } from 'store/modals'
 import { useDispatch } from 'react-redux'
 
@@ -45,7 +45,7 @@ const Sunburst = () => {
   const container = useRef(null)
   const tooltip = useRef(null)
   const classes = useStyles()
-  const tree = useTree()
+  const tree = useSelectedFolder()
   const dispatch = useDispatch()
   const { classes: langClasses } = useLanguages()
 

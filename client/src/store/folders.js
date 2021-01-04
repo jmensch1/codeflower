@@ -14,7 +14,6 @@ export const selectFolder = (folderPath) => {
       type: types.SELECT_FOLDER,
       data: {
         folderPath,
-        folder,
         languages,
       },
     })

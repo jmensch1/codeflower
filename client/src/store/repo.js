@@ -75,7 +75,6 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
           repo: data,
           folderPaths,
           selectedFolder,
-          folder,
           languages,
         },
       })
