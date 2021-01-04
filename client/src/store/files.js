@@ -4,10 +4,9 @@ export const types = {
   GET_FILE_PENDING: 'files/GET_FILE_PENDING',
   GET_FILE_SUCCESS: 'files/GET_FILE_SUCCESS',
   GET_FILE_ERROR: 'files/GET_FILE_ERROR',
-  CLOSE_FILE: 'files/CLOSE_FILE',
 }
 
-export const getFile = ({ path, data }) => {
+export const getFile = (path) => {
   return async (dispatch, getState) => {
     const state = getState()
     const { repoId } = state.repo
@@ -18,14 +17,14 @@ export const getFile = ({ path, data }) => {
 
     dispatch({
       type: types.GET_FILE_PENDING,
-      data: { path, data },
+      data: { path },
     })
 
     try {
       const file = await api.getFile({ repoId, path })
       dispatch({
         type: types.GET_FILE_SUCCESS,
-        data: { path, data, file },
+        data: { path, file },
       })
     } catch (e) {
       dispatch({
@@ -35,14 +34,9 @@ export const getFile = ({ path, data }) => {
   }
 }
 
-export const closeFile = () => ({
-  type: types.CLOSE_FILE,
-})
-
 const initialState = {
   isLoading: false,
   error: null,
-  selectedFile: null,
   files: {},
 }
 
@@ -51,8 +45,8 @@ const reducer = (state = initialState, action) => {
     case types.GET_FILE_PENDING:
       return {
         ...state,
-        selectedFile: action.data,
         isLoading: true,
+        error: null,
       }
     case types.GET_FILE_SUCCESS:
       return {
@@ -70,12 +64,6 @@ const reducer = (state = initialState, action) => {
         error: {
           message: 'Error loading file.',
         },
-      }
-    case types.CLOSE_FILE:
-      return {
-        ...state,
-        selectedFile: null,
-        error: null,
       }
     default:
       return state

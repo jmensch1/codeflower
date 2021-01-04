@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { useFiles } from 'store/selectors'
-import { closeFile } from 'store/files'
+import { useModal, useFiles } from 'store/selectors'
+import { closeModal } from 'store/modals'
+import { getFile } from 'store/files'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -54,29 +55,36 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const FileViewer = () => {
+  const { isOpen, params: { filePath, metadata } } = useModal('fileViewer')
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { files, selectedFile, isLoading, error } = useFiles()
+  const { files, isLoading, error } = useFiles()
 
-  const handleClose = useCallback(() => {
-    dispatch(closeFile())
+  const file = files[filePath]
+
+  useEffect(() => {
+    if (isOpen && !file) dispatch(getFile(filePath))
+  }, [isOpen, file, filePath, dispatch])
+
+  const close = useCallback(() => {
+    dispatch(closeModal('fileViewer'))
   }, [dispatch])
 
-  if (!selectedFile) return null
-  const file = files[selectedFile.path]
+  if (!isOpen) return null
+
   return (
     <Dialog
       className={classes.root}
-      onClose={handleClose}
-      open={!!file || !!error || isLoading}
+      onClose={close}
+      open={isOpen}
       fullWidth
     >
       <DialogTitle className={classes.header}>
         <Typography className={classes.name} variant="h6" component="div">
-          {selectedFile.data.name}
+          {metadata.name}
         </Typography>
         <Typography className={classes.meta} variant="body2" component="div">
-          {selectedFile.data.size} lines of {selectedFile.data.language}
+          {metadata.size} lines of {metadata.language}
         </Typography>
         {/*<Typography className={classes.meta} variant="body2" component="div">
           {selectedFile.path.split('/').join(' • ')}
@@ -84,7 +92,7 @@ const FileViewer = () => {
         <IconButton
           aria-label="close"
           className={classes.closeButton}
-          onClick={handleClose}
+          onClick={close}
         >
           <CloseIcon />
         </IconButton>

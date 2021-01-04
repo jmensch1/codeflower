@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTree, useLanguages } from 'store/selectors'
-import { getFile } from 'store/files'
+import { openModal } from 'store/modals'
 import { useDispatch } from 'react-redux'
 
 const RADIUS_RATIO = 0.9
@@ -143,9 +143,9 @@ const Sunburst = () => {
         .slice(1)
         .join('/')
       dispatch(
-        getFile({
-          path: filePath,
-          data: d.data,
+        openModal('fileViewer', {
+          filePath,
+          metadata: d.data,
         })
       )
     })
