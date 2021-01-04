@@ -10,7 +10,6 @@ import folders from './folders'
 import tree from './tree'
 import languages from './languages'
 import files from './files'
-import terminal from './terminal'
 import settings from './settings'
 import modals from './modals'
 
@@ -21,7 +20,6 @@ const rootReducer = combineReducers({
   tree,
   languages,
   files,
-  terminal,
   settings,
   modals,
 })

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
+import { openModal, closeModal } from 'store/modals'
+import { useModal } from 'store/selectors'
 import Content from './Content'
-import { toggleTerminal } from 'store/terminal'
-import { useTerminal } from 'store/selectors'
 
 const HEADER_HEIGHT = 36
 const SMALL_BODY_WIDTH = 500
@@ -57,12 +57,17 @@ const useStyles = makeStyles((theme) => {
 })
 
 const Terminal = () => {
-  const { isOpen } = useTerminal()
+  const { isOpen } = useModal('terminal')
   const classes = useStyles({ isOpen })
   const dispatch = useDispatch()
 
+  const toggleTerminal = useCallback(() => {
+    const func = isOpen ? closeModal : openModal
+    dispatch(func('terminal'))
+  }, [isOpen, dispatch])
+
   return (
-    <div onClick={() => dispatch(toggleTerminal())} className={classes.root}>
+    <div onClick={toggleTerminal} className={classes.root}>
       <div className={classes.header}>
         <span className={classes.arrow}>^</span>
         <span>term</span>

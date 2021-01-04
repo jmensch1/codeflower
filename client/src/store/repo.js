@@ -1,7 +1,6 @@
 import * as api from 'services/api'
 import repo from 'services/repo'
-import { openTerminal, closeTerminal } from './terminal'
-import { openModal } from './modals'
+import { openModal, closeModal } from './modals'
 import { delay } from 'services/utils'
 import { MAX_NODES } from 'constants.js'
 
@@ -33,7 +32,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     //// GET REPO ////
 
     // await delay(250)
-    dispatch(openTerminal())
+    dispatch(openModal('terminal'))
     await delay(750)
 
     let data
@@ -58,7 +57,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     }
 
     await delay(750)
-    dispatch(closeTerminal())
+    dispatch(closeModal('terminal'))
     await delay(750)
 
     const { tree } = data.cloc
