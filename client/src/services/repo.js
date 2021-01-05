@@ -68,10 +68,12 @@ function getLanguageCounts(folder) {
     if (node.children) node.children.forEach(recurse)
   })(folder)
 
-  return Object.keys(counts).map((language) => ({
-    ...counts[language],
-    language,
-  })).sort((a, b) => b.lines - a.lines)
+  return Object.keys(counts)
+    .map((language) => ({
+      ...counts[language],
+      language,
+    }))
+    .sort((a, b) => b.lines - a.lines)
 }
 
 const service = {

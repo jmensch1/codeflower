@@ -99,15 +99,17 @@ const About = () => {
         The code is <Link href={GITHUB_URL}>here</Link>.{' '}
         <Link href={CONTRIBUTORS_URL}>Contributions</Link>,{' '}
         <Link href={BUG_REPORT_URL}>bug reports</Link>, and{' '}
-        <Link href={FEATURE_REQUEST_URL}>feature requests</Link>{' '}
-        are most welcome. 🙏
+        <Link href={FEATURE_REQUEST_URL}>feature requests</Link> are most
+        welcome. 🙏
       </Graph>
 
       <Heading>Credits</Heading>
       <Graph>
         Tons of credit to{' '}
-        <Link href="https://twitter.com/francoisz">Fran&#231;ois Zaninotto</Link>,
-        who figured out that cloc output could be used to generate a
+        <Link href="https://twitter.com/francoisz">
+          Fran&#231;ois Zaninotto
+        </Link>
+        , who figured out that cloc output could be used to generate a
         force-directed graph, and wrote the original{' '}
         <Link href="https://github.com/fzaninotto/CodeFlower">CodeFlower</Link>{' '}
         vizualization.

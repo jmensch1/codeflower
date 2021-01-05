@@ -13,12 +13,14 @@ const Visualization = () => {
   const { visType } = useSettings()
   const counts = useLanguageCounts()
 
-  const langClasses = useMemo(() => (
-    counts.reduce((classes, count, index) => {
-      classes[count.language] = `lang-${index}`
-      return classes
-    }, {})
-  ), [counts])
+  const langClasses = useMemo(
+    () =>
+      counts.reduce((classes, count, index) => {
+        classes[count.language] = `lang-${index}`
+        return classes
+      }, {}),
+    [counts]
+  )
 
   const Vis = GRAPH_TYPES[visType]
 

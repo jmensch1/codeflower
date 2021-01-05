@@ -55,7 +55,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const FileViewer = () => {
-  const { isOpen, params: { filePath, metadata } } = useModal('fileViewer')
+  const {
+    isOpen,
+    params: { filePath, metadata },
+  } = useModal('fileViewer')
   const classes = useStyles()
   const dispatch = useDispatch()
   const selectedFolderPath = useSelectedFolderPath()
@@ -64,7 +67,9 @@ const FileViewer = () => {
   // join filePath with selected folder because filePath in the vis
   // starts with the selectedFolderPath
   // TODO: maybe move this logic into the visualization(s)
-  const fullPath = [selectedFolderPath, filePath].join('/').replace(/^root\//, '')
+  const fullPath = [selectedFolderPath, filePath]
+    .join('/')
+    .replace(/^root\//, '')
 
   const file = files[fullPath]
 
@@ -79,12 +84,7 @@ const FileViewer = () => {
   if (!isOpen) return null
 
   return (
-    <Dialog
-      className={classes.root}
-      onClose={close}
-      open={isOpen}
-      fullWidth
-    >
+    <Dialog className={classes.root} onClose={close} open={isOpen} fullWidth>
       <DialogTitle className={classes.header}>
         <Typography className={classes.name} variant="h6" component="div">
           {metadata.name}

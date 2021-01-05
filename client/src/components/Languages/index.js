@@ -133,9 +133,10 @@ const Languages = () => {
                     <div
                       style={{
                         backgroundColor,
-                        border: backgroundColor === 'transparent'
-                          ? '1px white solid'
-                          : undefined
+                        border:
+                          backgroundColor === 'transparent'
+                            ? '1px white solid'
+                            : undefined,
                       }}
                     />
                   </td>

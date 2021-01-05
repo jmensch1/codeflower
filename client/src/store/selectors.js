@@ -25,13 +25,10 @@ const context = (state) => {
 
 ////////// CREATE SELECTOR ///////////
 
-const folderPaths = createSelector(
-  [rootFolder],
-  (rootFolder) => {
-    if (!rootFolder) return null
-    return repoUtils.getFolderPaths(rootFolder)
-  }
-)
+const folderPaths = createSelector([rootFolder], (rootFolder) => {
+  if (!rootFolder) return null
+  return repoUtils.getFolderPaths(rootFolder)
+})
 
 const selectedFolder = createSelector(
   [rootFolder, selectedFolderPath],
@@ -41,22 +38,21 @@ const selectedFolder = createSelector(
   }
 )
 
-const languageCounts = createSelector(
-  [selectedFolder],
-  (selectedFolder) => repoUtils.getLanguageCounts(selectedFolder)
+const languageCounts = createSelector([selectedFolder], (selectedFolder) =>
+  repoUtils.getLanguageCounts(selectedFolder)
 )
 
-const languageColors = createSelector([
-  languageCounts,
-  (state) => state.settings.visThemeId,
-], (counts, visThemeId) => {
-  const getLanguageColor = visThemes[visThemeId].languages.color
-  const languages = counts.map(count => count.language)
-  return languages.reduce((colors, language, index) => {
-    colors[language] = getLanguageColor(languages, index)
-    return colors
-  }, {})
-})
+const languageColors = createSelector(
+  [languageCounts, (state) => state.settings.visThemeId],
+  (counts, visThemeId) => {
+    const getLanguageColor = visThemes[visThemeId].languages.color
+    const languages = counts.map((count) => count.language)
+    return languages.reduce((colors, language, index) => {
+      colors[language] = getLanguageColor(languages, index)
+      return colors
+    }, {})
+  }
+)
 
 const mainTheme = createSelector([mainThemeId], (id) => mainThemes[id])
 const visTheme = createSelector([visThemeId], (id) => visThemes[id])

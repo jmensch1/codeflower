@@ -6,10 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 const MainThemeProvider = ({ children }) => {
   const mainTheme = useMainTheme()
 
-  const theme = useMemo(
-    () => createMuiTheme(mainTheme),
-    [mainTheme]
-  )
+  const theme = useMemo(() => createMuiTheme(mainTheme), [mainTheme])
 
   return (
     <ThemeProvider theme={theme}>

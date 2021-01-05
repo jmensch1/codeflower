@@ -1,6 +1,10 @@
 import React, { useMemo, useCallback } from 'react'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { useVisTheme, useLanguageColors, useSelectedLanguage } from 'store/selectors'
+import {
+  useVisTheme,
+  useLanguageColors,
+  useSelectedLanguage,
+} from 'store/selectors'
 
 const VisThemeProvider = ({ children, langClasses }) => {
   const visTheme = useVisTheme()
@@ -25,19 +29,17 @@ const VisThemeProvider = ({ children, langClasses }) => {
     return styles
   }, [visTheme, langClasses, langColors, selectedLanguage])
 
-  const theme = useCallback((mainTheme) => (
-    createMuiTheme({
-      ...mainTheme,
-      visualization: visTheme.visualization,
-      languages: langStyles,
-    })
-  ), [visTheme, langStyles])
-
-  return (
-    <ThemeProvider theme={theme}>
-      {children}
-    </ThemeProvider>
+  const theme = useCallback(
+    (mainTheme) =>
+      createMuiTheme({
+        ...mainTheme,
+        visualization: visTheme.visualization,
+        languages: langStyles,
+      }),
+    [visTheme, langStyles]
   )
+
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
 }
 
 export default VisThemeProvider
