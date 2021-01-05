@@ -1,21 +1,22 @@
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { useFolders } from 'store/selectors'
-import { selectFolder } from 'store/folders'
+import { useFolders, useSelectedFolderPath } from 'store/selectors'
+import { selectFolder } from 'store/settings'
 import Select from 'components/core/Select'
 import { MAX_NODES } from 'constants.js'
 
 const FolderSelect = () => {
   const folders = useFolders()
   const dispatch = useDispatch()
+  const selectedFolderPath = useSelectedFolderPath()
 
   const options = useMemo(() => {
-    if (!folders || !folders.selectedFolder) return null
+    if (!folders || !selectedFolderPath) return null
 
     return folders.folderPaths.map(({ pathName, totalNodes }) =>
       totalNodes <= MAX_NODES ? pathName : `${pathName} (${totalNodes} nodes)`
     )
-  }, [folders])
+  }, [folders, selectedFolderPath])
 
   const onChange = useCallback(
     (e) => {
@@ -24,12 +25,12 @@ const FolderSelect = () => {
     [dispatch]
   )
 
-  if (!folders || !folders.selectedFolder) return null
+  if (!folders || !selectedFolderPath) return null
 
   return (
     <div style={{ margin: 10 }}>
       <Select
-        value={folders.selectedFolder}
+        value={selectedFolderPath}
         onChange={onChange}
         options={options}
       />

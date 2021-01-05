@@ -35,7 +35,9 @@ export const useShareLink = () =>
   })
 
 const rootFolder = (state) => state.repo?.cloc.tree
-const selectedFolderPath = (state) => state.folders.selectedFolder
+const selectedFolderPath = (state) => state.settings.selectedFolderPath
+
+export const useSelectedFolderPath = () => useSelector(selectedFolderPath)
 
 const selectedFolder = createSelector(
   [rootFolder, selectedFolderPath],

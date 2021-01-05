@@ -65,13 +65,13 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
 
     //// FOLDER SELECTION ////
 
-    const onSelectFolder = (selectedFolder) => {
+    const onSelectFolder = (selectedFolderPath) => {
       dispatch({
         type: types.GET_REPO_SUCCESS,
         data: {
           repo: data,
           folderPaths,
-          selectedFolder,
+          selectedFolderPath,
         },
       })
     }

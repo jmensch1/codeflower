@@ -1,10 +1,12 @@
 import visThemes from 'themes'
+import { types as repoTypes } from './repo'
 
 export const types = {
   SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
   SET_VIS_THEME: 'settings/SET_VIS_THEME',
   SET_VIS_TYPE: 'settings/SET_VIS_TYPE',
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
+  SELECT_FOLDER: 'settings/SELECT_FOLDER',
 }
 
 export const setMainTheme = (mainThemeId) => {
@@ -41,11 +43,19 @@ export const selectLanguage = (language) => {
   }
 }
 
+export const selectFolder = (folderPath) => {
+  return {
+    type: types.SELECT_FOLDER,
+    data: folderPath,
+  }
+}
+
 const initialState = {
   mainThemeId: 'dark',
   visThemeId: Object.keys(visThemes)[0],
   visType: 'force',
   selectedLanguage: null,
+  selectedFolderPath: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -69,6 +79,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         selectedLanguage: action.data,
+      }
+    case types.SELECT_FOLDER:
+      return {
+        ...state,
+        selectedFolderPath: action.data,
+      }
+    case repoTypes.GET_REPO_SUCCESS:
+      return {
+        ...state,
+        selectedFolderPath: action.data.selectedFolderPath,
       }
     default:
       return state
