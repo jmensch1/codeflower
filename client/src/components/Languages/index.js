@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLanguages, useRepo, useLanguageColors } from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
@@ -78,10 +78,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Languages = () => {
   const classes = useStyles()
-  const { counts, totals } = useLanguages()
+  const { counts } = useLanguages()
   const languageColors = useLanguageColors()
   const repo = useRepo()
   const dispatch = useDispatch()
+
+  const totals = useMemo(() => {
+    if (!counts) return null
+    
+    return counts.reduce(
+      (totals, count) => {
+        totals.files += count.files
+        totals.lines += count.lines
+        return totals
+      },
+      { files: 0, lines: 0 }
+    )
+  }, [counts])
 
   const onSelectLanguage = (language) => {
     dispatch(selectLanguage(language))

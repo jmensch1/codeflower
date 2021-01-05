@@ -80,35 +80,30 @@ function getSortedLanguageCounts(counts, sortParams) {
   })
 }
 
-function getLanguageTotals(sortedCounts) {
-  return sortedCounts.reduce(
-    (totals, count) => {
-      totals.files += count.files
-      totals.lines += count.lines
-      return totals
-    },
-    { files: 0, lines: 0 }
-  )
-}
-
-function getLanguageClasses(sortedCounts) {
-  return sortedCounts.reduce((classes, count, index) => {
-    classes[count.language] = `lang-${index}`
-    return classes
-  }, {})
-}
+// function getLanguageTotals(sortedCounts) {
+//   return sortedCounts.reduce(
+//     (totals, count) => {
+//       totals.files += count.files
+//       totals.lines += count.lines
+//       return totals
+//     },
+//     { files: 0, lines: 0 }
+//   )
+// }
+//
+// function getLanguageClasses(sortedCounts) {
+//   return sortedCounts.reduce((classes, count, index) => {
+//     classes[count.language] = `lang-${index}`
+//     return classes
+//   }, {})
+// }
 
 function getLanguages(folder) {
   const sortParams = { sortCol: 'lines', sortDesc: true }
   const counts = getLanguageCounts(folder)
   const sortedCounts = getSortedLanguageCounts(counts, sortParams)
-  const totals = getLanguageTotals(sortedCounts)
-  const classes = getLanguageClasses(sortedCounts)
   return {
-    sortParams,
     counts: sortedCounts,
-    totals,
-    classes,
   }
 }
 

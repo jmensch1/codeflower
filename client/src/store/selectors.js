@@ -42,9 +42,6 @@ const languages = createSelector(
   [selectedFolder], (selectedFolder) => {
     if (!selectedFolder) return {
       counts: null,
-      totals: null,
-      classes: null,
-      sortParams: null,
     }
     return repoUtils.getLanguages(selectedFolder)
   }
