@@ -49,6 +49,15 @@ const selectedFolder = createSelector(
 
 export const useSelectedFolder = () => useSelector(selectedFolder)
 
+const folderPaths = createSelector(
+  [rootFolder],
+  (rootFolder) => {
+    if (!rootFolder) return null
+    return repoUtils.getFolderPaths(rootFolder)
+  }
+)
+export const useFolderPaths = () => useSelector(folderPaths)
+
 const languages = createSelector(
   [selectedFolder], (selectedFolder) => {
     if (!selectedFolder) return {

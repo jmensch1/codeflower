@@ -1,5 +1,5 @@
 import * as api from 'services/api'
-import repo from 'services/repo'
+import repoUtils from 'services/repo'
 import { openModal, closeModal } from './modals'
 import { delay } from 'services/utils'
 import { MAX_NODES } from 'constants.js'
@@ -35,9 +35,9 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     dispatch(openModal('terminal'))
     await delay(750)
 
-    let data
+    let repo
     try {
-      data = await api.getRepo({
+      repo = await api.getRepo({
         owner,
         name,
         branch,
@@ -60,17 +60,13 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     dispatch(closeModal('terminal'))
     await delay(750)
 
-    const { tree } = data.cloc
-    const folderPaths = repo.getFolderPaths(tree)
-
     //// FOLDER SELECTION ////
 
     const onSelectFolder = (selectedFolderPath) => {
       dispatch({
         type: types.GET_REPO_SUCCESS,
         data: {
-          repo: data,
-          folderPaths,
+          repo,
           selectedFolderPath,
         },
       })
@@ -85,6 +81,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
       return largest ? largest.pathName : 'root'
     }
 
+    const folderPaths = repoUtils.getFolderPaths(repo.cloc.tree)
     if (folderPaths[0].totalNodes < MAX_NODES)
       return onSelectFolder(folderPaths[0].pathName)
 
