@@ -31,7 +31,6 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
   return async (dispatch) => {
     //// GET REPO ////
 
-    // await delay(250)
     dispatch(openModal('terminal'))
     await delay(750)
 
@@ -60,7 +59,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     dispatch(closeModal('terminal'))
     await delay(750)
 
-    //// FOLDER SELECTION ////
+    //// FOLDER PATH SELECTION ////
 
     const onSelectFolder = (selectedFolderPath) => {
       dispatch({

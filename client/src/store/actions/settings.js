@@ -9,46 +9,30 @@ export const types = {
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
 }
 
-export const setMainTheme = (mainThemeId) => {
-  return (dispatch) => {
-    dispatch({
-      type: types.SET_MAIN_THEME,
-      data: mainThemeId,
-    })
-  }
-}
+export const setMainTheme = (mainThemeId) => ({
+  type: types.SET_MAIN_THEME,
+  data: mainThemeId,
+})
 
-export const setVisTheme = (visThemeId) => {
-  return (dispatch) => {
-    dispatch({
-      type: types.SET_VIS_THEME,
-      data: visThemeId,
-    })
-  }
-}
+export const setVisTheme = (visThemeId) => ({
+  type: types.SET_VIS_THEME,
+  data: visThemeId,
+})
 
-export const setVisType = (visType) => {
-  return (dispatch) => {
-    dispatch({
-      type: types.SET_VIS_TYPE,
-      data: visType,
-    })
-  }
-}
+export const setVisType = (visType) => ({
+  type: types.SET_VIS_TYPE,
+  data: visType,
+})
 
-export const selectLanguage = (language) => {
-  return {
-    type: types.SELECT_LANGUAGE,
-    data: language,
-  }
-}
+export const selectLanguage = (language) => ({
+  type: types.SELECT_LANGUAGE,
+  data: language,
+})
 
-export const selectFolder = (folderPath) => {
-  return {
-    type: types.SELECT_FOLDER,
-    data: folderPath,
-  }
-}
+export const selectFolder = (folderPath) => ({
+  type: types.SELECT_FOLDER,
+  data: folderPath,
+})
 
 const initialState = {
   mainThemeId: 'dark',

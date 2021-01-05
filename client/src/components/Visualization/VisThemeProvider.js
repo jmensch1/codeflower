@@ -1,12 +1,9 @@
 import React, { useCallback } from 'react'
-import {
-  ThemeProvider as MuiThemeProvider,
-  createMuiTheme,
-} from '@material-ui/core/styles'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import themes from 'themes'
 import { useSettings, useSelectedLanguage } from 'store/selectors'
 
-const ThemeProvider = ({ children, langClasses }) => {
+const VisThemeProvider = ({ children, langClasses }) => {
   const { visThemeId } = useSettings()
   const selectedLanguage = useSelectedLanguage()
 
@@ -32,20 +29,18 @@ const ThemeProvider = ({ children, langClasses }) => {
       return styles
     })()
 
-    const theme = createMuiTheme({
+    return createMuiTheme({
       ...mainTheme,
       visualization: visTheme.visualization,
       languages: languageStyles,
     })
-
-    return theme
   }, [visThemeId, langClasses, selectedLanguage])
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       {children}
-    </MuiThemeProvider>
+    </ThemeProvider>
   )
 }
 
-export default ThemeProvider
+export default VisThemeProvider

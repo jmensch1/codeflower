@@ -106,7 +106,7 @@ const About = () => {
       <Heading>Credits</Heading>
       <Graph>
         Tons of credit to{' '}
-        <Link href="http://www.redotheweb.com/">Fran&#231;ois Zaninotto</Link>,
+        <Link href="https://twitter.com/francoisz">Fran&#231;ois Zaninotto</Link>,
         who figured out that cloc output could be used to generate a
         force-directed graph, and wrote the original{' '}
         <Link href="https://github.com/fzaninotto/CodeFlower">CodeFlower</Link>{' '}
