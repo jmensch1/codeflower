@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft'
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter'
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight'
-import { setVisTheme } from 'store/settings'
+import { setVisTheme } from 'store/actions/settings'
 import { useSettings } from 'store/selectors'
 import ButtonGroup from '../core/ButtonGroup'
 

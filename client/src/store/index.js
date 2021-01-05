@@ -4,11 +4,11 @@ import thunk from 'redux-thunk'
 import history from 'services/history'
 import { routerMiddleware } from 'connected-react-router'
 
-import router from './router'
-import repo from './repo'
-import files from './files'
-import settings from './settings'
-import modals from './modals'
+import router from './actions/router'
+import repo from './actions/repo'
+import files from './actions/files'
+import settings from './actions/settings'
+import modals from './actions/modals'
 
 const rootReducer = combineReducers({
   router,

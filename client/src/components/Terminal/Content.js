@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { subscribe, unsubscribe } from 'store/repo'
+import { subscribe, unsubscribe } from 'store/actions/repo'
 import { createUseStyles } from 'react-jss'
 
 const useStyles = createUseStyles((theme) => {

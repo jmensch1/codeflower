@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
-import { setMainTheme } from 'store/settings'
+import { setMainTheme } from 'store/actions/settings'
 import { useSettings } from 'store/selectors'
 import ToggleButton from '../core/ToggleButton'
 

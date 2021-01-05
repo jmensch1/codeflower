@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { openModal, closeModal } from 'store/modals'
+import { openModal, closeModal } from 'store/actions/modals'
 import { useModal } from 'store/selectors'
 import Content from './Content'
 

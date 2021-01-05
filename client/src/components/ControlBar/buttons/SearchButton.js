@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import SearchIcon from '@material-ui/icons/Search'
-import { openModal } from 'store/modals'
+import { openModal } from 'store/actions/modals'
 import ToggleButton from '../core/ToggleButton'
 
 const SearchButton = () => {

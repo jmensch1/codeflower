@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import AdjustIcon from '@material-ui/icons/Adjust'
 import GrainIcon from '@material-ui/icons/Grain'
-import { setVisType } from 'store/settings'
+import { setVisType } from 'store/actions/settings'
 import { useSettings } from 'store/selectors'
 import ButtonGroup from '../core/ButtonGroup'
 

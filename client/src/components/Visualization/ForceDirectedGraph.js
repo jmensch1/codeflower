@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useLanguages } from 'store/selectors'
-import { openModal } from 'store/modals'
+import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({

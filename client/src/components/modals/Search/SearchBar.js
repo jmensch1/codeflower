@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 import { useDispatch } from 'react-redux'
-import { updateQuery } from 'store/router'
+import { updateQuery } from 'store/actions/router'
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useFolderPaths, useSelectedFolderPath } from 'store/selectors'
-import { selectFolder } from 'store/settings'
+import { selectFolder } from 'store/actions/settings'
 import Select from 'components/core/Select'
 import { MAX_NODES } from 'constants.js'
 
