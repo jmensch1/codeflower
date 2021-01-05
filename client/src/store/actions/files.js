@@ -8,12 +8,7 @@ export const types = {
 
 export const getFile = (path) => {
   return async (dispatch, getState) => {
-    const state = getState()
-    const { repoId } = state.repo
-    const { selectedFolderPath } = state.settings
-
-    // combine path with selected folder
-    path = [selectedFolderPath, path].join('/').replace(/^root\//, '')
+    const { repoId } = getState().repo
 
     dispatch({
       type: types.GET_FILE_PENDING,
