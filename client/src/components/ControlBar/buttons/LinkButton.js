@@ -1,11 +1,22 @@
-import React, { useState, useCallback } from 'react'
-import { useShareLink } from 'store/selectors'
+import React, { useState, useCallback, useMemo } from 'react'
+import { useLocation } from 'store/selectors'
 import LinkIcon from '@material-ui/icons/Link'
 import ToggleButton from '../core/ToggleButton'
+import queryString from 'query-string'
+
+const ORIGIN = window.location.origin
 
 const LinkButton = () => {
   const [tooltip, setTooltip] = useState('copy link to this vis')
-  const shareLink = useShareLink()
+  const location = useLocation()
+
+  const shareLink = useMemo(() => {
+    const { pathname, search } = location
+    const params = queryString.parse(search)
+    delete params.context
+    const query = queryString.stringify(params)
+    return `${ORIGIN}${pathname}?${query}`
+  }, [location])
 
   const copyLink = useCallback(() => {
     try {

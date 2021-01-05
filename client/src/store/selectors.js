@@ -1,10 +1,7 @@
 import { useSelector } from 'react-redux'
-import queryString from 'query-string'
 import { createSelector } from 'reselect'
 import repoUtils from 'services/repo'
 import themes from 'themes'
-
-const ORIGIN = window.location.origin
 
 export const useLocation = () => useSelector((state) => state.router.location)
 export const useRepo = () => useSelector((state) => state.repo)
@@ -24,15 +21,6 @@ export const useContext = () =>
       isExtension: context === 'chrome',
       isWeb: context !== 'chrome',
     }
-  })
-
-export const useShareLink = () =>
-  useSelector((state) => {
-    const { pathname, search } = state.router.location
-    const params = queryString.parse(search)
-    delete params.context
-    const query = queryString.stringify(params)
-    return `${ORIGIN}${pathname}/?${query}`
   })
 
 const rootFolder = (state) => state.repo?.cloc.tree
