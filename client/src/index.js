@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import history from 'services/history'
 import App from './components/App'
-import ThemeProvider from './components/ThemeProvider'
+import MainThemeProvider from './components/MainThemeProvider'
 import store from './store'
 //import reportWebVitals from './reportWebVitals'
 
@@ -12,11 +12,11 @@ console.log('environment:', process.env)
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider>
+    <MainThemeProvider>
       <ConnectedRouter history={history}>
         <App />
       </ConnectedRouter>
-    </ThemeProvider>
+    </MainThemeProvider>
   </Provider>,
   document.getElementById('root')
 )

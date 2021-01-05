@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 import repoUtils from 'services/repo'
+import mainThemes from 'themes/mainThemes'
 import visThemes from 'themes/visThemes'
 
 ////////// SIMPLE SELECTORS ///////////
@@ -10,6 +11,8 @@ const repo = (state) => state.repo
 const rootFolder = (state) => state.repo?.cloc.tree
 const files = (state) => state.files
 const settings = (state) => state.settings
+const mainThemeId = (state) => state.settings.mainThemeId
+const visThemeId = (state) => state.settings.visThemeId
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
 const context = (state) => {
@@ -55,6 +58,9 @@ const languageColors = createSelector([
   }, {})
 })
 
+const mainTheme = createSelector([mainThemeId], (id) => mainThemes[id])
+const visTheme = createSelector([visThemeId], (id) => visThemes[id])
+
 ////////// USE SELECTOR ///////////
 
 export const useLocation = () => useSelector(location)
@@ -68,6 +74,8 @@ export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)
 export const useLanguageColors = () => useSelector(languageColors)
 export const useContext = () => useSelector(context)
+export const useMainTheme = () => useSelector(mainTheme)
+export const useVisTheme = () => useSelector(visTheme)
 
 ////////// PARAMATERIZED USE SELECTOR ///////////
 

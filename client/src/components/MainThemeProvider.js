@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { useSettings } from 'store/selectors'
+import { useMainTheme } from 'store/selectors'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import mainThemes from 'themes/mainThemes'
 
 const MainThemeProvider = ({ children }) => {
-  const { mainThemeId } = useSettings()
+  const mainTheme = useMainTheme()
 
-  const theme = useMemo(() => {
-    return createMuiTheme(mainThemes[mainThemeId])
-  }, [mainThemeId])
+  const theme = useMemo(
+    () => createMuiTheme(mainTheme),
+    [mainTheme]
+  )
 
   return (
     <ThemeProvider theme={theme}>
