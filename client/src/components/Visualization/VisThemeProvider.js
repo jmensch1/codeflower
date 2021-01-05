@@ -1,43 +1,30 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import {
   ThemeProvider as MuiThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles'
 import themes from 'themes'
-import { useSettings, useLanguages, useSelectedLanguage } from 'store/selectors'
+import { useSettings, useSelectedLanguage } from 'store/selectors'
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ children, langClasses }) => {
   const { visThemeId } = useSettings()
-  const { counts } = useLanguages()
   const selectedLanguage = useSelectedLanguage()
-
-  const classes = useMemo(() => {
-    if (!counts) return null
-
-    return counts.reduce((classes, count, index) => {
-      classes[count.language] = `lang-${index}`
-      return classes
-    }, {})
-  }, [counts])
 
   const theme = useCallback((mainTheme) => {
     const visTheme = themes[visThemeId]
 
     const languageStyles = (() => {
-      if (!classes) return null
+      if (!langClasses) return null
 
-      const languages = Object.keys(classes)
+      const languages = Object.keys(langClasses)
       const styles = languages.reduce((styles, lang, index) => {
         const color = visTheme.languages.color(languages, index)
-        styles[`& .${classes[lang]}`] = {
-          fill: color,
-          'background-color': color,
-        }
+        styles[`& .${langClasses[lang]}`] = { fill: color }
         return styles
       }, {})
 
       if (selectedLanguage) {
-        const langClass = classes[selectedLanguage]
+        const langClass = langClasses[selectedLanguage]
         styles[`& .file.${langClass}`] = visTheme.languages.highlight()
         styles[`& .file:not(.${langClass})`] = visTheme.languages.suppress()
       }
@@ -52,7 +39,7 @@ const ThemeProvider = ({ children }) => {
     })
 
     return theme
-  }, [visThemeId, classes, selectedLanguage])
+  }, [visThemeId, langClasses, selectedLanguage])
 
   return (
     <MuiThemeProvider theme={theme}>
