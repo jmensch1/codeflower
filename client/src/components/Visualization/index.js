@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
-import { useSettings } from 'store/selectors'
+import { useSettings, useLanguageCounts } from 'store/selectors'
 import ForceDirectedGraph from './ForceDirectedGraph'
 import Sunburst from './Sunburst'
 import VisThemeProvider from './VisThemeProvider'
-import { useLanguageCounts } from 'store/selectors'
 
 const GRAPH_TYPES = {
   force: ForceDirectedGraph,
@@ -14,12 +13,12 @@ const Visualization = () => {
   const { visType } = useSettings()
   const counts = useLanguageCounts()
 
-  const langClasses = useMemo(() => {
-    return counts.reduce((classes, count, index) => {
+  const langClasses = useMemo(() => (
+    counts.reduce((classes, count, index) => {
       classes[count.language] = `lang-${index}`
       return classes
     }, {})
-  }, [counts])
+  ), [counts])
 
   const Vis = GRAPH_TYPES[visType]
 
