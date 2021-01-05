@@ -3,40 +3,24 @@ import { createSelector } from 'reselect'
 import repoUtils from 'services/repo'
 import themes from 'themes'
 
-export const useLocation = () => useSelector((state) => state.router.location)
-export const useRepo = () => useSelector((state) => state.repo)
-export const useFolders = () => useSelector((state) => state.folders)
-export const useFiles = () => useSelector((state) => state.files)
-export const useSettings = () => useSelector((state) => state.settings)
+////////// SIMPLE SELECTORS ///////////
 
-export const useModal = (modalType) =>
-  useSelector((state) => {
-    return state.modals[modalType] || { isOpen: false, params: {} }
-  })
-
-export const useContext = () =>
-  useSelector((state) => {
-    const { context } = state.router.location.query
-    return {
-      isExtension: context === 'chrome',
-      isWeb: context !== 'chrome',
-    }
-  })
-
+const location = (state) => state.router.location
+const repo = (state) => state.repo
 const rootFolder = (state) => state.repo?.cloc.tree
+const files = (state) => state.files
+const settings = (state) => state.settings
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
-
-export const useSelectedFolderPath = () => useSelector(selectedFolderPath)
-
-const selectedFolder = createSelector(
-  [rootFolder, selectedFolderPath],
-  (rootFolder, selectedFolderPath) => {
-    if (!rootFolder || !selectedFolderPath) return null
-    return repoUtils.getFolder(rootFolder, selectedFolderPath)
+const selectedLanguage = (state) => state.settings.selectedLanguage
+const context = (state) => {
+  const { context } = state.router.location.query
+  return {
+    isExtension: context === 'chrome',
+    isWeb: context !== 'chrome',
   }
-)
+}
 
-export const useSelectedFolder = () => useSelector(selectedFolder)
+////////// CREATE SELECTOR ///////////
 
 const folderPaths = createSelector(
   [rootFolder],
@@ -45,7 +29,14 @@ const folderPaths = createSelector(
     return repoUtils.getFolderPaths(rootFolder)
   }
 )
-export const useFolderPaths = () => useSelector(folderPaths)
+
+const selectedFolder = createSelector(
+  [rootFolder, selectedFolderPath],
+  (rootFolder, selectedFolderPath) => {
+    if (!rootFolder || !selectedFolderPath) return null
+    return repoUtils.getFolder(rootFolder, selectedFolderPath)
+  }
+)
 
 const languages = createSelector(
   [selectedFolder], (selectedFolder) => {
@@ -58,9 +49,6 @@ const languages = createSelector(
     return repoUtils.getLanguages(selectedFolder)
   }
 )
-
-export const useLanguages = () => useSelector(languages)
-export const useSelectedLanguage = () => useSelector((state) => state.settings.selectedLanguage)
 
 const languageColors = createSelector([
   languages,
@@ -77,4 +65,23 @@ const languageColors = createSelector([
   }, {})
 })
 
+////////// USE SELECTOR ///////////
+
+export const useLocation = () => useSelector(location)
+export const useRepo = () => useSelector(repo)
+export const useFiles = () => useSelector(files)
+export const useSettings = () => useSelector(settings)
+export const useSelectedFolderPath = () => useSelector(selectedFolderPath)
+export const useSelectedLanguage = () => useSelector(selectedLanguage)
+export const useFolderPaths = () => useSelector(folderPaths)
+export const useSelectedFolder = () => useSelector(selectedFolder)
+export const useLanguages = () => useSelector(languages)
 export const useLanguageColors = () => useSelector(languageColors)
+export const useContext = () => useSelector(context)
+
+////////// PARAMATERIZED USE SELECTOR ///////////
+
+export const useModal = (modalType) =>
+  useSelector((state) => {
+    return state.modals[modalType] || { isOpen: false, params: {} }
+  })

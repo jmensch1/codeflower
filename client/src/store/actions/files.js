@@ -8,14 +8,13 @@ export const types = {
 
 export const getFile = (path) => {
   return async (dispatch, getState) => {
-    const { repoId } = getState().repo
-
     dispatch({
       type: types.GET_FILE_PENDING,
       data: { path },
     })
 
     try {
+      const { repoId } = getState().repo
       const file = await api.getFile({ repoId, path })
       dispatch({
         type: types.GET_FILE_SUCCESS,
