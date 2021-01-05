@@ -1,4 +1,4 @@
-const themes = {
+const visThemes = {
   periwinkle: {
     visualization: {
       default: {},
@@ -142,4 +142,4 @@ const themes = {
   },
 }
 
-export default themes
+export default visThemes

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 import repoUtils from 'services/repo'
-import themes from 'themes'
+import visThemes from 'themes/visThemes'
 
 ////////// SIMPLE SELECTORS ///////////
 
@@ -47,7 +47,7 @@ const languageColors = createSelector([
   languageCounts,
   (state) => state.settings.visThemeId,
 ], (counts, visThemeId) => {
-  const getLanguageColor = themes[visThemeId].languages.color
+  const getLanguageColor = visThemes[visThemeId].languages.color
   const languages = counts.map(count => count.language)
   return languages.reduce((colors, language, index) => {
     colors[language] = getLanguageColor(languages, index)

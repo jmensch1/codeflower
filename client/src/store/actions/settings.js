@@ -1,4 +1,5 @@
-import visThemes from 'themes'
+import mainThemes from 'themes/mainThemes'
+import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
 
 export const types = {
@@ -35,7 +36,7 @@ export const selectFolder = (folderPath) => ({
 })
 
 const initialState = {
-  mainThemeId: 'dark',
+  mainThemeId: Object.keys(mainThemes)[0],
   visThemeId: Object.keys(visThemes)[0],
   visType: 'force',
   selectedLanguage: null,
