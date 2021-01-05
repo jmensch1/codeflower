@@ -13,7 +13,9 @@ const files = (state) => state.files
 const settings = (state) => state.settings
 const mainThemeId = (state) => state.settings.mainThemeId
 const visThemeId = (state) => state.settings.visThemeId
+const visType = (state) => state.settings.visType
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
+const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
 const context = (state) => {
   const { context } = state.router.location.query
@@ -26,7 +28,6 @@ const context = (state) => {
 ////////// CREATE SELECTOR ///////////
 
 const folderPaths = createSelector([rootFolder], (rootFolder) => {
-  if (!rootFolder) return null
   return repoUtils.getFolderPaths(rootFolder)
 })
 
@@ -65,6 +66,7 @@ export const useFiles = () => useSelector(files)
 export const useSettings = () => useSelector(settings)
 export const useSelectedFolderPath = () => useSelector(selectedFolderPath)
 export const useSelectedLanguage = () => useSelector(selectedLanguage)
+export const useHighlightedFolderPath = () => useSelector(highlightedFolderPath)
 export const useFolderPaths = () => useSelector(folderPaths)
 export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)
@@ -72,6 +74,7 @@ export const useLanguageColors = () => useSelector(languageColors)
 export const useContext = () => useSelector(context)
 export const useMainTheme = () => useSelector(mainTheme)
 export const useVisTheme = () => useSelector(visTheme)
+export const useVisType = () => useSelector(visType)
 
 ////////// PARAMATERIZED USE SELECTOR ///////////
 

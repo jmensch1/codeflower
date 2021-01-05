@@ -1,5 +1,10 @@
-import React, { useMemo } from 'react'
-import { useSettings, useLanguageCounts } from 'store/selectors'
+import React, { useMemo, useCallback } from 'react'
+import {
+  useVisType,
+  useLanguageCounts,
+  useFolderPaths,
+  useSelectedFolderPath,
+} from 'store/selectors'
 import ForceDirectedGraph from './ForceDirectedGraph'
 import Sunburst from './Sunburst'
 import VisThemeProvider from './VisThemeProvider'
@@ -10,8 +15,10 @@ const GRAPH_TYPES = {
 }
 
 const Visualization = () => {
-  const { visType } = useSettings()
+  const visType = useVisType()
   const counts = useLanguageCounts()
+  const folderPaths = useFolderPaths()
+  const selectedFolderPath = useSelectedFolderPath()
 
   const langClasses = useMemo(
     () =>
@@ -22,11 +29,26 @@ const Visualization = () => {
     [counts]
   )
 
+  const folderClasses = useMemo(
+    () =>
+      folderPaths.reduce((classes, path, index) => {
+        classes[path.pathName] = `folder-${index}`
+        return classes
+      }, {}),
+    [folderPaths]
+  )
+
+  const getFullPath = useCallback((partialPath) => {
+    return partialPath
+      ? `${selectedFolderPath}/${partialPath}`
+      : selectedFolderPath
+  }, [selectedFolderPath])
+
   const Vis = GRAPH_TYPES[visType]
 
   return (
-    <VisThemeProvider langClasses={langClasses}>
-      <Vis langClasses={langClasses} />
+    <VisThemeProvider langClasses={langClasses} folderClasses={folderClasses}>
+      <Vis langClasses={langClasses} folderClasses={folderClasses} getFullPath={getFullPath}/>
     </VisThemeProvider>
   )
 }

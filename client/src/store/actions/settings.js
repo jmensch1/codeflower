@@ -8,6 +8,7 @@ export const types = {
   SET_VIS_TYPE: 'settings/SET_VIS_TYPE',
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
+  HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
 }
 
 export const setMainTheme = (mainThemeId) => ({
@@ -35,12 +36,19 @@ export const selectFolder = (folderPath) => ({
   data: folderPath,
 })
 
+export const highlightFolder = (folderPath) => ({
+  type: types.HIGHLIGHT_FOLDER,
+  data: folderPath,
+})
+
+
 const initialState = {
   mainThemeId: Object.keys(mainThemes)[0],
   visThemeId: Object.keys(visThemes)[0],
   visType: 'force',
   selectedLanguage: null,
   selectedFolderPath: null,
+  highlightedFolderPath: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -69,11 +77,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         selectedFolderPath: action.data,
+        highlightedFolderPath: null,
       }
     case repoTypes.GET_REPO_SUCCESS:
       return {
         ...state,
         selectedFolderPath: action.data.selectedFolderPath,
+        highlightedFolderPath: null,
+      }
+    case types.HIGHLIGHT_FOLDER:
+      return {
+        ...state,
+        highlightedFolderPath: action.data,
       }
     default:
       return state

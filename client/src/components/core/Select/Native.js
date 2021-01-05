@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -17,10 +17,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Select = ({ value = null, onChange = () => {}, options = [] }) => {
+const Select = ({
+  value = null,
+  options = [],
+  onChange = () => {},
+  onHover = () => {},
+}) => {
   const classes = useStyles()
+
+  const handleChange = useCallback((e) => {
+    onChange(e.target.value)
+  }, [onChange])
+
   return (
-    <select className={classes.select} value={value} onChange={onChange}>
+    <select className={classes.select} value={value} onChange={handleChange}>
       {options.map((opt) => (
         <option key={opt} value={opt}>
           {opt}

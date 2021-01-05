@@ -8,7 +8,7 @@ const visThemes = {
           stroke: '#9ecae1',
           strokeWidth: 1,
         },
-        '& .directory': {
+        '& .folder': {
           stroke: '#9ecae1',
           strokeWidth: 2,
           fill: '#ededed',
@@ -23,7 +23,7 @@ const visThemes = {
         },
       },
       sunburst: {
-        '& .directory': {
+        '& .folder': {
           stroke: '#9ecae1',
           strokeWidth: 0,
           fill: 'transparent',
@@ -56,7 +56,7 @@ const visThemes = {
           stroke: '#9ecae1',
           strokeWidth: 0.5,
         },
-        '& .directory': {
+        '& .folder': {
           stroke: '#9ecae1',
           strokeWidth: 0,
           fill: '#F5EA14',
@@ -71,7 +71,7 @@ const visThemes = {
         },
       },
       sunburst: {
-        '& .directory': {
+        '& .folder': {
           stroke: '#9ecae1',
           strokeWidth: 0.5,
           fill: 'transparent',
@@ -102,7 +102,7 @@ const visThemes = {
           fill: 'none',
           strokeWidth: 0,
         },
-        '& .directory': {
+        '& .folder': {
           strokeWidth: 0,
           fill: 'none',
         },
@@ -116,7 +116,7 @@ const visThemes = {
         },
       },
       sunburst: {
-        '& .directory': {
+        '& .folder': {
           stroke: '#9ecae1',
           strokeWidth: 0,
           fill: 'transparent',

@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.visualization.default,
     ...theme.visualization.force,
     ...theme.languages,
+    ...theme.folders,
     '& svg': {
       position: 'absolute',
       top: 0,
@@ -41,12 +43,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ForceDirectedGraph = ({ langClasses }) => {
+const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
   const container = useRef(null)
   const tooltip = useRef(null)
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
+
+  const getNodePath = useCallback((node) => {
+    const partialPath = node
+      .ancestors()
+      .map((d) => d.data.name)
+      .reverse()
+      .slice(1)
+      .join('/')
+    return getFullPath(partialPath)
+  }, [getFullPath])
 
   useEffect(() => {
     if (!tree) return
@@ -72,7 +84,12 @@ const ForceDirectedGraph = ({ langClasses }) => {
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('class', 'link')
+      .attr('class', (d) =>
+        clsx(
+          'link',
+          folderClasses[getNodePath(d.source)]
+        )
+      )
 
     const node = svg
       .append('g')
@@ -80,7 +97,16 @@ const ForceDirectedGraph = ({ langClasses }) => {
       .data(nodes)
       .join('circle')
       .attr('class', (d) =>
-        !!d.children ? 'directory' : 'file ' + langClasses[d.data.language]
+        d.children
+          ? clsx(
+              'folder',
+              folderClasses[getNodePath(d)]
+            )
+          : clsx(
+              'file',
+              langClasses[d.data.language],
+              d.parent && folderClasses[getNodePath(d.parent)]
+            )
       )
       .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
 
@@ -176,15 +202,9 @@ const ForceDirectedGraph = ({ langClasses }) => {
 
     node.on('click', (e, d) => {
       if (d.children) return
-      const filePath = d
-        .ancestors()
-        .map((d) => d.data.name)
-        .reverse()
-        .slice(1)
-        .join('/')
       dispatch(
         openModal('fileViewer', {
-          filePath,
+          filePath: getNodePath(d),
           metadata: d.data,
         })
       )
@@ -198,7 +218,7 @@ const ForceDirectedGraph = ({ langClasses }) => {
       containerCurrent.innerHTML = ''
       tooltipCurrent.innerHTML = ''
     }
-  }, [tree, langClasses, dispatch])
+  }, [tree, langClasses, folderClasses, getNodePath, dispatch])
 
   if (!tree) return null
   return (

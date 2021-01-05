@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { useModal, useFiles, useSelectedFolderPath } from 'store/selectors'
+import { useModal, useFiles } from 'store/selectors'
 import { closeModal } from 'store/actions/modals'
 import { getFile } from 'store/actions/files'
 import { makeStyles } from '@material-ui/core/styles'
@@ -61,21 +61,13 @@ const FileViewer = () => {
   } = useModal('fileViewer')
   const classes = useStyles()
   const dispatch = useDispatch()
-  const selectedFolderPath = useSelectedFolderPath()
   const { files, isLoading, error } = useFiles()
 
-  // join filePath with selected folder because filePath in the vis
-  // starts with the selectedFolderPath
-  // TODO: maybe move this logic into the visualization(s)
-  const fullPath = [selectedFolderPath, filePath]
-    .join('/')
-    .replace(/^root\//, '')
-
-  const file = files[fullPath]
+  const file = files[filePath]
 
   useEffect(() => {
-    if (isOpen && !file) dispatch(getFile(fullPath))
-  }, [isOpen, file, fullPath, dispatch])
+    if (isOpen && !file) dispatch(getFile(filePath))
+  }, [isOpen, file, filePath, dispatch])
 
   const close = useCallback(() => {
     dispatch(closeModal('fileViewer'))

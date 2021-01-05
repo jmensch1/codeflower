@@ -1,5 +1,7 @@
 // returns an array of all the paths in the given repo
 function getFolderPaths(root) {
+  if (!root) return []
+
   const folderPaths = []
 
   // generate path strings and totalNode counts
