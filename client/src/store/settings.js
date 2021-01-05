@@ -4,6 +4,7 @@ export const types = {
   SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
   SET_VIS_THEME: 'settings/SET_VIS_THEME',
   SET_VIS_TYPE: 'settings/SET_VIS_TYPE',
+  SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
 }
 
 export const setMainTheme = (mainThemeId) => {
@@ -33,10 +34,18 @@ export const setVisType = (visType) => {
   }
 }
 
+export const selectLanguage = (language) => {
+  return {
+    type: types.SELECT_LANGUAGE,
+    data: language,
+  }
+}
+
 const initialState = {
   mainThemeId: 'dark',
   visThemeId: Object.keys(visThemes)[0],
   visType: 'force',
+  selectedLanguage: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -55,6 +64,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         visType: action.data,
+      }
+    case types.SELECT_LANGUAGE:
+      return {
+        ...state,
+        selectedLanguage: action.data,
       }
     default:
       return state

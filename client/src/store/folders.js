@@ -1,4 +1,3 @@
-import repo from 'services/repo'
 import { types as repoTypes } from './repo'
 
 export const types = {
@@ -7,14 +6,10 @@ export const types = {
 
 export const selectFolder = (folderPath) => {
   return (dispatch, getState) => {
-    const { tree } = getState().repo.cloc
-    const folder = repo.getFolder(tree, folderPath)
-    const languages = repo.getLanguages(folder)
     dispatch({
       type: types.SELECT_FOLDER,
       data: {
         folderPath,
-        languages,
       },
     })
   }

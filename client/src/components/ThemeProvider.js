@@ -4,12 +4,13 @@ import {
   createMuiTheme,
 } from '@material-ui/core/styles'
 import themes from 'themes'
-import { useSettings, useLanguages } from 'store/selectors'
+import { useSettings, useLanguages, useSelectedLanguage } from 'store/selectors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 const ThemeProvider = ({ children }) => {
   const { visThemeId, mainThemeId } = useSettings()
-  const { classes, selectedLanguage } = useLanguages()
+  const { classes } = useLanguages()
+  const selectedLanguage = useSelectedLanguage()
 
   const theme = useMemo(() => {
     const visTheme = themes[visThemeId]

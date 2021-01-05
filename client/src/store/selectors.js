@@ -8,9 +8,7 @@ const ORIGIN = window.location.origin
 export const useLocation = () => useSelector((state) => state.router.location)
 export const useRepo = () => useSelector((state) => state.repo)
 export const useFolders = () => useSelector((state) => state.folders)
-export const useLanguages = () => useSelector((state) => state.languages)
 export const useFiles = () => useSelector((state) => state.files)
-export const useTerminal = () => useSelector((state) => state.terminal)
 export const useSettings = () => useSelector((state) => state.settings)
 
 export const useModal = (modalType) =>
@@ -48,3 +46,18 @@ const selectedFolder = createSelector(
 )
 
 export const useSelectedFolder = () => useSelector(selectedFolder)
+
+const languages = createSelector(
+  [selectedFolder], (selectedFolder) => {
+    if (!selectedFolder) return {
+      counts: null,
+      totals: null,
+      classes: null,
+      sortParams: null,
+    }
+    return repoUtils.getLanguages(selectedFolder)
+  }
+)
+
+export const useLanguages = () => useSelector(languages)
+export const useSelectedLanguage = () => useSelector((state) => state.settings.selectedLanguage)

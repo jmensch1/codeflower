@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useLanguages, useRepo } from 'store/selectors'
-import { selectLanguage } from 'store/languages'
+import { selectLanguage } from 'store/settings'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'

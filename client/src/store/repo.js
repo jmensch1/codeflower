@@ -66,16 +66,12 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     //// FOLDER SELECTION ////
 
     const onSelectFolder = (selectedFolder) => {
-      const folder = repo.getFolder(tree, selectedFolder)
-      const languages = repo.getLanguages(folder)
-
       dispatch({
         type: types.GET_REPO_SUCCESS,
         data: {
           repo: data,
           folderPaths,
           selectedFolder,
-          languages,
         },
       })
     }
