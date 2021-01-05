@@ -9,6 +9,7 @@ import SearchBar from './SearchBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    userSelect: 'none',
     backgroundColor: ({ repo }) =>
       repo ? undefined : theme.palette.background.default,
     '& .MuiDialog-paper': {
@@ -36,7 +37,11 @@ const Search = () => {
   if (!isOpen) return null
 
   return (
-    <Dialog className={classes.root} open={isOpen} onClose={close}>
+    <Dialog
+      className={classes.root}
+      open={isOpen}
+      onClose={repo ? close : undefined}
+    >
       <SearchBar onComplete={close} />
     </Dialog>
   )

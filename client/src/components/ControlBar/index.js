@@ -4,9 +4,9 @@ import Bar from './core/Bar'
 import Divider from './core/Divider'
 
 import SearchButton from './buttons/SearchButton'
-import VisTypeButtons from './buttons/VisTypeButtons'
+// import VisTypeButtons from './buttons/VisTypeButtons'
 import VisThemeButtons from './buttons/VisThemeButtons'
-import MainThemeButton from './buttons/MainThemeButton'
+// import MainThemeButton from './buttons/MainThemeButton'
 import FullscreenButton from './buttons/FullscreenButton'
 import AboutButton from './buttons/AboutButton'
 // import LinkButton from './buttons/LinkButton'
@@ -25,11 +25,11 @@ const ControlBar = () => {
           <Divider />
         </>
       )}
-      <VisTypeButtons />
-      <Divider />
+      {/*<VisTypeButtons />
+      <Divider />*/}
       <VisThemeButtons />
       <Divider />
-      <MainThemeButton />
+      {/*<MainThemeButton />*/}
       <FullscreenButton />
       <AboutButton />
       {/*<Divider />
