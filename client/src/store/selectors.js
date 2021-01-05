@@ -38,26 +38,19 @@ const selectedFolder = createSelector(
   }
 )
 
-const languages = createSelector(
-  [selectedFolder], (selectedFolder) => {
-    if (!selectedFolder) return {
-      counts: null,
-    }
-    return repoUtils.getLanguages(selectedFolder)
-  }
+const languageCounts = createSelector(
+  [selectedFolder],
+  (selectedFolder) => repoUtils.getLanguageCounts(selectedFolder)
 )
 
 const languageColors = createSelector([
-  languages,
+  languageCounts,
   (state) => state.settings.visThemeId,
-], (languages, visThemeId) => {
-  const { counts } = languages
-  if (!counts || !visThemeId) return null
-
+], (counts, visThemeId) => {
   const getLanguageColor = themes[visThemeId].languages.color
-  const langs = counts.map(count => count.language)
-  return langs.reduce((colors, lang, index) => {
-    colors[lang] = getLanguageColor(langs, index)
+  const languages = counts.map(count => count.language)
+  return languages.reduce((colors, language, index) => {
+    colors[language] = getLanguageColor(languages, index)
     return colors
   }, {})
 })
@@ -72,7 +65,7 @@ export const useSelectedFolderPath = () => useSelector(selectedFolderPath)
 export const useSelectedLanguage = () => useSelector(selectedLanguage)
 export const useFolderPaths = () => useSelector(folderPaths)
 export const useSelectedFolder = () => useSelector(selectedFolder)
-export const useLanguages = () => useSelector(languages)
+export const useLanguageCounts = () => useSelector(languageCounts)
 export const useLanguageColors = () => useSelector(languageColors)
 export const useContext = () => useSelector(context)
 

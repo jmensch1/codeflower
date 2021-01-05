@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { useLanguages, useRepo, useLanguageColors } from 'store/selectors'
+import { useRepo, useLanguageCounts, useLanguageColors } from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -78,14 +78,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Languages = () => {
   const classes = useStyles()
-  const { counts } = useLanguages()
-  const languageColors = useLanguageColors()
+  const counts = useLanguageCounts()
+  const colors = useLanguageColors()
   const repo = useRepo()
   const dispatch = useDispatch()
 
   const totals = useMemo(() => {
-    if (!counts) return null
-    
     return counts.reduce(
       (totals, count) => {
         totals.files += count.files
@@ -100,7 +98,7 @@ const Languages = () => {
     dispatch(selectLanguage(language))
   }
 
-  if (!repo || !counts) return null
+  if (!repo) return null
   return (
     <Paper className={classes.paper}>
       <div className={classes.background} />
@@ -122,7 +120,7 @@ const Languages = () => {
           </thead>
           <tbody onMouseLeave={() => onSelectLanguage(null)}>
             {counts.map((count) => {
-              const backgroundColor = languageColors[count.language]
+              const backgroundColor = colors[count.language]
               return (
                 <tr
                   key={count.language}

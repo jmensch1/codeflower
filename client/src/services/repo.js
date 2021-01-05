@@ -45,6 +45,8 @@ function getFolder(root, folderPath) {
 
 // returns the counts of languages in the given folder
 function getLanguageCounts(folder) {
+  if (!folder) return []
+
   const counts = {}
 
   // traverse the given folder and calculate
@@ -69,48 +71,13 @@ function getLanguageCounts(folder) {
   return Object.keys(counts).map((language) => ({
     ...counts[language],
     language,
-  }))
-}
-
-function getSortedLanguageCounts(counts, sortParams) {
-  const prop = sortParams.sortCol
-  const sortFactor = sortParams.sortDesc ? 1 : -1
-  return counts.slice().sort((a, b) => {
-    return sortFactor * (b[prop] > a[prop] ? 1 : -1)
-  })
-}
-
-// function getLanguageTotals(sortedCounts) {
-//   return sortedCounts.reduce(
-//     (totals, count) => {
-//       totals.files += count.files
-//       totals.lines += count.lines
-//       return totals
-//     },
-//     { files: 0, lines: 0 }
-//   )
-// }
-//
-// function getLanguageClasses(sortedCounts) {
-//   return sortedCounts.reduce((classes, count, index) => {
-//     classes[count.language] = `lang-${index}`
-//     return classes
-//   }, {})
-// }
-
-function getLanguages(folder) {
-  const sortParams = { sortCol: 'lines', sortDesc: true }
-  const counts = getLanguageCounts(folder)
-  const sortedCounts = getSortedLanguageCounts(counts, sortParams)
-  return {
-    counts: sortedCounts,
-  }
+  })).sort((a, b) => b.lines - a.lines)
 }
 
 const service = {
   getFolderPaths,
   getFolder,
-  getLanguages,
+  getLanguageCounts,
 }
 
 export default service
