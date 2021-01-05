@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux'
 import queryString from 'query-string'
 import { createSelector } from 'reselect'
 import repoUtils from 'services/repo'
+import themes from 'themes'
 
 const ORIGIN = window.location.origin
 
@@ -72,3 +73,20 @@ const languages = createSelector(
 
 export const useLanguages = () => useSelector(languages)
 export const useSelectedLanguage = () => useSelector((state) => state.settings.selectedLanguage)
+
+const languageColors = createSelector([
+  languages,
+  (state) => state.settings.visThemeId,
+], (languages, visThemeId) => {
+  const { counts } = languages
+  if (!counts || !visThemeId) return null
+
+  const getLanguageColor = themes[visThemeId].languages.color
+  const langs = counts.map(count => count.language)
+  return langs.reduce((colors, lang, index) => {
+    colors[lang] = getLanguageColor(langs, index)
+    return colors
+  }, {})
+})
+
+export const useLanguageColors = () => useSelector(languageColors)

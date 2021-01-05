@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useLanguages, useRepo } from 'store/selectors'
+import { useLanguages, useRepo, useLanguageColors } from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -56,29 +56,12 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& td:last-child': {
-      position: 'relative',
+      textAlign: 'center',
       '& > div': {
         height: 16,
         width: 16,
         borderRadius: 8,
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 1,
-      },
-      // TODO: remove this span
-      '& > span': {
-        display: 'inline-block',
-        height: 14,
-        width: 14,
-        borderRadius: 7,
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        border: '1px white solid',
-        zIndex: 0,
+        margin: '0 auto',
       },
     },
     '& tbody tr': {
@@ -95,12 +78,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Languages = () => {
   const classes = useStyles()
-  const { counts, totals, classes: langClasses } = useLanguages()
+  const { counts, totals } = useLanguages()
+  const languageColors = useLanguageColors()
   const repo = useRepo()
   const dispatch = useDispatch()
 
-  const onSelectLanguage = (langClass) => {
-    dispatch(selectLanguage(langClass))
+  const onSelectLanguage = (language) => {
+    dispatch(selectLanguage(language))
   }
 
   if (!repo || !counts) return null
@@ -124,21 +108,29 @@ const Languages = () => {
             </tr>
           </thead>
           <tbody onMouseLeave={() => onSelectLanguage(null)}>
-            {counts.map((count) => (
-              <tr
-                key={count.language}
-                onMouseEnter={() => onSelectLanguage(count.language)}
-              >
-                <td>{count.language}</td>
-                <td>{count.files}</td>
-                <td>{count.lines}</td>
-                <td>
-                  <div className={langClasses[count.language]} />
-                  <span />{' '}
-                  {/* a hack to render a circle for the bumblebee theme */}
-                </td>
-              </tr>
-            ))}
+            {counts.map((count) => {
+              const backgroundColor = languageColors[count.language]
+              return (
+                <tr
+                  key={count.language}
+                  onMouseEnter={() => onSelectLanguage(count.language)}
+                >
+                  <td>{count.language}</td>
+                  <td>{count.files}</td>
+                  <td>{count.lines}</td>
+                  <td>
+                    <div
+                      style={{
+                        backgroundColor,
+                        border: backgroundColor === 'transparent'
+                          ? '1px white solid'
+                          : undefined
+                      }}
+                    />
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
           <tfoot>
             <tr>
