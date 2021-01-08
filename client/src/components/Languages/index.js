@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRepo, useLanguageCounts, useLanguageColors } from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
+import { toggleModal } from 'store/actions/modals'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -108,6 +109,7 @@ const Languages = () => {
           <span className={classes.noBreak}>{repo.name}</span>
         </Typography>
         <Typography align="center">({repo.branch})</Typography>
+        <Typography onClick={() => dispatch(toggleModal('tree'))} align="center">Tree</Typography>
         <FolderSelect />
         <table className={classes.table}>
           <thead>

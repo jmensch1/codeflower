@@ -39,10 +39,10 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
     const styles = {}
 
     // highlight the highlighted folder
-    styles[`& .folder.${folderClasses[highlightedFolderPath]}`] = {
-      fill: 'white',
-      r: '10',
-    }
+    // styles[`& .folder.${folderClasses[highlightedFolderPath]}`] = {
+    //   fill: 'white',
+    //   r: '10',
+    // }
 
     // suppress everything outside the highlighted folder
     const highlightFolder = (folderPath) => {

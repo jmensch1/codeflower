@@ -8,6 +8,7 @@ import Languages from './Languages'
 import FileViewer from './FileViewer'
 import Terminal from './Terminal'
 import ControlBar from './ControlBar'
+import Tree from './Tree'
 import Modals from './modals'
 
 function App() {
@@ -23,11 +24,16 @@ function App() {
 
   return (
     <>
-      <Languages />
-      <ControlBar />
-      <FileViewer />
-      <Terminal />
-      <Visualization />
+      <div style={{ display: 'flex' }}>
+        <Tree />
+        <div style={{ position: 'relative', flex: 1 }}>
+          <Languages />
+          <ControlBar />
+          <FileViewer />
+          <Terminal />
+          <Visualization />
+        </div>
+      </div>
       <Modals />
     </>
   )

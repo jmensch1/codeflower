@@ -16,6 +16,16 @@ export const closeModal = (modalType) => ({
   data: modalType,
 })
 
+export const toggleModal = (modalType, params = {}) => {
+  return (dispatch, getState) => {
+    const state = getState().modals[modalType]
+    if (!state || !state.isOpen)
+      dispatch(openModal(modalType, params))
+    else
+      dispatch(closeModal(modalType))
+  }
+}
+
 const initialState = {}
 
 const reducer = (state = initialState, action) => {
