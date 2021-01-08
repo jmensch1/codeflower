@@ -5,7 +5,6 @@ import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
 import Visualization from './Visualization'
 import RepoInfo from './RepoInfo'
-import FileViewer from './FileViewer'
 import Terminal from './Terminal'
 import ControlBar from './ControlBar'
 import Tree from './Tree'
@@ -29,7 +28,6 @@ function App() {
         <div style={{ position: 'relative', flex: 1 }}>
           <RepoInfo />
           <ControlBar />
-          <FileViewer />
           <Terminal />
           <Visualization />
         </div>
