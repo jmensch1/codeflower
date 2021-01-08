@@ -190,8 +190,8 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
         if (!dragging) tt.style('visibility', 'visible')
       })
       .on('mousemove', (e, d) => {
-        tt.style('top', `${e.pageY}px`)
-          .style('left', `${e.pageX}px`)
+        tt.style('top', `${e.offsetY}px`)
+          .style('left', `${e.offsetX}px`)
           .html(
             d.children ? d.data.name : `${d.data.name} (${d.data.size} loc)`
           )
