@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
 import Visualization from './Visualization'
-import Languages from './Languages'
+import RepoInfo from './RepoInfo'
 import FileViewer from './FileViewer'
 import Terminal from './Terminal'
 import ControlBar from './ControlBar'
@@ -27,7 +27,7 @@ function App() {
       <div style={{ display: 'flex' }}>
         <Tree />
         <div style={{ position: 'relative', flex: 1 }}>
-          <Languages />
+          <RepoInfo />
           <ControlBar />
           <FileViewer />
           <Terminal />

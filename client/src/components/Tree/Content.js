@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   listItem: {
     fontSize: 14,
     opacity: 0.4,
-    padding: '0 0.25em',
+    padding: '0 0.5em',
     cursor: 'pointer',
     // borderLeft: '1px white solid',
     // transition: 'all 0.2s ease-in-out',
