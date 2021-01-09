@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     borderBottom: '1px solid white',
     cursor: 'pointer',
   },
+  text: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 }))
 
 const FolderButton = () => {
@@ -25,7 +29,7 @@ const FolderButton = () => {
     <div
       className={classes.root}
       onClick={() => dispatch(toggleModal('tree'))}>
-      <Typography>{ selectedFolderPath }</Typography>
+      <Typography className={classes.text}>{ selectedFolderPath }</Typography>
       <FolderIcon fontSize='small' />
     </div>
   )
