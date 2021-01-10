@@ -33,6 +33,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+function isWithinFolder(folderPath, targetFolderPath) {
+  return (
+    folderPath.startsWith(`${targetFolderPath}/`) ||
+    folderPath === targetFolderPath
+  )
+}
+
 const FolderSelect = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -45,7 +52,7 @@ const FolderSelect = () => {
   }, [dispatch])
 
   const highlight = useCallback((folderPath) => {
-    if (folderPath && folderPath.startsWith(selectedFolderPath))
+    if (folderPath && isWithinFolder(folderPath, selectedFolderPath))
       dispatch(highlightFolder(folderPath))
     else if (highlightedFolderPath)
       dispatch(highlightFolder(null))
@@ -60,7 +67,7 @@ const FolderSelect = () => {
       {folderPaths.map(({ pathName, totalNodes }) => {
         const sections = pathName.split('/')
         const name = sections[sections.length - 1]
-        const selected = pathName.startsWith(selectedFolderPath)
+        const selected = isWithinFolder(pathName, selectedFolderPath)
         return (
           <div
             key={pathName}
