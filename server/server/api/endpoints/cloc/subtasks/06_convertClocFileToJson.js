@@ -41,6 +41,7 @@ function getChildren(json) {
     children.push(child)
     delete json[key]
   }
+  children.sort((a, b) => b.name > a.name ? 1 : -1)
   return children
 }
 
