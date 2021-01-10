@@ -7,6 +7,7 @@ import { MAX_NODES } from 'constants.js'
 export const types = {
   SUBSCRIBE: 'repo/SUBSCRIBE',
   UNSUBSCRIBE: 'repo/UNSUBSCRIBE',
+  GET_REPO_PENDING: 'repo/GET_REPO_PENDING',
   GET_REPO_SUCCESS: 'repo/GET_REPO_SUCCESS',
   GET_REPO_FAILURE: 'repo/GET_REPO_FAILURE',
 }
@@ -29,7 +30,13 @@ function onUpdate(data) {
 
 export const getRepo = ({ owner, name, branch, username, password }) => {
   return async (dispatch) => {
+
     //// GET REPO ////
+
+    dispatch({
+      type: types.GET_REPO_PENDING,
+      data: { owner, name, branch, username, password },
+    })
 
     dispatch(openModal('terminal'))
     await delay(750)
@@ -59,7 +66,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
     dispatch(closeModal('terminal'))
     await delay(750)
 
-    //// FOLDER PATH SELECTION ////
+    //// SELECT FOLDER PATH  ////
 
     const onSelectFolder = (selectedFolderPath) => {
       dispatch({

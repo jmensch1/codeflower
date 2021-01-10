@@ -7,6 +7,7 @@ import visThemes from 'themes/visThemes'
 ////////// SIMPLE SELECTORS ///////////
 
 const location = (state) => state.router.location
+const query = (state) => state.query
 const repo = (state) => state.repo
 const rootFolder = (state) => state.repo?.cloc.tree
 const files = (state) => state.files
@@ -61,6 +62,7 @@ const visTheme = createSelector([visThemeId], (id) => visThemes[id])
 ////////// USE SELECTOR ///////////
 
 export const useLocation = () => useSelector(location)
+export const useQuery = () => useSelector(query)
 export const useRepo = () => useSelector(repo)
 export const useFiles = () => useSelector(files)
 export const useSettings = () => useSelector(settings)

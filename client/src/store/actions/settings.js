@@ -41,7 +41,6 @@ export const highlightFolder = (folderPath) => ({
   data: folderPath,
 })
 
-
 const initialState = {
   mainThemeId: Object.keys(mainThemes)[0],
   visThemeId: Object.keys(visThemes)[0],

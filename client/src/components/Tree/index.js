@@ -7,6 +7,7 @@ import Content from './Content'
 import IconButton from '@material-ui/core/IconButton'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import Typography from '@material-ui/core/Typography'
+import Contributors from './Contributors'
 
 const WIDTH = 250
 
@@ -65,7 +66,7 @@ const Tree = () => {
           </IconButton>
         </div>
         <div className={classes.content}>
-          <Content />
+          { true ? <Contributors /> : <Content /> }          
         </div>
       </div>
     </div>
