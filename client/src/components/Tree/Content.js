@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import clsx from 'clsx'
 import {
   useFolderPaths,
   useSelectedFolderPath,
@@ -9,24 +10,25 @@ import {
 } from 'store/selectors'
 import { selectFolder, highlightFolder } from 'store/actions/settings'
 import { MAX_NODES } from 'constants.js'
-import clsx from 'clsx'
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    // makes the hover background full width
+    // even when horizontal scrollbar is present
+    display: 'table',
+    width: '100%',
+  },
   listItem: {
     fontSize: 14,
-    opacity: 0.4,
     padding: '0 0.5em',
     cursor: 'pointer',
-    // borderLeft: '1px white solid',
-    // transition: 'all 0.2s ease-in-out',
+    whiteSpace: 'nowrap',
+    color: theme.palette.text.disabled,
+    '&.selected': {
+      color: theme.palette.text.primary,
+    },
     '&:hover': {
       backgroundColor: theme.palette.grey[900],
-    },
-    '&.selected': {
-      // borderLeft: '1px white solid',
-      opacity: 1.0,
-      // paddingLeft: 3,
-      // borderLeftWidth: 3,
     },
   }
 }))
@@ -49,8 +51,12 @@ const FolderSelect = () => {
       dispatch(highlightFolder(null))
   }, [dispatch, selectedFolderPath, highlightedFolderPath])
 
+  const clearHighlight = useCallback(() => {
+    dispatch(highlightFolder(null))
+  }, [dispatch])
+
   return (
-    <div onMouseLeave={() => highlight(null)}>
+    <div className={classes.root} onMouseLeave={clearHighlight}>
       {folderPaths.map(({ pathName, totalNodes }) => {
         const sections = pathName.split('/')
         const name = sections[sections.length - 1]
@@ -64,10 +70,17 @@ const FolderSelect = () => {
           >
             <span style={{
               display: 'inline-block',
-              width: `${1.5 * (sections.length - 1)}em`
+              width: `${1.2 * (sections.length - 1)}em`,
             }} />
-            <Typography variant='caption'>
-              { totalNodes <= MAX_NODES ? name : `${name} (${totalNodes} nodes)` }
+            <Typography
+              variant='caption'
+              style={{
+                textDecoration: pathName === selectedFolderPath
+                  ? 'underline'
+                  : undefined,
+              }}
+            >
+              {totalNodes <= MAX_NODES ? name : `${name} (${totalNodes} nodes)`}
             </Typography>
           </div>
         )

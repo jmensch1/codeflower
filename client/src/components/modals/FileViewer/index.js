@@ -85,7 +85,7 @@ const FileViewer = () => {
           {metadata.size} lines of {metadata.language}
         </Typography>
         {/*<Typography className={classes.meta} variant="body2" component="div">
-          {selectedFile.path.split('/').join(' • ')}
+          {filePath.split('/').join(' • ')}
         </Typography>*/}
         <IconButton
           aria-label="close"
