@@ -1,5 +1,5 @@
 import axios from 'axios'
-import testRepo from './data/ballotnav.json'
+import testRepo from './data/ballotnav-2.json'
 
 // FOR DEVELOPMENT ONLY
 const USE_TEST_REPO = true
@@ -18,7 +18,7 @@ export const getRepo = async ({
   if (USE_TEST_REPO) {
     onUpdate(`getting: ${owner}/${name}`)
     onUpdate('using test repo')
-    return Promise.resolve(testRepo)
+    return Promise.resolve(testRepo.data)
   }
 
   return new Promise((resolve, reject) => {
