@@ -9,6 +9,7 @@ export const types = {
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
   HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
+  HIGHLIGHT_USER: 'settings/HIGHLIGHT_USER',
 }
 
 export const setMainTheme = (mainThemeId) => ({
@@ -41,6 +42,11 @@ export const highlightFolder = (folderPath) => ({
   data: folderPath,
 })
 
+export const highlightUser = (userId) => ({
+  type: types.HIGHLIGHT_USER,
+  data: userId,
+})
+
 const initialState = {
   mainThemeId: Object.keys(mainThemes)[0],
   visThemeId: Object.keys(visThemes)[0],
@@ -48,6 +54,7 @@ const initialState = {
   selectedLanguage: null,
   selectedFolderPath: null,
   highlightedFolderPath: null,
+  highlightedUserId: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -88,6 +95,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         highlightedFolderPath: action.data,
+      }
+    case types.HIGHLIGHT_USER:
+      return {
+        ...state,
+        highlightedUserId: action.data,
       }
     default:
       return state

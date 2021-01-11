@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 import { useRepo, useQuery } from 'store/selectors'
+import { highlightUser } from 'store/actions/settings'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     padding: 4,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.palette.grey[800],
+    }
   },
   avatar: {
     width: 24,
@@ -31,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 const Contributors = () => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   // const [contributors, setContributors] = useState([])
   // const { username, password } = useQuery()
   const repo = useRepo()
@@ -52,13 +59,17 @@ const Contributors = () => {
       })
   }, [repo])*/}
 
+  const highlight = useCallback((userId) => {
+    dispatch(highlightUser(userId))
+  }, [dispatch])
+
   if (!repo) return null
 
   const contributors = repo.users
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onMouseLeave={highlight.bind(null, null)}>
       {contributors.map((contributor) => (
-        <div key={contributor.id} className={classes.listItem}>
+        <div key={contributor.id} className={classes.listItem} onMouseEnter={highlight.bind(null, contributor.id)}>
           <Typography>[{contributor.id}] {contributor.name} ({contributor.numFilesTouched})</Typography>
           {/*<img
             className={classes.avatar}
