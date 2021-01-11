@@ -31,12 +31,12 @@ const useStyles = makeStyles(theme => ({
 
 const Contributors = () => {
   const classes = useStyles()
-  const [contributors, setContributors] = useState([])
-  const { username, password } = useQuery()
+  // const [contributors, setContributors] = useState([])
+  // const { username, password } = useQuery()
   const repo = useRepo()
-  const auth = useRef(null)
+  // const auth = useRef(null)
 
-  useEffect(() => {
+  {/*useEffect(() => {
     auth.current = username && password ? { username, password } : null
   }, [username, password])
 
@@ -50,13 +50,17 @@ const Contributors = () => {
         const conts = data.filter((el) => el.type === 'User') // exclude bots
         setContributors(conts)
       })
-  }, [repo])
+  }, [repo])*/}
 
+  if (!repo) return null
+
+  const contributors = repo.users
   return (
     <div className={classes.root}>
       {contributors.map((contributor) => (
         <div key={contributor.id} className={classes.listItem}>
-          <img
+          <Typography>[{contributor.id}] {contributor.name} ({contributor.numFilesTouched})</Typography>
+          {/*<img
             className={classes.avatar}
             src={contributor.avatar_url}
             alt={contributor.login}
@@ -68,7 +72,7 @@ const Contributors = () => {
             rel="noreferrer"
           >
             <Typography>{contributor.login}</Typography>
-          </a>
+          </a>*/}
         </div>
       ))}
     </div>

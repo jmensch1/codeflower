@@ -105,7 +105,8 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
           : clsx(
               'file',
               langClasses[d.data.language],
-              d.parent && folderClasses[getNodePath(d.parent)]
+              d.parent && folderClasses[getNodePath(d.parent)],
+              ...d.data.users.map((userId) => `user-${userId}`),
             )
       )
       .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))

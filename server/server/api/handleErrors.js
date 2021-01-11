@@ -29,7 +29,7 @@ function handleErrors(error, onError) {
         'https://******:******@'
       )
 
-    Log('error', error)
+    // Log('error', error)
 
     onError({
       name: 'ServerError',

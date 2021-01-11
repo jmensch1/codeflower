@@ -7,6 +7,7 @@ const Log = require('@log')
 //////////// PRIVATE ////////////
 
 function getFilesForUser(cwd, email) {
+  console.log('getting files for: ', email)
   const cmd = concat([
     'git log',
     '--no-merges',
