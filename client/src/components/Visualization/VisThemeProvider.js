@@ -6,6 +6,7 @@ import {
   useSelectedLanguage,
   useFolderPaths,
   useHighlightedFolderPath,
+  useHighlightedUserId,
 } from 'store/selectors'
 
 const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
@@ -14,6 +15,7 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
   const selectedLanguage = useSelectedLanguage()
   const highlightedFolderPath = useHighlightedFolderPath()
   const folderPaths = useFolderPaths()
+  const highlightedUserId = useHighlightedUserId()
 
   const langStyles = useMemo(() => {
     const languages = Object.keys(langClasses)
@@ -62,6 +64,13 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
     return styles
   }, [folderClasses, folderPaths, highlightedFolderPath])
 
+  const userStyles = useMemo(() => {
+    const styles = {}
+    if (highlightedUserId)
+      styles[`& .file:not(.user-${highlightedUserId})`] = { display: 'none' }
+    return styles
+  }, [highlightedUserId])
+
   const theme = useCallback(
     (mainTheme) =>
       createMuiTheme({
@@ -69,8 +78,9 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
         visualization: visTheme.visualization,
         languages: langStyles,
         folders: folderStyles,
+        users: userStyles,
       }),
-    [visTheme, langStyles, folderStyles]
+    [visTheme, langStyles, folderStyles, userStyles]
   )
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>

@@ -18,6 +18,7 @@ const visType = (state) => state.settings.visType
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
 const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
+const highlightedUserId = (state) => state.settings.highlightedUserId
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -69,6 +70,7 @@ export const useSettings = () => useSelector(settings)
 export const useSelectedFolderPath = () => useSelector(selectedFolderPath)
 export const useSelectedLanguage = () => useSelector(selectedLanguage)
 export const useHighlightedFolderPath = () => useSelector(highlightedFolderPath)
+export const useHighlightedUserId = () => useSelector(highlightedUserId)
 export const useFolderPaths = () => useSelector(folderPaths)
 export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)

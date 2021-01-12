@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.visualization.force,
     ...theme.languages,
     ...theme.folders,
+    ...theme.users,
     '& svg': {
       position: 'absolute',
       top: 0,
