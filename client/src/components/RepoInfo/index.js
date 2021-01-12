@@ -4,6 +4,7 @@ import { useRepo } from 'store/selectors'
 import Paper from '@material-ui/core/Paper'
 import RepoHeader from './RepoHeader'
 import FolderButton from './FolderButton'
+import AuthorButton from './AuthorButton'
 import LanguagesTable from './LanguagesTable'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     padding: theme.spacing(1),
   },
-  folderButton: {
+  button: {
     margin: '15px 10px',
   },
 }))
@@ -52,8 +53,11 @@ const Languages = () => {
       <div className={classes.background} />
       <div className={classes.scroller}>
         <RepoHeader />
-        <div className={classes.folderButton}>
+        <div className={classes.button}>
           <FolderButton />
+        </div>
+        <div className={classes.button}>
+          <AuthorButton />
         </div>
         <LanguagesTable />
       </div>

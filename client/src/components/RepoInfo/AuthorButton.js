@@ -2,8 +2,8 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import FolderIcon from '@material-ui/icons/FolderOpen'
-import { useSelectedFolderPath, useModal } from 'store/selectors'
+import AuthorIcon from '@material-ui/icons/PersonOutline'
+import { useModal } from 'store/selectors'
 import { openModal, closeModal } from 'store/actions/modals'
 
 const useStyles = makeStyles(theme => ({
@@ -21,23 +21,22 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const FolderButton = () => {
+const AuthorButton = () => {
   const classes = useStyles()
-  const selectedFolderPath = useSelectedFolderPath()
   const dispatch = useDispatch()
   const { isOpen, params: { contentType } } = useModal('sidebar')
 
   const toggle = useCallback(() => {
-    if (isOpen && contentType === 'folders') dispatch(closeModal('sidebar'))
-    else dispatch(openModal('sidebar', { contentType: 'folders' }))
+    if (isOpen && contentType === 'authors') dispatch(closeModal('sidebar'))
+    else dispatch(openModal('sidebar', { contentType: 'authors' }))
   }, [isOpen, contentType, dispatch])
 
   return (
     <div className={classes.root} onClick={toggle}>
-      <Typography className={classes.text}>{ selectedFolderPath }</Typography>
-      <FolderIcon fontSize='small' />
+      <Typography className={classes.text}>all authors</Typography>
+      <AuthorIcon fontSize='small' />
     </div>
   )
 }
 
-export default FolderButton
+export default AuthorButton

@@ -7,7 +7,7 @@ import Visualization from './Visualization'
 import RepoInfo from './RepoInfo'
 import Terminal from './Terminal'
 import ControlBar from './ControlBar'
-import Tree from './Tree'
+import Sidebar from './Sidebar'
 import Modals from './modals'
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
   return (
     <>
       <div style={{ display: 'flex' }}>
-        <Tree />
+        <Sidebar />
         <div style={{ position: 'relative', flex: 1 }}>
           <RepoInfo />
           <ControlBar />

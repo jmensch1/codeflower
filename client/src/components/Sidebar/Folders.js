@@ -40,7 +40,7 @@ function isWithinFolder(folderPath, targetFolderPath) {
   )
 }
 
-const FolderSelect = () => {
+const Folders = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selectedFolderPath = useSelectedFolderPath()
@@ -96,4 +96,4 @@ const FolderSelect = () => {
   )
 }
 
-export default FolderSelect
+export default Folders
