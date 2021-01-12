@@ -1,9 +1,7 @@
 const fs = require('fs')
 const config = require('@config')
 
-module.exports = (req) => {
-  const { repoId, path } = req.params
-
+module.exports = ({ repoId, path }) => {
   if (!repoId || !path) throw config.errors.BadFileRequest
 
   const absPath = `${config.paths.repo(repoId)}/repo/${path}`

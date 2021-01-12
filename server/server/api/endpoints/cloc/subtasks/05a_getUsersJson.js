@@ -4,7 +4,7 @@ const config = require('@config')
 
 function getUsersJson(ctrl) {
   const { repoId } = ctrl.repo
-  return getUsers({ params: { repoId }})
+  return getUsers({ repoId })
     .then(users => {
       ctrl.repo.users = users
 

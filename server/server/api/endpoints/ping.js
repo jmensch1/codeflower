@@ -1,6 +1,6 @@
 const Log = require('@log')
 
-module.exports = function servePing(req) {
+module.exports = function servePing() {
   Log(1, 'Serving ping response.')
 
   let data = { message: 'codeflower server is running' }

@@ -5,15 +5,12 @@ const config = require('@config')
 //////////// PRIVATE ////////////
 
 function parseRequest(request) {
-  return new Promise((resolve, reject) => {
-    let reqInfo
-    try {
-      reqInfo = JSON.parse(request)
-    } catch (e) {
-      reject(config.errors.ParseError)
-    }
-    resolve(reqInfo)
-  })
+  try {
+    const { endpoint, params } = JSON.parse(request)
+    return { endpoint, params }
+  } catch (e) {
+    throw config.errors.ParseError
+  }
 }
 
 //////////// PUBLIC /////////////

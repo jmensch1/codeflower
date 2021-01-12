@@ -7,7 +7,6 @@ const Log = require('@log')
 //////////// PRIVATE ////////////
 
 function getFilesForUser(cwd, email) {
-  console.log('getting files for: ', email)
   const cmd = concat([
     'git log',
     '--no-merges',
@@ -23,9 +22,7 @@ function getFilesForUser(cwd, email) {
   )
 }
 
-function getUsers(req) {
-  const { repoId } = req.params
-
+function getUsers({ repoId }) {
   const cwd = `${config.paths.repo(repoId)}/repo`
   const cmd = `git log --use-mailmap --pretty=short | git shortlog -nse | cat`
 

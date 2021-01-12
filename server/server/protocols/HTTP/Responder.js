@@ -14,18 +14,18 @@ function serveJson(response, statusCode, json) {
 
 function HTTPResponder(response) {
   return {
-    update: function (text) {
+    onUpdate: function (text) {
       return false
     },
 
-    success: function (data) {
+    onSuccess: function (data) {
       serveJson(response, 200, {
         type: config.responseTypes.success,
         data: data,
       })
     },
 
-    error: function (err) {
+    onError: function (err) {
       serveJson(response, err.statusCode, {
         type: config.responseTypes.error,
         data: err,

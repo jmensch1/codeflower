@@ -17,7 +17,7 @@ function WSResponder(wsConn) {
   }
 
   return {
-    update: function (text) {
+    onUpdate: function (text) {
       let lines = text.toString('utf-8').split('\n')
       lines.forEach((line) => {
         sendData({
@@ -27,7 +27,7 @@ function WSResponder(wsConn) {
       })
     },
 
-    success: function (data) {
+    onSuccess: function (data) {
       sendData({
         type: config.responseTypes.success,
         data: data,
@@ -35,7 +35,7 @@ function WSResponder(wsConn) {
       closeConn()
     },
 
-    error: function (err) {
+    onError: function (err) {
       sendData({
         type: config.responseTypes.error,
         data: err,

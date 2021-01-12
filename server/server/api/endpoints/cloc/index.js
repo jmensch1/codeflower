@@ -14,8 +14,8 @@ const {
 
 //////////////// PRIVATE ///////////////////
 
-function serveClocData(req, onUpdate) {
-  const ctrl = { ...req, onUpdate }
+function serveClocData(params, onUpdate) {
+  const ctrl = { params, onUpdate }
 
   return processRequestParams(ctrl)
     .then(checkRepoClonability)

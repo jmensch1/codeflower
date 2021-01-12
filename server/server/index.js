@@ -2,26 +2,40 @@ require('module-alias/register')
 
 const config = require('@config')
 const Log = require('@log')
-const HTTP = require('./HTTP/')
-const WS = require('./WS/')
-const serveResponse = require('./api/serveResponse')
+const HTTP = require('./protocols/HTTP')
+const WS = require('./protocols/WS')
 const setHostName = require('./util/setHostName')
+const endpoints = require('./api/endpoints')
+const handleErrors = require('./api/handleErrors')
 
 /////////// A PROTOCOL-AGNOSTIC SERVER ////////////
 
-function server(protocol, request, response) {
-  serveResponse({
-    request: request,
-    parse: protocol.parseRequest,
-    responder: protocol.Responder(response),
-  })
+async function serve(protocol, request, response) {
+  const { parseRequest, Responder } = protocol
+  const { onSuccess, onError, onUpdate } = Responder(response)
+
+  try {
+    const { endpoint, params } = parseRequest(request)
+
+    const handler = endpoints[endpoint]
+    if (!handler)
+      throw {
+        ...config.errors.EndpointNotRecognized,
+        endpoint,
+      }
+
+    const data = await handler(params, onUpdate)
+    onSuccess(data)
+  } catch (error) {
+    handleErrors(error, onError)
+  }
 }
 
 ////////////////////// MAIN ////////////////////////
 
 // create http and ws servers
-const httpServer = HTTP.createServer(server.bind(null, HTTP))
-WS.createServer(server.bind(null, WS), httpServer)
+const httpServer = HTTP.createServer(serve.bind(null, HTTP))
+WS.createServer(serve.bind(null, WS), httpServer)
 
 // start listening
 const port = config.ports.HTTP
