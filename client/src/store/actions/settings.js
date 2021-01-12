@@ -9,7 +9,8 @@ export const types = {
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
   HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
-  HIGHLIGHT_USER: 'settings/HIGHLIGHT_USER',
+  SELECT_AUTHOR: 'settings/SELECT_AUTHOR',
+  HIGHLIGHT_AUTHOR: 'settings/HIGHLIGHT_AUTHOR',
 }
 
 export const setMainTheme = (mainThemeId) => ({
@@ -42,9 +43,14 @@ export const highlightFolder = (folderPath) => ({
   data: folderPath,
 })
 
-export const highlightUser = (userId) => ({
-  type: types.HIGHLIGHT_USER,
-  data: userId,
+export const selectAuthor = (authorId) => ({
+  type: types.SELECT_AUTHOR,
+  data: authorId,
+})
+
+export const highlightAuthor = (authorId) => ({
+  type: types.HIGHLIGHT_AUTHOR,
+  data: authorId,
 })
 
 const initialState = {
@@ -54,7 +60,8 @@ const initialState = {
   selectedLanguage: null,
   selectedFolderPath: null,
   highlightedFolderPath: null,
-  highlightedUserId: null,
+  selectedAuthorId: null,
+  highlightedAuthorId: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -96,10 +103,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         highlightedFolderPath: action.data,
       }
-    case types.HIGHLIGHT_USER:
+    case types.SELECT_AUTHOR:
       return {
         ...state,
-        highlightedUserId: action.data,
+        selectedAuthorId: action.data,
+      }
+    case types.HIGHLIGHT_AUTHOR:
+      return {
+        ...state,
+        highlightedAuthorId: action.data,
       }
     default:
       return state

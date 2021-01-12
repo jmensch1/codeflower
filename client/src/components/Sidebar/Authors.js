@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 import Typography from '@material-ui/core/Typography'
-import { useRepo } from 'store/selectors'
-import { highlightUser } from 'store/actions/settings'
+import { useAuthors, useSelectedAuthorId } from 'store/selectors'
+import { selectAuthor, highlightAuthor } from 'store/actions/settings'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,29 +17,46 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     '&:hover': {
       backgroundColor: theme.palette.grey[800],
-    }
+    },
+    '&.selected': {
+      textDecoration: 'underline',
+    },
   },
 }))
 
 const Authors = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const repo = useRepo()
+  const authors = useAuthors()
+  const selectedAuthorId = useSelectedAuthorId()
 
-  const highlight = useCallback((userId) => {
-    dispatch(highlightUser(userId))
+  const highlight = useCallback((authorId) => {
+    dispatch(highlightAuthor(authorId))
   }, [dispatch])
 
-  if (!repo) return null
+  const select = useCallback((authorId) => {
+    dispatch(selectAuthor(authorId))
+  }, [dispatch])
 
-  const { users: authors } = repo
+  if (!authors) return null
   return (
-    <div className={classes.root} onMouseLeave={highlight.bind(null, null)}>
+    <div
+      className={classes.root}
+      onMouseLeave={highlight.bind(null, selectedAuthorId)}
+    >
       {authors.map((author) => (
         <div
           key={author.id}
-          className={classes.listItem}
+          className={clsx(classes.listItem, {
+            selected: author.id === selectedAuthorId,
+          })}
           onMouseEnter={highlight.bind(null, author.id)}
+          onClick={() => {
+            if (author.id === selectedAuthorId)
+              select(null)
+            else
+              select(author.id)
+          }}
         >
           <Typography>
             [{author.id}] {author.name} ({author.numFilesTouched})

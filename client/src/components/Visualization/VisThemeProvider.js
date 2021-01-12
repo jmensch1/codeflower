@@ -6,7 +6,7 @@ import {
   useSelectedLanguage,
   useFolderPaths,
   useHighlightedFolderPath,
-  useHighlightedUserId,
+  useHighlightedAuthorId,
 } from 'store/selectors'
 
 const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
@@ -15,7 +15,7 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
   const selectedLanguage = useSelectedLanguage()
   const highlightedFolderPath = useHighlightedFolderPath()
   const folderPaths = useFolderPaths()
-  const highlightedUserId = useHighlightedUserId()
+  const highlightedAuthorId = useHighlightedAuthorId()
 
   const langStyles = useMemo(() => {
     const languages = Object.keys(langClasses)
@@ -66,10 +66,10 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
 
   const userStyles = useMemo(() => {
     const styles = {}
-    if (highlightedUserId)
-      styles[`& .file:not(.user-${highlightedUserId})`] = { display: 'none' }
+    if (highlightedAuthorId)
+      styles[`& .file:not(.user-${highlightedAuthorId})`] = { display: 'none' }
     return styles
-  }, [highlightedUserId])
+  }, [highlightedAuthorId])
 
   const theme = useCallback(
     (mainTheme) =>

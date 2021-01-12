@@ -9,6 +9,7 @@ import visThemes from 'themes/visThemes'
 const location = (state) => state.router.location
 const query = (state) => state.query
 const repo = (state) => state.repo
+const authors = (state) => state.repo?.users
 const rootFolder = (state) => state.repo?.cloc.tree
 const files = (state) => state.files
 const settings = (state) => state.settings
@@ -18,7 +19,8 @@ const visType = (state) => state.settings.visType
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
 const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
-const highlightedUserId = (state) => state.settings.highlightedUserId
+const selectedAuthorId = (state) => state.settings.selectedAuthorId
+const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -46,7 +48,7 @@ const languageCounts = createSelector([selectedFolder], (selectedFolder) =>
 )
 
 const languageColors = createSelector(
-  [languageCounts, (state) => state.settings.visThemeId],
+  [languageCounts, visThemeId],
   (counts, visThemeId) => {
     const getLanguageColor = visThemes[visThemeId].languages.color
     const languages = counts.map((count) => count.language)
@@ -54,6 +56,14 @@ const languageColors = createSelector(
       colors[language] = getLanguageColor(languages, index)
       return colors
     }, {})
+  }
+)
+
+const selectedAuthor = createSelector(
+  [authors, selectedAuthorId],
+  (authors, selectedAuthorId) => {
+    if (!authors) return null
+    return authors.find((author) => author.id === selectedAuthorId)
   }
 )
 
@@ -65,12 +75,15 @@ const visTheme = createSelector([visThemeId], (id) => visThemes[id])
 export const useLocation = () => useSelector(location)
 export const useQuery = () => useSelector(query)
 export const useRepo = () => useSelector(repo)
+export const useAuthors = () => useSelector(authors)
 export const useFiles = () => useSelector(files)
 export const useSettings = () => useSelector(settings)
 export const useSelectedFolderPath = () => useSelector(selectedFolderPath)
 export const useSelectedLanguage = () => useSelector(selectedLanguage)
 export const useHighlightedFolderPath = () => useSelector(highlightedFolderPath)
-export const useHighlightedUserId = () => useSelector(highlightedUserId)
+export const useHighlightedAuthorId = () => useSelector(highlightedAuthorId)
+export const useSelectedAuthorId = () => useSelector(selectedAuthorId)
+export const useSelectedAuthor = () => useSelector(selectedAuthor)
 export const useFolderPaths = () => useSelector(folderPaths)
 export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)

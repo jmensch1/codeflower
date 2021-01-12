@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import AuthorIcon from '@material-ui/icons/PersonOutline'
-import { useModal } from 'store/selectors'
+import { useModal, useSelectedAuthor } from 'store/selectors'
 import { openModal, closeModal } from 'store/actions/modals'
 
 const useStyles = makeStyles(theme => ({
@@ -25,6 +25,7 @@ const AuthorButton = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { isOpen, params: { contentType } } = useModal('sidebar')
+  const selectedAuthor = useSelectedAuthor()
 
   const toggle = useCallback(() => {
     if (isOpen && contentType === 'authors') dispatch(closeModal('sidebar'))
@@ -33,7 +34,9 @@ const AuthorButton = () => {
 
   return (
     <div className={classes.root} onClick={toggle}>
-      <Typography className={classes.text}>all authors</Typography>
+      <Typography className={classes.text}>
+        { selectedAuthor ? selectedAuthor.name : 'all authors' }
+      </Typography>
       <AuthorIcon fontSize='small' />
     </div>
   )
