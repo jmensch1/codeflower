@@ -14,10 +14,18 @@ const {
 
 //////////////// PRIVATE ///////////////////
 
-function serveClocData(params, onUpdate) {
-  const ctrl = { params, onUpdate }
+function serveClocData({ owner, name, branch, username, password }, onUpdate) {
+  const { uid, repo, creds } = processRequestParams({
+    owner,
+    name,
+    branch,
+    username,
+    password,
+  })
+  
+  const ctrl = { uid, repo, creds, onUpdate }
 
-  return processRequestParams(ctrl)
+  return checkRepoClonability(ctrl)
     .then(checkRepoClonability)
     .then(cloneRepoInFilesystem)
     .then(getBranchNameIfNeeded)
