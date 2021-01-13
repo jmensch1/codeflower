@@ -19,7 +19,7 @@ const config = require('@config')
 async function serveClocData({ owner, name, branch, username, password }, onUpdate) {
   const uid = connPool.addConn()
   const fullName = `${owner}/${name}`
-  const fNameBr = fullName + (branch ? `::${branch}` : '')
+  let fNameBr = fullName + (branch ? `::${branch}` : '')
   const repoId = fullName.replace('/', '#') + '#' + uid
   const creds = {
     username: username && encodeURIComponent(username),
@@ -35,6 +35,11 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
 
   await cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate })
 
+  if (!branch) {
+    branch = await getBranchNameIfNeeded(repoId)
+    fNameBr = `${fullName}::${branch}`
+  }
+
   const ctrl = {
     uid,
     repo: {
@@ -45,13 +50,13 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
       fNameBr,
       repoId,
       branches,
+      lastCommit: branches[branch],
     },
     creds,
     onUpdate
   }
 
-  return getBranchNameIfNeeded(ctrl)
-    .then(convertRepoToClocFile)
+  return convertRepoToClocFile(ctrl)
     .then(getUsersJson)
     .then(convertClocFileToJson)
     .then(sendJsonToClient)

@@ -33,7 +33,7 @@ async function cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpd
   ])
 
   // replace username and password, if any, with asterisks, before sending to client
-  let outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@')
+  const outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@')
   onUpdate('\n>> ' + outText)
 
   await exec(clone, { cwd, onUpdate })
