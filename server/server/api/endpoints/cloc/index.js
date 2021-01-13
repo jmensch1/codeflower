@@ -1,20 +1,17 @@
 //////////////// IMPORTS ///////////////////
 
-const {
-  processRequestParams,
-  checkRepoClonability,
-  cloneRepoInFilesystem,
-  getBranchNameIfNeeded,
-  convertRepoToClocFile,
-  getUsersJson,
-  convertClocFileToJson,
-  sendJsonToClient,
-  handleClocErrors,
-} = require('./subtasks/')
 const connPool = require('@util/connectionPool')(process.pid)
 const config = require('@config')
 const mixpanel = require('@util/mixpanel')
 const Log = require('@log')
+const {
+  checkRepoClonability,
+  cloneRepoInFilesystem,
+  getBranchName,
+  convertRepoToClocFile,
+  getUsersJson,
+  convertClocFileToJson,
+} = require('./subtasks/')
 
 //////////////// PRIVATE ///////////////////
 
@@ -38,7 +35,7 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
   await cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate })
 
   Log(2, '3. Getting Branch Name')
-  if (!branch) branch = await getBranchNameIfNeeded(repoId)
+  if (!branch) branch = await getBranchName(repoId)
 
   Log(2, '4. Converting Repo To Cloc File')
   await convertRepoToClocFile(repoId, onUpdate)
@@ -50,7 +47,7 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
   const cloc = await convertClocFileToJson(repoId, users, onUpdate)
 
   Log(2, `SUCCESS: ${repoId}`)
-  
+
   mixpanel.track('cloc_success', {
     distinct_id: 'user',
     repoId,
