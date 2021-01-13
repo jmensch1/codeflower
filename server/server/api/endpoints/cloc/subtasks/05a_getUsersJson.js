@@ -1,17 +1,59 @@
-const getUsers = require('../../users')
+const { exec, concat } = require('@util/shell')
 const fs = require('fs')
 const config = require('@config')
 
-function getUsersJson(ctrl) {
-  const { repoId } = ctrl.repo
-  return getUsers({ repoId })
-    .then(users => {
-      ctrl.repo.users = users
+async function getFilesForUser(cwd, email) {
+  const cmd = concat([
+    'git log',
+    '--no-merges',
+    `--author="${email}"`,
+    '--name-only',
+    '--use-mailmap',
+    '--pretty=format:""',
+    '| sort -u',
+  ])
 
-      const file = `${config.paths.repo(repoId)}/users.json`
-      return fs.promises.writeFile(file, JSON.stringify(users))
+  const { stdout } = await exec(cmd, { cwd })
+  return stdout.split('\n').slice(1, -1)
+}
+
+async function getUsers(repoId) {
+  const cwd = `${config.paths.repo(repoId)}/repo`
+  const cmd = `git log --use-mailmap --pretty=short | git shortlog -nse | cat`
+
+  const { stdout } = await exec(cmd, { cwd })
+
+  const users = stdout
+    .split('\n')
+    .slice(0, -1)
+    .map((line, idx) => {
+      const [count, user] = line.split('\t')
+      const [_, name, email] = user.match(/^(.*?)\s<(.*?)>$/)
+      return {
+        id: idx,
+        count: +count.trim(),
+        name,
+        email,
+      }
     })
-    .then(() => ctrl)
+
+  const userFiles = await Promise.all(users.map(user => {
+    return getFilesForUser(cwd, user.email)
+  }))
+
+  users.forEach((user, idx) => {
+    user.files = userFiles[idx]
+    user.numFilesTouched = userFiles[idx].length
+  })
+
+  return users
+}
+
+async function getUsersJson(repoId) {
+  const users = await getUsers(repoId)
+  const file = `${config.paths.repo(repoId)}/users.json`
+  await fs.promises.writeFile(file, JSON.stringify(users))
+  return users
 }
 
 module.exports = getUsersJson

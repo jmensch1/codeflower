@@ -22,7 +22,7 @@ function getFilesForUser(cwd, email) {
   )
 }
 
-function getUsers({ repoId }) {
+function getUsers(repoId) {
   const cwd = `${config.paths.repo(repoId)}/repo`
   const cmd = `git log --use-mailmap --pretty=short | git shortlog -nse | cat`
 
