@@ -9,7 +9,7 @@ async function convertRepoToClocFile(repoId, onUpdate) {
   const cwd = config.paths.repo(repoId)
 
   const cloc = concat([
-    'npx cloc repo',
+    'npx cloc root',
     '--json',
     '--skip-uniqueness',
     '--by-file',

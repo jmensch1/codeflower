@@ -65,11 +65,7 @@ function clocToTree(clocData) {
     current.comment = file.comment;
     current.users = file.users
   })
-
-  json = getChildren(json)[0]
-  json.name = 'root'
-
-  return json
+  return getChildren(json)[0]
 }
 
 function getTree(repoId, users) {
@@ -88,7 +84,7 @@ function getTree(repoId, users) {
         const file = clocData[fileName]
         file.users = []
         users.forEach(user => {
-          if (user.files.includes(fileName.replace('repo/', '')))
+          if (user.files.includes(fileName.replace('root/', '')))
             file.users.push(user.id)
         })
       })
@@ -115,19 +111,11 @@ function getTree(repoId, users) {
 
 ///////// GET IGNORED FILES FROM CLOC OUTPUT //////////
 
-function cleanIgnoredFiles(ignoredFiles) {
-  return ignoredFiles
-    .filter((el) => el.file !== 'repo')
-    .map((el) => ({
-      ...el,
-      file: el.file.replace('repo', ''),
-    }))
-}
-
 function getIgnored(repoId) {
   const repoDir = config.paths.repo(repoId)
   const file = `${repoDir}/${config.cloc.ignoredFile}`
-  return readJson(file).then(cleanIgnoredFiles)
+  return readJson(file)
+    .then((files) => files.filter((f) => f.file !== 'root'))
 }
 
 ///////////// UNITE TREE AND IGNORED FILES /////////

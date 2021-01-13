@@ -26,7 +26,7 @@ async function cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpd
     `--progress`,
     `--single-branch`,
     branch ? `--branch ${branch}` : null,
-    `repo`,
+    `root`,
   ])
 
   // replace username and password, if any, with asterisks, before sending to client

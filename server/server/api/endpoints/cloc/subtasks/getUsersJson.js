@@ -18,7 +18,7 @@ async function getFilesForUser(cwd, email) {
 }
 
 async function getUsers(repoId) {
-  const cwd = `${config.paths.repo(repoId)}/repo`
+  const cwd = `${config.paths.repo(repoId)}/root`
   const cmd = `git log --use-mailmap --pretty=short | git shortlog -nse | cat`
 
   const { stdout } = await exec(cmd, { cwd })
