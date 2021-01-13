@@ -9,11 +9,28 @@ const {
   cloneRepoInFilesystem,
   getBranchName,
   convertRepoToClocFile,
+  getCleanClocData,
   getUsersJson,
-  convertClocFileToJson,
+  clocToTree,
 } = require('./subtasks/')
 
 //////////////// PRIVATE ///////////////////
+
+function mergeClocWithUsers(cloc, users) {
+  return Object.keys(cloc).reduce((merged, path) => {
+    merged[path] = {
+      ...cloc[path],
+      users: users
+        .filter((user) => user.files.includes(path))
+        .map((user) => user.id)
+    }
+    return merged
+  }, {})
+}
+
+function cleanUsers(users) {
+  return users.map(({ files, ...rest }) => rest)
+}
 
 async function cloc({ owner, name, branch, username, password }, onUpdate) {
   if (!owner || !name) throw config.errors.NeedOwnerAndName
@@ -38,11 +55,20 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   Log(2, '4. Converting Repo To Cloc File')
   await convertRepoToClocFile(repoId, onUpdate)
 
-  Log(2, '5. Getting Users Json')
-  const users = await getUsersJson(repoId)
+  Log(2, '5. Cleaning Cloc Data')
+  let { cloc, ignored } = await getCleanClocData(repoId)
 
-  Log(2, '6. Converting Cloc File To Json')
-  const cloc = await convertClocFileToJson(repoId, users, onUpdate)
+  Log(2, '6. Getting Users Json')
+  let users = await getUsersJson(repoId)
+
+  Log(2, '7. Merging Cloc and Users')
+  cloc = mergeClocWithUsers(cloc, users)
+
+  Log(2, '8. Cleaning Users')
+  users = cleanUsers(users)
+
+  Log(2, '9. Concerting Cloc to Tree')
+  const tree = clocToTree(cloc)
 
   Log(2, `SUCCESS: ${repoId}`)
 
@@ -58,7 +84,10 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
     repoId,
     branches,
     users,
-    cloc,
+    cloc: {
+      tree,
+      ignored,
+    }
   }
 }
 
