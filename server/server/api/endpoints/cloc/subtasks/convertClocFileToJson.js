@@ -45,25 +45,7 @@ function getChildren(json) {
   return children
 }
 
-function clocToTree(clocData, users) {
-  delete clocData.header
-  delete clocData.SUM
-
-  // merge in users
-  Object.keys(clocData).forEach(fileName => {
-    const file = clocData[fileName]
-    file.users = []
-    users.forEach(user => {
-      if (user.files.includes(fileName.replace('repo/', '')))
-        file.users.push(user.id)
-    })
-  })
-
-  // delete file lists for users
-  users.forEach(user => {
-    delete user.files
-  })
-
+function clocToTree(clocData) {
   var json = {}
   Object.keys(clocData).forEach((key) => {
     var filename = key
@@ -94,7 +76,32 @@ function getTree(repoId, users) {
   const repoDir = config.paths.repo(repoId)
   const file = `${repoDir}/${config.cloc.dataFile}`
   return fs.promises.readFile(file, 'utf-8')
-    .then(clocData => clocToTree(JSON.parse(clocData), users))
+    .then(JSON.parse)
+    .then((clocData) => {
+      // clean cloc data
+      delete clocData.header
+      delete clocData.SUM
+      return clocData
+    })
+    .then((clocData) => {
+      // merge in users
+      Object.keys(clocData).forEach(fileName => {
+        const file = clocData[fileName]
+        file.users = []
+        users.forEach(user => {
+          if (user.files.includes(fileName.replace('repo/', '')))
+            file.users.push(user.id)
+        })
+      })
+
+      // delete file lists for users
+      users.forEach(user => {
+        delete user.files
+      })
+
+      return clocData
+    })
+    .then(clocToTree)
     .catch(err => {
       if (err.code === 'ENOENT')
         // if cloc did not create a file (e.g., because there are no
@@ -123,7 +130,8 @@ function getIgnored(repoId) {
   const file = `${repoDir}/${config.cloc.ignoredFile}`
   return fs.promises
     .readFile(file, 'utf8')
-    .then((ignored) => cleanIgnoredFiles(JSON.parse(ignored)))
+    .then(JSON.parse)
+    .then(cleanIgnoredFiles)
 }
 
 ///////////// UNITE TREE AND IGNORED FILES /////////
