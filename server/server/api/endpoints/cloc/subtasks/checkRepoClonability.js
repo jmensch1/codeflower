@@ -24,7 +24,7 @@ function getBranches(lsRemoteOutput) {
 // (2) whether the branch exists
 // (3) whether the repo requires credentials
 // (4) whether the credentials, if given, are valid
-async function checkRepoClonability({ owner, name, creds, onUpdate }) {
+async function checkRepoClonability({ owner, name, branch, creds, onUpdate }) {
   // construct the git ls-remote command.
   // using '******' as a fallback is a trick that lets us
   // distinguish between invalid credentials and non-existent repos,
@@ -40,8 +40,7 @@ async function checkRepoClonability({ owner, name, creds, onUpdate }) {
   onUpdate('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'))
 
   try {
-    const { stdout } = await exec(lsRemote, { onUpdate })
-    return getBranches(stdout)
+    var { stdout } = await exec(lsRemote, { onUpdate })
   } catch ({ err, stderr }) {
     // err happens if the credentials are wrong or the repo doesn't exist
     // Repository not found => credentials are correct AND repository does not exist
@@ -55,6 +54,12 @@ async function checkRepoClonability({ owner, name, creds, onUpdate }) {
     else
       throw err
   }
+
+  // check if branch exists
+  const branches = getBranches(stdout)
+  if (branch && !Object.keys(branches).includes(branch))
+    throw config.errors.BranchNotFound
+  return branches
 }
 
 //////////// EXPORTS //////////////

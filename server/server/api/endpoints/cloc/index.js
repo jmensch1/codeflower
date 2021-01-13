@@ -27,9 +27,7 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   Log(2, `NEW REPO: ${repoId}`)
 
   Log(2, '1. Checking Repo Clonability')
-  const branches = await checkRepoClonability({ owner, name, creds, onUpdate })
-  if (branch && !Object.keys(branches).includes(branch))
-    throw config.errors.BranchNotFound
+  const branches = await checkRepoClonability({ owner, name, branch, creds, onUpdate })
 
   Log(2, '2. Cloning Repo In Filesystem')
   await cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate })
