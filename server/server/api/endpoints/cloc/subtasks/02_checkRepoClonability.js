@@ -9,7 +9,7 @@ const Log = require('@log')
 // scans lsRemote output and returns an object of branches
 // where the keys are the branch names and the values are the shas
 function getBranches(lsRemoteOutput) {
-  let branches = {}
+  const branches = {}
   lsRemoteOutput
     .split('\n')
     .slice(0, -1)

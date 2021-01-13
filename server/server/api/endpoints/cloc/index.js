@@ -33,6 +33,8 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
   if (branch && !Object.keys(branches).includes(branch))
     throw config.errors.BranchNotFound
 
+  await cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate })
+
   const ctrl = {
     uid,
     repo: {
@@ -48,8 +50,7 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
     onUpdate
   }
 
-  return cloneRepoInFilesystem(ctrl)
-    .then(getBranchNameIfNeeded)
+  return getBranchNameIfNeeded(ctrl)
     .then(convertRepoToClocFile)
     .then(getUsersJson)
     .then(convertClocFileToJson)
