@@ -15,7 +15,7 @@ const {
 
 //////////////// PRIVATE ///////////////////
 
-async function serveClocData({ owner, name, branch, username, password }, onUpdate) {
+async function cloc({ owner, name, branch, username, password }, onUpdate) {
   if (!owner || !name) throw config.errors.NeedOwnerAndName
 
   const repoId = `${owner}#${name}#${connPool.addConn()}`
@@ -66,4 +66,4 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
 
 /////////////////// EXPORTS ///////////////////
 
-module.exports = serveClocData
+module.exports = cloc
