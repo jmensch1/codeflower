@@ -1,33 +1,28 @@
-// NOTE: change repo.name to repo.repoId in the cloc command to test the error state
-
 //////////// IMPORTS ////////////
 
-const { exec, concat } = require('@util/shell'),
-  config = require('@config'),
-  Log = require('@log')
+const { exec, concat } = require('@util/shell')
+const config = require('@config')
+const Log = require('@log')
 
 //////////// PRIVATE ////////////
 
-function convertRepoToClocFile(ctrl) {
-  return new Promise((resolve, reject) => {
-    Log(2, '5. Converting Repo To Cloc File')
+async function convertRepoToClocFile(repoId, onUpdate) {
+  Log(2, '5. Converting Repo To Cloc File')
 
-    const cloc = concat([
-      'npx cloc repo',
-      '--json',
-      '--skip-uniqueness',
-      '--by-file',
-      `--report-file=${config.cloc.dataFile}`,
-      `--ignored=${config.cloc.ignoredFile}`,
-    ])
+  const cwd = config.paths.repo(repoId)
 
-    ctrl.onUpdate(`\n>> ${cloc}`)
+  const cloc = concat([
+    'npx cloc repo',
+    '--json',
+    '--skip-uniqueness',
+    '--by-file',
+    `--report-file=${config.cloc.dataFile}`,
+    `--ignored=${config.cloc.ignoredFile}`,
+  ])
 
-    return exec(cloc, {
-      cwd: config.paths.repo(ctrl.repo.repoId),
-      onUpdate: ctrl.onUpdate,
-    }).then(() => resolve(ctrl))
-  })
+  onUpdate(`\n>> ${cloc}`)
+
+  await exec(cloc, { cwd, onUpdate })
 }
 
 //////////// EXPORTS ////////////
