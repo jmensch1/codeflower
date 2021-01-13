@@ -79,7 +79,8 @@ function httpReq({ request, sendRaw=false }) {
 function showResponse(res) {
   switch(res.type) {
     case RES_TYPES.success:
-      console.log("SUCCESS: " + res.data.fNameBr);
+      const { owner, name, branch } = res.data
+      console.log("SUCCESS: " + `${owner}/${name}::${branch}`);
       break;
     case RES_TYPES.error:
       console.log("ERROR: ", res.data);

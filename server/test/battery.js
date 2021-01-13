@@ -57,7 +57,7 @@ const TESTS = [{
     desc: 'Public repo with default branch of not-master, no branch specified, no creds.',
     expect: res => res.type === RES_TYPES.success &&
                    res.data.branch === 'not-master' &&
-                   res.data.lastCommit === 'ba2a2fd68c243bb5cfe4907d3adbce8e0d4b29fa'
+                   res.data.branches['not-master'] === 'ba2a2fd68c243bb5cfe4907d3adbce8e0d4b29fa'
   }
 },{
   request: {
@@ -72,7 +72,7 @@ const TESTS = [{
     desc: 'Public repo with default branch of not-master, not-master branch specified, no creds.',
     expect: res => res.type === RES_TYPES.success &&
                    res.data.branch === 'not-master' &&
-                   res.data.lastCommit === 'ba2a2fd68c243bb5cfe4907d3adbce8e0d4b29fa'
+                   res.data.branches['not-master'] === 'ba2a2fd68c243bb5cfe4907d3adbce8e0d4b29fa'
   }
 },{
   request: {
@@ -87,7 +87,7 @@ const TESTS = [{
     desc: 'Public repo with default branch of not-master, master branch specified, no creds.',
     expect: res => res.type === RES_TYPES.success &&
                    res.data.branch === 'master' &&
-                   res.data.lastCommit === '39b7825656927aa5233b13c877e20157ab8c6d2d'
+                   res.data.branches['master'] === '39b7825656927aa5233b13c877e20157ab8c6d2d'
   }
 },{
   request: {
@@ -101,7 +101,8 @@ const TESTS = [{
   test: {
     desc: 'Public repo, no branch specified, no creds.',
     expect: res => res.type === RES_TYPES.success &&
-                   res.data.fullName === 'code-flower/client-web'
+                   res.data.owner === 'code-flower' &&
+                   res.data.name === 'client-web'
   }
 },{
   request: {
@@ -129,7 +130,8 @@ const TESTS = [{
   test: {
     desc: 'Public repo, valid branch specified, no creds.',
     expect: res => res.type === RES_TYPES.success &&
-                   res.data.fullName === 'code-flower/client-web'
+                   res.data.owner === 'code-flower' &&
+                   res.data.name === 'client-web'
   }
 },{
   request: {
@@ -191,7 +193,8 @@ const TESTS = [{
   test: {
     desc: 'Private repo, valid branch specified, valid credentials provided.',
     expect: res => res.type === RES_TYPES.success &&
-                   res.data.fullName === 'jmensch1/sutter-quiz' &&
+                   res.data.owner === 'jmensch1' &&
+                   res.data.name === 'sutter-quiz' &&
                    res.data.branch === 'releases/1.0'
   }
 }];

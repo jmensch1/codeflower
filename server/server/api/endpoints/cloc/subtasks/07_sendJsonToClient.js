@@ -6,9 +6,9 @@ const config = require('@config'),
 
 //////////// PRIVATE ////////////
 
-function sendJsonToClient(fNameBr, uid) {
+function sendJsonToClient(fNameBr) {
   Log(2, '7. Sending Json To Client')
-  Log(1, 'SUCCESS:', fNameBr, uid)
+  Log(1, 'SUCCESS:', fNameBr)
 
   mixpanel.track('cloc_success', {
     distinct_id: 'user',

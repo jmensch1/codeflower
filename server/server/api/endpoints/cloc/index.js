@@ -13,13 +13,13 @@ const {
 } = require('./subtasks/')
 const connPool = require('@util/connectionPool')(process.pid)
 const config = require('@config')
+const mixpanel = require('@util/mixpanel')
 
 //////////////// PRIVATE ///////////////////
 
 async function serveClocData({ owner, name, branch, username, password }, onUpdate) {
-  const uid = connPool.addConn()
-  const fullName = `${owner}/${name}`
-  const repoId = fullName.replace('/', '#') + '#' + uid
+  const repoId = `${owner}#${name}#${connPool.addConn()}`
+
   const creds = {
     username: username && encodeURIComponent(username),
     password: password && encodeURIComponent(password),
@@ -36,25 +36,23 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
 
   if (!branch) branch = await getBranchNameIfNeeded(repoId)
 
-  const fNameBr = `${fullName}::${branch}`
-
   await convertRepoToClocFile(repoId, onUpdate)
 
   const users = await getUsersJson(repoId)
 
   const cloc = await convertClocFileToJson(repoId, users, onUpdate)
 
-  sendJsonToClient(fNameBr, uid)
+  mixpanel.track('cloc_success', {
+    distinct_id: 'user',
+    fNameBr: `${owner}/${name}::${branch}`,
+  })
 
   return {
     owner,
     name,
     branch,
-    fullName,
-    fNameBr,
     repoId,
     branches,
-    lastCommit: branches[branch],
     users,
     cloc,
   }
