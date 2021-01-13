@@ -2,7 +2,6 @@
 
 const { exec, concat } = require('@util/shell')
 const config = require('@config')
-const Log = require('@log')
 const fs = require('fs')
 
 //////////// PRIVATE ////////////
@@ -17,8 +16,6 @@ function gitCloneUrl(owner, name, creds) {
 
 // runs git clone and returns a promise
 async function cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate }) {
-  Log(2, '3. Cloning Repo In Filesystem')
-
   const cwd = config.paths.repo(repoId)
 
   await fs.promises.mkdir(cwd, { recursive: true })

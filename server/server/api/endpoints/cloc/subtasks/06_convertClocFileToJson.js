@@ -1,8 +1,7 @@
 ////////////////// IMPORTS /////////////////////
 
-const fs = require('fs'),
-  config = require('@config'),
-  Log = require('@log')
+const fs = require('fs')
+const config = require('@config')
 
 ///////// GET TREE FROM CLOC OUTPUT //////////
 
@@ -131,7 +130,6 @@ function getIgnored(repoId) {
 
 // converts a cloc file to json
 async function convertClocFileToJson(repoId, users, onUpdate) {
-  Log(2, '6. Converting Cloc File To Json')
   onUpdate('\nConverting cloc file to json...')
 
   const [tree, ignored] = await Promise.all([

@@ -2,7 +2,6 @@
 
 const { exec, concat } = require('@util/shell')
 const config = require('@config')
-const Log = require('@log')
 
 //////////// PRIVATE //////////////
 
@@ -26,8 +25,6 @@ function getBranches(lsRemoteOutput) {
 // (3) whether the repo requires credentials
 // (4) whether the credentials, if given, are valid
 async function checkRepoClonability({ owner, name, creds, onUpdate }) {
-  Log(2, '2. Checking Repo Clonability')
-
   // construct the git ls-remote command.
   // using '******' as a fallback is a trick that lets us
   // distinguish between invalid credentials and non-existent repos,
