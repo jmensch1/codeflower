@@ -15,7 +15,7 @@ async function serve(protocol, request, response) {
   const { onSuccess, onError, onUpdate } = Responder(response)
 
   try {
-    const { endpoint, params } = parseRequest(request)
+    var { endpoint, params } = parseRequest(request)
 
     const handler = endpoints[endpoint]
     if (!handler)
@@ -27,6 +27,7 @@ async function serve(protocol, request, response) {
     const data = await handler(params, onUpdate)
     onSuccess(data)
   } catch (error) {
+    error.params = params
     handleErrors(error, onError)
   }
 }

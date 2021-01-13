@@ -6,17 +6,13 @@ const config = require('@config'),
 
 //////////// PRIVATE ////////////
 
-function sendJsonToClient(ctrl) {
-  return new Promise((resolve, reject) => {
-    Log(2, '7. Sending Json To Client')
-    Log(1, 'SUCCESS:', ctrl.repo.fNameBr, ctrl.uid)
+function sendJsonToClient(fNameBr, uid) {
+  Log(2, '7. Sending Json To Client')
+  Log(1, 'SUCCESS:', fNameBr, uid)
 
-    mixpanel.track('cloc_success', {
-      distinct_id: 'user',
-      fNameBR: ctrl.repo.fNameBr,
-    })
-
-    resolve(ctrl.repo)
+  mixpanel.track('cloc_success', {
+    distinct_id: 'user',
+    fNameBr,
   })
 }
 

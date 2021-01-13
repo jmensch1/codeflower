@@ -19,7 +19,6 @@ const config = require('@config')
 async function serveClocData({ owner, name, branch, username, password }, onUpdate) {
   const uid = connPool.addConn()
   const fullName = `${owner}/${name}`
-  let fNameBr = fullName + (branch ? `::${branch}` : '')
   const repoId = fullName.replace('/', '#') + '#' + uid
   const creds = {
     username: username && encodeURIComponent(username),
@@ -35,10 +34,9 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
 
   await cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate })
 
-  if (!branch) {
-    branch = await getBranchNameIfNeeded(repoId)
-    fNameBr = `${fullName}::${branch}`
-  }
+  if (!branch) branch = await getBranchNameIfNeeded(repoId)
+
+  const fNameBr = `${fullName}::${branch}`
 
   await convertRepoToClocFile(repoId, onUpdate)
 
@@ -46,26 +44,20 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
 
   const cloc = await convertClocFileToJson(repoId, users, onUpdate)
 
-  const ctrl = {
-    uid,
-    repo: {
-      owner,
-      name,
-      branch,
-      fullName,
-      fNameBr,
-      repoId,
-      branches,
-      lastCommit: branches[branch],
-      users,
-      cloc,
-    },
-    creds,
-    onUpdate
-  }
+  sendJsonToClient(fNameBr, uid)
 
-  return sendJsonToClient(ctrl)
-    .catch((err) => handleClocErrors(err, ctrl))
+  return {
+    owner,
+    name,
+    branch,
+    fullName,
+    fNameBr,
+    repoId,
+    branches,
+    lastCommit: branches[branch],
+    users,
+    cloc,
+  }
 }
 
 /////////////////// EXPORTS ///////////////////
