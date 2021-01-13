@@ -5,67 +5,40 @@ const config = require('@config')
 
 ///////// GET TREE FROM CLOC OUTPUT //////////
 
-/**
- * Convert a simple json object into another specifying children as an array
- * Works recursively
- *
- * example input:
- * { a: { b: { c: { size: 12 }, d: { size: 34 } }, e: { size: 56 } } }
- * example output
- * { name: a, children: [
- *   { name: b, children: [
- *     { name: c, size: 12 },
- *     { name: d, size: 34 }
- *   ] },
- *   { name: e, size: 56 }
- * ] } }
- */
-
-function getChildren(json) {
-  var children = []
-  if (json.language) return children
-  for (var key in json) {
-    var child = { name: key }
-    if (typeof json[key].size !== 'undefined') {
-      // value node
-      child.size = json[key].size;
-      child.language = json[key].language;
-      child.blank = json[key].blank;
-      child.comment = json[key].comment;
-      child.users = json[key].users;
-    } else {
-      // children node
-      var childChildren = getChildren(json[key])
-      if (childChildren) child.children = childChildren
-    }
-    children.push(child)
-    delete json[key]
-  }
-  children.sort((a, b) => b.name > a.name ? 1 : -1)
-  return children
+function getChildren(tree) {
+  return Object.keys(tree).map((name) => {
+    if (tree[name].language)
+      return {
+        name,
+        ...tree[name],
+      }
+    else
+      return {
+        name,
+        children: getChildren(tree[name])
+      }
+  }).sort((a, b) => b.name > a.name ? 1 : -1)
 }
 
-function clocToTree(clocData) {
-  var json = {}
-  Object.keys(clocData).forEach((key) => {
-    var filename = key
-    if (!filename) return
-    var elements = filename.split(/[\/\\]/)
-    var current = json
-    elements.forEach(function (element) {
-      if (!current[element]) {
-        current[element] = {}
-      }
-      current = current[element]
+function clocToTree(clocData, repoId) {
+  const root = {}
+
+  Object.keys(clocData).forEach((path) => {
+    const sections = path.split('/')
+    const folders = sections.slice(0, -1)
+    const file = sections.slice(-1)
+    let cur = root
+    folders.forEach((folder) => {
+      if (!cur[folder]) cur[folder] = {}
+      cur = cur[folder]
     })
-    const file = clocData[key]
-    current.language = file.language;
-    current.size = file.code;
-    current.blank = file.blank;
-    current.comment = file.comment;
-    current.users = file.users
+    cur[file] = clocData[path]
   })
-  return getChildren(json)[0]
+
+  return {
+    name: 'root',
+    children: getChildren(root)
+  }
 }
 
 function getTree(repoId, users) {
@@ -76,7 +49,16 @@ function getTree(repoId, users) {
       // clean cloc data
       delete clocData.header
       delete clocData.SUM
-      return clocData
+
+      // remove root/ at beginning of filepath and
+      // replace code key with size
+      return Object.keys(clocData).reduce((cloc, path) => {
+        const cleanPath = path.replace('root/', '')
+        cloc[cleanPath] = clocData[path]
+        cloc[cleanPath].size = cloc[cleanPath].code
+        delete cloc[cleanPath].code
+        return cloc
+      }, {})
     })
     .then((clocData) => {
       // merge in users
@@ -84,7 +66,7 @@ function getTree(repoId, users) {
         const file = clocData[fileName]
         file.users = []
         users.forEach(user => {
-          if (user.files.includes(fileName.replace('root/', '')))
+          if (user.files.includes(fileName))
             file.users.push(user.id)
         })
       })
@@ -94,9 +76,11 @@ function getTree(repoId, users) {
         delete user.files
       })
 
+      writeJson(`${repoDir}/clean-cloc.json`, clocData)
+
       return clocData
     })
-    .then(clocToTree)
+    .then((clocData) => clocToTree(clocData, repoId))
     .catch(err => {
       if (err.code === 'ENOENT')
         // if cloc did not create a file (e.g., because there are no
