@@ -44,6 +44,8 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
 
   const users = await getUsersJson(repoId)
 
+  const cloc = await convertClocFileToJson(repoId, users, onUpdate)
+
   const ctrl = {
     uid,
     repo: {
@@ -56,13 +58,13 @@ async function serveClocData({ owner, name, branch, username, password }, onUpda
       branches,
       lastCommit: branches[branch],
       users,
+      cloc,
     },
     creds,
     onUpdate
   }
 
-  return convertClocFileToJson(ctrl)
-    .then(sendJsonToClient)
+  return sendJsonToClient(ctrl)
     .catch((err) => handleClocErrors(err, ctrl))
 }
 

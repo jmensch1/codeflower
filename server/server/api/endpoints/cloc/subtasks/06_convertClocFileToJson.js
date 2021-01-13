@@ -91,11 +91,11 @@ function clocToTree(clocData, users) {
   return json
 }
 
-function getTree(ctrl) {
-  const repoDir = config.paths.repo(ctrl.repo.repoId)
+function getTree(repoId, users) {
+  const repoDir = config.paths.repo(repoId)
   const file = `${repoDir}/${config.cloc.dataFile}`
   return fs.promises.readFile(file, 'utf-8')
-    .then(clocData => clocToTree(JSON.parse(clocData), ctrl.repo.users))
+    .then(clocData => clocToTree(JSON.parse(clocData), users))
     .catch(err => {
       if (err.code === 'ENOENT')
         // if cloc did not create a file (e.g., because there are no
@@ -119,8 +119,8 @@ function cleanIgnoredFiles(ignoredFiles) {
     }))
 }
 
-function getIgnored(ctrl) {
-  const repoDir = config.paths.repo(ctrl.repo.repoId)
+function getIgnored(repoId) {
+  const repoDir = config.paths.repo(repoId)
   const file = `${repoDir}/${config.cloc.ignoredFile}`
   return fs.promises
     .readFile(file, 'utf8')
@@ -130,19 +130,16 @@ function getIgnored(ctrl) {
 ///////////// UNITE TREE AND IGNORED FILES /////////
 
 // converts a cloc file to json
-function convertClocFileToJson(ctrl) {
+async function convertClocFileToJson(repoId, users, onUpdate) {
   Log(2, '6. Converting Cloc File To Json')
-  ctrl.onUpdate('\nConverting cloc file to json...')
+  onUpdate('\nConverting cloc file to json...')
 
-  return Promise.all([getTree(ctrl), getIgnored(ctrl)]).then(
-    ([tree, ignored]) => {
-      ctrl.repo.cloc = {
-        tree,
-        ignored,
-      }
-      return ctrl
-    }
-  )
+  const [tree, ignored] = await Promise.all([
+    getTree(repoId, users),
+    getIgnored(repoId)
+  ])
+
+  return { tree, ignored }
 }
 
 //////////// EXPORTS //////////////
