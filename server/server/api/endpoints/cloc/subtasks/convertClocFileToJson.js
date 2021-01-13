@@ -1,6 +1,6 @@
 ////////////////// IMPORTS /////////////////////
 
-const fs = require('fs')
+const { readJson, writeJson } = require('@util/files')
 const config = require('@config')
 
 ///////// GET TREE FROM CLOC OUTPUT //////////
@@ -75,8 +75,7 @@ function clocToTree(clocData) {
 function getTree(repoId, users) {
   const repoDir = config.paths.repo(repoId)
   const file = `${repoDir}/${config.cloc.dataFile}`
-  return fs.promises.readFile(file, 'utf-8')
-    .then(JSON.parse)
+  return readJson(file)
     .then((clocData) => {
       // clean cloc data
       delete clocData.header
@@ -128,10 +127,7 @@ function cleanIgnoredFiles(ignoredFiles) {
 function getIgnored(repoId) {
   const repoDir = config.paths.repo(repoId)
   const file = `${repoDir}/${config.cloc.ignoredFile}`
-  return fs.promises
-    .readFile(file, 'utf8')
-    .then(JSON.parse)
-    .then(cleanIgnoredFiles)
+  return readJson(file).then(cleanIgnoredFiles)
 }
 
 ///////////// UNITE TREE AND IGNORED FILES /////////
@@ -144,6 +140,8 @@ async function convertClocFileToJson(repoId, users, onUpdate) {
     getTree(repoId, users),
     getIgnored(repoId)
   ])
+
+  writeJson(`${config.paths.repo(repoId)}/out.json`, { tree, ignored })
 
   return { tree, ignored }
 }

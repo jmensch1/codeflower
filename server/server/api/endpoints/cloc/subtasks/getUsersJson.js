@@ -1,5 +1,5 @@
 const { exec, concat } = require('@util/shell')
-const fs = require('fs')
+const { writeJson } = require('@util/files')
 const config = require('@config')
 
 async function getFilesForUser(cwd, email) {
@@ -52,7 +52,7 @@ async function getUsers(repoId) {
 async function getUsersJson(repoId) {
   const users = await getUsers(repoId)
   const file = `${config.paths.repo(repoId)}/users.json`
-  await fs.promises.writeFile(file, JSON.stringify(users))
+  await writeJson(file, users)
   return users
 }
 
