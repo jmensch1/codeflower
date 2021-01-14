@@ -59,7 +59,7 @@ const Authors = () => {
           }}
         >
           <Typography>
-            [{author.id}] {author.name} ({author.numFilesTouched})
+            [{author.id}] {author.name} ({author.commits})
           </Typography>
         </div>
       ))}

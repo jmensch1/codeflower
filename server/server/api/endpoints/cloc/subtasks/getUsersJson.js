@@ -8,7 +8,6 @@ async function getFilesForUser(cwd, email) {
     '--no-merges',
     `--author="${email}"`,
     '--name-only',
-    '--use-mailmap',
     '--pretty=format:""',
     '| sort -u',
   ])
@@ -17,25 +16,45 @@ async function getFilesForUser(cwd, email) {
   return stdout.split('\n').slice(1, -1)
 }
 
+function dedupeUsersByEmail(users) {
+  const dedupedUsers = []
+
+  users.forEach((user) => {
+    const dupeUser = dedupedUsers.find(u => u.email === user.email)
+    if (dupeUser)
+      dupeUser.commits += user.commits
+    else
+      dedupedUsers.push(user)
+  })
+
+  dedupedUsers.forEach((user, index) => {
+    user.id = index
+  })
+
+  return dedupedUsers
+}
+
 async function getUsers(repoId) {
   const cwd = `${config.paths.repo(repoId)}/root`
-  const cmd = `git log --use-mailmap --pretty=short | git shortlog -nse | cat`
+  const cmd = `git log --pretty=short --no-merges | git shortlog -nse | cat`
 
   const { stdout } = await exec(cmd, { cwd })
 
-  const users = stdout
+  let users = stdout
     .split('\n')
     .slice(0, -1)
     .map((line, idx) => {
-      const [count, user] = line.split('\t')
+      const [commits, user] = line.split('\t')
       const [_, name, email] = user.match(/^(.*?)\s<(.*?)>$/)
       return {
         id: idx,
-        count: +count.trim(),
+        commits: +commits.trim(),
         name,
         email,
       }
     })
+
+  users = dedupeUsersByEmail(users)
 
   const userFiles = await Promise.all(users.map(user => {
     return getFilesForUser(cwd, user.email)
