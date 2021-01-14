@@ -17,9 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Copy environment variables
-        run: cp .env.example .env
-
       - name: Build image
         run: docker build -t jmensch1/codeflower:${{github.sha}} .
 

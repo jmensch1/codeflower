@@ -1,5 +1,14 @@
-require('dotenv').config()
+const fs = require('fs')
 const { join } = require('path')
+
+// use .env.local for env vars if it exists, otherwise .env
+require('dotenv').config({
+  path: (() => {
+    const envPath = join(__dirname, '../.env')
+    const envLocalPath = join(__dirname, '../.env.local')
+    return fs.existsSync(envLocalPath) ? envLocalPath : envPath
+  })()
+})
 
 //////// ENVIRONMENT-DEPENDENT CONSTANTS ///////////
 
