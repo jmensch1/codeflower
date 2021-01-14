@@ -35,6 +35,13 @@ const folderPaths = createSelector([rootFolder], (rootFolder) => {
   return repoUtils.getFolderPaths(rootFolder)
 })
 
+const folderIds = createSelector([folderPaths], (folderPaths) =>
+  folderPaths.reduce((ids, path, index) => {
+    ids[path.pathName] = index
+    return ids
+  }, {})
+)
+
 const selectedFolder = createSelector(
   [rootFolder, selectedFolderPath],
   (rootFolder, selectedFolderPath) => {
@@ -92,6 +99,7 @@ export const useHighlightedAuthorId = () => useSelector(highlightedAuthorId)
 export const useSelectedAuthorId = () => useSelector(selectedAuthorId)
 export const useSelectedAuthor = () => useSelector(selectedAuthor)
 export const useFolderPaths = () => useSelector(folderPaths)
+export const useFolderIds = () => useSelector(folderIds)
 export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)
 export const useLanguageIds = () => useSelector(languageIds)

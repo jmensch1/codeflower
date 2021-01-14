@@ -4,25 +4,25 @@ import {
   useVisTheme,
   useLanguageColors,
   useLanguageIds,
+  useFolderIds,
   useSelectedLanguage,
-  useFolderPaths,
   useHighlightedFolderPath,
   useHighlightedAuthorId,
 } from 'store/selectors'
 
-const VisThemeProvider = ({ children, folderClasses }) => {
+const VisThemeProvider = ({ children }) => {
   const visTheme = useVisTheme()
   const languageColors = useLanguageColors()
   const selectedLanguage = useSelectedLanguage()
   const highlightedFolderPath = useHighlightedFolderPath()
-  const folderPaths = useFolderPaths()
   const highlightedAuthorId = useHighlightedAuthorId()
   const languageIds = useLanguageIds()
+  const folderIds = useFolderIds()
 
   const langStyles = useMemo(() => {
     const languages = Object.keys(languageIds)
 
-    const styles = languages.reduce((styles, lang, index) => {
+    const styles = languages.reduce((styles, lang) => {
       const color = languageColors[lang]
       const clx = `lang-${languageIds[lang]}`
       styles[`& .${clx}`] = { fill: color }
@@ -39,33 +39,34 @@ const VisThemeProvider = ({ children, folderClasses }) => {
   }, [visTheme, languageIds, languageColors, selectedLanguage])
 
   const folderStyles = useMemo(() => {
-    if (!highlightedFolderPath) return
-
-    const styles = {}
-
-    // highlight the highlighted folder
-    // styles[`& .folder.${folderClasses[highlightedFolderPath]}`] = {
-    //   fill: 'white',
-    //   r: '10',
-    // }
+    if (!highlightedFolderPath) return {}
 
     // suppress everything outside the highlighted folder
     const highlightFolder = (folderPath) => {
       return folderPath.startsWith(highlightedFolderPath)
     }
 
-    folderPaths.forEach((folderPath) => {
-      const { pathName } = folderPath
-      if (highlightFolder(pathName)) return
+    const folderPaths = Object.keys(folderIds)
 
-      const clx = folderClasses[pathName]
+    const styles = folderPaths.reduce((styles, path) => {
+      if (highlightFolder(path)) return styles
+
+      const clx = `folder-${folderIds[path]}`
       styles[`& .folder.${clx}`] = { display: 'none' }
       styles[`& .file.${clx}`] = { display: 'none' }
       styles[`& .link.${clx}`] = { strokeOpacity: 0.2 }
-    })
+
+      return styles
+    }, {})
+
+    // highlight the highlighted folder
+    // styles[`& .folder.folder-${folderIds[highlightedFolderPath]}`] = {
+    //   fill: 'white',
+    //   r: '10',
+    // }
 
     return styles
-  }, [folderClasses, folderPaths, highlightedFolderPath])
+  }, [folderIds, highlightedFolderPath])
 
   const authorStyles = useMemo(() => {
     const styles = {}

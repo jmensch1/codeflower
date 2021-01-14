@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelectedFolder, useLanguageIds } from 'store/selectors'
+import { useSelectedFolder, useLanguageIds, useFolderIds } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
 import clsx from 'clsx'
@@ -44,13 +44,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ForceDirectedGraph = ({ folderClasses, getFullPath }) => {
+const ForceDirectedGraph = ({ getFullPath }) => {
   const container = useRef(null)
   const tooltip = useRef(null)
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
   const languageIds = useLanguageIds()
+  const folderIds = useFolderIds()
 
   const getNodePath = useCallback(
     (node) => {
@@ -89,7 +90,12 @@ const ForceDirectedGraph = ({ folderClasses, getFullPath }) => {
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('class', (d) => clsx('link', folderClasses[getNodePath(d.source)]))
+      .attr('class', (d) =>
+        clsx(
+          'link',
+          `folder-${folderIds[getNodePath(d.source)]}`,
+        )
+      )
 
     const node = svg
       .append('g')
@@ -98,11 +104,14 @@ const ForceDirectedGraph = ({ folderClasses, getFullPath }) => {
       .join('circle')
       .attr('class', (d) =>
         d.children
-          ? clsx('folder', folderClasses[getNodePath(d)])
+          ? clsx(
+            'folder',
+            `folder-${folderIds[getNodePath(d)]}`,
+          )
           : clsx(
               'file',
               `lang-${languageIds[d.data.language]}`,
-              d.parent && folderClasses[getNodePath(d.parent)],
+              d.parent && `folder-${folderIds[getNodePath(d.parent)]}`,
               ...d.data.authorIds.map((authorId) => `author-${authorId}`)
             )
       )
@@ -216,7 +225,7 @@ const ForceDirectedGraph = ({ folderClasses, getFullPath }) => {
       containerCurrent.innerHTML = ''
       tooltipCurrent.innerHTML = ''
     }
-  }, [tree, languageIds, folderClasses, getNodePath, dispatch])
+  }, [tree, languageIds, folderIds, getNodePath, dispatch])
 
   if (!tree) return null
   return (
