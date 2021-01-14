@@ -5,9 +5,8 @@ async function getCleanCloc(repoId) {
   const clocFile = config.paths.repo(repoId, config.cloc.dataFile)
   const cleanClocFile = config.paths.repo(repoId, 'cloc-clean.json')
 
-  let cloc
   try {
-    cloc = await readJson(clocFile)
+    var cloc = await readJson(clocFile)
   } catch(err) {
     if (err.code === 'ENOENT')
       // if cloc did not create a file (e.g., because there are no
@@ -16,6 +15,8 @@ async function getCleanCloc(repoId) {
         name: 'root',
         children: [],
       }
+    else
+      throw err
   }
 
   // delete unused keys
