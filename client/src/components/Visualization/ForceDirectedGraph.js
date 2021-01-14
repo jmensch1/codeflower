@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.visualization.force,
     ...theme.languages,
     ...theme.folders,
-    ...theme.users,
+    ...theme.authors,
     '& svg': {
       position: 'absolute',
       top: 0,
@@ -107,7 +107,7 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
               'file',
               langClasses[d.data.language],
               d.parent && folderClasses[getNodePath(d.parent)],
-              ...d.data.users.map((userId) => `user-${userId}`),
+              ...d.data.authorIds.map((authorId) => `author-${authorId}`),
             )
       )
       .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))

@@ -9,7 +9,7 @@ import visThemes from 'themes/visThemes'
 const location = (state) => state.router.location
 const query = (state) => state.query
 const repo = (state) => state.repo
-const authors = (state) => state.repo?.users
+const authors = (state) => state.repo?.authors
 const rootFolder = (state) => state.repo?.cloc.tree
 const files = (state) => state.files
 const settings = (state) => state.settings

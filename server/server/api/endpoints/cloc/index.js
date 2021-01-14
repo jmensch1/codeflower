@@ -9,13 +9,13 @@ const {
   checkClonability,
   cloneRepo,
   getBranchName,
-  getUsersJson,
+  getAuthors,
 } = require('./helpers/git')
 
 const {
   execCloc,
   getCleanClocData,
-  mergeUsersIntoCloc,
+  mergeAuthorsIntoCloc,
   clocToTree,
 } = require('./helpers/cloc')
 
@@ -47,14 +47,14 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   Log(2, '5. Cleaning Cloc Data')
   let { cloc, ignored } = await getCleanClocData(repoId)
 
-  Log(2, '6. Getting Users Json')
-  let users = await getUsersJson(repoId)
+  Log(2, '6. Getting Authors')
+  let authors = await getAuthors(repoId)
 
-  Log(2, '7. Merging Cloc and Users')
-  cloc = mergeUsersIntoCloc(cloc, users)
+  Log(2, '7. Merging Cloc and Authors')
+  cloc = mergeAuthorsIntoCloc(cloc, authors)
 
-  Log(2, '8. Cleaning Users')
-  users = users.map(({ files, ...rest }) => rest)
+  Log(2, '8. Cleaning Authors')
+  authors = authors.map(({ files, ...rest }) => rest)
 
   Log(2, '9. Concerting Cloc to Tree')
   const tree = clocToTree(cloc)
@@ -72,7 +72,7 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
     branch,
     repoId,
     branches,
-    users,
+    authors,
     cloc: {
       tree,
       ignored,

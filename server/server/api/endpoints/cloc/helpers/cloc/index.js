@@ -1,6 +1,6 @@
 module.exports = {
   execCloc: require('./execCloc'),
   getCleanClocData: require('./getCleanClocData'),
-  mergeUsersIntoCloc: require('./mergeUsersIntoCloc'),
+  mergeAuthorsIntoCloc: require('./mergeAuthorsIntoCloc'),
   clocToTree: require('./clocToTree'),
 }

@@ -64,10 +64,10 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
     return styles
   }, [folderClasses, folderPaths, highlightedFolderPath])
 
-  const userStyles = useMemo(() => {
+  const authorStyles = useMemo(() => {
     const styles = {}
     if (highlightedAuthorId)
-      styles[`& .file:not(.user-${highlightedAuthorId})`] = { display: 'none' }
+      styles[`& .file:not(.author-${highlightedAuthorId})`] = { display: 'none' }
     return styles
   }, [highlightedAuthorId])
 
@@ -78,9 +78,9 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
         visualization: visTheme.visualization,
         languages: langStyles,
         folders: folderStyles,
-        users: userStyles,
+        authors: authorStyles,
       }),
-    [visTheme, langStyles, folderStyles, userStyles]
+    [visTheme, langStyles, folderStyles, authorStyles]
   )
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>
