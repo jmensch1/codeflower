@@ -1,8 +1,7 @@
 import axios from 'axios'
-import testRepo from './data/tdesktop.json'
 
 // FOR DEVELOPMENT ONLY
-const USE_TEST_REPO = false
+import testRepo from './data/ballotnav.json'
 
 const HTTP_URL = process.env.REACT_APP_API_URL_HTTP || 'http://localhost:8000'
 const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'
@@ -15,9 +14,9 @@ export const getRepo = async ({
   password,
   onUpdate = (text) => null,
 }) => {
-  if (USE_TEST_REPO) {
-    onUpdate(`getting: ${owner}/${name}`)
-    onUpdate('using test repo')
+  if (typeof testRepo !== 'undefined') {
+    const { data } = testRepo
+    onUpdate(`using test repo: ${data.owner}/${data.name}`)
     return Promise.resolve(testRepo.data)
   }
 
