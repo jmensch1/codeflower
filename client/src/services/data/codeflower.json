@@ -3,27 +3,23 @@
     "data": {
         "owner": "jmensch1",
         "name": "codeflower",
-        "fullName": "jmensch1/codeflower",
-        "fNameBr": "jmensch1/codeflower::dev",
         "branch": "dev",
-        "repoId": "jmensch1#codeflower#58702_1",
+        "repoId": "jmensch1#codeflower#25229_6",
         "branches": {
             "dev": "a6a10db58815d8836ee0ece3b1e7414f738ffcc6",
             "main": "a6a10db58815d8836ee0ece3b1e7414f738ffcc6"
         },
-        "lastCommit": "a6a10db58815d8836ee0ece3b1e7414f738ffcc6",
-        "githubUrl": "https://github.com/jmensch1/codeflower/tree/dev",
-        "users": [
+        "authors": [
             {
                 "id": 0,
-                "count": 220,
+                "commits": 214,
                 "name": "Jake Mensch",
                 "email": "jake.mensch@gmail.com",
                 "numFilesTouched": 230
             },
             {
                 "id": 1,
-                "count": 1,
+                "commits": 1,
                 "name": "dependabot[bot]",
                 "email": "49699333+dependabot[bot]@users.noreply.github.com",
                 "numFilesTouched": 0
@@ -41,61 +37,61 @@
                                 "children": [
                                     {
                                         "name": "trending.js",
-                                        "size": 44,
-                                        "language": "JavaScript",
                                         "blank": 14,
                                         "comment": 7,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 44,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "stream.js",
-                                        "size": 28,
-                                        "language": "JavaScript",
                                         "blank": 24,
                                         "comment": 26,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 28,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "one.js",
-                                        "size": 81,
-                                        "language": "JavaScript",
                                         "blank": 11,
                                         "comment": 4,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 81,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "load.js",
-                                        "size": 40,
-                                        "language": "JavaScript",
                                         "blank": 9,
                                         "comment": 4,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 40,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "battery.js",
-                                        "size": 234,
-                                        "language": "JavaScript",
                                         "blank": 13,
                                         "comment": 8,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 234,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "_common.js",
-                                        "size": 82,
-                                        "language": "JavaScript",
                                         "blank": 23,
                                         "comment": 6,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 82,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -109,91 +105,91 @@
                                         "children": [
                                             {
                                                 "name": "shell.js",
-                                                "size": 21,
-                                                "language": "JavaScript",
                                                 "blank": 5,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 21,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "setHostName.js",
-                                                "size": 7,
-                                                "language": "JavaScript",
                                                 "blank": 5,
                                                 "comment": 7,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 7,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "sentry.js",
-                                                "size": 4,
-                                                "language": "JavaScript",
                                                 "blank": 2,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 4,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "sendAlert.js",
-                                                "size": 31,
-                                                "language": "JavaScript",
                                                 "blank": 6,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 31,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "mixpanel.js",
-                                                "size": 4,
-                                                "language": "JavaScript",
                                                 "blank": 2,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 4,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "logger.js",
-                                                "size": 7,
-                                                "language": "JavaScript",
                                                 "blank": 6,
                                                 "comment": 5,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 7,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "getCurrentTime.js",
-                                                "size": 7,
-                                                "language": "JavaScript",
                                                 "blank": 1,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 7,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "exec.js",
-                                                "size": 15,
-                                                "language": "JavaScript",
                                                 "blank": 4,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 15,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "connectionPool.js",
-                                                "size": 10,
-                                                "language": "JavaScript",
                                                 "blank": 5,
                                                 "comment": 5,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 10,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             }
@@ -201,11 +197,11 @@
                                     },
                                     {
                                         "name": "index.js",
-                                        "size": 21,
-                                        "language": "JavaScript",
                                         "blank": 6,
                                         "comment": 4,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 21,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
@@ -214,21 +210,21 @@
                                         "children": [
                                             {
                                                 "name": "serveResponse.js",
-                                                "size": 33,
-                                                "language": "JavaScript",
                                                 "blank": 7,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 33,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "handleErrors.js",
-                                                "size": 33,
-                                                "language": "JavaScript",
                                                 "blank": 10,
                                                 "comment": 5,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 33,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
@@ -237,41 +233,41 @@
                                                 "children": [
                                                     {
                                                         "name": "users.js",
-                                                        "size": 44,
-                                                        "language": "JavaScript",
                                                         "blank": 9,
                                                         "comment": 2,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 44,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "ping.js",
-                                                        "size": 8,
-                                                        "language": "JavaScript",
                                                         "blank": 3,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 8,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "index.js",
-                                                        "size": 6,
-                                                        "language": "JavaScript",
                                                         "blank": 0,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 6,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "file.js",
-                                                        "size": 11,
-                                                        "language": "JavaScript",
                                                         "blank": 3,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 11,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
@@ -283,101 +279,101 @@
                                                                 "children": [
                                                                     {
                                                                         "name": "index.js",
-                                                                        "size": 11,
-                                                                        "language": "JavaScript",
                                                                         "blank": 0,
                                                                         "comment": 0,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 11,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "09_deleteRepoFromFilesystem.js",
-                                                                        "size": 15,
-                                                                        "language": "JavaScript",
                                                                         "blank": 6,
                                                                         "comment": 3,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 15,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "08_handleClocErrors.js",
-                                                                        "size": 8,
-                                                                        "language": "JavaScript",
                                                                         "blank": 7,
                                                                         "comment": 5,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 8,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "07_sendJsonToClient.js",
-                                                                        "size": 15,
-                                                                        "language": "JavaScript",
                                                                         "blank": 7,
                                                                         "comment": 3,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 15,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "06_convertClocFileToJson.js",
-                                                                        "size": 92,
-                                                                        "language": "JavaScript",
                                                                         "blank": 17,
                                                                         "comment": 25,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 92,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "05_convertRepoToClocFile.js",
-                                                                        "size": 22,
-                                                                        "language": "JavaScript",
                                                                         "blank": 9,
                                                                         "comment": 4,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 22,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "04_getBranchNameIfNeeded.js",
-                                                                        "size": 30,
-                                                                        "language": "JavaScript",
                                                                         "blank": 8,
                                                                         "comment": 6,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 30,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "03_cloneRepoInFilesystem.js",
-                                                                        "size": 36,
-                                                                        "language": "JavaScript",
                                                                         "blank": 11,
                                                                         "comment": 7,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 36,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "02_checkRepoClonability.js",
-                                                                        "size": 45,
-                                                                        "language": "JavaScript",
                                                                         "blank": 9,
                                                                         "comment": 19,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 45,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     },
                                                                     {
                                                                         "name": "01_processRequestParams.js",
-                                                                        "size": 31,
-                                                                        "language": "JavaScript",
                                                                         "blank": 13,
                                                                         "comment": 6,
-                                                                        "users": [
+                                                                        "language": "JavaScript",
+                                                                        "size": 31,
+                                                                        "authorIds": [
                                                                             0
                                                                         ]
                                                                     }
@@ -385,11 +381,11 @@
                                                             },
                                                             {
                                                                 "name": "index.js",
-                                                                "size": 22,
-                                                                "language": "JavaScript",
                                                                 "blank": 6,
                                                                 "comment": 3,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 22,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             }
@@ -404,41 +400,41 @@
                                         "children": [
                                             {
                                                 "name": "parseRequest.js",
-                                                "size": 13,
-                                                "language": "JavaScript",
                                                 "blank": 5,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 13,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "index.js",
-                                                "size": 5,
-                                                "language": "JavaScript",
                                                 "blank": 0,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 5,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "createServer.js",
-                                                "size": 11,
-                                                "language": "JavaScript",
                                                 "blank": 5,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 11,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "Responder.js",
-                                                "size": 38,
-                                                "language": "JavaScript",
                                                 "blank": 9,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 38,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             }
@@ -449,41 +445,41 @@
                                         "children": [
                                             {
                                                 "name": "parseRequest.js",
-                                                "size": 10,
-                                                "language": "JavaScript",
                                                 "blank": 5,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 10,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "index.js",
-                                                "size": 5,
-                                                "language": "JavaScript",
                                                 "blank": 0,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 5,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "createServer.js",
-                                                "size": 25,
-                                                "language": "JavaScript",
                                                 "blank": 8,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 25,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "Responder.js",
-                                                "size": 28,
-                                                "language": "JavaScript",
                                                 "blank": 8,
                                                 "comment": 3,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 28,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             }
@@ -493,21 +489,21 @@
                             },
                             {
                                 "name": "package.json",
-                                "size": 50,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 50,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": "package-lock.json",
-                                "size": 1831,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 1831,
+                                "authorIds": [
                                     0
                                 ]
                             },
@@ -516,11 +512,11 @@
                                 "children": [
                                     {
                                         "name": "clean.js",
-                                        "size": 19,
-                                        "language": "JavaScript",
                                         "blank": 7,
                                         "comment": 1,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 19,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -531,11 +527,11 @@
                                 "children": [
                                     {
                                         "name": "index.js",
-                                        "size": 121,
-                                        "language": "JavaScript",
                                         "blank": 23,
                                         "comment": 4,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 121,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -543,31 +539,31 @@
                             },
                             {
                                 "name": "README.md",
-                                "size": 92,
-                                "language": "Markdown",
                                 "blank": 14,
                                 "comment": 0,
-                                "users": [
+                                "language": "Markdown",
+                                "size": 92,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": "Dockerfile",
-                                "size": 12,
-                                "language": "Dockerfile",
                                 "blank": 7,
                                 "comment": 8,
-                                "users": [
+                                "language": "Dockerfile",
+                                "size": 12,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": ".prettierrc.json",
-                                "size": 6,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 6,
+                                "authorIds": [
                                     0
                                 ]
                             }
@@ -584,21 +580,21 @@
                                         "children": [
                                             {
                                                 "name": "visThemes.js",
-                                                "size": 144,
-                                                "language": "JavaScript",
                                                 "blank": 1,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 144,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "mainThemes.js",
-                                                "size": 17,
-                                                "language": "JavaScript",
                                                 "blank": 1,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 17,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             }
@@ -609,21 +605,21 @@
                                         "children": [
                                             {
                                                 "name": "selectors.js",
-                                                "size": 68,
-                                                "language": "JavaScript",
                                                 "blank": 12,
                                                 "comment": 4,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 68,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "index.js",
-                                                "size": 22,
-                                                "language": "JavaScript",
                                                 "blank": 4,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 22,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
@@ -632,51 +628,51 @@
                                                 "children": [
                                                     {
                                                         "name": "settings.js",
-                                                        "size": 87,
-                                                        "language": "JavaScript",
                                                         "blank": 11,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 87,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "router.js",
-                                                        "size": 26,
-                                                        "language": "JavaScript",
                                                         "blank": 4,
                                                         "comment": 1,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 26,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "repo.js",
-                                                        "size": 88,
-                                                        "language": "JavaScript",
                                                         "blank": 19,
                                                         "comment": 2,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 88,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "modals.js",
-                                                        "size": 48,
-                                                        "language": "JavaScript",
                                                         "blank": 6,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 48,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "files.js",
-                                                        "size": 61,
-                                                        "language": "JavaScript",
                                                         "blank": 6,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 61,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -686,11 +682,11 @@
                                     },
                                     {
                                         "name": "setupTests.js",
-                                        "size": 1,
-                                        "language": "JavaScript",
                                         "blank": 0,
                                         "comment": 4,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 1,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
@@ -699,31 +695,31 @@
                                         "children": [
                                             {
                                                 "name": "utils.js",
-                                                "size": 5,
-                                                "language": "JavaScript",
                                                 "blank": 0,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 5,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "repo.js",
-                                                "size": 63,
-                                                "language": "JavaScript",
                                                 "blank": 17,
                                                 "comment": 7,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 63,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
                                             {
                                                 "name": "history.js",
-                                                "size": 3,
-                                                "language": "JavaScript",
                                                 "blank": 2,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 3,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
@@ -732,31 +728,31 @@
                                                 "children": [
                                                     {
                                                         "name": "cloc-server.json",
-                                                        "size": 296,
-                                                        "language": "JSON",
                                                         "blank": 0,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JSON",
+                                                        "size": 296,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "ballotnav.json",
-                                                        "size": 3818,
-                                                        "language": "JSON",
                                                         "blank": 0,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JSON",
+                                                        "size": 3818,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "DearPyGui.json",
-                                                        "size": 1029,
-                                                        "language": "JSON",
                                                         "blank": 0,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JSON",
+                                                        "size": 1029,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -764,11 +760,11 @@
                                             },
                                             {
                                                 "name": "api.js",
-                                                "size": 58,
-                                                "language": "JavaScript",
                                                 "blank": 8,
                                                 "comment": 1,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 58,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             }
@@ -776,31 +772,31 @@
                                     },
                                     {
                                         "name": "reportWebVitals.js",
-                                        "size": 12,
-                                        "language": "JavaScript",
                                         "blank": 1,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 12,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "index.js",
-                                        "size": 19,
-                                        "language": "JavaScript",
                                         "blank": 3,
                                         "comment": 5,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 19,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "constants.js",
-                                        "size": 13,
-                                        "language": "JavaScript",
                                         "blank": 1,
                                         "comment": 1,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 13,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
@@ -812,11 +808,11 @@
                                                 "children": [
                                                     {
                                                         "name": "index.js",
-                                                        "size": 18,
-                                                        "language": "JavaScript",
                                                         "blank": 2,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 18,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
@@ -825,21 +821,21 @@
                                                         "children": [
                                                             {
                                                                 "name": "index.js",
-                                                                "size": 44,
-                                                                "language": "JavaScript",
                                                                 "blank": 6,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 44,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "SearchBar.js",
-                                                                "size": 111,
-                                                                "language": "JavaScript",
                                                                 "blank": 10,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 111,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             }
@@ -847,11 +843,11 @@
                                                     },
                                                     {
                                                         "name": "MaxNodes.js",
-                                                        "size": 65,
-                                                        "language": "JavaScript",
                                                         "blank": 7,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 65,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
@@ -860,11 +856,11 @@
                                                         "children": [
                                                             {
                                                                 "name": "index.js",
-                                                                "size": 103,
-                                                                "language": "JavaScript",
                                                                 "blank": 8,
                                                                 "comment": 2,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 103,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             }
@@ -872,21 +868,21 @@
                                                     },
                                                     {
                                                         "name": "Credentials.js",
-                                                        "size": 133,
-                                                        "language": "JavaScript",
                                                         "blank": 6,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 133,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "About.js",
-                                                        "size": 110,
-                                                        "language": "JavaScript",
                                                         "blank": 11,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 110,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -897,31 +893,31 @@
                                                 "children": [
                                                     {
                                                         "name": "Transitions.js",
-                                                        "size": 21,
-                                                        "language": "JavaScript",
                                                         "blank": 5,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 21,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "TextInput.js",
-                                                        "size": 42,
-                                                        "language": "JavaScript",
                                                         "blank": 3,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 42,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "TextButton.js",
-                                                        "size": 20,
-                                                        "language": "JavaScript",
                                                         "blank": 3,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 20,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
@@ -930,51 +926,51 @@
                                                         "children": [
                                                             {
                                                                 "name": "index.js",
-                                                                "size": 2,
-                                                                "language": "JavaScript",
                                                                 "blank": 1,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 2,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "Native.js",
-                                                                "size": 38,
-                                                                "language": "JavaScript",
                                                                 "blank": 5,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 38,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "Mui.js",
-                                                                "size": 41,
-                                                                "language": "JavaScript",
                                                                 "blank": 5,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 41,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "Custom.js",
-                                                                "size": 95,
-                                                                "language": "JavaScript",
                                                                 "blank": 6,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 95,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "Autocomplete.js",
-                                                                "size": 29,
-                                                                "language": "JavaScript",
                                                                 "blank": 3,
                                                                 "comment": 2,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 29,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             }
@@ -987,21 +983,21 @@
                                                 "children": [
                                                     {
                                                         "name": "Template.js",
-                                                        "size": 12,
-                                                        "language": "JavaScript",
                                                         "blank": 4,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 12,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "FolderSelect.js",
-                                                        "size": 65,
-                                                        "language": "JavaScript",
                                                         "blank": 8,
                                                         "comment": 3,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 65,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -1012,41 +1008,41 @@
                                                 "children": [
                                                     {
                                                         "name": "index.js",
-                                                        "size": 48,
-                                                        "language": "JavaScript",
                                                         "blank": 8,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 48,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "VisThemeProvider.js",
-                                                        "size": 58,
-                                                        "language": "JavaScript",
                                                         "blank": 15,
                                                         "comment": 6,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 58,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "Sunburst.js",
-                                                        "size": 127,
-                                                        "language": "JavaScript",
                                                         "blank": 24,
                                                         "comment": 20,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 127,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "ForceDirectedGraph.js",
-                                                        "size": 190,
-                                                        "language": "JavaScript",
                                                         "blank": 33,
                                                         "comment": 9,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 190,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -1057,21 +1053,21 @@
                                                 "children": [
                                                     {
                                                         "name": "index.js",
-                                                        "size": 69,
-                                                        "language": "JavaScript",
                                                         "blank": 6,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 69,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "Content.js",
-                                                        "size": 89,
-                                                        "language": "JavaScript",
                                                         "blank": 8,
                                                         "comment": 2,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 89,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -1082,21 +1078,21 @@
                                                 "children": [
                                                     {
                                                         "name": "index.js",
-                                                        "size": 71,
-                                                        "language": "JavaScript",
                                                         "blank": 8,
                                                         "comment": 4,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 71,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "Content.js",
-                                                        "size": 61,
-                                                        "language": "JavaScript",
                                                         "blank": 7,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 61,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -1107,41 +1103,41 @@
                                                 "children": [
                                                     {
                                                         "name": "index.js",
-                                                        "size": 60,
-                                                        "language": "JavaScript",
                                                         "blank": 4,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 60,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "RepoHeader.js",
-                                                        "size": 27,
-                                                        "language": "JavaScript",
                                                         "blank": 4,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 27,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "LanguagesTable.js",
-                                                        "size": 102,
-                                                        "language": "JavaScript",
                                                         "blank": 6,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 102,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
                                                     {
                                                         "name": "FolderButton.js",
-                                                        "size": 35,
-                                                        "language": "JavaScript",
                                                         "blank": 4,
                                                         "comment": 0,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 35,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     }
@@ -1149,11 +1145,11 @@
                                             },
                                             {
                                                 "name": "MainThemeProvider.js",
-                                                "size": 15,
-                                                "language": "JavaScript",
                                                 "blank": 4,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 15,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             },
@@ -1162,11 +1158,11 @@
                                                 "children": [
                                                     {
                                                         "name": "index.js",
-                                                        "size": 31,
-                                                        "language": "JavaScript",
                                                         "blank": 5,
                                                         "comment": 5,
-                                                        "users": [
+                                                        "language": "JavaScript",
+                                                        "size": 31,
+                                                        "authorIds": [
                                                             0
                                                         ]
                                                     },
@@ -1175,41 +1171,41 @@
                                                         "children": [
                                                             {
                                                                 "name": "ToggleButton.js",
-                                                                "size": 28,
-                                                                "language": "JavaScript",
                                                                 "blank": 3,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 28,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "Divider.js",
-                                                                "size": 8,
-                                                                "language": "JavaScript",
                                                                 "blank": 2,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 8,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "ButtonGroup.js",
-                                                                "size": 38,
-                                                                "language": "JavaScript",
                                                                 "blank": 3,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 38,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "Bar.js",
-                                                                "size": 41,
-                                                                "language": "JavaScript",
                                                                 "blank": 3,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 41,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             }
@@ -1220,71 +1216,71 @@
                                                         "children": [
                                                             {
                                                                 "name": "VisTypeButtons.js",
-                                                                "size": 36,
-                                                                "language": "JavaScript",
                                                                 "blank": 4,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 36,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "VisThemeButtons.js",
-                                                                "size": 42,
-                                                                "language": "JavaScript",
                                                                 "blank": 4,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 42,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "SearchButton.js",
-                                                                "size": 25,
-                                                                "language": "JavaScript",
                                                                 "blank": 4,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 25,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "MainThemeButton.js",
-                                                                "size": 36,
-                                                                "language": "JavaScript",
                                                                 "blank": 4,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 36,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "LinkButton.js",
-                                                                "size": 46,
-                                                                "language": "JavaScript",
                                                                 "blank": 7,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 46,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "FullscreenButton.js",
-                                                                "size": 29,
-                                                                "language": "JavaScript",
                                                                 "blank": 3,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 29,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             },
                                                             {
                                                                 "name": "AboutButton.js",
-                                                                "size": 25,
-                                                                "language": "JavaScript",
                                                                 "blank": 4,
                                                                 "comment": 0,
-                                                                "users": [
+                                                                "language": "JavaScript",
+                                                                "size": 25,
+                                                                "authorIds": [
                                                                     0
                                                                 ]
                                                             }
@@ -1294,11 +1290,11 @@
                                             },
                                             {
                                                 "name": "App.js",
-                                                "size": 36,
-                                                "language": "JavaScript",
                                                 "blank": 4,
                                                 "comment": 0,
-                                                "users": [
+                                                "language": "JavaScript",
+                                                "size": 36,
+                                                "authorIds": [
                                                     0
                                                 ]
                                             }
@@ -1311,21 +1307,21 @@
                                 "children": [
                                     {
                                         "name": "manifest.json",
-                                        "size": 25,
-                                        "language": "JSON",
                                         "blank": 0,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "JSON",
+                                        "size": 25,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "index.html",
-                                        "size": 27,
-                                        "language": "HTML",
                                         "blank": 3,
                                         "comment": 20,
-                                        "users": [
+                                        "language": "HTML",
+                                        "size": 27,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -1333,51 +1329,51 @@
                             },
                             {
                                 "name": "package.json",
-                                "size": 57,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 57,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": "package-lock.json",
-                                "size": 16309,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 16309,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": "jsconfig.json",
-                                "size": 5,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 5,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": "README.md",
-                                "size": 38,
-                                "language": "Markdown",
                                 "blank": 32,
                                 "comment": 0,
-                                "users": [
+                                "language": "Markdown",
+                                "size": 38,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": ".prettierrc.json",
-                                "size": 6,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 6,
+                                "authorIds": [
                                     0
                                 ]
                             }
@@ -1388,11 +1384,11 @@
                         "children": [
                             {
                                 "name": "manifest.json",
-                                "size": 21,
-                                "language": "JSON",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 21,
+                                "authorIds": [
                                     0
                                 ]
                             },
@@ -1401,41 +1397,41 @@
                                 "children": [
                                     {
                                         "name": "main.js",
-                                        "size": 99,
-                                        "language": "JavaScript",
                                         "blank": 31,
                                         "comment": 32,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 99,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "jquery.js",
-                                        "size": 3,
-                                        "language": "JavaScript",
                                         "blank": 0,
                                         "comment": 1,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 3,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "frame.js",
-                                        "size": 20,
-                                        "language": "JavaScript",
                                         "blank": 8,
                                         "comment": 9,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 20,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "background.js",
-                                        "size": 12,
-                                        "language": "JavaScript",
                                         "blank": 3,
                                         "comment": 2,
-                                        "users": [
+                                        "language": "JavaScript",
+                                        "size": 12,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -1446,11 +1442,11 @@
                                 "children": [
                                     {
                                         "name": "promo440.html",
-                                        "size": 34,
-                                        "language": "HTML",
                                         "blank": 4,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "HTML",
+                                        "size": 34,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -1461,11 +1457,11 @@
                                 "children": [
                                     {
                                         "name": "frame.html",
-                                        "size": 13,
-                                        "language": "HTML",
                                         "blank": 0,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "HTML",
+                                        "size": 13,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -1476,11 +1472,11 @@
                                 "children": [
                                     {
                                         "name": "frame.css",
-                                        "size": 75,
-                                        "language": "CSS",
                                         "blank": 7,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "CSS",
+                                        "size": 75,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -1488,21 +1484,21 @@
                             },
                             {
                                 "name": "config.json",
-                                "size": 3,
-                                "language": "JSON",
                                 "blank": 1,
                                 "comment": 0,
-                                "users": [
+                                "language": "JSON",
+                                "size": 3,
+                                "authorIds": [
                                     0
                                 ]
                             },
                             {
                                 "name": "README.md",
-                                "size": 19,
-                                "language": "Markdown",
                                 "blank": 7,
                                 "comment": 0,
-                                "users": [
+                                "language": "Markdown",
+                                "size": 19,
+                                "authorIds": [
                                     0
                                 ]
                             }
@@ -1510,11 +1506,11 @@
                     },
                     {
                         "name": "README.md",
-                        "size": 5,
-                        "language": "Markdown",
                         "blank": 5,
                         "comment": 0,
-                        "users": [
+                        "language": "Markdown",
+                        "size": 5,
+                        "authorIds": [
                             0
                         ]
                     },
@@ -1526,41 +1522,41 @@
                                 "children": [
                                     {
                                         "name": "prod-deploy.yaml",
-                                        "size": 48,
-                                        "language": "YAML",
                                         "blank": 9,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "YAML",
+                                        "size": 48,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "firefox-deploy.yaml",
-                                        "size": 17,
-                                        "language": "YAML",
                                         "blank": 5,
                                         "comment": 1,
-                                        "users": [
+                                        "language": "YAML",
+                                        "size": 17,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "dev-deploy.yaml",
-                                        "size": 48,
-                                        "language": "YAML",
                                         "blank": 9,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "YAML",
+                                        "size": 48,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "chrome-deploy.yaml",
-                                        "size": 17,
-                                        "language": "YAML",
                                         "blank": 5,
                                         "comment": 1,
-                                        "users": [
+                                        "language": "YAML",
+                                        "size": 17,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -1568,11 +1564,11 @@
                             },
                             {
                                 "name": "PULL_REQUEST_TEMPLATE.md",
-                                "size": 1,
-                                "language": "Markdown",
                                 "blank": 0,
                                 "comment": 0,
-                                "users": [
+                                "language": "Markdown",
+                                "size": 1,
+                                "authorIds": [
                                     0
                                 ]
                             },
@@ -1581,21 +1577,21 @@
                                 "children": [
                                     {
                                         "name": "feature_request.md",
-                                        "size": 15,
-                                        "language": "Markdown",
                                         "blank": 5,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "Markdown",
+                                        "size": 15,
+                                        "authorIds": [
                                             0
                                         ]
                                     },
                                     {
                                         "name": "bug_report.md",
-                                        "size": 25,
-                                        "language": "Markdown",
                                         "blank": 7,
                                         "comment": 0,
-                                        "users": [
+                                        "language": "Markdown",
+                                        "size": 25,
+                                        "authorIds": [
                                             0
                                         ]
                                     }
@@ -1603,11 +1599,11 @@
                             },
                             {
                                 "name": "CONTRIBUTING.md",
-                                "size": 5,
-                                "language": "Markdown",
                                 "blank": 2,
                                 "comment": 0,
-                                "users": [
+                                "language": "Markdown",
+                                "size": 5,
+                                "authorIds": [
                                     0
                                 ]
                             }
@@ -1617,39 +1613,39 @@
             },
             "ignored": [
                 {
-                    "file": "/chrome/description.txt",
+                    "file": "root/chrome/description.txt",
                     "reason": "listed in $Not_Code_Extension{txt}"
                 },
                 {
-                    "file": "/client/.gitignore",
+                    "file": "root/client/.gitignore",
                     "reason": "listed in $Not_Code_Extension{gitignore}"
                 },
                 {
-                    "file": "/client/public/robots.txt",
+                    "file": "root/client/public/robots.txt",
                     "reason": "listed in $Not_Code_Extension{txt}"
                 },
                 {
-                    "file": "/docs/licenses/Mensch",
+                    "file": "root/docs/licenses/Mensch",
                     "reason": "language unknown (#3)"
                 },
                 {
-                    "file": "/docs/licenses/Zaninotto",
+                    "file": "root/docs/licenses/Zaninotto",
                     "reason": "language unknown (#3)"
                 },
                 {
-                    "file": "/server/.dockerignore",
+                    "file": "root/server/.dockerignore",
                     "reason": "language unknown (#3)"
                 },
                 {
-                    "file": "/server/.env.example",
+                    "file": "root/server/.env.example",
                     "reason": "language unknown (#3)"
                 },
                 {
-                    "file": "/server/.gitignore",
+                    "file": "root/server/.gitignore",
                     "reason": "listed in $Not_Code_Extension{gitignore}"
                 },
                 {
-                    "file": "/server/cron/crontab",
+                    "file": "root/server/cron/crontab",
                     "reason": "language unknown (#3)"
                 }
             ]

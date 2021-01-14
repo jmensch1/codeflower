@@ -1,5 +1,5 @@
 import axios from 'axios'
-import testRepo from './data/ballotnav-2.json'
+import testRepo from './data/tdesktop.json'
 
 // FOR DEVELOPMENT ONLY
 const USE_TEST_REPO = false

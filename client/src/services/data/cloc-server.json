@@ -1,296 +1,546 @@
 {
-  "owner": "code-flower",
-  "name": "cloc-server",
-  "fullName": "code-flower/cloc-server",
-  "fNameBr": "code-flower/cloc-server::master",
-  "branch": "master",
-  "repoId": "code-flower#cloc-server#48962_1",
-  "branches": {
-    "master": "b68bccacb5e862f5477c0c2b0bb4553b6625f64e"
-  },
-  "lastCommit": "b68bccacb5e862f5477c0c2b0bb4553b6625f64e",
-  "githubUrl": "https://github.com/code-flower/cloc-server/tree/master",
-  "cloc": {
-    "tree": {
-      "name": "root",
-      "children": [
-        {
-          "name": "test",
-          "children": [
+    "type": "success",
+    "data": {
+        "owner": "code-flower",
+        "name": "cloc-server",
+        "branch": "master",
+        "repoId": "code-flower#cloc-server#25229_5",
+        "branches": {
+            "master": "b68bccacb5e862f5477c0c2b0bb4553b6625f64e"
+        },
+        "authors": [
             {
-              "name": "battery.js",
-              "size": 234,
-              "language": "JavaScript"
+                "id": 0,
+                "commits": 376,
+                "name": "Jake Mensch",
+                "email": "jake.mensch@gmail.com",
+                "numFilesTouched": 603
             },
             {
-              "name": "_common.js",
-              "size": 81,
-              "language": "JavaScript"
-            },
-            {
-              "name": "one.js",
-              "size": 81,
-              "language": "JavaScript"
-            },
-            {
-              "name": "trending.js",
-              "size": 45,
-              "language": "JavaScript"
-            },
-            {
-              "name": "load.js",
-              "size": 40,
-              "language": "JavaScript"
-            },
-            {
-              "name": "stream.js",
-              "size": 28,
-              "language": "JavaScript"
+                "id": 1,
+                "commits": 6,
+                "name": "Francois Zaninotto",
+                "email": "fzaninotto@gmail.com",
+                "numFilesTouched": 32
             }
-          ]
-        },
-        {
-          "name": "config",
-          "children": [
-            {
-              "name": "app.config.js",
-              "size": 119,
-              "language": "JavaScript"
-            },
-            {
-              "name": "pm2.config.js",
-              "size": 1,
-              "language": "JavaScript"
-            }
-          ]
-        },
-        {
-          "name": "bin",
-          "children": [
-            {
-              "name": "pm2",
-              "children": [
-                {
-                  "name": "PM2.js",
-                  "size": 102,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "conn-monitor.js",
-                  "size": 56,
-                  "language": "JavaScript"
-                }
-              ]
-            },
-            {
-              "name": "install.sh",
-              "size": 15,
-              "language": "Bourne Shell"
-            },
-            {
-              "name": "monitor.sh",
-              "size": 13,
-              "language": "Bourne Shell"
-            },
-            {
-              "name": "startup.sh",
-              "size": 8,
-              "language": "Bourne Shell"
-            },
-            {
-              "name": "prod.sh",
-              "size": 4,
-              "language": "Bourne Shell"
-            }
-          ]
-        },
-        {
-          "name": "README.md",
-          "size": 94,
-          "language": "Markdown"
-        },
-        {
-          "name": "server",
-          "children": [
-            {
-              "name": "api",
-              "children": [
-                {
-                  "name": "endpoints",
-                  "children": [
+        ],
+        "cloc": {
+            "tree": {
+                "name": "root",
+                "children": [
                     {
-                      "name": "cloc",
-                      "children": [
-                        {
-                          "name": "subtasks",
-                          "children": [
+                        "name": "test",
+                        "children": [
                             {
-                              "name": "06_convertClocFileToJson.js",
-                              "size": 93,
-                              "language": "JavaScript"
+                                "name": "trending.js",
+                                "blank": 16,
+                                "comment": 7,
+                                "language": "JavaScript",
+                                "size": 45,
+                                "authorIds": [
+                                    0
+                                ]
                             },
                             {
-                              "name": "03_cloneRepoInFilesystem.js",
-                              "size": 48,
-                              "language": "JavaScript"
+                                "name": "stream.js",
+                                "blank": 24,
+                                "comment": 26,
+                                "language": "JavaScript",
+                                "size": 28,
+                                "authorIds": [
+                                    0
+                                ]
                             },
                             {
-                              "name": "02_checkRepoClonability.js",
-                              "size": 47,
-                              "language": "JavaScript"
+                                "name": "one.js",
+                                "blank": 11,
+                                "comment": 4,
+                                "language": "JavaScript",
+                                "size": 81,
+                                "authorIds": [
+                                    0
+                                ]
                             },
                             {
-                              "name": "04_getBranchNameIfNeeded.js",
-                              "size": 35,
-                              "language": "JavaScript"
+                                "name": "load.js",
+                                "blank": 9,
+                                "comment": 4,
+                                "language": "JavaScript",
+                                "size": 40,
+                                "authorIds": [
+                                    0
+                                ]
                             },
                             {
-                              "name": "01_processRequestParams.js",
-                              "size": 31,
-                              "language": "JavaScript"
+                                "name": "battery.js",
+                                "blank": 14,
+                                "comment": 8,
+                                "language": "JavaScript",
+                                "size": 234,
+                                "authorIds": [
+                                    0
+                                ]
                             },
                             {
-                              "name": "05_convertRepoToClocFile.js",
-                              "size": 24,
-                              "language": "JavaScript"
-                            },
-                            {
-                              "name": "09_deleteRepoFromFilesystem.js",
-                              "size": 19,
-                              "language": "JavaScript"
-                            },
-                            {
-                              "name": "07_sendJsonToClient.js",
-                              "size": 12,
-                              "language": "JavaScript"
-                            },
-                            {
-                              "name": "index.js",
-                              "size": 11,
-                              "language": "JavaScript"
-                            },
-                            {
-                              "name": "08_handleClocErrors.js",
-                              "size": 9,
-                              "language": "JavaScript"
+                                "name": "_common.js",
+                                "blank": 23,
+                                "comment": 6,
+                                "language": "JavaScript",
+                                "size": 81,
+                                "authorIds": [
+                                    0
+                                ]
                             }
-                          ]
-                        },
-                        {
-                          "name": "index.js",
-                          "size": 23,
-                          "language": "JavaScript"
-                        }
-                      ]
+                        ]
                     },
                     {
-                      "name": "ping.js",
-                      "size": 11,
-                      "language": "JavaScript"
+                        "name": "server",
+                        "children": [
+                            {
+                                "name": "util",
+                                "children": [
+                                    {
+                                        "name": "setHostName.js",
+                                        "blank": 6,
+                                        "comment": 7,
+                                        "language": "JavaScript",
+                                        "size": 8,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "sendAlert.js",
+                                        "blank": 9,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 25,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "logger.js",
+                                        "blank": 8,
+                                        "comment": 5,
+                                        "language": "JavaScript",
+                                        "size": 9,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "getCurrentTime.js",
+                                        "blank": 2,
+                                        "comment": 0,
+                                        "language": "JavaScript",
+                                        "size": 7,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "connectionPool.js",
+                                        "blank": 16,
+                                        "comment": 9,
+                                        "language": "JavaScript",
+                                        "size": 29,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "index.js",
+                                "blank": 21,
+                                "comment": 7,
+                                "language": "JavaScript",
+                                "size": 39,
+                                "authorIds": [
+                                    0
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "children": [
+                                    {
+                                        "name": "serveResponse.js",
+                                        "blank": 7,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 30,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "handleErrors.js",
+                                        "blank": 14,
+                                        "comment": 5,
+                                        "language": "JavaScript",
+                                        "size": 40,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "endpoints",
+                                        "children": [
+                                            {
+                                                "name": "ping.js",
+                                                "blank": 4,
+                                                "comment": 0,
+                                                "language": "JavaScript",
+                                                "size": 11,
+                                                "authorIds": [
+                                                    0
+                                                ]
+                                            },
+                                            {
+                                                "name": "cloc",
+                                                "children": [
+                                                    {
+                                                        "name": "subtasks",
+                                                        "children": [
+                                                            {
+                                                                "name": "index.js",
+                                                                "blank": 1,
+                                                                "comment": 0,
+                                                                "language": "JavaScript",
+                                                                "size": 11,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "09_deleteRepoFromFilesystem.js",
+                                                                "blank": 6,
+                                                                "comment": 3,
+                                                                "language": "JavaScript",
+                                                                "size": 19,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "08_handleClocErrors.js",
+                                                                "blank": 9,
+                                                                "comment": 5,
+                                                                "language": "JavaScript",
+                                                                "size": 9,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "07_sendJsonToClient.js",
+                                                                "blank": 7,
+                                                                "comment": 3,
+                                                                "language": "JavaScript",
+                                                                "size": 12,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "06_convertClocFileToJson.js",
+                                                                "blank": 18,
+                                                                "comment": 27,
+                                                                "language": "JavaScript",
+                                                                "size": 93,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "05_convertRepoToClocFile.js",
+                                                                "blank": 10,
+                                                                "comment": 4,
+                                                                "language": "JavaScript",
+                                                                "size": 24,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "04_getBranchNameIfNeeded.js",
+                                                                "blank": 9,
+                                                                "comment": 6,
+                                                                "language": "JavaScript",
+                                                                "size": 35,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "03_cloneRepoInFilesystem.js",
+                                                                "blank": 15,
+                                                                "comment": 12,
+                                                                "language": "JavaScript",
+                                                                "size": 48,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "02_checkRepoClonability.js",
+                                                                "blank": 13,
+                                                                "comment": 20,
+                                                                "language": "JavaScript",
+                                                                "size": 47,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "01_processRequestParams.js",
+                                                                "blank": 15,
+                                                                "comment": 7,
+                                                                "language": "JavaScript",
+                                                                "size": 31,
+                                                                "authorIds": [
+                                                                    0
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "index.js",
+                                                        "blank": 6,
+                                                        "comment": 3,
+                                                        "language": "JavaScript",
+                                                        "size": 23,
+                                                        "authorIds": [
+                                                            0
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "WS",
+                                "children": [
+                                    {
+                                        "name": "parseRequest.js",
+                                        "blank": 6,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 14,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "index.js",
+                                        "blank": 1,
+                                        "comment": 0,
+                                        "language": "JavaScript",
+                                        "size": 5,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "createServer.js",
+                                        "blank": 5,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 11,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "Responder.js",
+                                        "blank": 13,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 39,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "HTTP",
+                                "children": [
+                                    {
+                                        "name": "parseRequest.js",
+                                        "blank": 10,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 39,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "index.js",
+                                        "blank": 1,
+                                        "comment": 0,
+                                        "language": "JavaScript",
+                                        "size": 5,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "createServer.js",
+                                        "blank": 6,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 15,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "Responder.js",
+                                        "blank": 12,
+                                        "comment": 3,
+                                        "language": "JavaScript",
+                                        "size": 28,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "package.json",
+                        "blank": 0,
+                        "comment": 0,
+                        "language": "JSON",
+                        "size": 45,
+                        "authorIds": [
+                            0
+                        ]
+                    },
+                    {
+                        "name": "config",
+                        "children": [
+                            {
+                                "name": "pm2.config.js",
+                                "blank": 1,
+                                "comment": 0,
+                                "language": "JavaScript",
+                                "size": 1,
+                                "authorIds": [
+                                    0
+                                ]
+                            },
+                            {
+                                "name": "app.config.js",
+                                "blank": 22,
+                                "comment": 3,
+                                "language": "JavaScript",
+                                "size": 119,
+                                "authorIds": [
+                                    0
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "bin",
+                        "children": [
+                            {
+                                "name": "startup.sh",
+                                "blank": 6,
+                                "comment": 3,
+                                "language": "Bourne Shell",
+                                "size": 8,
+                                "authorIds": [
+                                    0
+                                ]
+                            },
+                            {
+                                "name": "prod.sh",
+                                "blank": 2,
+                                "comment": 1,
+                                "language": "Bourne Shell",
+                                "size": 4,
+                                "authorIds": [
+                                    0
+                                ]
+                            },
+                            {
+                                "name": "pm2",
+                                "children": [
+                                    {
+                                        "name": "conn-monitor.js",
+                                        "blank": 18,
+                                        "comment": 4,
+                                        "language": "JavaScript",
+                                        "size": 56,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "name": "PM2.js",
+                                        "blank": 33,
+                                        "comment": 16,
+                                        "language": "JavaScript",
+                                        "size": 102,
+                                        "authorIds": [
+                                            0
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "monitor.sh",
+                                "blank": 5,
+                                "comment": 3,
+                                "language": "Bourne Shell",
+                                "size": 13,
+                                "authorIds": [
+                                    0
+                                ]
+                            },
+                            {
+                                "name": "install.sh",
+                                "blank": 10,
+                                "comment": 13,
+                                "language": "Bourne Shell",
+                                "size": 15,
+                                "authorIds": [
+                                    0
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "README.md",
+                        "blank": 18,
+                        "comment": 0,
+                        "language": "Markdown",
+                        "size": 94,
+                        "authorIds": [
+                            0,
+                            1
+                        ]
                     }
-                  ]
-                },
-                {
-                  "name": "handleErrors.js",
-                  "size": 40,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "serveResponse.js",
-                  "size": 30,
-                  "language": "JavaScript"
-                }
-              ]
+                ]
             },
-            {
-              "name": "HTTP",
-              "children": [
+            "ignored": [
                 {
-                  "name": "parseRequest.js",
-                  "size": 39,
-                  "language": "JavaScript"
+                    "file": "root/.gitignore",
+                    "reason": "listed in $Not_Code_Extension{gitignore}"
                 },
                 {
-                  "name": "Responder.js",
-                  "size": 28,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "createServer.js",
-                  "size": 15,
-                  "language": "JavaScript"
+                    "file": "root/.nvmrc",
+                    "reason": "language unknown (#3)"
                 }
-              ]
-            },
-            {
-              "name": "WS",
-              "children": [
-                {
-                  "name": "Responder.js",
-                  "size": 39,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "parseRequest.js",
-                  "size": 14,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "createServer.js",
-                  "size": 11,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "index.js",
-                  "size": 5,
-                  "language": "JavaScript"
-                }
-              ]
-            },
-            {
-              "name": "index.js",
-              "size": 39,
-              "language": "JavaScript"
-            },
-            {
-              "name": "util",
-              "children": [
-                {
-                  "name": "connectionPool.js",
-                  "size": 29,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "sendAlert.js",
-                  "size": 25,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "logger.js",
-                  "size": 9,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "setHostName.js",
-                  "size": 8,
-                  "language": "JavaScript"
-                },
-                {
-                  "name": "getCurrentTime.js",
-                  "size": 7,
-                  "language": "JavaScript"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "package.json",
-          "size": 45,
-          "language": "JSON"
+            ]
         }
-      ]
-    },
-    "ignored": ".gitignore,listed in $Not_Code_Extension{gitignore}\n.nvmrc,language unknown (#3)\nserver/HTTP/index.js,duplicate of server/WS/index.js\n"
-  }
+    }
 }
