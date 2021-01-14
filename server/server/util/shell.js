@@ -5,8 +5,11 @@ function execCmd(cmd, options = {}) {
 
   return new Promise((resolve, reject) => {
     const proc = exec(cmd, opts, (err, stdout, stderr) => {
-      if (err) reject({ err, stdout, stderr })
-      else resolve({ stdout, stderr })
+      if (err) {
+        err.stderr = stderr
+        reject(err)
+      } else
+        resolve({ stdout, stderr })
     })
 
     if (typeof onUpdate === 'function') {

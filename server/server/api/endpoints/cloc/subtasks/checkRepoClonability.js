@@ -41,7 +41,8 @@ async function checkRepoClonability({ owner, name, branch, creds, onUpdate }) {
 
   try {
     var { stdout } = await exec(lsRemote, { onUpdate })
-  } catch ({ err, stderr }) {
+  } catch (err) {
+    const { stderr } = err
     // err happens if the credentials are wrong or the repo doesn't exist
     // Repository not found => credentials are correct AND repository does not exist
     // Invalid username or password => credentials are not correct AND repository may or may not exist

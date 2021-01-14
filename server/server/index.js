@@ -28,7 +28,7 @@ async function serve(protocol, request, response) {
     onSuccess(data)
   } catch (error) {
     error.params = params
-    handleErrors(error, onError)
+    handleErrors(error, onError, onUpdate)
   }
 }
 
