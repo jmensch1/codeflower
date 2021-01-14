@@ -5,7 +5,7 @@ const config = require('@config')
 
 //////////// PRIVATE ////////////
 
-async function convertRepoToClocFile(repoId, onUpdate) {
+async function execCloc(repoId, onUpdate) {
   const cwd = config.paths.repo(repoId)
 
   const cloc = concat([
@@ -24,4 +24,4 @@ async function convertRepoToClocFile(repoId, onUpdate) {
 
 //////////// EXPORTS ////////////
 
-module.exports = convertRepoToClocFile
+module.exports = execCloc

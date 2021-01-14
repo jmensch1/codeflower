@@ -15,7 +15,7 @@ function gitCloneUrl(owner, name, creds) {
 }
 
 // runs git clone and returns a promise
-async function cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate }) {
+async function cloneRepo({ repoId, owner, name, branch, creds, onUpdate }) {
   const cwd = config.paths.repo(repoId)
 
   await fs.promises.mkdir(cwd, { recursive: true })
@@ -38,4 +38,4 @@ async function cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpd
 
 //////////// EXPORTS ////////////
 
-module.exports = cloneRepoInFilesystem
+module.exports = cloneRepo

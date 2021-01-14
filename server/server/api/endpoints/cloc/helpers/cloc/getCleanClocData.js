@@ -39,9 +39,10 @@ async function getCleanCloc(repoId) {
   return cloc
 }
 
-function getCleanIgnored(repoId) {
+async function getCleanIgnored(repoId) {
   const file = config.paths.repo(repoId, config.cloc.ignoredFile)
-  return readJson(file).then((files) => files.filter((f) => f.file !== 'root'))
+  const files = await readJson(file)
+  return files.filter((f) => f.file !== 'root')
 }
 
 async function getCleanClocData(repoId) {

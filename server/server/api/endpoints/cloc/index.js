@@ -4,33 +4,22 @@ const connPool = require('@util/connectionPool')(process.pid)
 const config = require('@config')
 const mixpanel = require('@util/mixpanel')
 const Log = require('@log')
+
 const {
-  checkRepoClonability,
-  cloneRepoInFilesystem,
+  checkClonability,
+  cloneRepo,
   getBranchName,
-  convertRepoToClocFile,
-  getCleanClocData,
   getUsersJson,
+} = require('./helpers/git')
+
+const {
+  execCloc,
+  getCleanClocData,
+  mergeUsersIntoCloc,
   clocToTree,
-} = require('./subtasks/')
+} = require('./helpers/cloc')
 
 //////////////// PRIVATE ///////////////////
-
-function mergeClocWithUsers(cloc, users) {
-  return Object.keys(cloc).reduce((merged, path) => {
-    merged[path] = {
-      ...cloc[path],
-      users: users
-        .filter((user) => user.files.includes(path))
-        .map((user) => user.id)
-    }
-    return merged
-  }, {})
-}
-
-function cleanUsers(users) {
-  return users.map(({ files, ...rest }) => rest)
-}
 
 async function cloc({ owner, name, branch, username, password }, onUpdate) {
   if (!owner || !name) throw config.errors.NeedOwnerAndName
@@ -44,16 +33,16 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   Log(2, `NEW REPO: ${repoId}`)
 
   Log(2, '1. Checking Repo Clonability')
-  const branches = await checkRepoClonability({ owner, name, branch, creds, onUpdate })
+  const branches = await checkClonability({ owner, name, branch, creds, onUpdate })
 
   Log(2, '2. Cloning Repo In Filesystem')
-  await cloneRepoInFilesystem({ repoId, owner, name, branch, creds, onUpdate })
+  await cloneRepo({ repoId, owner, name, branch, creds, onUpdate })
 
   Log(2, '3. Getting Branch Name')
   if (!branch) branch = await getBranchName(repoId)
 
   Log(2, '4. Converting Repo To Cloc File')
-  await convertRepoToClocFile(repoId, onUpdate)
+  await execCloc(repoId, onUpdate)
 
   Log(2, '5. Cleaning Cloc Data')
   let { cloc, ignored } = await getCleanClocData(repoId)
@@ -62,10 +51,10 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   let users = await getUsersJson(repoId)
 
   Log(2, '7. Merging Cloc and Users')
-  cloc = mergeClocWithUsers(cloc, users)
+  cloc = mergeUsersIntoCloc(cloc, users)
 
   Log(2, '8. Cleaning Users')
-  users = cleanUsers(users)
+  users = users.map(({ files, ...rest }) => rest)
 
   Log(2, '9. Concerting Cloc to Tree')
   const tree = clocToTree(cloc)

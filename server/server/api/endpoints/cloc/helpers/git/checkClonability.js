@@ -24,7 +24,7 @@ function getBranches(lsRemoteOutput) {
 // (2) whether the branch exists
 // (3) whether the repo requires credentials
 // (4) whether the credentials, if given, are valid
-async function checkRepoClonability({ owner, name, branch, creds, onUpdate }) {
+async function checkClonability({ owner, name, branch, creds, onUpdate }) {
   // construct the git ls-remote command.
   // using '******' as a fallback is a trick that lets us
   // distinguish between invalid credentials and non-existent repos,
@@ -65,4 +65,4 @@ async function checkRepoClonability({ owner, name, branch, creds, onUpdate }) {
 
 //////////// EXPORTS //////////////
 
-module.exports = checkRepoClonability
+module.exports = checkClonability
