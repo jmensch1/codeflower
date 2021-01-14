@@ -67,7 +67,9 @@ const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
   const authorStyles = useMemo(() => {
     const styles = {}
     if (highlightedAuthorId)
-      styles[`& .file:not(.author-${highlightedAuthorId})`] = { display: 'none' }
+      styles[`& .file:not(.author-${highlightedAuthorId})`] = {
+        display: 'none',
+      }
     return styles
   }, [highlightedAuthorId])
 

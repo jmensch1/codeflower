@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     height: '100vh',
     backgroundColor: 'black',
-    width: ({ isOpen }) => isOpen ? WIDTH : 0,
+    width: ({ isOpen }) => (isOpen ? WIDTH : 0),
     transition: 'width 0.35s ease-in-out',
   },
   inner: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: ({ isOpen }) => isOpen ? 0 : -WIDTH,
+    left: ({ isOpen }) => (isOpen ? 0 : -WIDTH),
     transition: 'left 0.35s ease-in-out',
     width: WIDTH,
     display: 'flex',
@@ -43,7 +43,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Sidebar = () => {
-  const { isOpen, params: { contentType } } = useModal('sidebar')
+  const {
+    isOpen,
+    params: { contentType },
+  } = useModal('sidebar')
   const classes = useStyles({ isOpen })
   const dispatch = useDispatch()
   const [type, setType] = useState('folders')
@@ -60,22 +63,27 @@ const Sidebar = () => {
     <div className={classes.root}>
       <div className={classes.inner}>
         <div className={classes.header}>
-          <Typography variant='body2'>select {type.replace(/s$/, '')}</Typography>
+          <Typography variant="body2">
+            select {type.replace(/s$/, '')}
+          </Typography>
           <IconButton
             aria-label="close"
             className={classes.closeButton}
             onClick={close}
-            size='small'
+            size="small"
           >
-            <ArrowBackIcon fontSize='small'/>
+            <ArrowBackIcon fontSize="small" />
           </IconButton>
         </div>
         <div className={classes.content}>
           {(() => {
-            switch(type) {
-              case 'folders': return <Folders />
-              case 'authors': return <Authors />
-              default: return null
+            switch (type) {
+              case 'folders':
+                return <Folders />
+              case 'authors':
+                return <Authors />
+              default:
+                return null
             }
           })()}
         </div>

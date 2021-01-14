@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import { useAuthors, useSelectedAuthorId } from 'store/selectors'
 import { selectAuthor, highlightAuthor } from 'store/actions/settings'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
   },
@@ -30,13 +30,19 @@ const Authors = () => {
   const authors = useAuthors()
   const selectedAuthorId = useSelectedAuthorId()
 
-  const highlight = useCallback((authorId) => {
-    dispatch(highlightAuthor(authorId))
-  }, [dispatch])
+  const highlight = useCallback(
+    (authorId) => {
+      dispatch(highlightAuthor(authorId))
+    },
+    [dispatch]
+  )
 
-  const select = useCallback((authorId) => {
-    dispatch(selectAuthor(authorId))
-  }, [dispatch])
+  const select = useCallback(
+    (authorId) => {
+      dispatch(selectAuthor(authorId))
+    },
+    [dispatch]
+  )
 
   if (!authors) return null
   return (
@@ -52,10 +58,8 @@ const Authors = () => {
           })}
           onMouseEnter={highlight.bind(null, author.id)}
           onClick={() => {
-            if (author.id === selectedAuthorId)
-              select(null)
-            else
-              select(author.id)
+            if (author.id === selectedAuthorId) select(null)
+            else select(author.id)
           }}
         >
           <Typography>

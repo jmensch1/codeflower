@@ -30,7 +30,6 @@ function onUpdate(data) {
 
 export const getRepo = ({ owner, name, branch, username, password }) => {
   return async (dispatch) => {
-
     //// GET REPO ////
 
     dispatch({

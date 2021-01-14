@@ -6,7 +6,7 @@ import FolderIcon from '@material-ui/icons/FolderOpen'
 import { useSelectedFolderPath, useModal } from 'store/selectors'
 import { openModal, closeModal } from 'store/actions/modals'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -25,7 +25,10 @@ const FolderButton = () => {
   const classes = useStyles()
   const selectedFolderPath = useSelectedFolderPath()
   const dispatch = useDispatch()
-  const { isOpen, params: { contentType } } = useModal('sidebar')
+  const {
+    isOpen,
+    params: { contentType },
+  } = useModal('sidebar')
 
   const toggle = useCallback(() => {
     if (isOpen && contentType === 'folders') dispatch(closeModal('sidebar'))
@@ -34,8 +37,8 @@ const FolderButton = () => {
 
   return (
     <div className={classes.root} onClick={toggle}>
-      <Typography className={classes.text}>{ selectedFolderPath }</Typography>
-      <FolderIcon fontSize='small' />
+      <Typography className={classes.text}>{selectedFolderPath}</Typography>
+      <FolderIcon fontSize="small" />
     </div>
   )
 }

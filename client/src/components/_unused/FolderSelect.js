@@ -7,7 +7,7 @@ import Select from 'components/core/Select'
 import { MAX_NODES } from 'constants.js'
 import clsx from 'clsx'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   listItem: {
     fontSize: 14,
     opacity: 0.4,
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
       // paddingLeft: 3,
       // borderLeftWidth: 3,
     },
-  }
+  },
 }))
 
 const FolderSelect = () => {
@@ -37,14 +37,20 @@ const FolderSelect = () => {
     )
   }, [folderPaths])
 
-  const onChange = useCallback((folderPath) => {
-    dispatch(selectFolder(folderPath))
-  }, [dispatch])
+  const onChange = useCallback(
+    (folderPath) => {
+      dispatch(selectFolder(folderPath))
+    },
+    [dispatch]
+  )
 
-  const onHover = useCallback((folderPath) => {
-    if (folderPath && folderPath.startsWith(selectedFolderPath))
-      dispatch(highlightFolder(folderPath))
-  }, [dispatch, selectedFolderPath])
+  const onHover = useCallback(
+    (folderPath) => {
+      if (folderPath && folderPath.startsWith(selectedFolderPath))
+        dispatch(highlightFolder(folderPath))
+    },
+    [dispatch, selectedFolderPath]
+  )
 
   if (!selectedFolderPath) return null
 
@@ -62,9 +68,9 @@ const FolderSelect = () => {
           return (
             <div className={clsx(classes.listItem, { selected })}>
               <span style={{ visibility: 'hidden' }}>
-                { 'a'.repeat(2 * (sections.length - 1)) }
+                {'a'.repeat(2 * (sections.length - 1))}
               </span>
-              { name }
+              {name}
             </div>
           )
         }}

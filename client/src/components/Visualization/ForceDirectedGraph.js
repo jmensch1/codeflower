@@ -51,15 +51,18 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
 
-  const getNodePath = useCallback((node) => {
-    const partialPath = node
-      .ancestors()
-      .map((d) => d.data.name)
-      .reverse()
-      .slice(1)
-      .join('/')
-    return getFullPath(partialPath)
-  }, [getFullPath])
+  const getNodePath = useCallback(
+    (node) => {
+      const partialPath = node
+        .ancestors()
+        .map((d) => d.data.name)
+        .reverse()
+        .slice(1)
+        .join('/')
+      return getFullPath(partialPath)
+    },
+    [getFullPath]
+  )
 
   useEffect(() => {
     if (!tree) return
@@ -85,12 +88,7 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('class', (d) =>
-        clsx(
-          'link',
-          folderClasses[getNodePath(d.source)]
-        )
-      )
+      .attr('class', (d) => clsx('link', folderClasses[getNodePath(d.source)]))
 
     const node = svg
       .append('g')
@@ -99,15 +97,12 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
       .join('circle')
       .attr('class', (d) =>
         d.children
-          ? clsx(
-              'folder',
-              folderClasses[getNodePath(d)]
-            )
+          ? clsx('folder', folderClasses[getNodePath(d)])
           : clsx(
               'file',
               langClasses[d.data.language],
               d.parent && folderClasses[getNodePath(d.parent)],
-              ...d.data.authorIds.map((authorId) => `author-${authorId}`),
+              ...d.data.authorIds.map((authorId) => `author-${authorId}`)
             )
       )
       .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))

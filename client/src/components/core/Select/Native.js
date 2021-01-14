@@ -25,9 +25,12 @@ const Select = ({
 }) => {
   const classes = useStyles()
 
-  const handleChange = useCallback((e) => {
-    onChange(e.target.value)
-  }, [onChange])
+  const handleChange = useCallback(
+    (e) => {
+      onChange(e.target.value)
+    },
+    [onChange]
+  )
 
   return (
     <select className={classes.select} value={value} onChange={handleChange}>

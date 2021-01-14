@@ -6,7 +6,7 @@ import AuthorIcon from '@material-ui/icons/PersonOutline'
 import { useModal, useSelectedAuthor } from 'store/selectors'
 import { openModal, closeModal } from 'store/actions/modals'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -24,7 +24,10 @@ const useStyles = makeStyles(theme => ({
 const AuthorButton = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { isOpen, params: { contentType } } = useModal('sidebar')
+  const {
+    isOpen,
+    params: { contentType },
+  } = useModal('sidebar')
   const selectedAuthor = useSelectedAuthor()
 
   const toggle = useCallback(() => {
@@ -35,9 +38,9 @@ const AuthorButton = () => {
   return (
     <div className={classes.root} onClick={toggle}>
       <Typography className={classes.text}>
-        { selectedAuthor ? selectedAuthor.name : 'all authors' }
+        {selectedAuthor ? selectedAuthor.name : 'all authors'}
       </Typography>
-      <AuthorIcon fontSize='small' />
+      <AuthorIcon fontSize="small" />
     </div>
   )
 }

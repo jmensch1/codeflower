@@ -38,17 +38,24 @@ const Visualization = () => {
     [folderPaths]
   )
 
-  const getFullPath = useCallback((partialPath) => {
-    return partialPath
-      ? `${selectedFolderPath}/${partialPath}`
-      : selectedFolderPath
-  }, [selectedFolderPath])
+  const getFullPath = useCallback(
+    (partialPath) => {
+      return partialPath
+        ? `${selectedFolderPath}/${partialPath}`
+        : selectedFolderPath
+    },
+    [selectedFolderPath]
+  )
 
   const Vis = GRAPH_TYPES[visType]
 
   return (
     <VisThemeProvider langClasses={langClasses} folderClasses={folderClasses}>
-      <Vis langClasses={langClasses} folderClasses={folderClasses} getFullPath={getFullPath}/>
+      <Vis
+        langClasses={langClasses}
+        folderClasses={folderClasses}
+        getFullPath={getFullPath}
+      />
     </VisThemeProvider>
   )
 }

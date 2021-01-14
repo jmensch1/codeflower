@@ -7,7 +7,7 @@ const reducer = (state = initialState, action) => {
     case repoTypes.GET_REPO_PENDING:
       return {
         ...state,
-        ...action.data
+        ...action.data,
       }
     default:
       return state

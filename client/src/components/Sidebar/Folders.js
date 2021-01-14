@@ -6,12 +6,12 @@ import clsx from 'clsx'
 import {
   useFolderPaths,
   useSelectedFolderPath,
-  useHighlightedFolderPath
+  useHighlightedFolderPath,
 } from 'store/selectors'
 import { selectFolder, highlightFolder } from 'store/actions/settings'
 import { MAX_NODES } from 'constants.js'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     // makes the hover background full width
     // even when horizontal scrollbar is present
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: theme.palette.grey[900],
     },
-  }
+  },
 }))
 
 function isWithinFolder(folderPath, targetFolderPath) {
@@ -47,16 +47,21 @@ const Folders = () => {
   const highlightedFolderPath = useHighlightedFolderPath()
   const folderPaths = useFolderPaths()
 
-  const select = useCallback((folderPath) => {
-    dispatch(selectFolder(folderPath))
-  }, [dispatch])
+  const select = useCallback(
+    (folderPath) => {
+      dispatch(selectFolder(folderPath))
+    },
+    [dispatch]
+  )
 
-  const highlight = useCallback((folderPath) => {
-    if (folderPath && isWithinFolder(folderPath, selectedFolderPath))
-      dispatch(highlightFolder(folderPath))
-    else if (highlightedFolderPath)
-      dispatch(highlightFolder(null))
-  }, [dispatch, selectedFolderPath, highlightedFolderPath])
+  const highlight = useCallback(
+    (folderPath) => {
+      if (folderPath && isWithinFolder(folderPath, selectedFolderPath))
+        dispatch(highlightFolder(folderPath))
+      else if (highlightedFolderPath) dispatch(highlightFolder(null))
+    },
+    [dispatch, selectedFolderPath, highlightedFolderPath]
+  )
 
   const clearHighlight = useCallback(() => {
     dispatch(highlightFolder(null))
@@ -75,16 +80,17 @@ const Folders = () => {
             onMouseEnter={() => highlight(pathName)}
             onClick={() => select(pathName)}
           >
-            <span style={{
-              display: 'inline-block',
-              width: `${1.2 * (sections.length - 1)}em`,
-            }} />
-            <Typography
-              variant='caption'
+            <span
               style={{
-                textDecoration: pathName === selectedFolderPath
-                  ? 'underline'
-                  : undefined,
+                display: 'inline-block',
+                width: `${1.2 * (sections.length - 1)}em`,
+              }}
+            />
+            <Typography
+              variant="caption"
+              style={{
+                textDecoration:
+                  pathName === selectedFolderPath ? 'underline' : undefined,
               }}
             >
               {totalNodes <= MAX_NODES ? name : `${name} (${totalNodes} nodes)`}

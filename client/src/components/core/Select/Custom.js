@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'transparent',
     color: theme.palette.text.primary,
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
   },
   dropdown: {
-    display: ({ isOpen }) => isOpen ? 'block' : 'none',
+    display: ({ isOpen }) => (isOpen ? 'block' : 'none'),
     backgroundColor: theme.palette.background.paper,
     borderRadius: 4,
     borderTopLeftRadius: 0,
@@ -40,7 +40,7 @@ const Select = ({
   options = [],
   onChange = () => {},
   onHover = () => {},
-  renderOption = ()=> null,
+  renderOption = () => null,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isReady, setIsReady] = useState(false)
@@ -49,7 +49,7 @@ const Select = ({
   const containerRef = useRef(null)
 
   useEffect(() => {
-    containerRef.current.addEventListener('mousewheel', e => {
+    containerRef.current.addEventListener('mousewheel', (e) => {
       e.stopPropagation()
       e.preventDefault()
     })
@@ -76,7 +76,7 @@ const Select = ({
         onHover(null)
       }}
     >
-      <div>{ value }</div>
+      <div>{value}</div>
       {isReady && (
         <Dropdown element={modalRef.current}>
           <div className={classes.dropdown}>

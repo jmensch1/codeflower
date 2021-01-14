@@ -19,10 +19,8 @@ export const closeModal = (modalType) => ({
 export const toggleModal = (modalType, params = {}) => {
   return (dispatch, getState) => {
     const state = getState().modals[modalType]
-    if (!state || !state.isOpen)
-      dispatch(openModal(modalType, params))
-    else
-      dispatch(closeModal(modalType))
+    if (!state || !state.isOpen) dispatch(openModal(modalType, params))
+    else dispatch(closeModal(modalType))
   }
 }
 

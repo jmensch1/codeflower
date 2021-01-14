@@ -19,9 +19,12 @@ const Select = ({
 }) => {
   const classes = useStyles()
 
-  const handleChange = useCallback((e) => {
-    onChange(e.target.value)
-  }, [onChange])
+  const handleChange = useCallback(
+    (e) => {
+      onChange(e.target.value)
+    },
+    [onChange]
+  )
 
   return (
     <MuiSelect
@@ -30,8 +33,8 @@ const Select = ({
       onChange={handleChange}
       MenuProps={{
         MenuListProps: {
-          onMouseLeave: onHover.bind(null, null)
-        }
+          onMouseLeave: onHover.bind(null, null),
+        },
       }}
     >
       {options.map((opt) => (
