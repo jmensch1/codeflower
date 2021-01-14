@@ -1,14 +1,16 @@
 //////////// IMPORTS ////////////
 
-const fs = require('fs')
 const config = require('@config')
+const { exec } = require('@util/shell')
 
 //////////// PRIVATE ////////////
 
 async function getBranchName(repoId) {
-  const dir = `${config.paths.repo(repoId)}/root/.git/refs/heads`
-  const files = await fs.promises.readdir(dir)
-  return files[0]
+  const { stdout } = await exec('git branch', {
+    cwd: `${config.paths.repo(repoId)}/root`
+  })
+
+  return stdout.split('\n')[0].replace('* ', '')
 }
 
 //////////// EXPORTS ////////////
