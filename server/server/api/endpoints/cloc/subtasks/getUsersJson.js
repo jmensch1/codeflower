@@ -12,7 +12,7 @@ async function getFilesForUser(cwd, email) {
     '| sort -u',
   ])
 
-  const { stdout } = await exec(cmd, { cwd })
+  const { stdout } = await exec(cmd, { cwd, maxBuffer: 1024 * 1000 })
   return stdout.split('\n').slice(1, -1)
 }
 
