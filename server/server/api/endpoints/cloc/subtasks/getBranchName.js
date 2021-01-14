@@ -7,7 +7,7 @@ const { exec } = require('@util/shell')
 
 async function getBranchName(repoId) {
   const { stdout } = await exec('git branch', {
-    cwd: `${config.paths.repo(repoId)}/root`
+    cwd: config.paths.repo(repoId, 'root')
   })
 
   return stdout.split('\n')[0].replace('* ', '')

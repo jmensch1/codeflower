@@ -2,9 +2,8 @@ const config = require('@config')
 const { readJson, writeJson } = require('@util/files')
 
 async function getCleanCloc(repoId) {
-  const dir = config.paths.repo(repoId)
-  const clocFile = `${dir}/${config.cloc.dataFile}`
-  const cleanClocFile = `${dir}/cloc-clean.json`
+  const clocFile = config.paths.repo(repoId, config.cloc.dataFile)
+  const cleanClocFile = config.paths.repo(repoId, 'cloc-clean.json')
 
   let cloc
   try {
@@ -41,8 +40,7 @@ async function getCleanCloc(repoId) {
 }
 
 function getCleanIgnored(repoId) {
-  const dir = config.paths.repo(repoId)
-  const file = `${dir}/${config.cloc.ignoredFile}`
+  const file = config.paths.repo(repoId, config.cloc.ignoredFile)
   return readJson(file).then((files) => files.filter((f) => f.file !== 'root'))
 }
 

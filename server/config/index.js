@@ -1,5 +1,5 @@
 require('dotenv').config()
-const path = require('path')
+const { join } = require('path')
 
 //////// ENVIRONMENT-DEPENDENT CONSTANTS ///////////
 
@@ -48,8 +48,8 @@ module.exports = {
   },
 
   paths: {
-    repos: path.join(__dirname, '../tmp/repos/'),
-    repo: repoId => path.join(__dirname, '../tmp/repos', repoId),
+    repos: join(__dirname, '../tmp/repos/'),
+    repo: (repoId, ...paths) => join(__dirname, '../tmp/repos', repoId, ...paths),
   },
 
   endpoints: {

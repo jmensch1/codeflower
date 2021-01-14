@@ -35,7 +35,7 @@ function dedupeUsersByEmail(users) {
 }
 
 async function getUsers(repoId) {
-  const cwd = `${config.paths.repo(repoId)}/root`
+  const cwd = config.paths.repo(repoId, 'root')
   const cmd = `git log --pretty=short --no-merges | git shortlog -nse | cat`
 
   const { stdout } = await exec(cmd, { cwd })
@@ -70,8 +70,8 @@ async function getUsers(repoId) {
 
 async function getUsersJson(repoId) {
   const users = await getUsers(repoId)
-  const file = `${config.paths.repo(repoId)}/users.json`
-  await writeJson(file, users)
+  const file = config.paths.repo(repoId, 'users.json')
+  writeJson(file, users)
   return users
 }
 
