@@ -1,7 +1,6 @@
 import React, { useMemo, useCallback } from 'react'
 import {
   useVisType,
-  useLanguageCounts,
   useFolderPaths,
   useSelectedFolderPath,
 } from 'store/selectors'
@@ -16,18 +15,8 @@ const GRAPH_TYPES = {
 
 const Visualization = () => {
   const visType = useVisType()
-  const counts = useLanguageCounts()
   const folderPaths = useFolderPaths()
   const selectedFolderPath = useSelectedFolderPath()
-
-  const langClasses = useMemo(
-    () =>
-      counts.reduce((classes, count, index) => {
-        classes[count.language] = `lang-${index}`
-        return classes
-      }, {}),
-    [counts]
-  )
 
   const folderClasses = useMemo(
     () =>
@@ -50,9 +39,8 @@ const Visualization = () => {
   const Vis = GRAPH_TYPES[visType]
 
   return (
-    <VisThemeProvider langClasses={langClasses} folderClasses={folderClasses}>
+    <VisThemeProvider folderClasses={folderClasses}>
       <Vis
-        langClasses={langClasses}
         folderClasses={folderClasses}
         getFullPath={getFullPath}
       />

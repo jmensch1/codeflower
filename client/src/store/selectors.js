@@ -47,6 +47,13 @@ const languageCounts = createSelector([selectedFolder], (selectedFolder) =>
   repoUtils.getLanguageCounts(selectedFolder)
 )
 
+const languageIds = createSelector([languageCounts], (languageCounts) =>
+  languageCounts.reduce((ids, count, index) => {
+    ids[count.language] = index
+    return ids
+  }, {})
+)
+
 const languageColors = createSelector(
   [languageCounts, visThemeId],
   (counts, visThemeId) => {
@@ -87,6 +94,7 @@ export const useSelectedAuthor = () => useSelector(selectedAuthor)
 export const useFolderPaths = () => useSelector(folderPaths)
 export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)
+export const useLanguageIds = () => useSelector(languageIds)
 export const useLanguageColors = () => useSelector(languageColors)
 export const useContext = () => useSelector(context)
 export const useMainTheme = () => useSelector(mainTheme)

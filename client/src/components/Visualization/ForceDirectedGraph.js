@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelectedFolder } from 'store/selectors'
+import { useSelectedFolder, useLanguageIds } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
 import clsx from 'clsx'
@@ -44,12 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
+const ForceDirectedGraph = ({ folderClasses, getFullPath }) => {
   const container = useRef(null)
   const tooltip = useRef(null)
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
+  const languageIds = useLanguageIds()
 
   const getNodePath = useCallback(
     (node) => {
@@ -100,7 +101,7 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
           ? clsx('folder', folderClasses[getNodePath(d)])
           : clsx(
               'file',
-              langClasses[d.data.language],
+              `lang-${languageIds[d.data.language]}`,
               d.parent && folderClasses[getNodePath(d.parent)],
               ...d.data.authorIds.map((authorId) => `author-${authorId}`)
             )
@@ -215,7 +216,7 @@ const ForceDirectedGraph = ({ langClasses, folderClasses, getFullPath }) => {
       containerCurrent.innerHTML = ''
       tooltipCurrent.innerHTML = ''
     }
-  }, [tree, langClasses, folderClasses, getNodePath, dispatch])
+  }, [tree, languageIds, folderClasses, getNodePath, dispatch])
 
   if (!tree) return null
   return (

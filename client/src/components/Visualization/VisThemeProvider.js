@@ -3,37 +3,40 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import {
   useVisTheme,
   useLanguageColors,
+  useLanguageIds,
   useSelectedLanguage,
   useFolderPaths,
   useHighlightedFolderPath,
   useHighlightedAuthorId,
 } from 'store/selectors'
 
-const VisThemeProvider = ({ children, langClasses, folderClasses }) => {
+const VisThemeProvider = ({ children, folderClasses }) => {
   const visTheme = useVisTheme()
-  const langColors = useLanguageColors()
+  const languageColors = useLanguageColors()
   const selectedLanguage = useSelectedLanguage()
   const highlightedFolderPath = useHighlightedFolderPath()
   const folderPaths = useFolderPaths()
   const highlightedAuthorId = useHighlightedAuthorId()
+  const languageIds = useLanguageIds()
 
   const langStyles = useMemo(() => {
-    const languages = Object.keys(langClasses)
+    const languages = Object.keys(languageIds)
 
     const styles = languages.reduce((styles, lang, index) => {
-      const color = langColors[lang]
-      styles[`& .${langClasses[lang]}`] = { fill: color }
+      const color = languageColors[lang]
+      const clx = `lang-${languageIds[lang]}`
+      styles[`& .${clx}`] = { fill: color }
       return styles
     }, {})
 
     if (selectedLanguage) {
-      const langClass = langClasses[selectedLanguage]
-      styles[`& .file.${langClass}`] = visTheme.languages.highlight()
-      styles[`& .file:not(.${langClass})`] = visTheme.languages.suppress()
+      const clx = `lang-${languageIds[selectedLanguage]}`
+      styles[`& .file.${clx}`] = visTheme.languages.highlight()
+      styles[`& .file:not(.${clx})`] = visTheme.languages.suppress()
     }
 
     return styles
-  }, [visTheme, langClasses, langColors, selectedLanguage])
+  }, [visTheme, languageIds, languageColors, selectedLanguage])
 
   const folderStyles = useMemo(() => {
     if (!highlightedFolderPath) return
