@@ -20,11 +20,9 @@ function dedupeAuthorsByEmail(authors) {
   const dedupedAuthors = []
 
   authors.forEach((author) => {
-    const dupeAuthor = dedupedAuthors.find(a => a.email === author.email)
-    if (dupeAuthor)
-      dupeAuthor.commits += author.commits
-    else
-      dedupedAuthors.push(author)
+    const dupeAuthor = dedupedAuthors.find((a) => a.email === author.email)
+    if (dupeAuthor) dupeAuthor.commits += author.commits
+    else dedupedAuthors.push(author)
   })
 
   dedupedAuthors.forEach((author, index) => {
@@ -56,9 +54,11 @@ async function getAuthorsData(repoId) {
 
   authors = dedupeAuthorsByEmail(authors)
 
-  const authorFiles = await Promise.all(authors.map(author => {
-    return getFilesForAuthor(cwd, author.email)
-  }))
+  const authorFiles = await Promise.all(
+    authors.map((author) => {
+      return getFilesForAuthor(cwd, author.email)
+    })
+  )
 
   authors.forEach((author, idx) => {
     author.files = authorFiles[idx]

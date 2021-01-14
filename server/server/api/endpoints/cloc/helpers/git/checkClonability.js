@@ -52,8 +52,7 @@ async function checkClonability({ owner, name, branch, creds, onUpdate }) {
         : config.errors.NeedCredentials
     else if (stderr.match(/Repository not found/))
       throw config.errors.RepoNotFound
-    else
-      throw err
+    else throw err
   }
 
   // check if branch exists

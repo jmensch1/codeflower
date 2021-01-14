@@ -8,8 +8,7 @@ function execCmd(cmd, options = {}) {
       if (err) {
         err.stderr = stderr
         reject(err)
-      } else
-        resolve({ stdout, stderr })
+      } else resolve({ stdout, stderr })
     })
 
     if (typeof onUpdate === 'function') {

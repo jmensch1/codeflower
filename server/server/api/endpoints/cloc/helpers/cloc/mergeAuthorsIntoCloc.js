@@ -4,7 +4,7 @@ function mergeAuthorsIntoCloc(cloc, authors) {
       ...cloc[path],
       authorIds: authors
         .filter((author) => author.files.includes(path))
-        .map((author) => author.id)
+        .map((author) => author.id),
     }
     return merged
   }, {})

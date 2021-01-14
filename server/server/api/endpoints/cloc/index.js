@@ -33,7 +33,13 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   Log(2, `NEW REPO: ${repoId}`)
 
   Log(2, '1. Checking Repo Clonability')
-  const branches = await checkClonability({ owner, name, branch, creds, onUpdate })
+  const branches = await checkClonability({
+    owner,
+    name,
+    branch,
+    creds,
+    onUpdate,
+  })
 
   Log(2, '2. Cloning Repo In Filesystem')
   await cloneRepo({ repoId, owner, name, branch, creds, onUpdate })
@@ -76,7 +82,7 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
     cloc: {
       tree,
       ignored,
-    }
+    },
   }
 }
 

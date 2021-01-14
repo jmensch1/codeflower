@@ -1,16 +1,18 @@
 function getChildren(tree) {
-  return Object.keys(tree).map((name) => {
-    if (tree[name].language)
-      return {
-        name,
-        ...tree[name],
-      }
-    else
-      return {
-        name,
-        children: getChildren(tree[name])
-      }
-  }).sort((a, b) => b.name > a.name ? 1 : -1)
+  return Object.keys(tree)
+    .map((name) => {
+      if (tree[name].language)
+        return {
+          name,
+          ...tree[name],
+        }
+      else
+        return {
+          name,
+          children: getChildren(tree[name]),
+        }
+    })
+    .sort((a, b) => (b.name > a.name ? 1 : -1))
 }
 
 function clocToTree(cloc) {
@@ -30,7 +32,7 @@ function clocToTree(cloc) {
 
   return {
     name: 'root',
-    children: getChildren(root)
+    children: getChildren(root),
   }
 }
 

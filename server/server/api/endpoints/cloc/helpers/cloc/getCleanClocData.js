@@ -7,7 +7,7 @@ async function getCleanCloc(repoId) {
 
   try {
     var cloc = await readJson(clocFile)
-  } catch(err) {
+  } catch (err) {
     if (err.code === 'ENOENT')
       // if cloc did not create a file (e.g., because there are no
       // code files in the repo), create dummy json
@@ -15,8 +15,7 @@ async function getCleanCloc(repoId) {
         name: 'root',
         children: [],
       }
-    else
-      throw err
+    else throw err
   }
 
   // delete unused keys
@@ -47,7 +46,7 @@ async function getCleanIgnored(repoId) {
 }
 
 async function getCleanClocData(repoId) {
-  const [ cloc, ignored ] = await Promise.all([
+  const [cloc, ignored] = await Promise.all([
     getCleanCloc(repoId),
     getCleanIgnored(repoId),
   ])
