@@ -9,6 +9,7 @@ import {
   useHighlightedFolderPath,
   useHighlightedAuthorId,
 } from 'store/selectors'
+import { partition, multiClassSelector as select } from 'services/utils'
 
 const VisThemeProvider = ({ children }) => {
   const visTheme = useVisTheme()
@@ -43,28 +44,27 @@ const VisThemeProvider = ({ children }) => {
   const folderStyles = useMemo(() => {
     if (!highlightedFolderPath) return {}
 
-    // suppress everything outside the highlighted folder
-    const highlightFolder = (folderPath) => {
-      return folderPath.startsWith(highlightedFolderPath)
-    }
+    const styles = {}
 
     const folderPaths = Object.keys(folderIds)
+    const { files, folders, links } = visTheme
 
-    const styles = folderPaths.reduce((styles, path) => {
-      const clx = `folder-${folderIds[path]}`
+    const [
+      highlightedIds,
+      suppressedIds,
+    ] = partition(
+      folderPaths,
+      (path) => path.startsWith(highlightedFolderPath),
+      (path) => folderIds[path]
+    )
 
-      if (highlightFolder(path)) {
-        styles[`& .file.${clx}`] = visTheme.files.highlighted
-        styles[`& .folder.${clx}`] = visTheme.folders.highlighted
-        styles[`& .link.${clx}`] = visTheme.links.highlighted
-      } else {
-        styles[`& .file.${clx}`] = visTheme.files.suppressed
-        styles[`& .folder.${clx}`] = visTheme.folders.suppressed
-        styles[`& .link.${clx}`] = visTheme.links.suppressed
-      }
+    styles[select('& .file.folder-', highlightedIds)] = files.highlighted
+    styles[select('& .folder.folder-', highlightedIds)] = folders.highlighted
+    styles[select('& .link.folder-', highlightedIds)] = links.highlighted
 
-      return styles
-    }, {})
+    styles[select('& .file.folder-', suppressedIds)] = files.suppressed
+    styles[select('& .folder.folder-', suppressedIds)] = folders.suppressed
+    styles[select('& .link.folder-', suppressedIds)] = links.suppressed
 
     // highlight the highlighted folder
     // styles[`& .folder.folder-${folderIds[highlightedFolderPath]}`] = {
@@ -90,14 +90,17 @@ const VisThemeProvider = ({ children }) => {
   }, [visTheme, highlightedAuthorId])
 
   const theme = useCallback(
-    (mainTheme) =>
-      createMuiTheme({
+    (mainTheme) => {
+      return createMuiTheme({
         ...mainTheme,
         visualization: visTheme.visualization,
-        languages: langStyles,
-        folders: folderStyles,
-        authors: authorStyles,
-      }),
+        dynamic: {
+          ...langStyles,
+          ...folderStyles,
+          ...authorStyles,
+        },
+      })
+    },
     [visTheme, langStyles, folderStyles, authorStyles]
   )
 
