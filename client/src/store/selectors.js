@@ -64,10 +64,10 @@ const languageIds = createSelector([languageCounts], (languageCounts) =>
 const languageColors = createSelector(
   [languageCounts, visThemeId],
   (counts, visThemeId) => {
-    const getLanguageColor = visThemes[visThemeId].languages.color
+    const { languageColor } = visThemes[visThemeId]
     const languages = counts.map((count) => count.language)
     return languages.reduce((colors, language, index) => {
-      colors[language] = getLanguageColor(languages, index)
+      colors[language] = languageColor(languages, index)
       return colors
     }, {})
   }

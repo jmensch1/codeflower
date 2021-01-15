@@ -31,8 +31,10 @@ const VisThemeProvider = ({ children }) => {
 
     if (selectedLanguage) {
       const clx = `lang-${languageIds[selectedLanguage]}`
-      styles[`& .file.${clx}`] = visTheme.languages.highlight()
-      styles[`& .file:not(.${clx})`] = visTheme.languages.suppress()
+      styles[`& .file.${clx}`] = visTheme.files.highlighted
+      styles[`& .file:not(.${clx})`] = visTheme.files.suppressed
+      styles[`& .folder`] = visTheme.folders.suppressed
+      styles[`& .link`] = visTheme.links.suppressed
     }
 
     return styles
@@ -49,12 +51,17 @@ const VisThemeProvider = ({ children }) => {
     const folderPaths = Object.keys(folderIds)
 
     const styles = folderPaths.reduce((styles, path) => {
-      if (highlightFolder(path)) return styles
-
       const clx = `folder-${folderIds[path]}`
-      styles[`& .folder.${clx}`] = { display: 'none' }
-      styles[`& .file.${clx}`] = { display: 'none' }
-      styles[`& .link.${clx}`] = { strokeOpacity: 0.2 }
+
+      if (highlightFolder(path)) {
+        styles[`& .file.${clx}`] = visTheme.files.highlighted
+        styles[`& .folder.${clx}`] = visTheme.folders.highlighted
+        styles[`& .link.${clx}`] = visTheme.links.highlighted
+      } else {
+        styles[`& .file.${clx}`] = visTheme.files.suppressed
+        styles[`& .folder.${clx}`] = visTheme.folders.suppressed
+        styles[`& .link.${clx}`] = visTheme.links.suppressed
+      }
 
       return styles
     }, {})
@@ -66,16 +73,21 @@ const VisThemeProvider = ({ children }) => {
     // }
 
     return styles
-  }, [folderIds, highlightedFolderPath])
+  }, [visTheme, folderIds, highlightedFolderPath])
 
   const authorStyles = useMemo(() => {
     const styles = {}
-    if (highlightedAuthorId)
-      styles[`& .file:not(.author-${highlightedAuthorId})`] = {
-        display: 'none',
-      }
+
+    if (highlightedAuthorId) {
+      const clx = `author-${highlightedAuthorId}`
+      styles[`& .file.${clx}`] = visTheme.files.highlighted
+      styles[`& .file:not(.${clx})`] = visTheme.files.suppressed
+      styles[`& .folder`] = visTheme.folders.suppressed
+      styles[`& .link`] = visTheme.links.suppressed
+    }
+
     return styles
-  }, [highlightedAuthorId])
+  }, [visTheme, highlightedAuthorId])
 
   const theme = useCallback(
     (mainTheme) =>

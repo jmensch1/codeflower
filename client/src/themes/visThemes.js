@@ -17,10 +17,6 @@ const visThemes = {
           stroke: '#000',
           strokeWidth: 0.5,
         },
-        '& .nodetext': {
-          fill: '#252929',
-          fontWeight: 'bold',
-        },
       },
       sunburst: {
         '& .folder': {
@@ -34,17 +30,21 @@ const visThemes = {
         },
       },
     },
-    languages: {
-      color: (languages, index) => {
-        const hue = 170 + Math.round((190 * index) / languages.length)
-        return `hsl(${hue}, 100%, 50%)`
-      },
-      highlight: (language) => {
-        return {}
-      },
-      suppress: (language) => {
-        return { display: 'none' }
-      },
+    files: {
+      highlighted: {},
+      suppressed: { display: 'none' },
+    },
+    folders: {
+      highlighted: {},
+      suppressed: { display: 'none' },
+    },
+    links: {
+      highlighted: {},
+      suppressed: { strokeOpacity: 0.2 },
+    },
+    languageColor: (languages, index) => {
+      const hue = 170 + Math.round((190 * index) / languages.length)
+      return `hsl(${hue}, 100%, 50%)`
     },
   },
   bumblebee: {
@@ -65,10 +65,6 @@ const visThemes = {
           stroke: '#ccc',
           strokeWidth: 0.5,
         },
-        '& .nodetext': {
-          fill: 'white',
-          fontWeight: 'bold',
-        },
       },
       sunburst: {
         '& .folder': {
@@ -82,16 +78,20 @@ const visThemes = {
         },
       },
     },
-    languages: {
-      color: (languages, index) => {
-        return 'transparent'
-      },
-      highlight: (language) => {
-        return { fill: 'red !important' }
-      },
-      suppress: (language) => {
-        return {}
-      },
+    files: {
+      highlighted: { fill: 'red !important' },
+      suppressed: {},
+    },
+    folders: {
+      highlighted: {},
+      suppressed: { display: 'none' },
+    },
+    links: {
+      highlighted: {},
+      suppressed: { strokeOpacity: 0.2 },
+    },
+    languageColor: (languages, index) => {
+      return 'transparent'
     },
   },
   rainbow: {
@@ -110,10 +110,6 @@ const visThemes = {
           stroke: '#000',
           strokeWidth: 0,
         },
-        '& .nodetext': {
-          fill: 'white',
-          fontWeight: 'bold',
-        },
       },
       sunburst: {
         '& .folder': {
@@ -127,17 +123,21 @@ const visThemes = {
         },
       },
     },
-    languages: {
-      color: (languages, index) => {
-        const hue = Math.round((360 * index) / languages.length)
-        return `hsl(${hue}, 90%, 70%)`
-      },
-      highlight: (language) => {
-        return {}
-      },
-      suppress: (language) => {
-        return { display: 'none' }
-      },
+    files: {
+      highlighted: {},
+      suppressed: { display: 'none' },
+    },
+    folders: {
+      highlighted: {},
+      suppressed: { display: 'none' },
+    },
+    links: {
+      highlighted: {},
+      suppressed: {},
+    },
+    languageColor: (languages, index) => {
+      const hue = Math.round((360 * index) / languages.length)
+      return `hsl(${hue}, 90%, 70%)`
     },
   },
 }
