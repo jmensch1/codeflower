@@ -78,7 +78,7 @@ const VisThemeProvider = ({ children }) => {
   const authorStyles = useMemo(() => {
     const styles = {}
 
-    if (highlightedAuthorId) {
+    if (highlightedAuthorId !== null) {
       const clx = `author-${highlightedAuthorId}`
       styles[`& .file.${clx}`] = visTheme.files.highlighted
       styles[`& .file:not(.${clx})`] = visTheme.files.suppressed
