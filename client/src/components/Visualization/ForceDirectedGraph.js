@@ -40,11 +40,36 @@ const useStyles = makeStyles((theme) => ({
     transform: 'translate(-50%, -150%)',
     pointerEvents: 'none',
   },
+  controls: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 10,
+    width: 300,
+    borderRadius: 5,
+    backgroundColor: theme.palette.background.paper,
+  },
+  alphaBar: {
+    position: 'absolute',
+    top: 10,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: 400,
+    // backgroundColor: 'red',
+    height: 50,
+  },
+  alphaInner: {
+    height: '100%',
+    backgroundColor: 'blue',
+  }
 }))
 
 const ForceDirectedGraph = ({ getFullPath }) => {
   const container = useRef(null)
   const tooltip = useRef(null)
+  const slider = useRef(null)
+  const jiggler = useRef(null)
+  const alpha = useRef(null)
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
@@ -83,6 +108,13 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .append('svg')
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
+    // this ensures that larger nodes are on top of smaller ones,
+    // and you don't get the weird look where the smaller ones are on
+    // top but the links are invisible
+    nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
+
+    console.log(nodes)
+
     const link = svg
       .append('g')
       .selectAll('line')
@@ -117,6 +149,8 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     //// SIMULATION ////
 
+    console.log(links)
+
     const simulation = d3
       .forceSimulation(nodes)
       .force(
@@ -124,17 +158,30 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         d3
           .forceLink(links)
           .id((d) => d.id)
-          .distance((d) => (d.children ? 40 : 10))
+          .distance(5)
+          // .distance((d) => {
+          //   console.log('d:', d)
+          //   // return d.target.children ? 5 : 10
+          //   return d.target.data.size ? Math.pow(d.target.data.size, 2 / 5) || 1 : 10
+          // })
+          //.distance((d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
           .strength(1)
+          // .iterations(4)
       )
+      // .force(
+      //   'collide',
+      //   d3.forceCollide().iterations(5).radius((d) => d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1)
+      // )
       .force(
         'charge',
-        d3.forceManyBody().strength((d) => (d.children ? -120 : -150))
+        d3.forceManyBody().strength((d) => (d.children ? -500 : -150))
       )
       // .force('center', d3.forceCenter())
       // TODO: maybe make strength proportional to number of nodes (nodes.length)
       .force('x', d3.forceX().strength(0.4))
       .force('y', d3.forceY().strength(0.4))
+      // .force('radial', d3.forceRadial().radius(height / 2))
+      .alphaDecay(0.0028)
 
     simulation.on('tick', () => {
       link
@@ -144,6 +191,9 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         .attr('y2', (d) => d.target.y)
 
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
+
+      alpha.current.style.width = Math.floor(simulation.alpha() * 100) + '%'
+      console.log(simulation.alphaMin())
     })
 
     //// DRAGGING ////
@@ -203,6 +253,38 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       })
       .on('mouseout', () => tt.style('visibility', 'hidden'))
 
+
+    //// CONTROLS ////
+
+    const slide = d3.select(slider.current)
+    // slide.on('change', (e) => console.log('change:', e))
+    slide.on('input', (e) => {
+      const percent = e.target.value / 100
+      console.log('percent:', percent)
+
+      // simulation
+      //   .force('charge')
+      //   .strength((d) => (d.children ? -120 * percent : -150 * percent))
+
+      // simulation
+      //   .force('link')
+      //   .distance((d) => (d.children ? 40 * percent : 10 * percent))
+
+      // simulation.force('x', d3.forceX().strength(0.4 * percent))
+      // simulation.force('y', d3.forceY().strength(0.4 * percent))
+      simulation.force('radial', d3.forceRadial().radius(height / 2).strength(percent))
+
+      simulation.alpha(1).restart()
+
+      // node.attr('r', (d) => (d.children ? 3.5 * percent : Math.pow(d.data.size, percent * 2 / 5) || 1))
+    })
+
+    const jiggle = d3.select(jiggler.current)
+
+    jiggle.on('click', () => {
+      simulation.alpha(0.8).restart()
+    })
+
     //// GET FILE ////
 
     node.on('click', (e, d) => {
@@ -230,6 +312,20 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     <>
       <div ref={container} className={classes.root} />
       <div ref={tooltip} className={classes.tooltip} />
+      <div className={classes.controls}>
+        <input
+          type='range'
+          ref={slider}
+          min={0}
+          max={500}
+          defaultValue={100}
+          style={{ width: '100%' }}
+        />
+        <button ref={jiggler}>jiggle</button>
+      </div>
+      <div className={classes.alphaBar}>
+        <div className={classes.alphaInner} ref={alpha} />
+      </div>
     </>
   )
 }
