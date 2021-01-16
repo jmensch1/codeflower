@@ -1,10 +1,11 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useLanguageIds, useFolderIds } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
 import clsx from 'clsx'
+import Controls from './Controls'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,37 +45,66 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 10,
     right: 10,
-    padding: 10,
+    padding: 20,
     width: 300,
     borderRadius: 5,
     backgroundColor: theme.palette.background.paper,
+    zIndex: 100,
   },
   alphaBar: {
-    position: 'absolute',
-    top: 10,
-    left: '50%',
-    transform: 'translateX(-50%)',
-    width: 400,
-    // backgroundColor: 'red',
-    height: 50,
+    height: 15,
+    backgroundColor: theme.palette.grey[700],
+    marginBottom: 10,
   },
   alphaInner: {
     height: '100%',
-    backgroundColor: 'blue',
+    backgroundColor: theme.palette.grey[500],
   }
 }))
+
+const INITIAL_FORCES =  {
+  center: {
+    enabled: false,
+    strength: 0,
+  },
+  charge: {
+    enabled: true,
+    strength: -150,
+    distanceMin: 1,
+    distanceMax: 2000
+  },
+  collide: {
+    enabled: false,
+    strength: 0.7,
+    iterations: 1,
+    radius: 5
+  },
+  forceX: {
+    enabled: true,
+    strength: 0.4,
+  },
+  forceY: {
+    enabled: true,
+    strength: 0.4,
+  },
+  link: {
+    enabled: true,
+    distance: 10,
+    iterations: 4
+  },
+}
 
 const ForceDirectedGraph = ({ getFullPath }) => {
   const container = useRef(null)
   const tooltip = useRef(null)
-  const slider = useRef(null)
-  const jiggler = useRef(null)
   const alpha = useRef(null)
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
+  const graph = useRef(null)
+  const [forces, setForces] = useState(INITIAL_FORCES)
 
   const getNodePath = useCallback(
     (node) => {
@@ -113,8 +143,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     // top but the links are invisible
     nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
 
-    console.log(nodes)
-
     const link = svg
       .append('g')
       .selectAll('line')
@@ -149,39 +177,46 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     //// SIMULATION ////
 
-    console.log(links)
-
     const simulation = d3
       .forceSimulation(nodes)
-      .force(
-        'link',
-        d3
-          .forceLink(links)
-          .id((d) => d.id)
-          .distance(5)
-          // .distance((d) => {
-          //   console.log('d:', d)
-          //   // return d.target.children ? 5 : 10
-          //   return d.target.data.size ? Math.pow(d.target.data.size, 2 / 5) || 1 : 10
-          // })
-          //.distance((d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
-          .strength(1)
-          // .iterations(4)
-      )
-      // .force(
-      //   'collide',
-      //   d3.forceCollide().iterations(5).radius((d) => d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1)
-      // )
-      .force(
-        'charge',
-        d3.forceManyBody().strength((d) => (d.children ? -500 : -150))
-      )
-      // .force('center', d3.forceCenter())
-      // TODO: maybe make strength proportional to number of nodes (nodes.length)
-      .force('x', d3.forceX().strength(0.4))
-      .force('y', d3.forceY().strength(0.4))
-      // .force('radial', d3.forceRadial().radius(height / 2))
-      .alphaDecay(0.0028)
+      .force('link', d3.forceLink().links(links))
+      .force('charge', d3.forceManyBody())
+      .force('collide', d3.forceCollide())
+      .force('center', d3.forceCenter())
+      .force('forceX', d3.forceX())
+      .force('forceY', d3.forceY())
+
+    // const simulation = d3
+    //   .forceSimulation(nodes)
+    //   .force(
+    //     'link',
+    //     d3
+    //       .forceLink(links)
+    //       .id((d) => d.id)
+    //       .distance(5)
+    //       // .distance((d) => {
+    //       //   console.log('d:', d)
+    //       //   // return d.target.children ? 5 : 10
+    //       //   return d.target.data.size ? Math.pow(d.target.data.size, 2 / 5) || 1 : 10
+    //       // })
+    //       //.distance((d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
+    //       .strength(1)
+    //       // .iterations(4)
+    //   )
+    //   // .force(
+    //   //   'collide',
+    //   //   d3.forceCollide().iterations(5).radius((d) => d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1)
+    //   // )
+    //   .force(
+    //     'charge',
+    //     d3.forceManyBody().strength((d) => (d.children ? -500 : -150))
+    //   )
+    //   // .force('center', d3.forceCenter())
+    //   // TODO: maybe make strength proportional to number of nodes (nodes.length)
+    //   .force('x', d3.forceX().strength(0.4))
+    //   .force('y', d3.forceY().strength(0.4))
+    //   // .force('radial', d3.forceRadial().radius(height / 2))
+    //   .alphaDecay(0.0028)
 
     simulation.on('tick', () => {
       link
@@ -193,7 +228,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
 
       alpha.current.style.width = Math.floor(simulation.alpha() * 100) + '%'
-      console.log(simulation.alphaMin())
     })
 
     //// DRAGGING ////
@@ -253,38 +287,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       })
       .on('mouseout', () => tt.style('visibility', 'hidden'))
 
-
-    //// CONTROLS ////
-
-    const slide = d3.select(slider.current)
-    // slide.on('change', (e) => console.log('change:', e))
-    slide.on('input', (e) => {
-      const percent = e.target.value / 100
-      console.log('percent:', percent)
-
-      // simulation
-      //   .force('charge')
-      //   .strength((d) => (d.children ? -120 * percent : -150 * percent))
-
-      // simulation
-      //   .force('link')
-      //   .distance((d) => (d.children ? 40 * percent : 10 * percent))
-
-      // simulation.force('x', d3.forceX().strength(0.4 * percent))
-      // simulation.force('y', d3.forceY().strength(0.4 * percent))
-      simulation.force('radial', d3.forceRadial().radius(height / 2).strength(percent))
-
-      simulation.alpha(1).restart()
-
-      // node.attr('r', (d) => (d.children ? 3.5 * percent : Math.pow(d.data.size, percent * 2 / 5) || 1))
-    })
-
-    const jiggle = d3.select(jiggler.current)
-
-    jiggle.on('click', () => {
-      simulation.alpha(0.8).restart()
-    })
-
     //// GET FILE ////
 
     node.on('click', (e, d) => {
@@ -299,6 +301,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     //// CLEANUP ////
 
+    graph.current = { simulation }
     const containerCurrent = container.current
     const tooltipCurrent = tooltip.current
     return () => {
@@ -307,25 +310,51 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     }
   }, [tree, languageIds, folderIds, getNodePath, dispatch])
 
+  useEffect(() => {
+    if (!graph.current) return
+    const { simulation } = graph.current
+
+    simulation.force('center')
+      .strength(forces.center.strength * forces.center.enabled)
+    simulation.force('charge')
+      .strength(forces.charge.strength * forces.charge.enabled)
+      .distanceMin(forces.charge.distanceMin)
+      .distanceMax(forces.charge.distanceMax)
+    simulation.force('collide')
+      .strength(forces.collide.strength * forces.collide.enabled)
+      .radius(forces.collide.radius)
+      .iterations(forces.collide.iterations)
+    simulation.force('forceX')
+      .strength(forces.forceX.strength * forces.forceX.enabled)
+    simulation.force('forceY')
+      .strength(forces.forceY.strength * forces.forceY.enabled)
+    simulation.force('link')
+      .distance(forces.link.distance)
+      .iterations(forces.link.iterations)
+
+    simulation.alpha(1).restart()
+  }, [forces])
+
+  const jiggle = useCallback(() => {
+    graph.current.simulation.alpha(0.8).restart()
+  }, [])
+
   if (!tree) return null
   return (
     <>
       <div ref={container} className={classes.root} />
       <div ref={tooltip} className={classes.tooltip} />
       <div className={classes.controls}>
-        <input
-          type='range'
-          ref={slider}
-          min={0}
-          max={500}
-          defaultValue={100}
-          style={{ width: '100%' }}
+        <div className={classes.alphaBar}>
+          <div className={classes.alphaInner} ref={alpha} />
+        </div>
+        <Controls
+          forces={forces}
+          onChangeForces={setForces}
         />
-        <button ref={jiggler}>jiggle</button>
+        <button onClick={jiggle}>jiggle</button>
       </div>
-      <div className={classes.alphaBar}>
-        <div className={classes.alphaInner} ref={alpha} />
-      </div>
+
     </>
   )
 }
