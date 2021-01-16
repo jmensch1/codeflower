@@ -76,6 +76,10 @@ const Sidebar = () => {
           </IconButton>
         </div>
         <div className={classes.content}>
+          <div
+            id="vis-controls"
+            style={{ display: contentType === 'controls' ? 'block' : 'none' }}
+          />
           {(() => {
             switch (type) {
               case 'folders':

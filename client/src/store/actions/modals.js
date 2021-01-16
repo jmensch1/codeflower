@@ -24,7 +24,14 @@ export const toggleModal = (modalType, params = {}) => {
   }
 }
 
-const initialState = {}
+const initialState = {
+  sidebar: {
+    isOpen: true,
+    params: {
+      contentType: 'controls',
+    },
+  },
+}
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

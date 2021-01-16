@@ -1,28 +1,60 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import MuiSlider from '@material-ui/core/Slider'
+import TextButton from 'components/core/TextButton'
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    padding: 10,
+  },
+  alphaBar: {
+    height: 15,
+    backgroundColor: theme.palette.grey[700],
+    marginBottom: 20,
+  },
+  alphaInner: {
+    height: '100%',
+    width: ({ alpha }) => `${alpha * 100}%`,
+    backgroundColor: theme.palette.grey[500],
+  }
 }))
 
 const Slider = withStyles(theme => ({
   root: {
-    color: 'white'
+    color: 'white',
+    marginBottom: 10,
   },
   valueLabel: {
     color: 'black',
   }
 }))(MuiSlider)
 
-const Controls = ({ forces, onChangeForces }) => {
-  const classes = useStyles()
+const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
+  const classes = useStyles({ alpha })
+  const visControlsEl = useRef(document.getElementById('vis-controls'))
 
-  return (
+  return createPortal(
     <div className={classes.root}>
-      <label>charge strength</label>
+      <div className={classes.alphaBar}>
+        <div className={classes.alphaInner} />
+      </div>
+      <label>alpha decay ({ forces.alphaDecay })</label>
       <Slider
-        type='range'
+        min={0}
+        max={0.1}
+        step={0.001}
+        value={forces.alphaDecay}
+        onChange={(e, newVal) => {
+          onChangeForces({
+            ...forces,
+            alphaDecay: newVal,
+          })
+        }}
+        valueLabelDisplay='off'
+      />
+      <label>charge strength ({ -forces.charge.strength })</label>
+      <Slider
         min={0}
         max={500}
         value={-forces.charge.strength}
@@ -35,25 +67,75 @@ const Controls = ({ forces, onChangeForces }) => {
             }
           })
         }}
-        valueLabelDisplay='auto'
+        valueLabelDisplay='off'
       />
-      <label>link distance</label>
+      <label>charge distances min/max ({forces.charge.distanceMin}/{forces.charge.distanceMax})</label>
+      <Slider
+        min={1}
+        max={2000}
+        value={[forces.charge.distanceMin, forces.charge.distanceMax]}
+        onChange={(e, newVal) => {
+          onChangeForces({
+            ...forces,
+            charge: {
+              ...forces.charge,
+              distanceMin: newVal[0],
+              distanceMax: newVal[1],
+            }
+          })
+        }}
+        valueLabelDisplay='off'
+      />
+      <label>link distance inner ({ forces.link.distanceInner })</label>
       <Slider
         min={0}
-        max={50}
-        value={forces.link.distance}
+        max={150}
+        value={forces.link.distanceInner}
         onChange={(e, newVal) => {
           onChangeForces({
             ...forces,
             link: {
               ...forces.link,
-              distance: newVal
+              distanceInner: newVal
             }
           })
         }}
-        valueLabelDisplay='auto'
+        valueLabelDisplay='off'
       />
-      <label>link iterations</label>
+      <label>link distance outer ({ forces.link.distanceOuter })</label>
+      <Slider
+        min={0}
+        max={150}
+        value={forces.link.distanceOuter}
+        onChange={(e, newVal) => {
+          onChangeForces({
+            ...forces,
+            link: {
+              ...forces.link,
+              distanceOuter: newVal
+            }
+          })
+        }}
+        valueLabelDisplay='off'
+      />
+      <label>link strength ({ forces.link.strength })</label>
+      <Slider
+        min={0}
+        max={1}
+        step={0.01}
+        value={forces.link.strength}
+        onChange={(e, newVal) => {
+          onChangeForces({
+            ...forces,
+            link: {
+              ...forces.link,
+              strength: newVal
+            }
+          })
+        }}
+        valueLabelDisplay='off'
+      />
+      <label>link iterations ({ forces.link.iterations })</label>
       <Slider
         min={0}
         max={10}
@@ -67,11 +149,10 @@ const Controls = ({ forces, onChangeForces }) => {
             }
           })
         }}
-        valueLabelDisplay='auto'
+        valueLabelDisplay='off'
       />
-      <label>force x/y strength</label>
+      <label>force x/y strength ({ forces.forceX.strength })</label>
       <Slider
-        type='range'
         min={0}
         max={100}
         value={forces.forceX.strength * 100}
@@ -88,8 +169,15 @@ const Controls = ({ forces, onChangeForces }) => {
             },
           })
         }}
+        valueLabelDisplay='off'
       />
-    </div>
+      <TextButton
+        label='jiggle'
+        style={{ width:'100%' }}
+        onClick={onJiggle}
+      />
+    </div>,
+    visControlsEl.current
   )
 }
 

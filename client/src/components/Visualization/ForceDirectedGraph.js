@@ -63,13 +63,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const INITIAL_FORCES =  {
+  alphaDecay: 0.0228,
   center: {
-    enabled: false,
-    strength: 0,
+    enabled: true,
+    strength: 1,
   },
   charge: {
     enabled: true,
-    strength: -150,
+    strength: -200,
     distanceMin: 1,
     distanceMax: 2000
   },
@@ -90,21 +91,25 @@ const INITIAL_FORCES =  {
   link: {
     enabled: true,
     distance: 10,
-    iterations: 4
+    iterations: 4,
+    strength: 1,
+    distanceInner: 10,
+    distanceOuter: 10,
   },
 }
 
 const ForceDirectedGraph = ({ getFullPath }) => {
   const container = useRef(null)
   const tooltip = useRef(null)
-  const alpha = useRef(null)
+  const [alpha, setAlpha] = useState(0)
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
-  const graph = useRef(null)
   const [forces, setForces] = useState(INITIAL_FORCES)
+  const [restart, setRestart] = useState(0)
+  const [simulation, setSimulation] = useState(null)
 
   const getNodePath = useCallback(
     (node) => {
@@ -185,6 +190,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .force('center', d3.forceCenter())
       .force('forceX', d3.forceX())
       .force('forceY', d3.forceY())
+      .stop()
 
     // const simulation = d3
     //   .forceSimulation(nodes)
@@ -227,7 +233,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
 
-      alpha.current.style.width = Math.floor(simulation.alpha() * 100) + '%'
+      setAlpha(simulation.alpha())
     })
 
     //// DRAGGING ////
@@ -301,18 +307,17 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     //// CLEANUP ////
 
-    graph.current = { simulation }
+    setSimulation(simulation)
     const containerCurrent = container.current
     const tooltipCurrent = tooltip.current
     return () => {
       containerCurrent.innerHTML = ''
       tooltipCurrent.innerHTML = ''
     }
-  }, [tree, languageIds, folderIds, getNodePath, dispatch])
+  }, [tree, languageIds, folderIds, getNodePath, dispatch, restart])
 
   useEffect(() => {
-    if (!graph.current) return
-    const { simulation } = graph.current
+    if (!simulation || !forces) return
 
     simulation.force('center')
       .strength(forces.center.strength * forces.center.enabled)
@@ -329,32 +334,31 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     simulation.force('forceY')
       .strength(forces.forceY.strength * forces.forceY.enabled)
     simulation.force('link')
-      .distance(forces.link.distance)
+      .distance((d) => d.target.children ? forces.link.distanceInner : forces.link.distanceOuter)
+      .strength(forces.link.strength)
       .iterations(forces.link.iterations)
 
-    simulation.alpha(1).restart()
-  }, [forces])
+    simulation.alphaDecay(forces.alphaDecay)
 
-  const jiggle = useCallback(() => {
-    graph.current.simulation.alpha(0.8).restart()
-  }, [])
+    simulation.alpha(1).restart()
+  }, [simulation, forces])
+
+  // const jiggle = useCallback(() => {
+  //   simulation.alpha(0.8).restart()
+  // }, [simulation])
 
   if (!tree) return null
   return (
     <>
       <div ref={container} className={classes.root} />
       <div ref={tooltip} className={classes.tooltip} />
-      <div className={classes.controls}>
-        <div className={classes.alphaBar}>
-          <div className={classes.alphaInner} ref={alpha} />
-        </div>
-        <Controls
-          forces={forces}
-          onChangeForces={setForces}
-        />
-        <button onClick={jiggle}>jiggle</button>
-      </div>
-
+      <Controls
+        alpha={alpha}
+        forces={forces}
+        onChangeForces={setForces}
+        // onJiggle={jiggle}
+        onJiggle={() => setRestart(1 - restart)}
+      />
     </>
   )
 }
