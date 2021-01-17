@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useLanguageIds, useFolderIds } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
-import { useTooltip } from './Tooltip'
+import { useTooltip } from '../Tooltip'
 import clsx from 'clsx'
 import Controls from './Controls'
 
