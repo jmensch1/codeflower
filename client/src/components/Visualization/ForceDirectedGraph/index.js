@@ -1,11 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
+import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useLanguageIds, useFolderIds } from 'store/selectors'
-import { openModal } from 'store/actions/modals'
-import { useDispatch } from 'react-redux'
-import { useTooltip } from '../Tooltip'
-import clsx from 'clsx'
+import useMouse from './useMouse'
 import Activate from './Activate'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 const ForceDirectedGraph = ({ getFullPath }) => {
   const classes = useStyles()
   const tree = useSelectedFolder()
-  const dispatch = useDispatch()
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
   const [restart, setRestart] = useState(0)
@@ -45,7 +42,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const [node, setNode] = useState(null)
   const [nodes, setNodes] = useState(null)
   const [links, setLinks] = useState(null)
-  const setTooltip = useTooltip()
 
   const getNodePath = useCallback(
     (node) => {
@@ -59,6 +55,8 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     },
     [getFullPath]
   )
+
+  useMouse({ simulation, node, getNodePath })
 
   useEffect(() => {
     if (!tree) return
@@ -118,14 +116,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     //// SIMULATION ////
 
     const simulation = d3.forceSimulation().stop()
-      // .forceSimulation(nodes)
-      // .force('link', d3.forceLink().links(links))
-      // .force('charge', d3.forceManyBody())
-      // .force('collide', d3.forceCollide())
-      // .force('center', d3.forceCenter())
-      // .force('forceX', d3.forceX())
-      // .force('forceY', d3.forceY())
-      // .stop()
 
     simulation.on('tick.main', () => {
       link
@@ -137,36 +127,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
     })
 
-    //// DRAGGING ////
-
-    const drag = (simulation) => {
-      function dragstarted(event, d) {
-        if (!event.active) simulation.alphaTarget(0.3).restart()
-        d.fx = d.x
-        d.fy = d.y
-        setTooltip(null)
-      }
-
-      function dragged(event, d) {
-        d.fx = event.x
-        d.fy = event.y
-      }
-
-      function dragended(event, d) {
-        if (!event.active) simulation.alphaTarget(0)
-        d.fx = null
-        d.fy = null
-      }
-
-      return d3
-        .drag()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended)
-    }
-
-    node.call(drag(simulation))
-
     //// ZOOMING ////
 
     svg.call(d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed))
@@ -176,40 +136,15 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       link.attr('transform', transform)
     }
 
-    //// TOOLTIP ////
-
-    node
-      .on('mousemove', (e, d) => {
-        setTooltip({
-          x: e.offsetX,
-          y: e.offsetY,
-          content: d.children
-            ? d.data.name
-            : `${d.data.name} (${d.data.size} loc)`,
-        })
-      })
-      .on('mouseout', () => setTooltip(null))
-
-    //// GET FILE ////
-
-    node.on('click', (e, d) => {
-      if (d.children) return
-      dispatch(
-        openModal('fileViewer', {
-          filePath: getNodePath(d),
-          metadata: d.data,
-        })
-      )
-    })
-
     //// CLEANUP ////
 
     setSimulation(simulation)
     setNode(node)
     setNodes(nodes)
     setLinks(links)
+
     return () => { container.innerHTML = '' }
-  }, [tree, languageIds, folderIds, getNodePath, dispatch, setTooltip, restart])
+  }, [tree, languageIds, folderIds, getNodePath, restart])
 
   if (!tree) return null
   return (
