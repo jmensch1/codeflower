@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useLanguageIds, useFolderIds } from 'store/selectors'
@@ -85,7 +85,6 @@ const INITIAL_DISPLAY = {
 }
 
 const ForceDirectedGraph = ({ getFullPath }) => {
-  const container = useRef(null)
   const [alpha, setAlpha] = useState(0)
   const classes = useStyles()
   const tree = useSelectedFolder()
@@ -121,11 +120,13 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     const links = root.links()
     const nodes = root.descendants()
 
-    const width = container.current.offsetWidth
-    const height = container.current.offsetHeight
+    const container = document.getElementById('fdg-container')
+
+    const width = container.offsetWidth
+    const height = container.offsetHeight
 
     const svg = d3
-      .select(container.current)
+      .select(container)
       .append('svg')
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
@@ -291,10 +292,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     setSimulation(simulation)
     setNode(node)
-    const containerCurrent = container.current
-    return () => {
-      containerCurrent.innerHTML = ''
-    }
+    return () => { container.innerHTML = '' }
   }, [tree, languageIds, folderIds, getNodePath, dispatch, setTooltip, restart])
 
   useEffect(() => {
@@ -338,7 +336,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   if (!tree) return null
   return (
     <>
-      <div ref={container} className={classes.root} />
+      <div id='fdg-container' className={classes.root} />
       <Controls
         alpha={alpha}
         forces={forces}
