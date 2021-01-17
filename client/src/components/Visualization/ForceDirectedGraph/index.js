@@ -6,7 +6,7 @@ import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
 import { useTooltip } from '../Tooltip'
 import clsx from 'clsx'
-import Controls from './Controls'
+import Activate from './Activate'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,68 +34,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const INITIAL_FORCES =  {
-  alphaDecay: 0.0228,
-  center: {
-    enabled: true,
-    strength: 1,
-  },
-  charge: {
-    enabled: true,
-    strength: -200,
-    distanceMin: 1,
-    distanceMax: 2000,
-  },
-  collide: {
-    enabled: false,
-    strength: 0.7,
-    iterations: 1,
-    radius: 5
-  },
-  forceX: {
-    enabled: true,
-    strength: 0.4,
-  },
-  forceY: {
-    enabled: true,
-    strength: 0.4,
-  },
-  link: {
-    enabled: true,
-    distance: 10,
-    iterations: 4,
-    strength: 1,
-    distanceInner: 10,
-    distanceOuter: 10,
-  },
-  files: {
-    radius: {
-      exponent: 0.4,
-    },
-  },
-}
-
-const INITIAL_DISPLAY = {
-  files: {
-    radius: {
-      coeff: 1.0,
-      exponent: 0.4,
-    },
-  },
-}
-
 const ForceDirectedGraph = ({ getFullPath }) => {
-  const [alpha, setAlpha] = useState(0)
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
-  const [forces, setForces] = useState(INITIAL_FORCES)
-  const [display, setDisplay] = useState(INITIAL_DISPLAY)
   const [restart, setRestart] = useState(0)
   const [simulation, setSimulation] = useState(null)
   const [node, setNode] = useState(null)
+  const [nodes, setNodes] = useState(null)
+  const [links, setLinks] = useState(null)
   const setTooltip = useTooltip()
 
   const getNodePath = useCallback(
@@ -165,53 +114,20 @@ const ForceDirectedGraph = ({ getFullPath }) => {
               ...d.data.authorIds.map((authorId) => `author-${authorId}`)
             )
       )
-      // .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
 
     //// SIMULATION ////
 
-    const simulation = d3
-      .forceSimulation(nodes)
-      .force('link', d3.forceLink().links(links))
-      .force('charge', d3.forceManyBody())
-      .force('collide', d3.forceCollide())
-      .force('center', d3.forceCenter())
-      .force('forceX', d3.forceX())
-      .force('forceY', d3.forceY())
-      .stop()
+    const simulation = d3.forceSimulation().stop()
+      // .forceSimulation(nodes)
+      // .force('link', d3.forceLink().links(links))
+      // .force('charge', d3.forceManyBody())
+      // .force('collide', d3.forceCollide())
+      // .force('center', d3.forceCenter())
+      // .force('forceX', d3.forceX())
+      // .force('forceY', d3.forceY())
+      // .stop()
 
-    // const simulation = d3
-    //   .forceSimulation(nodes)
-    //   .force(
-    //     'link',
-    //     d3
-    //       .forceLink(links)
-    //       .id((d) => d.id)
-    //       .distance(5)
-    //       // .distance((d) => {
-    //       //   console.log('d:', d)
-    //       //   // return d.target.children ? 5 : 10
-    //       //   return d.target.data.size ? Math.pow(d.target.data.size, 2 / 5) || 1 : 10
-    //       // })
-    //       //.distance((d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
-    //       .strength(1)
-    //       // .iterations(4)
-    //   )
-    //   // .force(
-    //   //   'collide',
-    //   //   d3.forceCollide().iterations(5).radius((d) => d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1)
-    //   // )
-    //   .force(
-    //     'charge',
-    //     d3.forceManyBody().strength((d) => (d.children ? -500 : -150))
-    //   )
-    //   // .force('center', d3.forceCenter())
-    //   // TODO: maybe make strength proportional to number of nodes (nodes.length)
-    //   .force('x', d3.forceX().strength(0.4))
-    //   .force('y', d3.forceY().strength(0.4))
-    //   // .force('radial', d3.forceRadial().radius(height / 2))
-    //   .alphaDecay(0.0028)
-
-    simulation.on('tick', () => {
+    simulation.on('tick.main', () => {
       link
         .attr('x1', (d) => d.source.x)
         .attr('y1', (d) => d.source.y)
@@ -219,8 +135,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         .attr('y2', (d) => d.target.y)
 
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
-
-      setAlpha(simulation.alpha())
     })
 
     //// DRAGGING ////
@@ -292,59 +206,21 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     setSimulation(simulation)
     setNode(node)
+    setNodes(nodes)
+    setLinks(links)
     return () => { container.innerHTML = '' }
   }, [tree, languageIds, folderIds, getNodePath, dispatch, setTooltip, restart])
-
-  useEffect(() => {
-    if (!simulation || !forces) return
-
-    simulation.force('center')
-      .strength(forces.center.strength * forces.center.enabled)
-    simulation.force('charge')
-      .strength(forces.charge.strength * forces.charge.enabled)
-      .distanceMin(forces.charge.distanceMin)
-      .distanceMax(forces.charge.distanceMax)
-    simulation.force('collide')
-      .strength(forces.collide.strength * forces.collide.enabled)
-      .radius(forces.collide.radius)
-      .iterations(forces.collide.iterations)
-    simulation.force('forceX')
-      .strength(forces.forceX.strength * forces.forceX.enabled)
-    simulation.force('forceY')
-      .strength(forces.forceY.strength * forces.forceY.enabled)
-    simulation.force('link')
-      .distance((d) => d.target.children ? forces.link.distanceInner : forces.link.distanceOuter)
-      .strength(forces.link.strength)
-      .iterations(forces.link.iterations)
-
-    simulation.alphaDecay(forces.alphaDecay)
-
-    simulation.alpha(1).restart()
-  }, [simulation, forces])
-
-  useEffect(() => {
-    if (!node || !display) return
-
-    const { coeff, exponent } = display.files.radius
-    node.attr('r', (d) => (d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1))
-  }, [node, display])
-
-  // const jiggle = useCallback(() => {
-  //   simulation.alpha(0.8).restart()
-  // }, [simulation])
 
   if (!tree) return null
   return (
     <>
       <div id='fdg-container' className={classes.root} />
-      <Controls
-        alpha={alpha}
-        forces={forces}
-        onChangeForces={setForces}
-        display={display}
-        onChangeDisplay={setDisplay}
-        // onJiggle={jiggle}
-        onJiggle={() => setRestart(1 - restart)}
+      <Activate
+        simulation={simulation}
+        node={node}
+        nodes={nodes}
+        links={links}
+        restart={() => setRestart(1 - restart)}
       />
     </>
   )
