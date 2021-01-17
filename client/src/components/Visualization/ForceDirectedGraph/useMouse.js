@@ -1,15 +1,29 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { useTooltip } from '../Tooltip'
 import * as d3 from 'd3'
 import { openModal } from 'store/actions/modals'
+import { useTooltip } from '../Tooltip'
 
-export default function useMouse({ simulation, node, getNodePath }) {
-  const setTooltip = useTooltip()
+export default function useMouse({ simulation, node, link, svg, getNodePath }) {
   const dispatch = useDispatch()
+  const setTooltip = useTooltip()
+
+  const openFile = useCallback(
+    (node) => {
+      dispatch(
+        openModal('fileViewer', {
+          filePath: getNodePath(node),
+          metadata: node.data,
+        })
+      )
+    },
+    [dispatch, getNodePath]
+  )
 
   useEffect(() => {
     if (!simulation || !node) return
+
+    //// DRAGGING ////
 
     const drag = (simulation) => {
       function dragstarted(event, d) {
@@ -39,6 +53,15 @@ export default function useMouse({ simulation, node, getNodePath }) {
 
     node.call(drag(simulation))
 
+    //// ZOOMING ////
+
+    svg.call(d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed))
+
+    function zoomed({ transform }) {
+      node.attr('transform', transform)
+      link.attr('transform', transform)
+    }
+
     //// TOOLTIP ////
 
     node
@@ -53,17 +76,11 @@ export default function useMouse({ simulation, node, getNodePath }) {
       })
       .on('mouseout', () => setTooltip(null))
 
-    //// GET FILE ////
+    //// OPEN FILE ////
 
     node.on('click', (e, d) => {
-      if (d.children) return
-      dispatch(
-        openModal('fileViewer', {
-          filePath: getNodePath(d),
-          metadata: d.data,
-        })
-      )
+      if (!d.children) openFile(d)
     })
 
-  }, [simulation, node, getNodePath, setTooltip, dispatch])
+  }, [simulation, node, link, svg, setTooltip, openFile])
 }

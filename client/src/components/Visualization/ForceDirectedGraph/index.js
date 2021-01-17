@@ -37,11 +37,10 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const tree = useSelectedFolder()
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
+  const [visElements, setVisElements] = useState({})
   const [restart, setRestart] = useState(0)
-  const [simulation, setSimulation] = useState(null)
-  const [node, setNode] = useState(null)
-  const [nodes, setNodes] = useState(null)
-  const [links, setLinks] = useState(null)
+
+  const { simulation, node, nodes, link, links, svg } = visElements
 
   const getNodePath = useCallback(
     (node) => {
@@ -56,16 +55,23 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     [getFullPath]
   )
 
-  useMouse({ simulation, node, getNodePath })
+  useMouse({ simulation, node, link, svg, getNodePath })
 
   useEffect(() => {
     if (!tree) return
 
-    //// SETUP ////
+    //// DATA ////
 
     const root = d3.hierarchy(tree)
     const links = root.links()
     const nodes = root.descendants()
+
+    // this ensures that larger nodes are on top of smaller ones,
+    // and you don't get the weird look where the smaller ones are on
+    // top but the links are invisible
+    nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
+
+    //// DOM ////
 
     const container = document.getElementById('fdg-container')
 
@@ -76,11 +82,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .select(container)
       .append('svg')
       .attr('viewBox', [-width / 2, -height / 2, width, height])
-
-    // this ensures that larger nodes are on top of smaller ones,
-    // and you don't get the weird look where the smaller ones are on
-    // top but the links are invisible
-    nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
 
     const link = svg
       .append('g')
@@ -127,26 +128,12 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
     })
 
-    //// ZOOMING ////
+    //// FINISH ////
 
-    svg.call(d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed))
-
-    function zoomed({ transform }) {
-      node.attr('transform', transform)
-      link.attr('transform', transform)
-    }
-
-    //// CLEANUP ////
-
-    setSimulation(simulation)
-    setNode(node)
-    setNodes(nodes)
-    setLinks(links)
-
+    setVisElements({ simulation, node, nodes, link, links, svg })
     return () => { container.innerHTML = '' }
   }, [tree, languageIds, folderIds, getNodePath, restart])
 
-  if (!tree) return null
   return (
     <>
       <div id='fdg-container' className={classes.root} />
