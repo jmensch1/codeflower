@@ -38,7 +38,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
   const [visElements, setVisElements] = useState({})
-  const [restart, setRestart] = useState(0)
+  const [restartKey, setRestartKey] = useState(0)
 
   const { simulation, node, nodes, link, links, svg } = visElements
 
@@ -74,7 +74,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     //// DOM ////
 
     const container = document.getElementById('fdg-container')
-
     const width = container.offsetWidth
     const height = container.offsetHeight
 
@@ -132,7 +131,11 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     setVisElements({ simulation, node, nodes, link, links, svg })
     return () => { container.innerHTML = '' }
-  }, [tree, languageIds, folderIds, getNodePath, restart])
+  }, [tree, languageIds, folderIds, getNodePath, restartKey])
+
+  const restart = useCallback(() => {
+    setRestartKey((key) => 1 - key)
+  }, [])
 
   return (
     <>
@@ -142,7 +145,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         node={node}
         nodes={nodes}
         links={links}
-        restart={() => setRestart(1 - restart)}
+        restart={restart}
       />
     </>
   )

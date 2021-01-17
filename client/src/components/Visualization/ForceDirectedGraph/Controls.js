@@ -36,7 +36,7 @@ const Controls = ({
   onChangeForces,
   display,
   onChangeDisplay,
-  onJiggle,
+  onRestart,
 }) => {
   const classes = useStyles({ alpha })
 
@@ -188,9 +188,9 @@ const Controls = ({
           }}
         />
         <TextButton
-          label='jiggle'
+          label='restart'
           style={{ width:'100%', marginBottom: 15, }}
-          onClick={onJiggle}
+          onClick={onRestart}
         />
         <label>file size coeff ({ display.files.radius.coeff })</label>
         <Slider

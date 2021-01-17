@@ -57,6 +57,7 @@ const Activate = ({ simulation, node, nodes, links, restart }) => {
   const [forces, setForces] = useState(INITIAL_FORCES)
   const [display, setDisplay] = useState(INITIAL_DISPLAY)
 
+  // init forces
   useEffect(() => {
     if (!simulation || !nodes || !links) return
 
@@ -72,6 +73,7 @@ const Activate = ({ simulation, node, nodes, links, restart }) => {
     simulation.on('tick.alpha', () => setAlpha(simulation.alpha()))
   }, [simulation, nodes, links])
 
+  // update forces
   useEffect(() => {
     if (!simulation || !forces) return
 
@@ -99,18 +101,19 @@ const Activate = ({ simulation, node, nodes, links, restart }) => {
     simulation.alpha(1).restart()
   }, [simulation, forces])
 
+  // update display
   useEffect(() => {
     if (!node || !display) return
 
     const { coeff, exponent } = display.files.radius
-    node.attr('r', (d) => (d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1))
+    node.attr('r', (d) => {
+      return d.children
+        ? 3.5
+        : (coeff * Math.pow(d.data.size, exponent)) || 1
+    })
   }, [node, display])
 
-  // const jiggle = useCallback(() => {
-  //   simulation.alpha(0.8).restart()
-  // }, [simulation])
-
-  if (!simulation || !node) return null
+  if (!simulation) return null
   return (
     <Controls
       alpha={alpha}
@@ -118,7 +121,7 @@ const Activate = ({ simulation, node, nodes, links, restart }) => {
       onChangeForces={setForces}
       display={display}
       onChangeDisplay={setDisplay}
-      onJiggle={restart}
+      onRestart={restart}
     />
   )
 }
