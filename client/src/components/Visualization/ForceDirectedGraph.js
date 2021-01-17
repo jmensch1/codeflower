@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useLanguageIds, useFolderIds } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { useDispatch } from 'react-redux'
+import { useTooltip } from './Tooltip'
 import clsx from 'clsx'
 import Controls from './Controls'
 
@@ -31,35 +32,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  tooltip: {
-    position: 'absolute',
-    visibility: 'hidden',
-    backgroundColor: '#3d3d3d',
-    color: 'white',
-    borderRadius: '5px',
-    padding: '5px 10px',
-    transform: 'translate(-50%, -150%)',
-    pointerEvents: 'none',
-  },
-  controls: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    padding: 20,
-    width: 300,
-    borderRadius: 5,
-    backgroundColor: theme.palette.background.paper,
-    zIndex: 100,
-  },
-  alphaBar: {
-    height: 15,
-    backgroundColor: theme.palette.grey[700],
-    marginBottom: 10,
-  },
-  alphaInner: {
-    height: '100%',
-    backgroundColor: theme.palette.grey[500],
-  }
 }))
 
 const INITIAL_FORCES =  {
@@ -114,7 +86,6 @@ const INITIAL_DISPLAY = {
 
 const ForceDirectedGraph = ({ getFullPath }) => {
   const container = useRef(null)
-  const tooltip = useRef(null)
   const [alpha, setAlpha] = useState(0)
   const classes = useStyles()
   const tree = useSelectedFolder()
@@ -126,6 +97,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const [restart, setRestart] = useState(0)
   const [simulation, setSimulation] = useState(null)
   const [node, setNode] = useState(null)
+  const setTooltip = useTooltip()
 
   const getNodePath = useCallback(
     (node) => {
@@ -151,8 +123,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     const width = container.current.offsetWidth
     const height = container.current.offsetHeight
-
-    let dragging = false
 
     const svg = d3
       .select(container.current)
@@ -259,7 +229,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         if (!event.active) simulation.alphaTarget(0.3).restart()
         d.fx = d.x
         d.fy = d.y
-        dragging = true
+        setTooltip(null)
       }
 
       function dragged(event, d) {
@@ -271,7 +241,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         if (!event.active) simulation.alphaTarget(0)
         d.fx = null
         d.fy = null
-        dragging = false
       }
 
       return d3
@@ -294,20 +263,17 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     //// TOOLTIP ////
 
-    const tt = d3.select(tooltip.current)
-
     node
-      .on('mouseover', () => {
-        if (!dragging) tt.style('visibility', 'visible')
-      })
       .on('mousemove', (e, d) => {
-        tt.style('top', `${e.offsetY}px`)
-          .style('left', `${e.offsetX}px`)
-          .html(
-            d.children ? d.data.name : `${d.data.name} (${d.data.size} loc)`
-          )
+        setTooltip({
+          x: e.offsetX,
+          y: e.offsetY,
+          content: d.children
+            ? d.data.name
+            : `${d.data.name} (${d.data.size} loc)`,
+        })
       })
-      .on('mouseout', () => tt.style('visibility', 'hidden'))
+      .on('mouseout', () => setTooltip(null))
 
     //// GET FILE ////
 
@@ -326,12 +292,10 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     setSimulation(simulation)
     setNode(node)
     const containerCurrent = container.current
-    const tooltipCurrent = tooltip.current
     return () => {
       containerCurrent.innerHTML = ''
-      tooltipCurrent.innerHTML = ''
     }
-  }, [tree, languageIds, folderIds, getNodePath, dispatch, restart])
+  }, [tree, languageIds, folderIds, getNodePath, dispatch, setTooltip, restart])
 
   useEffect(() => {
     if (!simulation || !forces) return
@@ -375,7 +339,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   return (
     <>
       <div ref={container} className={classes.root} />
-      <div ref={tooltip} className={classes.tooltip} />
       <Controls
         alpha={alpha}
         forces={forces}

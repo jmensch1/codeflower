@@ -3,6 +3,7 @@ import { useVisType, useSelectedFolderPath } from 'store/selectors'
 import ForceDirectedGraph from './ForceDirectedGraph'
 import Sunburst from './Sunburst'
 import VisThemeProvider from './VisThemeProvider'
+import { TooltipProvider } from './Tooltip'
 
 const GRAPH_TYPES = {
   force: ForceDirectedGraph,
@@ -26,7 +27,9 @@ const Visualization = () => {
 
   return (
     <VisThemeProvider>
-      <Vis getFullPath={getFullPath} />
+      <TooltipProvider>
+        <Vis getFullPath={getFullPath} />
+      </TooltipProvider>
     </VisThemeProvider>
   )
 }
