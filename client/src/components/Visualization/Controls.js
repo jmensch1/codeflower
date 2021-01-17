@@ -30,7 +30,14 @@ const Slider = withStyles(theme => ({
   }
 }))(MuiSlider)
 
-const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
+const Controls = ({
+  alpha,
+  forces,
+  onChangeForces,
+  display,
+  onChangeDisplay,
+  onJiggle,
+}) => {
   const classes = useStyles({ alpha })
 
   return (
@@ -51,7 +58,6 @@ const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
               alphaDecay: newVal,
             })
           }}
-          valueLabelDisplay='off'
         />
         <label>charge strength ({ -forces.charge.strength })</label>
         <Slider
@@ -67,7 +73,6 @@ const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
               }
             })
           }}
-          valueLabelDisplay='off'
         />
         <label>charge distances min/max ({forces.charge.distanceMin}/{forces.charge.distanceMax})</label>
         <Slider
@@ -84,7 +89,6 @@ const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
               }
             })
           }}
-          valueLabelDisplay='off'
         />
         <label>link distance inner ({ forces.link.distanceInner })</label>
         <Slider
@@ -100,7 +104,6 @@ const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
               }
             })
           }}
-          valueLabelDisplay='off'
         />
         <label>link distance outer ({ forces.link.distanceOuter })</label>
         <Slider
@@ -116,7 +119,6 @@ const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
               }
             })
           }}
-          valueLabelDisplay='off'
         />
         <label>link strength ({ forces.link.strength })</label>
         <Slider
@@ -133,7 +135,6 @@ const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
               }
             })
           }}
-          valueLabelDisplay='off'
         />
         <label>link iterations ({ forces.link.iterations })</label>
         <Slider
@@ -149,33 +150,87 @@ const Controls = ({ forces, onJiggle, onChangeForces, alpha }) => {
               }
             })
           }}
-          valueLabelDisplay='off'
         />
-        <label>force x/y strength ({ forces.forceX.strength })</label>
+        <label>force x/y strength ({ forces.forceX.strength.toFixed(2) })</label>
         <Slider
           min={0}
-          max={100}
-          value={forces.forceX.strength * 100}
+          max={1}
+          step={0.01}
+          value={forces.forceX.strength}
           onChange={(e, newVal) => {
             onChangeForces({
               ...forces,
               forceX: {
                 ...forces.forceX,
-                strength: newVal / 100,
+                strength: newVal,
               },
               forceY: {
                 ...forces.forceY,
-                strength: newVal / 100,
+                strength: newVal,
               },
             })
           }}
-          valueLabelDisplay='off'
+        />
+        <label>force center strength ({ forces.center.strength })</label>
+        <Slider
+          min={0}
+          max={1}
+          step={0.01}
+          value={forces.center.strength}
+          onChange={(e, newVal) => {
+            onChangeForces({
+              ...forces,
+              center: {
+                ...forces.center,
+                strength: newVal,
+              },
+            })
+          }}
         />
         <TextButton
           label='jiggle'
-          style={{ width:'100%' }}
+          style={{ width:'100%', marginBottom: 15, }}
           onClick={onJiggle}
         />
+        <label>file size coeff ({ display.files.radius.coeff })</label>
+        <Slider
+          min={0}
+          max={50}
+          step={1}
+          value={display.files.radius.coeff}
+          onChange={(e, newVal) => {
+            onChangeDisplay({
+              ...display,
+              files: {
+                ...display.files,
+                radius: {
+                  ...display.files.radius,
+                  coeff: newVal,
+                },
+              },
+            })
+          }}
+        />
+        <label>file size exponent ({ display.files.radius.exponent })</label>
+        <Slider
+          min={0}
+          max={1}
+          step={0.01}
+          value={display.files.radius.exponent}
+          onChange={(e, newVal) => {
+            onChangeDisplay({
+              ...display,
+              files: {
+                ...display.files,
+                radius: {
+                  ...display.files.radius,
+                  exponent: newVal,
+                },
+              },
+            })
+          }}
+        />
+
       </div>
     </Portal>
   )

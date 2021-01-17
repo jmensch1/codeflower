@@ -72,7 +72,7 @@ const INITIAL_FORCES =  {
     enabled: true,
     strength: -200,
     distanceMin: 1,
-    distanceMax: 2000
+    distanceMax: 2000,
   },
   collide: {
     enabled: false,
@@ -96,6 +96,20 @@ const INITIAL_FORCES =  {
     distanceInner: 10,
     distanceOuter: 10,
   },
+  files: {
+    radius: {
+      exponent: 0.4,
+    },
+  },
+}
+
+const INITIAL_DISPLAY = {
+  files: {
+    radius: {
+      coeff: 1.0,
+      exponent: 0.4,
+    },
+  },
 }
 
 const ForceDirectedGraph = ({ getFullPath }) => {
@@ -108,8 +122,10 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
   const [forces, setForces] = useState(INITIAL_FORCES)
+  const [display, setDisplay] = useState(INITIAL_DISPLAY)
   const [restart, setRestart] = useState(0)
   const [simulation, setSimulation] = useState(null)
+  const [node, setNode] = useState(null)
 
   const getNodePath = useCallback(
     (node) => {
@@ -178,7 +194,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
               ...d.data.authorIds.map((authorId) => `author-${authorId}`)
             )
       )
-      .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
+      // .attr('r', (d) => (d.children ? 3.5 : Math.pow(d.data.size, 2 / 5) || 1))
 
     //// SIMULATION ////
 
@@ -308,6 +324,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     //// CLEANUP ////
 
     setSimulation(simulation)
+    setNode(node)
     const containerCurrent = container.current
     const tooltipCurrent = tooltip.current
     return () => {
@@ -343,6 +360,13 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     simulation.alpha(1).restart()
   }, [simulation, forces])
 
+  useEffect(() => {
+    if (!node || !display) return
+
+    const { coeff, exponent } = display.files.radius
+    node.attr('r', (d) => (d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1))
+  }, [node, display])
+
   // const jiggle = useCallback(() => {
   //   simulation.alpha(0.8).restart()
   // }, [simulation])
@@ -356,6 +380,8 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         alpha={alpha}
         forces={forces}
         onChangeForces={setForces}
+        display={display}
+        onChangeDisplay={setDisplay}
         // onJiggle={jiggle}
         onJiggle={() => setRestart(1 - restart)}
       />
