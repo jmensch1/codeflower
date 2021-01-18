@@ -1,94 +1,56 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
-import { useModal } from 'store/selectors'
-import { closeModal } from 'store/actions/modals'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import Typography from '@material-ui/core/Typography'
+import { useRepo } from 'store/selectors'
+import Header from './Header'
+import Tabs from './Tabs'
+import Languages from './Languages'
 import Folders from './Folders'
 import Authors from './Authors'
 
-const WIDTH = 250
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'relative',
-    height: '100vh',
-    backgroundColor: 'black',
-    width: ({ isOpen }) => (isOpen ? WIDTH : 0),
-    transition: 'width 0.35s ease-in-out',
-  },
-  inner: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: ({ isOpen }) => (isOpen ? 0 : -WIDTH),
-    transition: 'left 0.35s ease-in-out',
-    width: WIDTH,
+    width: 350,
+    backgroundColor: theme.palette.background.paper,
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'hidden',
   },
   header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '0.5em',
-    borderBottom: '0.5px white dotted',
+    padding: '10px 10px 15px 10px',
   },
   content: {
     flex: 1,
     overflow: 'auto',
+    padding: 10,
   },
 }))
 
 const Sidebar = () => {
-  const {
-    isOpen,
-    params: { contentType },
-  } = useModal('sidebar')
-  const classes = useStyles({ isOpen })
-  const dispatch = useDispatch()
-  const [type, setType] = useState('folders')
+  const classes = useStyles()
+  const repo = useRepo()
+  const [tab, setTab] = useState('languages')
 
-  useEffect(() => {
-    if (contentType) setType(contentType)
-  }, [contentType])
-
-  const close = useCallback(() => {
-    dispatch(closeModal('sidebar'))
-  }, [dispatch])
-
+  if (!repo) return null
   return (
     <div className={classes.root}>
-      <div className={classes.inner}>
-        <div className={classes.header}>
-          <Typography variant="h6">{type}</Typography>
-          <IconButton
-            aria-label="close"
-            className={classes.closeButton}
-            onClick={close}
-            size="small"
-          >
-            <ArrowBackIcon fontSize="small" />
-          </IconButton>
-        </div>
-        <div className={classes.content}>
-          <div
-            id="vis-controls"
-            style={{ display: contentType === 'controls' ? 'block' : 'none' }}
-          />
-          {(() => {
-            switch (type) {
-              case 'folders':
-                return <Folders />
-              case 'authors':
-                return <Authors />
-              default:
-                return null
-            }
-          })()}
-        </div>
+      <div className={classes.header}>
+        <Header />
+      </div>
+      <Tabs activeTab={tab} onChange={setTab} />
+      <div className={classes.content}>
+        <div
+          id="vis-controls"
+          style={{ display: tab === 'controls' ? 'block' : 'none' }}
+        />
+        {(() => {
+          switch(tab) {
+            case 'languages': return <Languages />
+            case 'folders': return <Folders />
+            case 'authors': return <Authors />
+            default: return null
+          }
+        })()}
       </div>
     </div>
   )

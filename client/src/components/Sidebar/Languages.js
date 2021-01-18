@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const LanguagesTable = () => {
+const Languages = () => {
   const classes = useStyles()
   const counts = useLanguageCounts()
   const colors = useLanguageColors()
@@ -105,4 +105,4 @@ const LanguagesTable = () => {
   )
 }
 
-export default LanguagesTable
+export default Languages

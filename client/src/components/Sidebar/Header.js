@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const RepoHeader = () => {
+const Header = () => {
   const classes = useStyles()
   const repo = useRepo()
 
@@ -28,4 +28,4 @@ const RepoHeader = () => {
   )
 }
 
-export default RepoHeader
+export default Header
