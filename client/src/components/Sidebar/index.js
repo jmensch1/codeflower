@@ -63,8 +63,8 @@ const Sidebar = () => {
     <div className={classes.root}>
       <div className={classes.inner}>
         <div className={classes.header}>
-          <Typography variant="body2">
-            select {type.replace(/s$/, '')}
+          <Typography variant="h6">
+            {type}
           </Typography>
           <IconButton
             aria-label="close"
