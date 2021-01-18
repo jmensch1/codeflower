@@ -56,30 +56,46 @@ function hexToHSL(hex) {
     }
 }
 
-
+function getLightness(color) {
+  return color.startsWith('#')
+    ? hexToHSL(color).l
+    : +/.*?hsl\((\d+),(\d+)%,(\d+)%\)/.exec(color)[3]
+}
 
 const Palette = ({ palette, onChange }) => {
   const classes = useStyles()
 
-  const color = palette.background.default
-
-  const lightness = color.startsWith('#')
-    ? hexToHSL(color).l
-    : +/.*?hsl\((\d+),(\d+)%,(\d+)%\)/.exec(color)[3]
+  const defaultLightness = getLightness(palette.background.default)
+  const paperLightness = getLightness(palette.background.paper)
 
   return (
     <div className={classes.root}>
-      <label>main background ({lightness})</label>
+      <label>main background ({defaultLightness})</label>
       <Slider
         min={0}
         max={100}
-        value={lightness}
+        value={defaultLightness}
         onChange={(e, newVal) => {
           onChange({
             ...palette,
             background: {
               ...palette.background,
               default: `hsl(0,0%,${newVal}%)`,
+            },
+          })
+        }}
+      />
+      <label>secondary background ({paperLightness})</label>
+      <Slider
+        min={0}
+        max={100}
+        value={paperLightness}
+        onChange={(e, newVal) => {
+          onChange({
+            ...palette,
+            background: {
+              ...palette.background,
+              paper: `hsl(0,0%,${newVal}%)`,
             },
           })
         }}
