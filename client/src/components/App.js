@@ -4,11 +4,12 @@ import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
 import Visualization from './Visualization'
-import RepoInfo from './RepoInfo'
+// import RepoInfo from './RepoInfo'
 import Terminal from './Terminal'
 import ControlBar from './ControlBar'
-import Sidebar from './Sidebar'
+// import Sidebar from './Sidebar'
 import Modals from './modals'
+import Aside from './Aside'
 
 function App() {
   const dispatch = useDispatch()
@@ -23,10 +24,10 @@ function App() {
 
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <Sidebar />
+      <div style={{ display: 'flex', height: '100vh', }}>
+        <Aside />
         <div style={{ position: 'relative', flex: 1 }}>
-          <RepoInfo />
+          {/*<RepoInfo />*/}
           <ControlBar />
           <Terminal />
           <Visualization />
