@@ -2,25 +2,29 @@ import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import Typography from '@material-ui/core/Typography'
 import { useAuthors, useSelectedAuthorId } from 'store/selectors'
 import { selectAuthor, highlightAuthor } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: 10,
+  table: {
+    borderCollapse: 'collapse',
+    width: '100%',
+    '& th, & td': {
+      textAlign: 'left',
+      padding: '5px 10px',
+    },
+    '& tbody tr': {
+      cursor: 'pointer',
+      '&:hover, &$selected': {
+        backgroundColor: theme.palette.grey[700],
+      },
+    },
+    '& tfoot tr': {
+      fontWeight: 'bold',
+    },
   },
-  listItem: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: 4,
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: theme.palette.grey[800],
-    },
-    '&.selected': {
-      textDecoration: 'underline',
-    },
+  selected: {
+    backgroundColor: theme.palette.grey[700],
   },
 }))
 
@@ -44,30 +48,46 @@ const Authors = () => {
     [dispatch]
   )
 
+  const clear = useCallback(
+    () => {
+      select(null)
+      highlight(null)
+    },
+    [select, highlight]
+  )
+
   if (!authors) return null
   return (
-    <div
-      className={classes.root}
-      onMouseLeave={highlight.bind(null, selectedAuthorId)}
-    >
-      {authors.map((author) => (
-        <div
-          key={author.id}
-          className={clsx(classes.listItem, {
-            selected: author.id === selectedAuthorId,
-          })}
-          onMouseEnter={highlight.bind(null, author.id)}
-          onClick={() => {
-            if (author.id === selectedAuthorId) select(null)
-            else select(author.id)
-          }}
-        >
-          <Typography>
-            [{author.id}] {author.name} ({author.commits})
-          </Typography>
-        </div>
-      ))}
-    </div>
+    <table className={classes.table}>
+      <thead>
+        <tr>
+          <th>author</th>
+          <th>commits</th>
+          <th>touched</th>
+        </tr>
+      </thead>
+      <tbody onMouseLeave={clear}>
+        {authors.map((author) => {
+          return (
+            <tr
+              key={author.id}
+              className={clsx({
+                [classes.selected]: author.id === selectedAuthorId
+              })}
+              onMouseEnter={highlight.bind(null, author.id)}
+              onClick={() => {
+                if (author.id === selectedAuthorId) select(null)
+                else select(author.id)
+              }}
+            >
+              <td>{author.name}</td>
+              <td>{author.commits}</td>
+              <td>{author.numFilesTouched}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
   )
 }
 
