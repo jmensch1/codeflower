@@ -5,6 +5,7 @@ import LanguageIcon from '@material-ui/icons/Language'
 import FolderIcon from '@material-ui/icons/FolderOpen'
 import PeopleIcon from '@material-ui/icons/People'
 import TuneIcon from '@material-ui/icons/Tune'
+import PaletteIcon from '@material-ui/icons/Palette'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,10 @@ const TABS = [
     type: 'controls',
     Icon: TuneIcon,
   },
+  {
+    type: 'palette',
+    Icon: PaletteIcon,
+  }
 ]
 
 const Tabs = ({ activeTab, onChange }) => {

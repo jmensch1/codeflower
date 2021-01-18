@@ -43,6 +43,10 @@ const Sidebar = () => {
           id="vis-controls"
           style={{ display: tab === 'controls' ? 'block' : 'none' }}
         />
+        <div
+          id="theme-controls"
+          style={{ display: tab === 'palette' ? 'block' : 'none' }}
+        />
         {(() => {
           switch(tab) {
             case 'languages': return <Languages />
