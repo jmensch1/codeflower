@@ -2,6 +2,7 @@ import axios from 'axios'
 
 // FOR DEVELOPMENT ONLY
 import testRepo from './data/cloc.json'
+const USE_TEST_REPO = false
 
 const HTTP_URL = process.env.REACT_APP_API_URL_HTTP || 'http://localhost:8000'
 const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'
@@ -14,7 +15,7 @@ export const getRepo = async ({
   password,
   onUpdate = (text) => null,
 }) => {
-  if (typeof testRepo !== 'undefined') {
+  if (USE_TEST_REPO) {
     const { data } = testRepo
     onUpdate(`using test repo: ${data.owner}/${data.name}`)
     return Promise.resolve(testRepo.data)
