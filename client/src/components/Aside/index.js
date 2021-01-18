@@ -1,52 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import RepoHeader from 'components/RepoInfo/RepoHeader'
-import FolderButton from 'components/RepoInfo/FolderButton'
+// import FolderButton from 'components/RepoInfo/FolderButton'
 import LanguagesTable from 'components/RepoInfo/LanguagesTable'
 import Folders from 'components/Sidebar/Folders'
 import Authors from 'components/Sidebar/Authors'
-import { useModal, useRepo } from 'store/selectors'
+import { useRepo } from 'store/selectors'
+import Tabs from './Tabs'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 350,
     backgroundColor: theme.palette.background.paper,
     height: '100%',
-    padding: 10,
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
   },
-  tabs: {
-    height: 5,
+  header: {
+    padding: '10px 10px 15px 10px',
   },
   content: {
     flex: 1,
     overflow: 'auto',
+    padding: 10,
   },
 }))
 
 const Aside = () => {
   const classes = useStyles()
   const repo = useRepo()
-  let { params: { contentType } } = useModal('sidebar')
-  contentType = contentType || 'languages'
+  const [tab, setTab] = useState('languages')
 
   if (!repo) return null
   return (
     <div className={classes.root}>
-      <RepoHeader />
-      <div style={{ padding: 10 }}>
-        <FolderButton />
+      <div className={classes.header}>
+        <RepoHeader />
       </div>
-      <div className={classes.tabs} />
+      {/*<div style={{ padding: 10 }}>
+        <FolderButton />
+      </div>*/}
+      <Tabs activeTab={tab} onChange={setTab} />
       <div className={classes.content}>
         <div
           id="vis-controls"
-          style={{ display: contentType === 'controls' ? 'block' : 'none' }}
+          style={{ display: tab === 'controls' ? 'block' : 'none' }}
         />
         {(() => {
-          switch(contentType) {
+          switch(tab) {
             case 'languages': return <LanguagesTable />
             case 'folders': return <Folders />
             case 'authors': return <Authors />
