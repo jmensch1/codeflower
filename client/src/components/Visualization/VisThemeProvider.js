@@ -49,10 +49,7 @@ const VisThemeProvider = ({ children }) => {
     const folderPaths = Object.keys(folderIds)
     const { files, folders, links } = visTheme
 
-    const [
-      highlightedIds,
-      suppressedIds,
-    ] = partition(
+    const [highlightedIds, suppressedIds] = partition(
       folderPaths,
       (path) => path.startsWith(highlightedFolderPath),
       (path) => folderIds[path]

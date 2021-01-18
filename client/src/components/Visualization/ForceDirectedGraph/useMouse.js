@@ -81,6 +81,5 @@ export default function useMouse({ simulation, node, link, svg, getNodePath }) {
     node.on('click', (e, d) => {
       if (!d.children) openFile(d)
     })
-
   }, [simulation, node, link, svg, setTooltip, openFile])
 }

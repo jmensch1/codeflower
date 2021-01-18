@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const tooltipContext = createContext()
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
     top: ({ y }) => y,
     left: ({ x }) => x,
-    visibility: ({ visible }) => visible ? 'visible' : 'hidden',
+    visibility: ({ visible }) => (visible ? 'visible' : 'hidden'),
     backgroundColor: '#3d3d3d',
     color: 'white',
     borderRadius: '5px',
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     transform: 'translate(-50%, -150%)',
     pointerEvents: 'none',
     zIndex: 1,
-  }
+  },
 }))
 
 export const TooltipProvider = ({ children }) => {

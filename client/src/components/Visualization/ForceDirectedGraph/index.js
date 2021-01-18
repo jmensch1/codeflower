@@ -2,7 +2,11 @@ import React, { useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelectedFolder, useLanguageIds, useFolderIds } from 'store/selectors'
+import {
+  useSelectedFolder,
+  useLanguageIds,
+  useFolderIds,
+} from 'store/selectors'
 import useMouse from './useMouse'
 import Activate from './Activate'
 
@@ -88,10 +92,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .data(links)
       .join('line')
       .attr('class', (d) =>
-        clsx(
-          'link',
-          `folder-${folderIds[getNodePath(d.source)]}`,
-        )
+        clsx('link', `folder-${folderIds[getNodePath(d.source)]}`)
       )
 
     const node = svg
@@ -101,10 +102,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .join('circle')
       .attr('class', (d) =>
         d.children
-          ? clsx(
-            'folder',
-            `folder-${folderIds[getNodePath(d)]}`,
-          )
+          ? clsx('folder', `folder-${folderIds[getNodePath(d)]}`)
           : clsx(
               'file',
               `lang-${languageIds[d.data.language]}`,
@@ -130,7 +128,9 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     //// FINISH ////
 
     setVisElements({ simulation, node, nodes, link, links, svg })
-    return () => { container.innerHTML = '' }
+    return () => {
+      container.innerHTML = ''
+    }
   }, [tree, languageIds, folderIds, getNodePath, restartKey])
 
   const restart = useCallback(() => {
@@ -139,7 +139,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
   return (
     <>
-      <div id='fdg-container' className={classes.root} />
+      <div id="fdg-container" className={classes.root} />
       <Activate
         simulation={simulation}
         node={node}

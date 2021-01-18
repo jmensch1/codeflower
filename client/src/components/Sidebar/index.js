@@ -63,9 +63,7 @@ const Sidebar = () => {
     <div className={classes.root}>
       <div className={classes.inner}>
         <div className={classes.header}>
-          <Typography variant="h6">
-            {type}
-          </Typography>
+          <Typography variant="h6">{type}</Typography>
           <IconButton
             aria-label="close"
             className={classes.closeButton}

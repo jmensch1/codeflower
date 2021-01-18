@@ -17,17 +17,17 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     width: ({ alpha }) => `${alpha * 100}%`,
     backgroundColor: theme.palette.grey[500],
-  }
+  },
 }))
 
-const Slider = withStyles(theme => ({
+const Slider = withStyles((theme) => ({
   root: {
     color: 'white',
     marginBottom: 10,
   },
   valueLabel: {
     color: 'black',
-  }
+  },
 }))(MuiSlider)
 
 const Controls = ({
@@ -41,12 +41,12 @@ const Controls = ({
   const classes = useStyles({ alpha })
 
   return (
-    <Portal domElementId='vis-controls'>
+    <Portal domElementId="vis-controls">
       <div className={classes.root}>
         <div className={classes.alphaBar}>
           <div className={classes.alphaInner} />
         </div>
-        <label>alpha decay ({ forces.alphaDecay })</label>
+        <label>alpha decay ({forces.alphaDecay})</label>
         <Slider
           min={0}
           max={0.1}
@@ -59,7 +59,7 @@ const Controls = ({
             })
           }}
         />
-        <label>charge strength ({ -forces.charge.strength })</label>
+        <label>charge strength ({-forces.charge.strength})</label>
         <Slider
           min={0}
           max={500}
@@ -70,11 +70,14 @@ const Controls = ({
               charge: {
                 ...forces.charge,
                 strength: -newVal,
-              }
+              },
             })
           }}
         />
-        <label>charge distances min/max ({forces.charge.distanceMin}/{forces.charge.distanceMax})</label>
+        <label>
+          charge distances min/max ({forces.charge.distanceMin}/
+          {forces.charge.distanceMax})
+        </label>
         <Slider
           min={1}
           max={2000}
@@ -86,11 +89,11 @@ const Controls = ({
                 ...forces.charge,
                 distanceMin: newVal[0],
                 distanceMax: newVal[1],
-              }
+              },
             })
           }}
         />
-        <label>link distance inner ({ forces.link.distanceInner })</label>
+        <label>link distance inner ({forces.link.distanceInner})</label>
         <Slider
           min={0}
           max={150}
@@ -100,12 +103,12 @@ const Controls = ({
               ...forces,
               link: {
                 ...forces.link,
-                distanceInner: newVal
-              }
+                distanceInner: newVal,
+              },
             })
           }}
         />
-        <label>link distance outer ({ forces.link.distanceOuter })</label>
+        <label>link distance outer ({forces.link.distanceOuter})</label>
         <Slider
           min={0}
           max={150}
@@ -115,12 +118,12 @@ const Controls = ({
               ...forces,
               link: {
                 ...forces.link,
-                distanceOuter: newVal
-              }
+                distanceOuter: newVal,
+              },
             })
           }}
         />
-        <label>link strength ({ forces.link.strength })</label>
+        <label>link strength ({forces.link.strength})</label>
         <Slider
           min={0}
           max={1}
@@ -131,12 +134,12 @@ const Controls = ({
               ...forces,
               link: {
                 ...forces.link,
-                strength: newVal
-              }
+                strength: newVal,
+              },
             })
           }}
         />
-        <label>link iterations ({ forces.link.iterations })</label>
+        <label>link iterations ({forces.link.iterations})</label>
         <Slider
           min={0}
           max={10}
@@ -146,12 +149,12 @@ const Controls = ({
               ...forces,
               link: {
                 ...forces.link,
-                iterations: newVal
-              }
+                iterations: newVal,
+              },
             })
           }}
         />
-        <label>force x/y strength ({ forces.forceX.strength.toFixed(2) })</label>
+        <label>force x/y strength ({forces.forceX.strength.toFixed(2)})</label>
         <Slider
           min={0}
           max={1}
@@ -171,7 +174,7 @@ const Controls = ({
             })
           }}
         />
-        <label>force center strength ({ forces.center.strength })</label>
+        <label>force center strength ({forces.center.strength})</label>
         <Slider
           min={0}
           max={1}
@@ -188,11 +191,11 @@ const Controls = ({
           }}
         />
         <TextButton
-          label='restart'
-          style={{ width:'100%', marginBottom: 15, }}
+          label="restart"
+          style={{ width: '100%', marginBottom: 15 }}
           onClick={onRestart}
         />
-        <label>file size coeff ({ display.files.radius.coeff })</label>
+        <label>file size coeff ({display.files.radius.coeff})</label>
         <Slider
           min={0}
           max={50}
@@ -211,7 +214,7 @@ const Controls = ({
             })
           }}
         />
-        <label>file size exponent ({ display.files.radius.exponent })</label>
+        <label>file size exponent ({display.files.radius.exponent})</label>
         <Slider
           min={0}
           max={1}
@@ -230,7 +233,6 @@ const Controls = ({
             })
           }}
         />
-
       </div>
     </Portal>
   )

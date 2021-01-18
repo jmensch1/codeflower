@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import Controls from './Controls'
 
-const INITIAL_FORCES =  {
+const INITIAL_FORCES = {
   alphaDecay: 0.0228,
   center: {
     enabled: true,
@@ -18,7 +18,7 @@ const INITIAL_FORCES =  {
     enabled: false,
     strength: 0.7,
     iterations: 1,
-    radius: 5
+    radius: 5,
   },
   forceX: {
     enabled: true,
@@ -77,22 +77,32 @@ const Activate = ({ simulation, node, nodes, links, restart }) => {
   useEffect(() => {
     if (!simulation || !forces) return
 
-    simulation.force('center')
+    simulation
+      .force('center')
       .strength(forces.center.strength * forces.center.enabled)
-    simulation.force('charge')
+    simulation
+      .force('charge')
       .strength(forces.charge.strength * forces.charge.enabled)
       .distanceMin(forces.charge.distanceMin)
       .distanceMax(forces.charge.distanceMax)
-    simulation.force('collide')
+    simulation
+      .force('collide')
       .strength(forces.collide.strength * forces.collide.enabled)
       .radius(forces.collide.radius)
       .iterations(forces.collide.iterations)
-    simulation.force('forceX')
+    simulation
+      .force('forceX')
       .strength(forces.forceX.strength * forces.forceX.enabled)
-    simulation.force('forceY')
+    simulation
+      .force('forceY')
       .strength(forces.forceY.strength * forces.forceY.enabled)
-    simulation.force('link')
-      .distance((d) => d.target.children ? forces.link.distanceInner : forces.link.distanceOuter)
+    simulation
+      .force('link')
+      .distance((d) =>
+        d.target.children
+          ? forces.link.distanceInner
+          : forces.link.distanceOuter
+      )
       .strength(forces.link.strength)
       .iterations(forces.link.iterations)
 
@@ -107,9 +117,7 @@ const Activate = ({ simulation, node, nodes, links, restart }) => {
 
     const { coeff, exponent } = display.files.radius
     node.attr('r', (d) => {
-      return d.children
-        ? 3.5
-        : (coeff * Math.pow(d.data.size, exponent)) || 1
+      return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1
     })
   }, [node, display])
 
