@@ -231,6 +231,27 @@ const Controls = ({
           })
         }}
       />
+      <label>
+        file hue min/max ({display.files.color.hue[0]}/
+        {display.files.color.hue[1]})
+      </label>
+      <Slider
+        min={0}
+        max={360}
+        value={display.files.color.hue}
+        onChange={(e, newVal) => {
+          onChangeDisplay({
+            ...display,
+            files: {
+              ...display.files,
+              color: {
+                ...display.files.color,
+                hue: newVal,
+              }
+            },
+          })
+        }}
+      />
       <label>file opacity ({display.files.opacity.toFixed(2)})</label>
       <Slider
         min={0}

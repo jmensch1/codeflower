@@ -22,6 +22,7 @@ const selectedLanguage = (state) => state.settings.selectedLanguage
 const selectedAuthorId = (state) => state.settings.selectedAuthorId
 const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
 const display = (state) => state.settings.display
+const fileHue = (state) => state.settings.display?.files.color.hue
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -63,9 +64,16 @@ const languageIds = createSelector([languageCounts], (languageCounts) =>
 )
 
 const languageColors = createSelector(
-  [languageCounts, visThemeId],
-  (counts, visThemeId) => {
-    const { languageColor } = visThemes[visThemeId]
+  [languageCounts, visThemeId, fileHue],
+  (counts, visThemeId, fileHue) => {
+    if (!fileHue) return {}
+
+    const [hueMin, hueMax] = fileHue
+    const languageColor = (languages, index) => {
+      const hue = hueMin + Math.round(((hueMax - hueMin) * index) / languages.length)
+      return `hsl(${hue}, 100%, 50%)`
+    }
+
     const languages = counts.map((count) => count.language)
     return languages.reduce((colors, language, index) => {
       colors[language] = languageColor(languages, index)

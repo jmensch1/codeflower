@@ -50,6 +50,11 @@ const INITIAL_FORCES = {
 const INITIAL_DISPLAY = {
   rotation: 0,
   files: {
+    color: {
+      hue: [170, 360],
+      saturation: 100,
+      lightness: 100,
+    },
     radius: {
       coeff: 1.0,
       exponent: 0.4,
