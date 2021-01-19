@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3'
+import Portal from 'components/core/Portal'
 import Controls from './Controls'
 
 const INITIAL_FORCES = {
@@ -123,14 +124,16 @@ const Activate = ({ simulation, node, nodes, links, restart }) => {
 
   if (!simulation) return null
   return (
-    <Controls
-      alpha={alpha}
-      forces={forces}
-      onChangeForces={setForces}
-      display={display}
-      onChangeDisplay={setDisplay}
-      onRestart={restart}
-    />
+    <Portal domElementId="vis-controls">
+      <Controls
+        alpha={alpha}
+        forces={forces}
+        onChangeForces={setForces}
+        display={display}
+        onChangeDisplay={setDisplay}
+        onRestart={restart}
+      />
+    </Portal>
   )
 }
 

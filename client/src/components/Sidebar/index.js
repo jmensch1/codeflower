@@ -45,7 +45,7 @@ const Sidebar = () => {
           style={{ display: tab === 'controls' ? 'block' : 'none' }}
         />
         <div
-          id="theme-controls"
+          id="palette-controls"
           style={{ display: tab === 'palette' ? 'block' : 'none' }}
         />
         {(() => {
