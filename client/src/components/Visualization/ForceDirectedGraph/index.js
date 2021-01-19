@@ -9,6 +9,8 @@ import {
 } from 'store/selectors'
 import useMouse from './useMouse'
 import Activate from './Activate'
+import Portal from 'components/core/Portal'
+import Controls from './Controls'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +44,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
   const [visElements, setVisElements] = useState({})
+  const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
 
   const { svg, nodes, nodeG, node, links, linkG, link, simulation } = visElements
@@ -125,6 +128,8 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         .attr('y2', (d) => d.target.y)
 
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
+
+      setAlpha(simulation.alpha())
     })
 
     //// FINISH ////
@@ -151,6 +156,12 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         simulation={simulation}
         restart={restart}
       />
+      <Portal domElementId="vis-controls">
+        <Controls
+          alpha={alpha}
+          onRestart={restart}
+        />
+      </Portal>
     </>
   )
 }

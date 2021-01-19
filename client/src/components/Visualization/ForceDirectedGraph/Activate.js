@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import * as d3 from 'd3'
-import Portal from 'components/core/Portal'
-import Controls from './Controls'
 import { useSelectedLanguage, useLanguageColors, useDisplay, useForces } from 'store/selectors'
 import { setDisplay, setForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
@@ -64,7 +62,6 @@ const INITIAL_DISPLAY = {
 }
 
 const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => {
-  const [alpha, setAlpha] = useState(0)
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
   const dispatch = useDispatch()
@@ -88,8 +85,6 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
       .force('center', d3.forceCenter())
       .force('forceX', d3.forceX())
       .force('forceY', d3.forceY())
-
-    simulation.on('tick.alpha', () => setAlpha(simulation.alpha()))
   }, [simulation, nodes, links])
 
   // update forces
@@ -154,15 +149,7 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
 
   }, [node, nodeG, linkG, display, selectedLanguage, languageColors])
 
-  if (!simulation) return null
-  return (
-    <Portal domElementId="vis-controls">
-      <Controls
-        alpha={alpha}
-        onRestart={restart}
-      />
-    </Portal>
-  )
+  return null
 }
 
 export default Activate
