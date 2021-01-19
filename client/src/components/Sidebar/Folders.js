@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.primary,
     },
     '&:hover': {
-      backgroundColor: theme.palette.grey[900],
+      backgroundColor: theme.palette.action.hover,
     },
   },
 }))

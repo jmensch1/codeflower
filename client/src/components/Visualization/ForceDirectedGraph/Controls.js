@@ -9,13 +9,13 @@ const useStyles = makeStyles((theme) => ({
   },
   alphaBar: {
     height: 15,
-    backgroundColor: theme.palette.grey[700],
+    backgroundColor: theme.palette.action.hover,
     marginBottom: 20,
   },
   alphaInner: {
     height: '100%',
     width: ({ alpha }) => `${alpha * 100}%`,
-    backgroundColor: theme.palette.grey[500],
+    backgroundColor: theme.palette.action.selected,
   },
 }))
 

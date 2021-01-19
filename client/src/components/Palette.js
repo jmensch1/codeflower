@@ -4,7 +4,9 @@ import MuiSlider from '@material-ui/core/Slider'
 import tinycolor from 'tinycolor2'
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    padding: 10,
+  },
 }))
 
 const Slider = withStyles((theme) => ({

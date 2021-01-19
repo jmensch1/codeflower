@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     top: ({ y }) => y,
     left: ({ x }) => x,
     visibility: ({ visible }) => (visible ? 'visible' : 'hidden'),
-    backgroundColor: '#3d3d3d',
+    backgroundColor: theme.palette.background.paper,
     color: 'white',
     borderRadius: '5px',
     padding: '5px 10px',

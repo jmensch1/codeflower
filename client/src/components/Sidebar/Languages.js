@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     '& tbody tr': {
       cursor: 'pointer',
       '&:hover': {
-        backgroundColor: theme.palette.grey[700],
+        backgroundColor: theme.palette.action.hover,
       },
     },
     '& tfoot tr': {

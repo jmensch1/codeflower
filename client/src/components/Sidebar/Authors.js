@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     },
     '& tbody tr': {
       cursor: 'pointer',
-      '&:hover, &$selected': {
-        backgroundColor: theme.palette.grey[700],
+      '&:hover:not($selected)': {
+        backgroundColor: theme.palette.action.hover,
       },
     },
     '& tfoot tr': {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   selected: {
-    backgroundColor: theme.palette.grey[700],
+    backgroundColor: theme.palette.action.selected,
   },
 }))
 

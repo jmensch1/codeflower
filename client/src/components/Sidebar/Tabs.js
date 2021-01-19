@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     flex: 1,
     '&:hover:not($active)': {
-      backgroundColor: theme.palette.grey[800],
+      backgroundColor: theme.palette.action.hover,
     },
   },
   active: {
-    backgroundColor: theme.palette.grey[900],
+    backgroundColor: theme.palette.action.selected,
     cursor: 'default',
   },
 }))
