@@ -19,7 +19,7 @@ const INITIAL_DISPLAY = {
   },
 }
 
-export default function useAddDisplay({ nodeG, node, linkG }) {
+export default function useAddDisplay({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
   const dispatch = useDispatch()
@@ -29,27 +29,52 @@ export default function useAddDisplay({ nodeG, node, linkG }) {
     dispatch(setDisplay(INITIAL_DISPLAY))
   }, [dispatch])
 
-  // update display
+  // language colors
   useEffect(() => {
-    if (!node || !display) return
+    if (!node) return
+
+    node
+      .filter('.file')
+      .style('fill', (d) => languageColors[d.data.language])
+  }, [node, languageColors])
+
+  // rotation
+  useEffect(() => {
+    if (!nodeG || !linkG) return
 
     nodeG.style('transform', `rotate(${display.rotation}deg)`)
     linkG.style('transform', `rotate(${display.rotation}deg)`)
+  }, [nodeG, linkG, display?.rotation])
+
+  // file radius
+  useEffect(() => {
+    if (!node) return
 
     const { coeff, exponent } = display.files.radius
     node.attr('r', (d) => {
       return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1
     })
+  }, [node, display?.files.radius])
+
+  // file opacity
+  useEffect(() => {
+    if (!node) return
 
     node.filter('.file').style('fill-opacity', display.files.opacity)
+  }, [node, display?.files.opacity])
+
+  // selected language
+  useEffect(() => {
+    if (!node || !link) return
 
     if (selectedLanguage) {
       node.filter('.file').style('display', (d) => d.data.language === selectedLanguage ? 'block' : 'none')
       node.filter('.folder').style('display', 'none')
+      link.style('stroke-opacity', 0.2)
     } else {
-      node.filter('.file').style('display', 'block').style('fill', (d) => languageColors[d.data.language])
+      node.filter('.file').style('display', 'block')
       node.filter('.folder').style('display', 'block')
+      link.style('stroke-opacity', 1.0)
     }
-
-  }, [node, nodeG, linkG, display, selectedLanguage, languageColors])
+  }, [node, link, selectedLanguage])
 }

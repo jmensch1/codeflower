@@ -65,7 +65,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
   useMouse({ svg, node, link, simulation, getNodePath })
   useAddForces({ simulation, nodes, links })
-  useAddDisplay({ node, nodeG, linkG })
+  useAddDisplay({ node, nodeG, link, linkG })
 
   useEffect(() => {
     if (!tree) return
