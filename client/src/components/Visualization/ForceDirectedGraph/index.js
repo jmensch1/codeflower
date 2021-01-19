@@ -44,7 +44,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const [visElements, setVisElements] = useState({})
   const [restartKey, setRestartKey] = useState(0)
 
-  const { simulation, node, nodes, link, links, svg } = visElements
+  const { svg, nodes, nodeG, node, links, linkG, link, simulation } = visElements
 
   const getNodePath = useCallback(
     (node) => {
@@ -59,7 +59,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     [getFullPath]
   )
 
-  useMouse({ simulation, node, link, svg, getNodePath })
+  useMouse({ svg, node, link, simulation, getNodePath })
 
   useEffect(() => {
     if (!tree) return
@@ -86,8 +86,9 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .append('svg')
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
-    const link = svg
-      .append('g')
+    const linkG = svg.append('g')
+
+    const link = linkG
       .selectAll('line')
       .data(links)
       .join('line')
@@ -95,8 +96,9 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         clsx('link', `folder-${folderIds[getNodePath(d.source)]}`)
       )
 
-    const node = svg
-      .append('g')
+    const nodeG = svg.append('g')
+
+    const node = nodeG
       .selectAll('circle')
       .data(nodes)
       .join('circle')
@@ -127,7 +129,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     //// FINISH ////
 
-    setVisElements({ simulation, node, nodes, link, links, svg })
+    setVisElements({ svg, nodes, nodeG, node, links, linkG, link, simulation })
     return () => {
       container.innerHTML = ''
     }
@@ -141,11 +143,12 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     <>
       <div id="fdg-container" className={classes.root} />
       <Activate
-        simulation={simulation}
-        node={node}
         nodes={nodes}
+        nodeG={nodeG}
+        node={node}
         links={links}
-        svg={svg}
+        linkG={linkG}
+        simulation={simulation}
         restart={restart}
       />
     </>

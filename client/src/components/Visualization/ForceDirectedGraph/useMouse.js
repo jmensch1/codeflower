@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 import { openModal } from 'store/actions/modals'
 import { useTooltip } from '../Tooltip'
 
-export default function useMouse({ simulation, node, link, svg, getNodePath }) {
+export default function useMouse({ svg, node, link, simulation, getNodePath }) {
   const dispatch = useDispatch()
   const setTooltip = useTooltip()
 

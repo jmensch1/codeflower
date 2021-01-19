@@ -54,7 +54,7 @@ const INITIAL_DISPLAY = {
   },
 }
 
-const Activate = ({ simulation, node, nodes, links, svg, restart }) => {
+const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => {
   const [alpha, setAlpha] = useState(0)
   const [forces, setForces] = useState(INITIAL_FORCES)
   const [display, setDisplay] = useState(INITIAL_DISPLAY)
@@ -117,13 +117,14 @@ const Activate = ({ simulation, node, nodes, links, svg, restart }) => {
   useEffect(() => {
     if (!node || !display) return
 
-    svg.style('transform', `rotate(${display.rotation}deg)`)
+    nodeG.style('transform', `rotate(${display.rotation}deg)`)
+    linkG.style('transform', `rotate(${display.rotation}deg)`)
 
     const { coeff, exponent } = display.files.radius
     node.attr('r', (d) => {
       return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1
     })
-  }, [node, svg, display])
+  }, [node, nodeG, linkG, display])
 
   if (!simulation) return null
   return (
