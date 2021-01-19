@@ -17,6 +17,8 @@ const MainThemeProvider = ({ children }) => {
     [mainTheme, palette]
   )
 
+  console.log(theme)
+
   return (
     <ThemeProvider theme={theme}>
       <Portal domElementId='palette-controls'>
