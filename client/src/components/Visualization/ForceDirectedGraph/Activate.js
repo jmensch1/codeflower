@@ -51,6 +51,7 @@ const INITIAL_DISPLAY = {
       coeff: 1.0,
       exponent: 0.4,
     },
+    opacity: 1.0,
   },
 }
 
@@ -124,6 +125,8 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
     node.attr('r', (d) => {
       return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1
     })
+
+    node.filter('.file').style('fill-opacity', display.files.opacity)
   }, [node, nodeG, linkG, display])
 
   if (!simulation) return null

@@ -231,6 +231,22 @@ const Controls = ({
           })
         }}
       />
+      <label>file opacity ({display.files.opacity.toFixed(2)})</label>
+      <Slider
+        min={0}
+        max={1}
+        step={0.01}
+        value={display.files.opacity}
+        onChange={(e, newVal) => {
+          onChangeDisplay({
+            ...display,
+            files: {
+              ...display.files,
+              opacity: newVal,
+            }
+          })
+        }}
+      />
       <label>vis rotation ({display.rotation})</label>
       <Slider
         min={0}
