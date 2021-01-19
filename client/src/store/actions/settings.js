@@ -11,7 +11,8 @@ export const types = {
   HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
   SELECT_AUTHOR: 'settings/SELECT_AUTHOR',
   HIGHLIGHT_AUTHOR: 'settings/HIGHLIGHT_AUTHOR',
-  SET_DISPLAY: 'settinggs/SET_DISPLAY',
+  SET_DISPLAY: 'settings/SET_DISPLAY',
+  SET_FORCES: 'settings/SET_FORCES',
 }
 
 export const setMainTheme = (mainThemeId) => ({
@@ -59,6 +60,11 @@ export const setDisplay = (display) => ({
   data: display,
 })
 
+export const setForces = (forces) => ({
+  type: types.SET_FORCES,
+  data: forces,
+})
+
 const initialState = {
   mainThemeId: Object.keys(mainThemes)[0],
   visThemeId: Object.keys(visThemes)[0],
@@ -69,6 +75,7 @@ const initialState = {
   selectedAuthorId: null,
   highlightedAuthorId: null,
   display: null,
+  forces: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -124,6 +131,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         display: action.data,
+      }
+    case types.SET_FORCES:
+      return {
+        ...state,
+        forces: action.data,
       }
     default:
       return state

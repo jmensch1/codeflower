@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react'
 import * as d3 from 'd3'
 import Portal from 'components/core/Portal'
 import Controls from './Controls'
-import { useSelectedLanguage, useLanguageColors, useDisplay } from 'store/selectors'
-import { setDisplay } from 'store/actions/settings'
+import { useSelectedLanguage, useLanguageColors, useDisplay, useForces } from 'store/selectors'
+import { setDisplay, setForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 
 const INITIAL_FORCES = {
@@ -65,11 +65,11 @@ const INITIAL_DISPLAY = {
 
 const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => {
   const [alpha, setAlpha] = useState(0)
-  const [forces, setForces] = useState(INITIAL_FORCES)
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
   const dispatch = useDispatch()
   const display = useDisplay()
+  const forces = useForces()
 
   const updateDisplay = useCallback((display) => {
     dispatch(setDisplay(display))
@@ -78,6 +78,14 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
   useEffect(() => {
     updateDisplay(INITIAL_DISPLAY)
   }, [updateDisplay])
+
+  const updateForces = useCallback((forces) => {
+    dispatch(setForces(forces))
+  }, [dispatch])
+
+  useEffect(() => {
+    updateForces(INITIAL_FORCES)
+  }, [updateForces])
 
   // init forces
   useEffect(() => {
@@ -163,7 +171,7 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
       <Controls
         alpha={alpha}
         forces={forces}
-        onChangeForces={setForces}
+        onChangeForces={updateForces}
         display={display}
         onChangeDisplay={updateDisplay}
         onRestart={restart}
