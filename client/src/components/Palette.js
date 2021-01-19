@@ -1,6 +1,6 @@
 import React from 'react'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
-import MuiSlider from '@material-ui/core/Slider'
+import { makeStyles } from '@material-ui/core/styles'
+import Slider from 'components/core/Slider'
 import tinycolor from 'tinycolor2'
 
 const useStyles = makeStyles((theme) => ({
@@ -8,16 +8,6 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
   },
 }))
-
-const Slider = withStyles((theme) => ({
-  root: {
-    color: 'white',
-    marginBottom: 10,
-  },
-  valueLabel: {
-    color: 'black',
-  },
-}))(MuiSlider)
 
 function getLightness(color) {
   return 100 * tinycolor(color).toHsl().l
