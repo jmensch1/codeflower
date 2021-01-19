@@ -28,6 +28,7 @@ const Palette = ({ palette, onChange }) => {
 
   const defaultLightness = getLightness(palette.background.default)
   const paperLightness = getLightness(palette.background.paper)
+  const dividerOpacity = tinycolor(palette.divider).getAlpha()
 
   return (
     <div className={classes.root}>
@@ -58,6 +59,19 @@ const Palette = ({ palette, onChange }) => {
               ...palette.background,
               paper: `hsl(0,0%,${newVal}%)`,
             },
+          })
+        }}
+      />
+      <label>divider opacity ({dividerOpacity.toFixed(2)})</label>
+      <Slider
+        min={0}
+        max={1}
+        step={0.01}
+        value={dividerOpacity}
+        onChange={(e, newVal) => {
+          onChange({
+            ...palette,
+            divider: `rgba(255,255,255,${newVal})`,
           })
         }}
       />

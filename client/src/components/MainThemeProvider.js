@@ -20,7 +20,7 @@ const MainThemeProvider = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <Portal domElementId='palette-controls'>
-        <Palette palette={palette} onChange={setPalette} />
+        <Palette palette={theme.palette} onChange={setPalette} />
       </Portal>
       <CssBaseline />
       {children}
