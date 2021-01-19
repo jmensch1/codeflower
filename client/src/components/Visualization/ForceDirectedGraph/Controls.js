@@ -231,6 +231,18 @@ const Controls = ({
           })
         }}
       />
+      <label>vis rotation ({display.rotation})</label>
+      <Slider
+        min={0}
+        max={360}
+        value={display.rotation}
+        onChange={(e, newVal) => {
+          onChangeDisplay({
+            ...display,
+            rotation: newVal,
+          })
+        }}
+      />
     </div>
   )
 }

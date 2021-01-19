@@ -145,6 +145,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         node={node}
         nodes={nodes}
         links={links}
+        svg={svg}
         restart={restart}
       />
     </>
