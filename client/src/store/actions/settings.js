@@ -11,6 +11,7 @@ export const types = {
   HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
   SELECT_AUTHOR: 'settings/SELECT_AUTHOR',
   HIGHLIGHT_AUTHOR: 'settings/HIGHLIGHT_AUTHOR',
+  SET_DISPLAY: 'settinggs/SET_DISPLAY',
 }
 
 export const setMainTheme = (mainThemeId) => ({
@@ -53,6 +54,11 @@ export const highlightAuthor = (authorId) => ({
   data: authorId,
 })
 
+export const setDisplay = (display) => ({
+  type: types.SET_DISPLAY,
+  data: display,
+})
+
 const initialState = {
   mainThemeId: Object.keys(mainThemes)[0],
   visThemeId: Object.keys(visThemes)[0],
@@ -62,6 +68,7 @@ const initialState = {
   highlightedFolderPath: null,
   selectedAuthorId: null,
   highlightedAuthorId: null,
+  display: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -112,6 +119,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         highlightedAuthorId: action.data,
+      }
+    case types.SET_DISPLAY:
+      return {
+        ...state,
+        display: action.data,
       }
     default:
       return state

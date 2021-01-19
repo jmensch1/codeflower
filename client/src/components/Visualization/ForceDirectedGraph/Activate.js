@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import * as d3 from 'd3'
 import Portal from 'components/core/Portal'
 import Controls from './Controls'
-import { useSelectedLanguage, useLanguageColors } from 'store/selectors'
+import { useSelectedLanguage, useLanguageColors, useDisplay } from 'store/selectors'
+import { setDisplay } from 'store/actions/settings'
+import { useDispatch } from 'react-redux'
 
 const INITIAL_FORCES = {
   alphaDecay: 0.0228,
@@ -59,9 +61,18 @@ const INITIAL_DISPLAY = {
 const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => {
   const [alpha, setAlpha] = useState(0)
   const [forces, setForces] = useState(INITIAL_FORCES)
-  const [display, setDisplay] = useState(INITIAL_DISPLAY)
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
+  const dispatch = useDispatch()
+  const display = useDisplay()
+
+  const updateDisplay = useCallback((display) => {
+    dispatch(setDisplay(display))
+  }, [dispatch])
+
+  useEffect(() => {
+    updateDisplay(INITIAL_DISPLAY)
+  }, [updateDisplay])
 
   // init forces
   useEffect(() => {
@@ -136,7 +147,7 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
       node.filter('.folder').style('display', 'none')
     } else {
       node.filter('.file').style('display', 'block').style('fill', (d) => languageColors[d.data.language])
-      node.filter('folder').style('display', 'block')
+      node.filter('.folder').style('display', 'block')
     }
 
   }, [node, nodeG, linkG, display, selectedLanguage, languageColors])
@@ -149,7 +160,7 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
         forces={forces}
         onChangeForces={setForces}
         display={display}
-        onChangeDisplay={setDisplay}
+        onChangeDisplay={updateDisplay}
         onRestart={restart}
       />
     </Portal>

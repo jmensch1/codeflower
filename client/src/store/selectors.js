@@ -21,6 +21,7 @@ const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
 const selectedAuthorId = (state) => state.settings.selectedAuthorId
 const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
+const display = (state) => state.settings.display
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -108,6 +109,7 @@ export const useContext = () => useSelector(context)
 export const useMainTheme = () => useSelector(mainTheme)
 export const useVisTheme = () => useSelector(visTheme)
 export const useVisType = () => useSelector(visType)
+export const useDisplay = () => useSelector(display)
 
 ////////// PARAMATERIZED USE SELECTOR ///////////
 
