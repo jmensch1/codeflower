@@ -8,7 +8,8 @@ import {
   useFolderIds,
 } from 'store/selectors'
 import useMouse from './useMouse'
-import Activate from './Activate'
+import useAddDisplay from './useAddDisplay'
+import useAddForces from './useAddForces'
 import Portal from 'components/core/Portal'
 import Controls from './Controls'
 
@@ -63,6 +64,8 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   )
 
   useMouse({ svg, node, link, simulation, getNodePath })
+  useAddForces({ simulation, nodes, links })
+  useAddDisplay({ node, nodeG, linkG })
 
   useEffect(() => {
     if (!tree) return
@@ -147,15 +150,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   return (
     <>
       <div id="fdg-container" className={classes.root} />
-      <Activate
-        nodes={nodes}
-        nodeG={nodeG}
-        node={node}
-        links={links}
-        linkG={linkG}
-        simulation={simulation}
-        restart={restart}
-      />
       <Portal domElementId="vis-controls">
         <Controls
           alpha={alpha}

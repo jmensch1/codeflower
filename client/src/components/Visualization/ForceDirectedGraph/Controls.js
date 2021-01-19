@@ -39,6 +39,7 @@ const Controls = ({
     dispatch(setDisplay(display))
   }, [dispatch])
 
+  if (!forces || !display) return null
   return (
     <div className={classes.root}>
       <div className={classes.alphaBar}>
