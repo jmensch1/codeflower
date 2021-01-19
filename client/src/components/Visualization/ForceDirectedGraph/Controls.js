@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Slider from 'components/core/Slider'
 import TextButton from 'components/core/TextButton'
+import { useDisplay, useForces } from 'store/selectors'
+import { setDisplay, setForces } from 'store/actions/settings'
+import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,13 +24,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Controls = ({
   alpha,
-  forces,
-  onChangeForces,
-  display,
-  onChangeDisplay,
   onRestart,
 }) => {
   const classes = useStyles({ alpha })
+  const display = useDisplay()
+  const forces = useForces()
+  const dispatch = useDispatch()
+
+  const onChangeForces = useCallback((forces) => {
+    dispatch(setForces(forces))
+  }, [dispatch])
+
+  const onChangeDisplay = useCallback((display) => {
+    dispatch(setDisplay(display))
+  }, [dispatch])
 
   return (
     <div className={classes.root}>

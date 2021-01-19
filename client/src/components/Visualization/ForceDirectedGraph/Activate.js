@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import Portal from 'components/core/Portal'
 import Controls from './Controls'
@@ -71,21 +71,10 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
   const display = useDisplay()
   const forces = useForces()
 
-  const updateDisplay = useCallback((display) => {
-    dispatch(setDisplay(display))
-  }, [dispatch])
-
   useEffect(() => {
-    updateDisplay(INITIAL_DISPLAY)
-  }, [updateDisplay])
-
-  const updateForces = useCallback((forces) => {
-    dispatch(setForces(forces))
+    dispatch(setForces(INITIAL_FORCES))
+    dispatch(setDisplay(INITIAL_DISPLAY))
   }, [dispatch])
-
-  useEffect(() => {
-    updateForces(INITIAL_FORCES)
-  }, [updateForces])
 
   // init forces
   useEffect(() => {
@@ -170,10 +159,6 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
     <Portal domElementId="vis-controls">
       <Controls
         alpha={alpha}
-        forces={forces}
-        onChangeForces={updateForces}
-        display={display}
-        onChangeDisplay={updateDisplay}
         onRestart={restart}
       />
     </Portal>
