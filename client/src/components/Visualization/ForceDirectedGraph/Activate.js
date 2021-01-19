@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import Portal from 'components/core/Portal'
 import Controls from './Controls'
+import { useSelectedLanguage, useLanguageColors } from 'store/selectors'
 
 const INITIAL_FORCES = {
   alphaDecay: 0.0228,
@@ -59,6 +60,8 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
   const [alpha, setAlpha] = useState(0)
   const [forces, setForces] = useState(INITIAL_FORCES)
   const [display, setDisplay] = useState(INITIAL_DISPLAY)
+  const selectedLanguage = useSelectedLanguage()
+  const languageColors = useLanguageColors()
 
   // init forces
   useEffect(() => {
@@ -127,7 +130,16 @@ const Activate = ({ nodes, nodeG, node, links, linkG, simulation, restart }) => 
     })
 
     node.filter('.file').style('fill-opacity', display.files.opacity)
-  }, [node, nodeG, linkG, display])
+
+    if (selectedLanguage) {
+      node.filter('.file').style('display', (d) => d.data.language === selectedLanguage ? 'block' : 'none')
+      node.filter('.folder').style('display', 'none')
+    } else {
+      node.filter('.file').style('display', 'block').style('fill', (d) => languageColors[d.data.language])
+      node.filter('folder').style('display', 'block')
+    }
+
+  }, [node, nodeG, linkG, display, selectedLanguage, languageColors])
 
   if (!simulation) return null
   return (

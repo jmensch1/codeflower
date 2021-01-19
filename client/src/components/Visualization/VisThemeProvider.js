@@ -92,7 +92,7 @@ const VisThemeProvider = ({ children }) => {
         ...mainTheme,
         visualization: visTheme.visualization,
         dynamic: {
-          ...langStyles,
+          ...(langStyles && undefined),
           ...folderStyles,
           ...authorStyles,
         },
