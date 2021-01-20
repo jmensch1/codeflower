@@ -94,7 +94,7 @@ const VisThemeProvider = ({ children }) => {
         dynamic: {
           ...(langStyles && undefined),
           ...folderStyles,
-          ...authorStyles,
+          ...(authorStyles && undefined),
         },
       })
     },

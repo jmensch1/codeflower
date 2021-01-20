@@ -1,5 +1,11 @@
 import { useEffect } from 'react'
-import { useSelectedLanguage, useLanguageColors, useDisplay } from 'store/selectors'
+import {
+  useSelectedLanguage,
+  useLanguageIds,
+  useLanguageColors,
+  useHighlightedAuthorId,
+  useDisplay,
+} from 'store/selectors'
 import { setDisplay } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 
@@ -22,6 +28,8 @@ const INITIAL_DISPLAY = {
 export default function useAddDisplay({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
+  const languageIds = useLanguageIds()
+  const highlightedAuthorId = useHighlightedAuthorId()
   const dispatch = useDispatch()
   const display = useDisplay()
 
@@ -68,7 +76,9 @@ export default function useAddDisplay({ nodeG, node, linkG, link }) {
     if (!node || !link) return
 
     if (selectedLanguage) {
-      node.filter('.file').style('display', (d) => d.data.language === selectedLanguage ? 'block' : 'none')
+      const clx = `lang-${languageIds[selectedLanguage]}`
+      node.filter(`.file.${clx}`).style('display', 'block')
+      node.filter(`.file:not(.${clx})`).style('display', 'none')
       node.filter('.folder').style('display', 'none')
       link.style('stroke-opacity', 0.2)
     } else {
@@ -76,5 +86,22 @@ export default function useAddDisplay({ nodeG, node, linkG, link }) {
       node.filter('.folder').style('display', 'block')
       link.style('stroke-opacity', 1.0)
     }
-  }, [node, link, selectedLanguage])
+  }, [node, link, selectedLanguage, languageIds])
+
+  // highlighted author
+  useEffect(() => {
+    if (!node || !link) return
+
+    if (highlightedAuthorId !== null) {
+      const clx = `author-${highlightedAuthorId}`
+      node.filter(`.file.${clx}`).style('display', 'block')
+      node.filter(`.file:not(.${clx})`).style('display', 'none')
+      node.filter('.folder').style('display', 'none')
+      link.style('stroke-opacity', 0.2)
+    } else {
+      node.filter('.file').style('display', 'block')
+      node.filter('.folder').style('display', 'block')
+      link.style('stroke-opacity', 1.0)
+    }
+  }, [node, link, highlightedAuthorId])
 }
