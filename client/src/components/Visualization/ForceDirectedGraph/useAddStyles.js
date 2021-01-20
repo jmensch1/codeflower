@@ -46,20 +46,31 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   const highlightedFolderPath = useHighlightedFolderPath()
   const visStyles = useVisStyles()
 
-  // language colors
+  //// FILES ////
+
+  // fill
   useEffect(() => {
     node
       .filter('.file')
       .style('fill', (d) => languageColors[d.data.language])
   }, [node, languageColors])
 
-  // rotation
+  // opacity (TODO: combine with fill)
   useEffect(() => {
-    nodeG.style('transform', `rotate(${visStyles.rotation}deg)`)
-    linkG.style('transform', `rotate(${visStyles.rotation}deg)`)
-  }, [nodeG, linkG, visStyles.rotation])
+    node.filter('.file').style('fill-opacity', visStyles.files.fill.alpha)
+  }, [node, visStyles.files.fill.alpha])
 
-  // file radius
+  // stroke
+  useEffect(() => {
+    node.filter('.file').style('stroke', visStyles.files.stroke)
+  }, [node, visStyles.files.stroke])
+
+  // stroke-width
+  useEffect(() => {
+    node.filter('.file').style('stroke-width', visStyles.files.strokeWidth)
+  }, [node, visStyles.files.strokeWidth])
+
+  // radius
   useEffect(() => {
     const { coeff, exponent } = visStyles.files.radius
     node.attr('r', (d) => {
@@ -67,10 +78,36 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
     })
   }, [node, visStyles.files.radius])
 
-  // file opacity
+  //// FOLDERS ////
+
+  // fill
   useEffect(() => {
-    node.filter('.file').style('fill-opacity', visStyles.files.fill.alpha)
-  }, [node, visStyles.files.fill.alpha])
+    node.filter('.folder').style('fill', visStyles.folders.fill)
+  }, [node, visStyles.folders.fill])
+
+  // stroke
+  useEffect(() => {
+    node.filter('.folder').style('stroke', visStyles.folders.stroke)
+  }, [node, visStyles.folders.stroke])
+
+  // stroke-width
+  useEffect(() => {
+    node.filter('.folder').style('stroke-width', visStyles.folders.strokeWidth)
+  }, [node, visStyles.folders.strokeWidth])
+
+  //// LINKS ////
+
+  // stroke
+  useEffect(() => {
+    link.style('stroke', visStyles.links.stroke)
+  }, [link, visStyles.links.stroke])
+
+  // stroke-width
+  useEffect(() => {
+    link.style('stroke-width', visStyles.links.strokeWidth)
+  }, [link, visStyles.links.strokeWidth])
+
+  //// SELECTION / HIGHLIGHTING ////
 
   // selected language
   useEffect(() => {
@@ -130,4 +167,11 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
       link.style('stroke-opacity', 1.0)
     }
   }, [node, link, highlightedFolderPath, folderIds])
+
+  //// ROTATION ////
+
+  useEffect(() => {
+    nodeG.style('transform', `rotate(${visStyles.rotation}deg)`)
+    linkG.style('transform', `rotate(${visStyles.rotation}deg)`)
+  }, [nodeG, linkG, visStyles.rotation])
 }

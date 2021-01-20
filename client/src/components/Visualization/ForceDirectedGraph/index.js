@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     left: 0,
     right: 0,
-    ...theme.visualization.default,
-    ...theme.visualization.force,
-    ...theme.dynamic,
+    // ...theme.visualization.default,
+    // ...theme.visualization.force,
+    // ...theme.dynamic,
     '& svg': {
       position: 'absolute',
       top: 0,
