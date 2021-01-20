@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import * as d3 from 'd3'
-import { useForces } from 'store/selectors'
-import { setForces } from 'store/actions/settings'
+import { useVisForces } from 'store/selectors'
+import { setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 
-const INITIAL_FORCES = {
+const INITIAL_VIS_FORCES = {
   alphaDecay: 0.0228,
   center: {
     enabled: true,
@@ -42,13 +42,13 @@ const INITIAL_FORCES = {
 
 export default function useAddForces({ simulation, nodes, links }) {
   const dispatch = useDispatch()
-  const forces = useForces()
+  const visForces = useVisForces()
 
   useEffect(() => {
-    dispatch(setForces(INITIAL_FORCES))
+    dispatch(setVisForces(INITIAL_VIS_FORCES))
   }, [dispatch])
 
-  // init forces
+  // init visForces
   useEffect(() => {
     if (!simulation || !nodes || !links) return
 
@@ -62,41 +62,41 @@ export default function useAddForces({ simulation, nodes, links }) {
       .force('forceY', d3.forceY())
   }, [simulation, nodes, links])
 
-  // update forces
+  // update visForces
   useEffect(() => {
-    if (!simulation || !forces) return
+    if (!simulation || !visForces) return
 
     simulation
       .force('center')
-      .strength(forces.center.strength * forces.center.enabled)
+      .strength(visForces.center.strength * visForces.center.enabled)
     simulation
       .force('charge')
-      .strength(forces.charge.strength * forces.charge.enabled)
-      .distanceMin(forces.charge.distanceMin)
-      .distanceMax(forces.charge.distanceMax)
+      .strength(visForces.charge.strength * visForces.charge.enabled)
+      .distanceMin(visForces.charge.distanceMin)
+      .distanceMax(visForces.charge.distanceMax)
     simulation
       .force('collide')
-      .strength(forces.collide.strength * forces.collide.enabled)
-      .radius(forces.collide.radius)
-      .iterations(forces.collide.iterations)
+      .strength(visForces.collide.strength * visForces.collide.enabled)
+      .radius(visForces.collide.radius)
+      .iterations(visForces.collide.iterations)
     simulation
       .force('forceX')
-      .strength(forces.forceX.strength * forces.forceX.enabled)
+      .strength(visForces.forceX.strength * visForces.forceX.enabled)
     simulation
       .force('forceY')
-      .strength(forces.forceY.strength * forces.forceY.enabled)
+      .strength(visForces.forceY.strength * visForces.forceY.enabled)
     simulation
       .force('link')
       .distance((d) =>
         d.target.children
-          ? forces.link.distanceInner
-          : forces.link.distanceOuter
+          ? visForces.link.distanceInner
+          : visForces.link.distanceOuter
       )
-      .strength(forces.link.strength)
-      .iterations(forces.link.iterations)
+      .strength(visForces.link.strength)
+      .iterations(visForces.link.iterations)
 
-    simulation.alphaDecay(forces.alphaDecay)
+    simulation.alphaDecay(visForces.alphaDecay)
 
     simulation.alpha(1).restart()
-  }, [simulation, forces])
+  }, [simulation, visForces])
 }

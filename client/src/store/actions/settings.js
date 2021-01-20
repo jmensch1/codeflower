@@ -11,8 +11,8 @@ export const types = {
   HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
   SELECT_AUTHOR: 'settings/SELECT_AUTHOR',
   HIGHLIGHT_AUTHOR: 'settings/HIGHLIGHT_AUTHOR',
-  SET_DISPLAY: 'settings/SET_DISPLAY',
-  SET_FORCES: 'settings/SET_FORCES',
+  SET_VIS_STYLES: 'settings/SET_VIS_STYLES',
+  SET_VIS_FORCES: 'settings/SET_VIS_FORCES',
 }
 
 export const setMainTheme = (mainThemeId) => ({
@@ -55,14 +55,14 @@ export const highlightAuthor = (authorId) => ({
   data: authorId,
 })
 
-export const setDisplay = (display) => ({
-  type: types.SET_DISPLAY,
-  data: display,
+export const setVisStyles = (visStyles) => ({
+  type: types.SET_VIS_STYLES,
+  data: visStyles,
 })
 
-export const setForces = (forces) => ({
-  type: types.SET_FORCES,
-  data: forces,
+export const setVisForces = (visForces) => ({
+  type: types.SET_VIS_FORCES,
+  data: visForces,
 })
 
 const initialState = {
@@ -74,8 +74,8 @@ const initialState = {
   highlightedFolderPath: null,
   selectedAuthorId: null,
   highlightedAuthorId: null,
-  display: null,
-  forces: null,
+  visStyles: null,
+  visForces: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -127,15 +127,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         highlightedAuthorId: action.data,
       }
-    case types.SET_DISPLAY:
+    case types.SET_VIS_STYLES:
       return {
         ...state,
-        display: action.data,
+        visStyles: action.data,
       }
-    case types.SET_FORCES:
+    case types.SET_VIS_FORCES:
       return {
         ...state,
-        forces: action.data,
+        visForces: action.data,
       }
     default:
       return state

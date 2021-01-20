@@ -7,9 +7,9 @@ import {
   useLanguageIds,
   useFolderIds,
 } from 'store/selectors'
-import useMouse from './useMouse'
-import useAddDisplay from './useAddDisplay'
+import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
+import useAddMouse from './useAddMouse'
 import Portal from 'components/core/Portal'
 import Controls from './Controls'
 
@@ -63,9 +63,9 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     [getFullPath]
   )
 
-  useMouse({ svg, node, link, simulation, getNodePath })
+  useAddStyles({ node, nodeG, link, linkG })
   useAddForces({ simulation, nodes, links })
-  useAddDisplay({ node, nodeG, link, linkG })
+  useAddMouse({ svg, node, link, simulation, getNodePath })
 
   useEffect(() => {
     if (!tree) return

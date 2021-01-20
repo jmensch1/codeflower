@@ -2,8 +2,8 @@ import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Slider from 'components/core/Slider'
 import TextButton from 'components/core/TextButton'
-import { useDisplay, useForces } from 'store/selectors'
-import { setDisplay, setForces } from 'store/actions/settings'
+import { useVisStyles, useVisForces } from 'store/selectors'
+import { setVisStyles, setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,163 +27,163 @@ const Controls = ({
   onRestart,
 }) => {
   const classes = useStyles({ alpha })
-  const display = useDisplay()
-  const forces = useForces()
+  const visStyles = useVisStyles()
+  const visForces = useVisForces()
   const dispatch = useDispatch()
 
-  const onChangeForces = useCallback((forces) => {
-    dispatch(setForces(forces))
+  const onChangeForces = useCallback((visForces) => {
+    dispatch(setVisForces(visForces))
   }, [dispatch])
 
-  const onChangeDisplay = useCallback((display) => {
-    dispatch(setDisplay(display))
+  const onChangeDisplay = useCallback((visStyles) => {
+    dispatch(setVisStyles(visStyles))
   }, [dispatch])
 
-  if (!forces || !display) return null
+  if (!visForces || !visStyles) return null
   return (
     <div className={classes.root}>
       <div className={classes.alphaBar}>
         <div className={classes.alphaInner} />
       </div>
-      <label>alpha decay ({forces.alphaDecay})</label>
+      <label>alpha decay ({visForces.alphaDecay})</label>
       <Slider
         min={0}
         max={0.1}
         step={0.001}
-        value={forces.alphaDecay}
+        value={visForces.alphaDecay}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             alphaDecay: newVal,
           })
         }}
       />
-      <label>charge strength ({-forces.charge.strength})</label>
+      <label>charge strength ({-visForces.charge.strength})</label>
       <Slider
         min={0}
         max={500}
-        value={-forces.charge.strength}
+        value={-visForces.charge.strength}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             charge: {
-              ...forces.charge,
+              ...visForces.charge,
               strength: -newVal,
             },
           })
         }}
       />
       <label>
-        charge distances min/max ({forces.charge.distanceMin}/
-        {forces.charge.distanceMax})
+        charge distances min/max ({visForces.charge.distanceMin}/
+        {visForces.charge.distanceMax})
       </label>
       <Slider
         min={1}
         max={2000}
-        value={[forces.charge.distanceMin, forces.charge.distanceMax]}
+        value={[visForces.charge.distanceMin, visForces.charge.distanceMax]}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             charge: {
-              ...forces.charge,
+              ...visForces.charge,
               distanceMin: newVal[0],
               distanceMax: newVal[1],
             },
           })
         }}
       />
-      <label>link distance inner ({forces.link.distanceInner})</label>
+      <label>link distance inner ({visForces.link.distanceInner})</label>
       <Slider
         min={0}
         max={150}
-        value={forces.link.distanceInner}
+        value={visForces.link.distanceInner}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             link: {
-              ...forces.link,
+              ...visForces.link,
               distanceInner: newVal,
             },
           })
         }}
       />
-      <label>link distance outer ({forces.link.distanceOuter})</label>
+      <label>link distance outer ({visForces.link.distanceOuter})</label>
       <Slider
         min={0}
         max={150}
-        value={forces.link.distanceOuter}
+        value={visForces.link.distanceOuter}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             link: {
-              ...forces.link,
+              ...visForces.link,
               distanceOuter: newVal,
             },
           })
         }}
       />
-      <label>link strength ({forces.link.strength})</label>
+      <label>link strength ({visForces.link.strength})</label>
       <Slider
         min={0}
         max={1}
         step={0.01}
-        value={forces.link.strength}
+        value={visForces.link.strength}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             link: {
-              ...forces.link,
+              ...visForces.link,
               strength: newVal,
             },
           })
         }}
       />
-      <label>link iterations ({forces.link.iterations})</label>
+      <label>link iterations ({visForces.link.iterations})</label>
       <Slider
         min={0}
         max={10}
-        value={forces.link.iterations}
+        value={visForces.link.iterations}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             link: {
-              ...forces.link,
+              ...visForces.link,
               iterations: newVal,
             },
           })
         }}
       />
-      <label>force x/y strength ({forces.forceX.strength.toFixed(2)})</label>
+      <label>force x/y strength ({visForces.forceX.strength.toFixed(2)})</label>
       <Slider
         min={0}
         max={1}
         step={0.01}
-        value={forces.forceX.strength}
+        value={visForces.forceX.strength}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             forceX: {
-              ...forces.forceX,
+              ...visForces.forceX,
               strength: newVal,
             },
             forceY: {
-              ...forces.forceY,
+              ...visForces.forceY,
               strength: newVal,
             },
           })
         }}
       />
-      <label>force center strength ({forces.center.strength})</label>
+      <label>force center strength ({visForces.center.strength})</label>
       <Slider
         min={0}
         max={1}
         step={0.01}
-        value={forces.center.strength}
+        value={visForces.center.strength}
         onChange={(e, newVal) => {
           onChangeForces({
-            ...forces,
+            ...visForces,
             center: {
-              ...forces.center,
+              ...visForces.center,
               strength: newVal,
             },
           })
@@ -194,38 +194,38 @@ const Controls = ({
         style={{ width: '100%', marginBottom: 15 }}
         onClick={onRestart}
       />
-      <label>file size coeff ({display.files.radius.coeff})</label>
+      <label>file size coeff ({visStyles.files.radius.coeff})</label>
       <Slider
         min={0}
         max={50}
         step={1}
-        value={display.files.radius.coeff}
+        value={visStyles.files.radius.coeff}
         onChange={(e, newVal) => {
           onChangeDisplay({
-            ...display,
+            ...visStyles,
             files: {
-              ...display.files,
+              ...visStyles.files,
               radius: {
-                ...display.files.radius,
+                ...visStyles.files.radius,
                 coeff: newVal,
               },
             },
           })
         }}
       />
-      <label>file size exponent ({display.files.radius.exponent})</label>
+      <label>file size exponent ({visStyles.files.radius.exponent})</label>
       <Slider
         min={0}
         max={1}
         step={0.01}
-        value={display.files.radius.exponent}
+        value={visStyles.files.radius.exponent}
         onChange={(e, newVal) => {
           onChangeDisplay({
-            ...display,
+            ...visStyles,
             files: {
-              ...display.files,
+              ...visStyles.files,
               radius: {
-                ...display.files.radius,
+                ...visStyles.files.radius,
                 exponent: newVal,
               },
             },
@@ -233,50 +233,50 @@ const Controls = ({
         }}
       />
       <label>
-        file hue min/max ({display.files.color.hue[0]}/
-        {display.files.color.hue[1]})
+        file hue min/max ({visStyles.files.color.hue[0]}/
+        {visStyles.files.color.hue[1]})
       </label>
       <Slider
         min={0}
         max={360}
-        value={display.files.color.hue}
+        value={visStyles.files.color.hue}
         onChange={(e, newVal) => {
           onChangeDisplay({
-            ...display,
+            ...visStyles,
             files: {
-              ...display.files,
+              ...visStyles.files,
               color: {
-                ...display.files.color,
+                ...visStyles.files.color,
                 hue: newVal,
               }
             },
           })
         }}
       />
-      <label>file opacity ({display.files.opacity.toFixed(2)})</label>
+      <label>file opacity ({visStyles.files.opacity.toFixed(2)})</label>
       <Slider
         min={0}
         max={1}
         step={0.01}
-        value={display.files.opacity}
+        value={visStyles.files.opacity}
         onChange={(e, newVal) => {
           onChangeDisplay({
-            ...display,
+            ...visStyles,
             files: {
-              ...display.files,
+              ...visStyles.files,
               opacity: newVal,
             }
           })
         }}
       />
-      <label>vis rotation ({display.rotation})</label>
+      <label>vis rotation ({visStyles.rotation})</label>
       <Slider
         min={0}
         max={360}
-        value={display.rotation}
+        value={visStyles.rotation}
         onChange={(e, newVal) => {
           onChangeDisplay({
-            ...display,
+            ...visStyles,
             rotation: newVal,
           })
         }}

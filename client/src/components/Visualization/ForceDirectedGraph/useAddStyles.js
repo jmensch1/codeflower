@@ -6,13 +6,13 @@ import {
   useHighlightedAuthorId,
   useFolderIds,
   useHighlightedFolderPath,
-  useDisplay,
+  useVisStyles,
 } from 'store/selectors'
-import { setDisplay } from 'store/actions/settings'
+import { setVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import { partition, multiClassSelector as select } from 'services/utils'
 
-const INITIAL_DISPLAY = {
+const INITIAL_VIS_STYLES = {
   rotation: 0,
   files: {
     color: {
@@ -28,7 +28,7 @@ const INITIAL_DISPLAY = {
   },
 }
 
-export default function useAddDisplay({ nodeG, node, linkG, link }) {
+export default function useAddStyles({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
   const languageIds = useLanguageIds()
@@ -36,10 +36,10 @@ export default function useAddDisplay({ nodeG, node, linkG, link }) {
   const folderIds = useFolderIds()
   const highlightedFolderPath = useHighlightedFolderPath()
   const dispatch = useDispatch()
-  const display = useDisplay()
+  const visStyles = useVisStyles()
 
   useEffect(() => {
-    dispatch(setDisplay(INITIAL_DISPLAY))
+    dispatch(setVisStyles(INITIAL_VIS_STYLES))
   }, [dispatch])
 
   // language colors
@@ -55,26 +55,26 @@ export default function useAddDisplay({ nodeG, node, linkG, link }) {
   useEffect(() => {
     if (!nodeG || !linkG) return
 
-    nodeG.style('transform', `rotate(${display.rotation}deg)`)
-    linkG.style('transform', `rotate(${display.rotation}deg)`)
-  }, [nodeG, linkG, display?.rotation])
+    nodeG.style('transform', `rotate(${visStyles.rotation}deg)`)
+    linkG.style('transform', `rotate(${visStyles.rotation}deg)`)
+  }, [nodeG, linkG, visStyles?.rotation])
 
   // file radius
   useEffect(() => {
     if (!node) return
 
-    const { coeff, exponent } = display.files.radius
+    const { coeff, exponent } = visStyles.files.radius
     node.attr('r', (d) => {
       return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1
     })
-  }, [node, display?.files.radius])
+  }, [node, visStyles?.files.radius])
 
   // file opacity
   useEffect(() => {
     if (!node) return
 
-    node.filter('.file').style('fill-opacity', display.files.opacity)
-  }, [node, display?.files.opacity])
+    node.filter('.file').style('fill-opacity', visStyles.files.opacity)
+  }, [node, visStyles?.files.opacity])
 
   // selected language
   useEffect(() => {

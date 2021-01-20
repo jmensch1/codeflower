@@ -21,9 +21,9 @@ const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
 const selectedAuthorId = (state) => state.settings.selectedAuthorId
 const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
-const display = (state) => state.settings.display
-const fileHue = (state) => state.settings.display?.files.color.hue
-const forces = (state) => state.settings.forces
+const visStyles = (state) => state.settings.visStyles
+const fileHue = (state) => state.settings.visStyles?.files.color.hue
+const visForces = (state) => state.settings.visForces
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -118,8 +118,8 @@ export const useContext = () => useSelector(context)
 export const useMainTheme = () => useSelector(mainTheme)
 export const useVisTheme = () => useSelector(visTheme)
 export const useVisType = () => useSelector(visType)
-export const useDisplay = () => useSelector(display)
-export const useForces = () => useSelector(forces)
+export const useVisStyles = () => useSelector(visStyles)
+export const useVisForces = () => useSelector(visForces)
 
 ////////// PARAMATERIZED USE SELECTOR ///////////
 
