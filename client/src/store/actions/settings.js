@@ -1,6 +1,7 @@
 import mainThemes from 'themes/mainThemes'
 import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
+import { INITIAL_VIS_STYLES } from 'components/Visualization/ForceDirectedGraph/useAddStyles'
 
 export const types = {
   SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
@@ -74,7 +75,7 @@ const initialState = {
   highlightedFolderPath: null,
   selectedAuthorId: null,
   highlightedAuthorId: null,
-  visStyles: null,
+  visStyles: INITIAL_VIS_STYLES,
   visForces: null,
 }
 

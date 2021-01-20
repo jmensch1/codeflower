@@ -50,8 +50,6 @@ export default function useAddForces({ simulation, nodes, links }) {
 
   // init forces
   useEffect(() => {
-    if (!simulation || !nodes || !links) return
-
     simulation
       .nodes(nodes)
       .force('link', d3.forceLink().links(links))
@@ -64,7 +62,7 @@ export default function useAddForces({ simulation, nodes, links }) {
 
   // update forces
   useEffect(() => {
-    if (!simulation || !visForces) return
+    if (!visForces) return
 
     simulation
       .force('center')

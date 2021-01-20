@@ -39,16 +39,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const Enhancers = ({ visElements, getNodePath }) => {
+  const {
+    svg,
+    nodes,
+    nodeG,
+    node,
+    links,
+    linkG,
+    link,
+    simulation
+  } = visElements
+
+  useAddStyles({ node, nodeG, link, linkG })
+  useAddForces({ simulation, nodes, links })
+  useAddMouse({ svg, node, link, simulation, getNodePath })
+
+  return null
+}
+
 const ForceDirectedGraph = ({ getFullPath }) => {
   const classes = useStyles()
   const tree = useSelectedFolder()
   const languageIds = useLanguageIds()
   const folderIds = useFolderIds()
-  const [visElements, setVisElements] = useState({})
+  const [visElements, setVisElements] = useState(null)
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
-
-  const { svg, nodes, nodeG, node, links, linkG, link, simulation } = visElements
 
   const getNodePath = useCallback(
     (node) => {
@@ -62,10 +79,6 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     },
     [getFullPath]
   )
-
-  useAddStyles({ node, nodeG, link, linkG })
-  useAddForces({ simulation, nodes, links })
-  useAddMouse({ svg, node, link, simulation, getNodePath })
 
   useEffect(() => {
     if (!tree) return
@@ -150,6 +163,12 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   return (
     <>
       <div id="fdg-container" className={classes.root} />
+      {visElements && (
+        <Enhancers
+          visElements={visElements}
+          getNodePath={getNodePath}
+        />
+      )}
       <Portal domElementId="vis-controls">
         <Controls
           alpha={alpha}

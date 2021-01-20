@@ -8,11 +8,9 @@ import {
   useHighlightedFolderPath,
   useVisStyles,
 } from 'store/selectors'
-import { setVisStyles } from 'store/actions/settings'
-import { useDispatch } from 'react-redux'
 import { partition, multiClassSelector as select } from 'services/utils'
 
-const INITIAL_VIS_STYLES = {
+export const INITIAL_VIS_STYLES = {
   rotation: 0,
   files: {
     fill: {
@@ -46,17 +44,10 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   const highlightedAuthorId = useHighlightedAuthorId()
   const folderIds = useFolderIds()
   const highlightedFolderPath = useHighlightedFolderPath()
-  const dispatch = useDispatch()
   const visStyles = useVisStyles()
-
-  useEffect(() => {
-    dispatch(setVisStyles(INITIAL_VIS_STYLES))
-  }, [dispatch])
 
   // language colors
   useEffect(() => {
-    if (!node) return
-
     node
       .filter('.file')
       .style('fill', (d) => languageColors[d.data.language])
@@ -64,33 +55,25 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   // rotation
   useEffect(() => {
-    if (!nodeG || !linkG) return
-
     nodeG.style('transform', `rotate(${visStyles.rotation}deg)`)
     linkG.style('transform', `rotate(${visStyles.rotation}deg)`)
-  }, [nodeG, linkG, visStyles?.rotation])
+  }, [nodeG, linkG, visStyles.rotation])
 
   // file radius
   useEffect(() => {
-    if (!node) return
-
     const { coeff, exponent } = visStyles.files.radius
     node.attr('r', (d) => {
       return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1
     })
-  }, [node, visStyles?.files.radius])
+  }, [node, visStyles.files.radius])
 
   // file opacity
   useEffect(() => {
-    if (!node) return
-
     node.filter('.file').style('fill-opacity', visStyles.files.fill.alpha)
-  }, [node, visStyles?.files.fill.alpha])
+  }, [node, visStyles.files.fill.alpha])
 
   // selected language
   useEffect(() => {
-    if (!node || !link) return
-
     if (selectedLanguage) {
       const clx = `lang-${languageIds[selectedLanguage]}`
       node.filter(`.file.${clx}`).style('display', 'block')
@@ -106,8 +89,6 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   // highlighted author
   useEffect(() => {
-    if (!node || !link) return
-
     if (highlightedAuthorId !== null) {
       const clx = `author-${highlightedAuthorId}`
       node.filter(`.file.${clx}`).style('display', 'block')
@@ -123,8 +104,6 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   // highlighted folder
   useEffect(() => {
-    if (!node || !link) return
-
     if (highlightedFolderPath) {
       const folderPaths = Object.keys(folderIds)
 
