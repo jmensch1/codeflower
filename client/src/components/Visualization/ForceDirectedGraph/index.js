@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     left: 0,
     right: 0,
-    // ...theme.visualization.default,
-    // ...theme.visualization.force,
-    // ...theme.dynamic,
     '& svg': {
       position: 'absolute',
       top: 0,
@@ -48,7 +45,7 @@ const Enhancers = ({ visElements, getNodePath }) => {
     links,
     linkG,
     link,
-    simulation
+    simulation,
   } = visElements
 
   useAddStyles({ node, nodeG, link, linkG })
