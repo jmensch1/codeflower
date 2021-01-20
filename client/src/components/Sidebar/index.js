@@ -6,6 +6,8 @@ import Tabs from './Tabs'
 import Languages from './Languages'
 import Folders from './Folders'
 import Authors from './Authors'
+import ForceControls from 'components/Visualization/ForceDirectedGraph/ForceControls'
+import StyleControls from 'components/Visualization/ForceDirectedGraph/StyleControls'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,10 +43,6 @@ const Sidebar = () => {
       <Tabs activeTab={tab} onChange={setTab} />
       <div className={classes.content}>
         <div
-          id="vis-controls"
-          style={{ display: tab === 'controls' ? 'block' : 'none' }}
-        />
-        <div
           id="palette-controls"
           style={{ display: tab === 'palette' ? 'block' : 'none' }}
         />
@@ -53,6 +51,12 @@ const Sidebar = () => {
             case 'languages': return <Languages />
             case 'folders': return <Folders />
             case 'authors': return <Authors />
+            case 'controls': return (
+              <>
+                <ForceControls />
+                <StyleControls />
+              </>
+            )
             default: return null
           }
         })()}

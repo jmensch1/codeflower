@@ -10,8 +10,6 @@ import {
 import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
 import useAddMouse from './useAddMouse'
-import Portal from 'components/core/Portal'
-import Controls from './Controls'
 import Extras from './Extras'
 
 const useStyles = makeStyles((theme) => ({
@@ -161,19 +159,15 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   return (
     <>
       <div id="fdg-container" className={classes.root} />
-      <Extras alpha={alpha} onRestart={restart} />
       {visElements && (
-        <Enhancers
-          visElements={visElements}
-          getNodePath={getNodePath}
-        />
+        <>
+          <Enhancers
+            visElements={visElements}
+            getNodePath={getNodePath}
+          />
+          <Extras alpha={alpha} onRestart={restart} />
+        </>
       )}
-      <Portal domElementId="vis-controls">
-        <Controls
-          alpha={alpha}
-          onRestart={restart}
-        />
-      </Portal>
     </>
   )
 }
