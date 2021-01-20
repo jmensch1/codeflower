@@ -4,10 +4,13 @@ import {
   useLanguageIds,
   useLanguageColors,
   useHighlightedAuthorId,
+  useFolderIds,
+  useHighlightedFolderPath,
   useDisplay,
 } from 'store/selectors'
 import { setDisplay } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import { partition, multiClassSelector as select } from 'services/utils'
 
 const INITIAL_DISPLAY = {
   rotation: 0,
@@ -30,6 +33,8 @@ export default function useAddDisplay({ nodeG, node, linkG, link }) {
   const languageColors = useLanguageColors()
   const languageIds = useLanguageIds()
   const highlightedAuthorId = useHighlightedAuthorId()
+  const folderIds = useFolderIds()
+  const highlightedFolderPath = useHighlightedFolderPath()
   const dispatch = useDispatch()
   const display = useDisplay()
 
@@ -104,4 +109,35 @@ export default function useAddDisplay({ nodeG, node, linkG, link }) {
       link.style('stroke-opacity', 1.0)
     }
   }, [node, link, highlightedAuthorId])
+
+  // highlighted folder
+  useEffect(() => {
+    if (!node || !link) return
+
+    if (highlightedFolderPath) {
+      const folderPaths = Object.keys(folderIds)
+
+      const [highlightedIds, suppressedIds] = partition(
+        folderPaths,
+        (path) => path.startsWith(highlightedFolderPath),
+        (path) => folderIds[path]
+      )
+
+      if (highlightedIds.length) {
+        node.filter(select('.file.folder-', highlightedIds)).style('display', 'block')
+        node.filter(select('.folder.folder-', highlightedIds)).style('display', 'block')
+        link.filter(select('.link.folder-', highlightedIds)).style('stroke-opacity', 1.0)
+      }
+
+      if (suppressedIds.length) {
+        node.filter(select('.file.folder-', suppressedIds)).style('display', 'none')
+        node.filter(select('.folder.folder-', suppressedIds)).style('display', 'none')
+        link.filter(select('.link.folder-', suppressedIds)).style('stroke-opacity', 0.2)
+      }
+    } else {
+      node.filter('.file').style('display', 'block')
+      node.filter('.folder').style('display', 'block')
+      link.style('stroke-opacity', 1.0)
+    }
+  }, [node, link, highlightedFolderPath, folderIds])
 }

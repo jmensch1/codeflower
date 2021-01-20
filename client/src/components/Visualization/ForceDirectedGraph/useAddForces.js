@@ -38,11 +38,6 @@ const INITIAL_FORCES = {
     distanceInner: 10,
     distanceOuter: 10,
   },
-  files: {
-    radius: {
-      exponent: 0.4,
-    },
-  },
 }
 
 export default function useAddForces({ simulation, nodes, links }) {

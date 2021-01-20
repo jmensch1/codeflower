@@ -91,9 +91,10 @@ const VisThemeProvider = ({ children }) => {
       return createMuiTheme({
         ...mainTheme,
         visualization: visTheme.visualization,
+        // NOTE: undefined effectively disables the styles
         dynamic: {
           ...(langStyles && undefined),
-          ...folderStyles,
+          ...(folderStyles && undefined),
           ...(authorStyles && undefined),
         },
       })
