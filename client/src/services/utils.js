@@ -1,3 +1,7 @@
+import setWith from 'lodash/setWith'
+import clone from 'lodash/clone'
+import get from 'lodash/get'
+
 export const delay = async (time) => {
   return new Promise((resolve) => {
     setTimeout(resolve, time)
@@ -26,3 +30,6 @@ export const partition = (
 export const multiClassSelector = (base, spread) => {
   return spread.map((el) => `${base}${el}`).join(',')
 }
+
+export const getIn = get
+export const setIn = (obj, path, val) => setWith(clone(obj), path, val, clone)

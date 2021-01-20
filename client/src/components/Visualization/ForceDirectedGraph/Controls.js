@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Slider from 'components/core/Slider'
+import Slider, { SmartSlider } from 'components/core/Slider'
 import TextButton from 'components/core/TextButton'
 import { useVisStyles, useVisForces } from 'store/selectors'
 import { setVisStyles, setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import { getIn, setIn } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -254,23 +255,11 @@ const Controls = ({
         }}
       />
       <label>file opacity ({visStyles.files.fill.alpha.toFixed(2)})</label>
-      <Slider
-        min={0}
-        max={1}
-        step={0.01}
-        value={visStyles.files.fill.alpha}
-        onChange={(e, newVal) => {
-          onChangeDisplay({
-            ...visStyles,
-            files: {
-              ...visStyles.files,
-              fill: {
-                ...visStyles.files.fill,
-                alpha: newVal,
-              },
-            },
-          })
-        }}
+      <SmartSlider
+        range={[0, 1, 0.01]}
+        obj={visStyles}
+        path='files.fill.alpha'
+        onChange={onChangeDisplay}
       />
       <label>vis rotation ({visStyles.rotation})</label>
       <Slider
