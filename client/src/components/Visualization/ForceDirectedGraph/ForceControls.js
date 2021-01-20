@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Slider from 'components/core/Slider'
+import { SmartSlider } from 'components/core/Slider'
 import { useVisForces } from 'store/selectors'
 import { setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
@@ -23,149 +23,68 @@ const ForceControls = () => {
   if (!visForces) return null
   return (
     <div className={classes.root}>
-      <label>alpha decay ({visForces.alphaDecay})</label>
-      <Slider
-        min={0}
-        max={0.1}
-        step={0.001}
-        value={visForces.alphaDecay}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            alphaDecay: newVal,
-          })
-        }}
+      <SmartSlider
+        label='alpha decay'
+        range={[0, 0.1, 0.001]}
+        obj={visForces}
+        path='alphaDecay'
+        onChange={onChangeForces}
       />
-      <label>charge strength ({-visForces.charge.strength})</label>
-      <Slider
-        min={0}
-        max={500}
-        value={-visForces.charge.strength}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            charge: {
-              ...visForces.charge,
-              strength: -newVal,
-            },
-          })
-        }}
+      <SmartSlider
+        label='charge strength'
+        range={[-500, 0, 1]}
+        obj={visForces}
+        path='charge.strength'
+        onChange={onChangeForces}
       />
-      <label>
-        charge distances min/max ({visForces.charge.distanceMin}/
-        {visForces.charge.distanceMax})
-      </label>
-      <Slider
-        min={1}
-        max={2000}
-        value={[visForces.charge.distanceMin, visForces.charge.distanceMax]}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            charge: {
-              ...visForces.charge,
-              distanceMin: newVal[0],
-              distanceMax: newVal[1],
-            },
-          })
-        }}
+      <SmartSlider
+        label='charge distance min/max'
+        range={[1, 2000]}
+        obj={visForces}
+        path='charge.distance'
+        onChange={onChangeForces}
       />
-      <label>link distance inner ({visForces.link.distanceInner})</label>
-      <Slider
-        min={0}
-        max={150}
-        value={visForces.link.distanceInner}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            link: {
-              ...visForces.link,
-              distanceInner: newVal,
-            },
-          })
-        }}
+      <SmartSlider
+        label='link distance: files'
+        range={[0, 150, 1]}
+        obj={visForces}
+        path='link.distance.files'
+        onChange={onChangeForces}
       />
-      <label>link distance outer ({visForces.link.distanceOuter})</label>
-      <Slider
-        min={0}
-        max={150}
-        value={visForces.link.distanceOuter}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            link: {
-              ...visForces.link,
-              distanceOuter: newVal,
-            },
-          })
-        }}
+      <SmartSlider
+        label='link distance: folders'
+        range={[0, 150, 1]}
+        obj={visForces}
+        path='link.distance.folders'
+        onChange={onChangeForces}
       />
-      <label>link strength ({visForces.link.strength})</label>
-      <Slider
-        min={0}
-        max={1}
-        step={0.01}
-        value={visForces.link.strength}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            link: {
-              ...visForces.link,
-              strength: newVal,
-            },
-          })
-        }}
+      <SmartSlider
+        label='link strength'
+        range={[0, 1, 0.01]}
+        obj={visForces}
+        path='link.strength'
+        onChange={onChangeForces}
       />
-      <label>link iterations ({visForces.link.iterations})</label>
-      <Slider
-        min={0}
-        max={10}
-        value={visForces.link.iterations}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            link: {
-              ...visForces.link,
-              iterations: newVal,
-            },
-          })
-        }}
+      <SmartSlider
+        label='link iterations'
+        range={[0, 10, 1]}
+        obj={visForces}
+        path='link.iterations'
+        onChange={onChangeForces}
       />
-      <label>force x/y strength ({visForces.forceX.strength.toFixed(2)})</label>
-      <Slider
-        min={0}
-        max={1}
-        step={0.01}
-        value={visForces.forceX.strength}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            forceX: {
-              ...visForces.forceX,
-              strength: newVal,
-            },
-            forceY: {
-              ...visForces.forceY,
-              strength: newVal,
-            },
-          })
-        }}
+      <SmartSlider
+        label='force x/y strength'
+        range={[0, 1, 0.01]}
+        obj={visForces}
+        path='forceXY.strength'
+        onChange={onChangeForces}
       />
-      <label>force center strength ({visForces.center.strength})</label>
-      <Slider
-        min={0}
-        max={1}
-        step={0.01}
-        value={visForces.center.strength}
-        onChange={(e, newVal) => {
-          onChangeForces({
-            ...visForces,
-            center: {
-              ...visForces.center,
-              strength: newVal,
-            },
-          })
-        }}
+      <SmartSlider
+        label='force center strength'
+        range={[0, 1, 0.01]}
+        obj={visForces}
+        path='center.strength'
+        onChange={onChangeForces}
       />
     </div>
   )

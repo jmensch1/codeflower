@@ -6,37 +6,33 @@ import { useDispatch } from 'react-redux'
 
 const INITIAL_VIS_FORCES = {
   alphaDecay: 0.0228,
-  center: {
-    enabled: true,
-    strength: 1,
-  },
   charge: {
     enabled: true,
     strength: -200,
-    distanceMin: 1,
-    distanceMax: 2000,
+    distance: [1, 2000],
+  },
+  forceXY: {
+    enabled: true,
+    strength: 0.4,
+  },
+  link: {
+    enabled: true,
+    strength: 1,
+    distance: {
+      files: 10,
+      folders: 10,
+    },
+    iterations: 4,
+  },
+  center: {
+    enabled: true,
+    strength: 1,
   },
   collide: {
     enabled: false,
     strength: 0.7,
     iterations: 1,
     radius: 5,
-  },
-  forceX: {
-    enabled: true,
-    strength: 0.4,
-  },
-  forceY: {
-    enabled: true,
-    strength: 0.4,
-  },
-  link: {
-    enabled: true,
-    distance: 10,
-    iterations: 4,
-    strength: 1,
-    distanceInner: 10,
-    distanceOuter: 10,
   },
 }
 
@@ -70,8 +66,8 @@ export default function useAddForces({ simulation, nodes, links }) {
     simulation
       .force('charge')
       .strength(visForces.charge.strength * visForces.charge.enabled)
-      .distanceMin(visForces.charge.distanceMin)
-      .distanceMax(visForces.charge.distanceMax)
+      .distanceMin(visForces.charge.distance[0])
+      .distanceMax(visForces.charge.distance[1])
     simulation
       .force('collide')
       .strength(visForces.collide.strength * visForces.collide.enabled)
@@ -79,18 +75,18 @@ export default function useAddForces({ simulation, nodes, links }) {
       .iterations(visForces.collide.iterations)
     simulation
       .force('forceX')
-      .strength(visForces.forceX.strength * visForces.forceX.enabled)
+      .strength(visForces.forceXY.strength * visForces.forceXY.enabled)
     simulation
       .force('forceY')
-      .strength(visForces.forceY.strength * visForces.forceY.enabled)
+      .strength(visForces.forceXY.strength * visForces.forceXY.enabled)
     simulation
       .force('link')
+      .strength(visForces.link.strength)
       .distance((d) =>
         d.target.children
-          ? visForces.link.distanceInner
-          : visForces.link.distanceOuter
+          ? visForces.link.distance.folders
+          : visForces.link.distance.files
       )
-      .strength(visForces.link.strength)
       .iterations(visForces.link.iterations)
 
     simulation.alphaDecay(visForces.alphaDecay)
