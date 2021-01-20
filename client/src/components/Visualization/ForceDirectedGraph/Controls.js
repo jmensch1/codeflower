@@ -1,33 +1,18 @@
 import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Slider, { SmartSlider } from 'components/core/Slider'
-import TextButton from 'components/core/TextButton'
 import { useVisStyles, useVisForces } from 'store/selectors'
 import { setVisStyles, setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
-import { getIn, setIn } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
   },
-  alphaBar: {
-    height: 15,
-    backgroundColor: theme.palette.action.hover,
-    marginBottom: 20,
-  },
-  alphaInner: {
-    height: '100%',
-    width: ({ alpha }) => `${alpha * 100}%`,
-    backgroundColor: theme.palette.action.selected,
-  },
 }))
 
-const Controls = ({
-  alpha,
-  onRestart,
-}) => {
-  const classes = useStyles({ alpha })
+const Controls = () => {
+  const classes = useStyles()
   const visStyles = useVisStyles()
   const visForces = useVisForces()
   const dispatch = useDispatch()
@@ -43,9 +28,6 @@ const Controls = ({
   if (!visForces || !visStyles) return null
   return (
     <div className={classes.root}>
-      <div className={classes.alphaBar}>
-        <div className={classes.alphaInner} />
-      </div>
       <label>alpha decay ({visForces.alphaDecay})</label>
       <Slider
         min={0}
@@ -189,11 +171,6 @@ const Controls = ({
             },
           })
         }}
-      />
-      <TextButton
-        label="restart"
-        style={{ width: '100%', marginBottom: 15 }}
-        onClick={onRestart}
       />
       <label>file size coeff ({visStyles.files.radius.coeff})</label>
       <Slider
