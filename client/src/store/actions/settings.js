@@ -1,7 +1,6 @@
 import mainThemes from 'themes/mainThemes'
 import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
-import { INITIAL_VIS_STYLES } from 'components/Visualization/ForceDirectedGraph/useAddStyles'
 
 export const types = {
   SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
@@ -75,7 +74,7 @@ const initialState = {
   highlightedFolderPath: null,
   selectedAuthorId: null,
   highlightedAuthorId: null,
-  visStyles: INITIAL_VIS_STYLES,
+  visStyles: visThemes.periwinkle,
   visForces: null,
 }
 
@@ -90,6 +89,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         visThemeId: action.data,
+        visStyles: visThemes[action.data],
       }
     case types.SET_VIS_TYPE:
       return {

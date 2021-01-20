@@ -10,33 +10,6 @@ import {
 } from 'store/selectors'
 import { partition, multiClassSelector as select } from 'services/utils'
 
-export const INITIAL_VIS_STYLES = {
-  rotation: 0,
-  files: {
-    fill: {
-      hue: [170, 360],
-      saturation: 100,
-      lightness: 100,
-      alpha: 1.0,
-    },
-    stroke: '#000',
-    strokeWidth: 0.5,
-    radius: {
-      coeff: 1.0,
-      exponent: 0.4,
-    },
-  },
-  folders: {
-    fill: '#ededed',
-    stroke: '#9ecae1',
-    strokeWidth: 2,
-  },
-  links: {
-    stroke: '#9ecae1',
-    strokeWidth: 1,
-  },
-}
-
 export default function useAddStyles({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
