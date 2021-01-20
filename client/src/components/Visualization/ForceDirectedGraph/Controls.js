@@ -233,39 +233,42 @@ const Controls = ({
         }}
       />
       <label>
-        file hue min/max ({visStyles.files.color.hue[0]}/
-        {visStyles.files.color.hue[1]})
+        file hue min/max ({visStyles.files.fill.hue[0]}/
+        {visStyles.files.fill.hue[1]})
       </label>
       <Slider
         min={0}
         max={360}
-        value={visStyles.files.color.hue}
+        value={visStyles.files.fill.hue}
         onChange={(e, newVal) => {
           onChangeDisplay({
             ...visStyles,
             files: {
               ...visStyles.files,
-              color: {
-                ...visStyles.files.color,
+              fill: {
+                ...visStyles.files.fill,
                 hue: newVal,
               }
             },
           })
         }}
       />
-      <label>file opacity ({visStyles.files.opacity.toFixed(2)})</label>
+      <label>file opacity ({visStyles.files.fill.alpha.toFixed(2)})</label>
       <Slider
         min={0}
         max={1}
         step={0.01}
-        value={visStyles.files.opacity}
+        value={visStyles.files.fill.alpha}
         onChange={(e, newVal) => {
           onChangeDisplay({
             ...visStyles,
             files: {
               ...visStyles.files,
-              opacity: newVal,
-            }
+              fill: {
+                ...visStyles.files.fill,
+                alpha: newVal,
+              },
+            },
           })
         }}
       />

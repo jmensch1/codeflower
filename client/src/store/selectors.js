@@ -22,7 +22,7 @@ const selectedLanguage = (state) => state.settings.selectedLanguage
 const selectedAuthorId = (state) => state.settings.selectedAuthorId
 const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
 const visStyles = (state) => state.settings.visStyles
-const fileHue = (state) => state.settings.visStyles?.files.color.hue
+const fileHue = (state) => state.settings.visStyles?.files.fill.hue
 const visForces = (state) => state.settings.visForces
 const context = (state) => {
   const { context } = state.router.location.query

@@ -48,7 +48,7 @@ export default function useAddForces({ simulation, nodes, links }) {
     dispatch(setVisForces(INITIAL_VIS_FORCES))
   }, [dispatch])
 
-  // init visForces
+  // init forces
   useEffect(() => {
     if (!simulation || !nodes || !links) return
 
@@ -62,7 +62,7 @@ export default function useAddForces({ simulation, nodes, links }) {
       .force('forceY', d3.forceY())
   }, [simulation, nodes, links])
 
-  // update visForces
+  // update forces
   useEffect(() => {
     if (!simulation || !visForces) return
 

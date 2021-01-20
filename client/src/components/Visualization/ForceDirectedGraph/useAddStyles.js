@@ -15,16 +15,27 @@ import { partition, multiClassSelector as select } from 'services/utils'
 const INITIAL_VIS_STYLES = {
   rotation: 0,
   files: {
-    color: {
+    fill: {
       hue: [170, 360],
       saturation: 100,
       lightness: 100,
+      alpha: 1.0,
     },
+    stroke: '#000',
+    strokeWidth: 0.5,
     radius: {
       coeff: 1.0,
       exponent: 0.4,
     },
-    opacity: 1.0,
+  },
+  folders: {
+    fill: '#ededed',
+    stroke: '#9ecae1',
+    strokeWidth: 2,
+  },
+  links: {
+    stroke: '#9ecae1',
+    strokeWidth: 1,
   },
 }
 
@@ -73,8 +84,8 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   useEffect(() => {
     if (!node) return
 
-    node.filter('.file').style('fill-opacity', visStyles.files.opacity)
-  }, [node, visStyles?.files.opacity])
+    node.filter('.file').style('fill-opacity', visStyles.files.fill.alpha)
+  }, [node, visStyles?.files.fill.alpha])
 
   // selected language
   useEffect(() => {
