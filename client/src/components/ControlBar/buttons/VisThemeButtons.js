@@ -3,24 +3,25 @@ import { useDispatch } from 'react-redux'
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft'
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter'
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight'
-import { setVisTheme } from 'store/actions/settings'
-import { useSettings } from 'store/selectors'
+import { setVisStyles } from 'store/actions/settings'
+import { useVisStyles } from 'store/selectors'
+import visThemes from 'themes/visThemes'
 import ButtonGroup from '../core/ButtonGroup'
 
 const VisThemeButtons = () => {
   const dispatch = useDispatch()
-  const { visThemeId } = useSettings()
+  const { id } = useVisStyles()
 
   const onChange = useCallback(
-    (visThemeId) => {
-      dispatch(setVisTheme(visThemeId))
+    (id) => {
+      dispatch(setVisStyles(visThemes[id]))
     },
     [dispatch]
   )
 
   return (
     <ButtonGroup
-      value={visThemeId}
+      value={id}
       onChange={onChange}
       buttons={[
         {

@@ -4,7 +4,6 @@ import { types as repoTypes } from './repo'
 
 export const types = {
   SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
-  SET_VIS_THEME: 'settings/SET_VIS_THEME',
   SET_VIS_TYPE: 'settings/SET_VIS_TYPE',
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
@@ -18,11 +17,6 @@ export const types = {
 export const setMainTheme = (mainThemeId) => ({
   type: types.SET_MAIN_THEME,
   data: mainThemeId,
-})
-
-export const setVisTheme = (visThemeId) => ({
-  type: types.SET_VIS_THEME,
-  data: visThemeId,
 })
 
 export const setVisType = (visType) => ({
@@ -67,7 +61,6 @@ export const setVisForces = (visForces) => ({
 
 const initialState = {
   mainThemeId: Object.keys(mainThemes)[0],
-  visThemeId: Object.keys(visThemes)[0],
   visType: 'force',
   selectedLanguage: null,
   selectedFolderPath: null,

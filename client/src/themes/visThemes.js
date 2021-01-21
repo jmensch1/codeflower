@@ -1,4 +1,5 @@
 const periwinkle = {
+  id: 'periwinkle',
   rotation: 0,
   files: {
     fill: {
@@ -26,6 +27,7 @@ const periwinkle = {
 }
 
 const bumblebee = {
+  id: 'bumblebee',
   rotation: 0,
   files: {
     fill: {
@@ -53,6 +55,7 @@ const bumblebee = {
 }
 
 const rainbow = {
+  id: 'rainbow',
   rotation: 0,
   files: {
     fill: {

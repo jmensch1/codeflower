@@ -17,7 +17,10 @@ const StyleControls = () => {
   const dispatch = useDispatch()
 
   const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles(visStyles))
+    dispatch(setVisStyles({
+      ...visStyles,
+      id: undefined,
+    }))
   }, [dispatch])
 
   if (!visStyles) return null
