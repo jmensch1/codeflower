@@ -1,6 +1,7 @@
 import setWith from 'lodash/setWith'
 import clone from 'lodash/clone'
 import get from 'lodash/get'
+import has from 'lodash/has'
 
 export const delay = async (time) => {
   return new Promise((resolve) => {
@@ -24,12 +25,16 @@ export const partition = (
   return [keep, reject]
 }
 
-// generators a multi-class-selector string
+// generates a multi-class-selector string
 // e.g. multiClassSelector('.test-', [0, 1, 2])
 // outputs '.test-0,.test-1,.test-2'
 export const multiClassSelector = (base, spread) => {
   return spread.map((el) => `${base}${el}`).join(',')
 }
 
-export const getIn = get
-export const setIn = (obj, path, val) => setWith(clone(obj), path, val, clone)
+// object accessors methods
+// setPath returns the new object without mutating the original
+// https://github.com/lodash/lodash/issues/1696
+export const hasPath = has
+export const getPath = get
+export const setPath = (obj, path, val) => setWith(clone(obj), path, val, clone)

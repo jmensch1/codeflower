@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
     top: 100,
     right: 10,
     zIndex: 1,
-    width: 50,
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',

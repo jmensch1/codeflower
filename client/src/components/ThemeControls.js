@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { SmartSlider } from 'components/core/Slider'
 import tinycolor from 'tinycolor2'
 import { useMainTheme } from 'store/selectors'
@@ -31,6 +31,7 @@ function getColorFromAlpha(alpha) {
 const ThemeControls = () => {
   const classes = useStyles()
   const mainTheme = useMainTheme()
+  const theme = useTheme()
   const dispatch = useDispatch()
 
   const onChange = useCallback((mainTheme) => {
@@ -47,6 +48,7 @@ const ThemeControls = () => {
           out: getColorFromLightness,
         }}
         obj={mainTheme}
+        defaultObj={theme}
         path='palette.background.default'
         onChange={onChange}
       />
@@ -58,6 +60,7 @@ const ThemeControls = () => {
           out: getColorFromLightness,
         }}
         obj={mainTheme}
+        defaultObj={theme}
         path='palette.background.paper'
         onChange={onChange}
       />
@@ -69,7 +72,16 @@ const ThemeControls = () => {
           out: getColorFromAlpha,
         }}
         obj={mainTheme}
+        defaultObj={theme}
         path='palette.divider'
+        onChange={onChange}
+      />
+      <SmartSlider
+        label='font size'
+        range={[8, 20, 1]}
+        obj={mainTheme}
+        defaultObj={theme}
+        path='typography.fontSize'
         onChange={onChange}
       />
     </div>

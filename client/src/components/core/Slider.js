@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import MuiSlider from '@material-ui/core/Slider'
-import { getIn, setIn } from 'services/utils'
+import { getPath, setPath, hasPath } from 'services/utils'
 
 const Slider = withStyles((theme) => ({
   root: {
@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 export const SmartSlider = ({
   range,
   obj,
+  defaultObj,
   path,
   onChange,
   label,
@@ -31,11 +32,15 @@ export const SmartSlider = ({
   const classes = useStyles()
 
   const handleChange = useCallback((e, newVal) => {
-    onChange(setIn(obj, path, transform.out(newVal)))
+    onChange(setPath(obj, path, transform.out(newVal)))
   }, [obj, path, onChange, transform])
 
   const [min, max, step] = range || []
-  const value = transform.in(getIn(obj, path))
+
+  const value = hasPath(obj, path)
+    ? transform.in(getPath(obj, path))
+    : transform.in(getPath(defaultObj, path))
+
   return (
     <div className={classes.root}>
       {label && (
