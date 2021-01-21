@@ -47,7 +47,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   useEffect(() => {
     const { coeff, exponent } = visStyles.files.radius
     node.attr('r', (d) => {
-      return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent) || 1
+      return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent)
     })
   }, [node, visStyles.files.radius])
 

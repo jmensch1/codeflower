@@ -28,14 +28,14 @@ const StyleControls = () => {
     <div className={classes.root}>
       <SmartSlider
         label='file size: coefficient'
-        range={[0, 50, 1]}
+        range={[1, 50, 1]}
         obj={visStyles}
         path='files.radius.coeff'
         onChange={onChangeStyles}
       />
       <SmartSlider
         label='file size: exponent'
-        range={[0, 50, 1]}
+        range={[0, 1, 0.01]}
         obj={visStyles}
         path='files.radius.exponent'
         onChange={onChangeStyles}
