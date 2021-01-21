@@ -19,15 +19,23 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export const SmartSlider = ({ range, obj, path, onChange, label, ...rest }) => {
+export const SmartSlider = ({
+  range,
+  obj,
+  path,
+  onChange,
+  label,
+  transform = { in: (x) => x, out: (x) => x },
+  ...rest
+}) => {
   const classes = useStyles()
 
   const handleChange = useCallback((e, newVal) => {
-    onChange(setIn(obj, path, newVal))
-  }, [obj, path, onChange])
+    onChange(setIn(obj, path, transform.out(newVal)))
+  }, [obj, path, onChange, transform])
 
   const [min, max, step] = range || []
-  const value = getIn(obj, path)
+  const value = transform.in(getIn(obj, path))
   return (
     <div className={classes.root}>
       {label && (

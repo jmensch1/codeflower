@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Slider from 'components/core/Slider'
+import { SmartSlider } from 'components/core/Slider'
 import tinycolor from 'tinycolor2'
 import { useMainTheme } from 'store/selectors'
 import { setMainTheme } from 'store/actions/settings'
@@ -12,8 +12,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function getLightness(color) {
-  return 100 * tinycolor(color).toHsl().l
+function getLightnessFromColor(color) {
+  return Math.round(100 * tinycolor(color).toHsl().l)
+}
+
+function getColorFromLightness(lightness) {
+  return `hsl(0, 0%, ${lightness}%)`
+}
+
+function getAlphaFromColor(color) {
+  return tinycolor(color).getAlpha()
+}
+
+function getColorFromAlpha(alpha) {
+  return `rgba(255, 255, 255, ${alpha})`
 }
 
 const ThemeControls = () => {
@@ -21,63 +33,44 @@ const ThemeControls = () => {
   const mainTheme = useMainTheme()
   const dispatch = useDispatch()
 
-  const { palette } = mainTheme
-
-  const onChange = useCallback((palette) => {
-    dispatch(setMainTheme({
-      ...mainTheme,
-      palette,
-    }))
-  }, [dispatch, mainTheme])
-
-  const defaultLightness = getLightness(palette.background.default)
-  const paperLightness = getLightness(palette.background.paper)
-  const dividerOpacity = tinycolor(palette.divider).getAlpha()
+  const onChange = useCallback((mainTheme) => {
+    dispatch(setMainTheme(mainTheme))
+  }, [dispatch])
 
   return (
     <div className={classes.root}>
-      <label>main background ({defaultLightness.toFixed(0)})</label>
-      <Slider
-        min={0}
-        max={100}
-        value={defaultLightness}
-        onChange={(e, newVal) => {
-          onChange({
-            ...palette,
-            background: {
-              ...palette.background,
-              default: `hsl(0,0%,${newVal}%)`,
-            },
-          })
+      <SmartSlider
+        label='main background'
+        range={[0, 100, 1]}
+        transform={{
+          in: getLightnessFromColor,
+          out: getColorFromLightness,
         }}
+        obj={mainTheme}
+        path='palette.background.default'
+        onChange={onChange}
       />
-      <label>secondary background ({paperLightness.toFixed(0)})</label>
-      <Slider
-        min={0}
-        max={100}
-        value={paperLightness}
-        onChange={(e, newVal) => {
-          onChange({
-            ...palette,
-            background: {
-              ...palette.background,
-              paper: `hsl(0,0%,${newVal}%)`,
-            },
-          })
+      <SmartSlider
+        label='secondary background'
+        range={[0, 100, 1]}
+        transform={{
+          in: getLightnessFromColor,
+          out: getColorFromLightness,
         }}
+        obj={mainTheme}
+        path='palette.background.paper'
+        onChange={onChange}
       />
-      <label>divider opacity ({dividerOpacity.toFixed(2)})</label>
-      <Slider
-        min={0}
-        max={1}
-        step={0.01}
-        value={dividerOpacity}
-        onChange={(e, newVal) => {
-          onChange({
-            ...palette,
-            divider: `rgba(255,255,255,${newVal})`,
-          })
+      <SmartSlider
+        label='divider opacity'
+        range={[0, 1, 0.01]}
+        transform={{
+          in: getAlphaFromColor,
+          out: getColorFromAlpha,
         }}
+        obj={mainTheme}
+        path='palette.divider'
+        onChange={onChange}
       />
     </div>
   )
