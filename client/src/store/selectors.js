@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 import repoUtils from 'services/repo'
-import mainThemes from 'themes/mainThemes'
 
 ////////// SIMPLE SELECTORS ///////////
 
@@ -12,7 +11,7 @@ const authors = (state) => state.repo?.authors
 const rootFolder = (state) => state.repo?.cloc.tree
 const files = (state) => state.files
 const settings = (state) => state.settings
-const mainThemeId = (state) => state.settings.mainThemeId
+const mainTheme = (state) => state.settings.mainTheme
 const visType = (state) => state.settings.visType
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
 const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
@@ -89,8 +88,6 @@ const selectedAuthor = createSelector(
     return authors.find((author) => author.id === selectedAuthorId)
   }
 )
-
-const mainTheme = createSelector([mainThemeId], (id) => mainThemes[id])
 
 ////////// USE SELECTOR ///////////
 

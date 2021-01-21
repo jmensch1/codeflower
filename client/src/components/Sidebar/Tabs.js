@@ -48,7 +48,7 @@ const TABS = [
     Icon: TuneIcon,
   },
   {
-    type: 'palette',
+    type: 'theme',
     Icon: PaletteIcon,
   }
 ]

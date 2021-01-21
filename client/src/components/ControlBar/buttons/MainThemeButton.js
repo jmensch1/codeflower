@@ -3,34 +3,35 @@ import { useDispatch } from 'react-redux'
 import Brightness4Icon from '@material-ui/icons/Brightness4'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
 import { setMainTheme } from 'store/actions/settings'
-import { useSettings } from 'store/selectors'
+import { useMainTheme } from 'store/selectors'
 import ToggleButton from '../core/ToggleButton'
+import mainThemes from 'themes/mainThemes'
 
 const MainThemeButton = () => {
   const dispatch = useDispatch()
-  const { mainThemeId } = useSettings()
+  const { id } = useMainTheme()
 
   const onChange = useCallback(
-    (mainThemeId) => {
-      dispatch(setMainTheme(mainThemeId))
+    (id) => {
+      dispatch(setMainTheme(mainThemes[id]))
     },
     [dispatch]
   )
 
   return (
     <ToggleButton
-      value={mainThemeId}
+      value={id}
       onChange={onChange}
       buttons={[
         {
           value: 'dark',
           Icon: Brightness4Icon,
-          text: 'light mode',
+          text: 'switch to light mode',
         },
         {
           value: 'light',
           Icon: Brightness7Icon,
-          text: 'dark mode',
+          text: 'switch to dark mode',
         },
       ]}
     />

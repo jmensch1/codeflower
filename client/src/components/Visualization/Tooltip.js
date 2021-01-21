@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     left: ({ x }) => x,
     visibility: ({ visible }) => (visible ? 'visible' : 'hidden'),
     backgroundColor: theme.palette.background.paper,
-    color: 'white',
+    color: theme.palette.text.primary,
     borderRadius: '5px',
     padding: '5px 10px',
     transform: 'translate(-50%, -150%)',

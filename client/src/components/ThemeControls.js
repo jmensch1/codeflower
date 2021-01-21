@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Slider from 'components/core/Slider'
 import tinycolor from 'tinycolor2'
+import { useMainTheme } from 'store/selectors'
+import { setMainTheme } from 'store/actions/settings'
+import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,8 +16,19 @@ function getLightness(color) {
   return 100 * tinycolor(color).toHsl().l
 }
 
-const Palette = ({ palette, onChange }) => {
+const ThemeControls = () => {
   const classes = useStyles()
+  const mainTheme = useMainTheme()
+  const dispatch = useDispatch()
+
+  const { palette } = mainTheme
+
+  const onChange = useCallback((palette) => {
+    dispatch(setMainTheme({
+      ...mainTheme,
+      palette,
+    }))
+  }, [dispatch, mainTheme])
 
   const defaultLightness = getLightness(palette.background.default)
   const paperLightness = getLightness(palette.background.paper)
@@ -69,4 +83,4 @@ const Palette = ({ palette, onChange }) => {
   )
 }
 
-export default Palette
+export default ThemeControls

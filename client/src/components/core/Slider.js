@@ -5,11 +5,8 @@ import { getIn, setIn } from 'services/utils'
 
 const Slider = withStyles((theme) => ({
   root: {
-    color: 'white',
+    color: theme.palette.text.primary,
     marginBottom: 10,
-  },
-  valueLabel: {
-    color: 'black',
   },
 }))(MuiSlider)
 

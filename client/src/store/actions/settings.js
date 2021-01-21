@@ -14,9 +14,9 @@ export const types = {
   SET_VIS_FORCES: 'settings/SET_VIS_FORCES',
 }
 
-export const setMainTheme = (mainThemeId) => ({
+export const setMainTheme = (mainTheme) => ({
   type: types.SET_MAIN_THEME,
-  data: mainThemeId,
+  data: mainTheme,
 })
 
 export const setVisType = (visType) => ({
@@ -60,7 +60,7 @@ export const setVisForces = (visForces) => ({
 })
 
 const initialState = {
-  mainThemeId: Object.keys(mainThemes)[0],
+  mainTheme: mainThemes.dark,
   visType: 'force',
   selectedLanguage: null,
   selectedFolderPath: null,
@@ -76,13 +76,7 @@ const reducer = (state = initialState, action) => {
     case types.SET_MAIN_THEME:
       return {
         ...state,
-        mainThemeId: action.data,
-      }
-    case types.SET_VIS_THEME:
-      return {
-        ...state,
-        visThemeId: action.data,
-        visStyles: visThemes[action.data],
+        mainTheme: action.data,
       }
     case types.SET_VIS_TYPE:
       return {
