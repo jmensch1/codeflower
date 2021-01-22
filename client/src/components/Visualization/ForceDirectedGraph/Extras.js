@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   alphaBar: {
-    height: 12,
-    backgroundColor: theme.palette.action.hover,
+    height: '0.8em',
     width: 200,
     marginLeft: 10,
   },

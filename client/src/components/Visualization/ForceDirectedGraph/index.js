@@ -132,17 +132,19 @@ const ForceDirectedGraph = ({ getFullPath }) => {
 
     const simulation = d3.forceSimulation().stop()
 
-    simulation.on('tick.main', () => {
-      link
-        .attr('x1', (d) => d.source.x)
-        .attr('y1', (d) => d.source.y)
-        .attr('x2', (d) => d.target.x)
-        .attr('y2', (d) => d.target.y)
+    simulation
+      .on('tick', () => {
+        link
+          .attr('x1', (d) => d.source.x)
+          .attr('y1', (d) => d.source.y)
+          .attr('x2', (d) => d.target.x)
+          .attr('y2', (d) => d.target.y)
 
-      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
+        node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
 
-      setAlpha(simulation.alpha())
-    })
+        setAlpha(simulation.alpha())
+      })
+      .on('end', () => setAlpha(0))
 
     //// FINISH ////
 
