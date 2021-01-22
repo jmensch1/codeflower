@@ -48,6 +48,20 @@ const StyleControls = () => {
         onChange={onChangeStyles}
       />
       <SmartSlider
+        label='file saturation min/max'
+        range={[0, 100, 1]}
+        obj={visStyles}
+        path='files.fill.saturation'
+        onChange={onChangeStyles}
+      />
+      <SmartSlider
+        label='file lightness min/max'
+        range={[0, 100, 1]}
+        obj={visStyles}
+        path='files.fill.lightness'
+        onChange={onChangeStyles}
+      />
+      <SmartSlider
         label='file opacity'
         range={[0, 1, 0.01]}
         obj={visStyles}
