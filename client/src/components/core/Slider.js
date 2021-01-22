@@ -1,14 +1,29 @@
 import React, { useCallback } from 'react'
-import { withStyles, makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import MuiSlider from '@material-ui/core/Slider'
 import { getPath, setPath, hasPath } from 'services/utils'
+import clsx from 'clsx'
+import { hueGradient, lightnessGradient, opacityGradient } from 'services/utils'
 
-const Slider = withStyles((theme) => ({
+const useSliderStyles = makeStyles(theme => ({
   root: {
     color: theme.palette.text.primary,
     marginBottom: 10,
   },
-}))(MuiSlider)
+  rail: {},
+  hue: {
+    background: hueGradient(),
+    opacity: 1,
+  },
+  lightness: {
+    background: lightnessGradient(),
+    opacity: 1,
+  },
+  opacity: {
+    background: opacityGradient(),
+    opacity: 1,
+  }
+}))
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -27,9 +42,11 @@ export const SmartSlider = ({
   onChange,
   label,
   transform = { in: (x) => x, out: (x) => x },
+  gradient,
   ...rest
 }) => {
   const classes = useStyles()
+  const sliderClasses = useSliderStyles({ gradient })
 
   const handleChange = useCallback((e, newVal) => {
     onChange(setPath(obj, path, transform.out(newVal)))
@@ -51,16 +68,21 @@ export const SmartSlider = ({
           </span>
         </div>
       )}
-      <Slider
+      <MuiSlider
+        classes={{
+          root: sliderClasses.root,
+          rail: clsx(sliderClasses.rail, sliderClasses[gradient]),
+        }}
         min={min}
         max={max}
         step={step}
         value={value}
         onChange={handleChange}
+        track={false}
         { ...rest }
       />
     </div>
   )
 }
 
-export default Slider
+export default SmartSlider

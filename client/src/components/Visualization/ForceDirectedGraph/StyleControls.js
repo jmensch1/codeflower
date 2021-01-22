@@ -46,6 +46,7 @@ const StyleControls = () => {
         obj={visStyles}
         path='files.fill.hue'
         onChange={onChangeStyles}
+        gradient='hue'
       />
       <SmartSlider
         label='file saturation min/max'
@@ -60,6 +61,7 @@ const StyleControls = () => {
         obj={visStyles}
         path='files.fill.lightness'
         onChange={onChangeStyles}
+        gradient='lightness'
       />
       <SmartSlider
         label='file opacity'
@@ -67,6 +69,7 @@ const StyleControls = () => {
         obj={visStyles}
         path='files.fill.alpha'
         onChange={onChangeStyles}
+        gradient='opacity'
       />
       <SmartSlider
         label='rotation'
