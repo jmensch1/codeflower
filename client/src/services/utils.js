@@ -38,3 +38,27 @@ export const multiClassSelector = (base, spread) => {
 export const hasPath = has
 export const getPath = get
 export const setPath = (obj, path, val) => setWith(clone(obj), path, val, clone)
+
+export const hueGradient = (steps = 20, direction = 'right') => {
+  const inc = 360 / steps
+  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
+    return `hsl(${inc * idx}, 100%, 50%)`
+  }).join(', ')
+  return `linear-gradient(to ${direction}, ${colors})`
+}
+
+export const lightnessGradient = (steps = 20, direction = 'right') => {
+  const inc = 100 / steps
+  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
+    return `hsl(0, 0%, ${inc * idx}%)`
+  }).join(', ')
+  return `linear-gradient(to ${direction}, ${colors})`
+}
+
+export const opacityGradient = (steps = 20, direction = 'right') => {
+  const inc = 1 / steps
+  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
+    return `hsla(0, 0%, 100%, ${inc * idx})`
+  }).join(', ')
+  return `linear-gradient(to ${direction}, ${colors})`
+}
