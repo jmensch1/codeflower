@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState, useRef } from 'react'
 import * as d3 from 'd3'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -62,6 +62,9 @@ const ForceDirectedGraph = ({ getFullPath }) => {
   const [visElements, setVisElements] = useState(null)
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
+
+  // TODO: take this from props if it exists
+  const prevTransform = useRef(undefined)
 
   const getNodePath = useCallback(
     (node) => {
@@ -145,6 +148,31 @@ const ForceDirectedGraph = ({ getFullPath }) => {
         setAlpha(simulation.alpha())
       })
       .on('end', () => setAlpha(0))
+
+    //// ZOOMING ////
+
+    function zoomed({ transform }) {
+      node.attr('transform', transform)
+      link.attr('transform', transform)
+    }
+
+    // save the transform
+    // TODO: save this to state and/or url?
+    function zoomEnd({ transform }) {
+      prevTransform.current = transform
+    }
+
+    const zoom = d3
+      .zoom()
+      .scaleExtent([0.1, 10])
+      .on('zoom', zoomed)
+      .on('end', zoomEnd)
+
+    svg.call(zoom)
+
+    // apply the transform on restart
+    if (prevTransform.current)
+      zoom.transform(svg, prevTransform.current)
 
     //// FINISH ////
 

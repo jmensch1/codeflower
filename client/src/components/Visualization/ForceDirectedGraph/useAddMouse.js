@@ -53,15 +53,6 @@ export default function useAddMouse({ svg, node, link, simulation, getNodePath }
 
     node.call(drag(simulation))
 
-    //// ZOOMING ////
-
-    svg.call(d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed))
-
-    function zoomed({ transform }) {
-      node.attr('transform', transform)
-      link.attr('transform', transform)
-    }
-
     //// TOOLTIP ////
 
     node
