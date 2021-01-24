@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { useLanguageCounts, useLanguageColors } from 'store/selectors'
+import { useLanguageCounts, useLanguageColors, useVisStyles } from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({
@@ -16,12 +16,13 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& td:last-child': {
-      textAlign: 'center',
-      '& > div': {
-        height: 16,
-        width: 16,
-        borderRadius: 8,
-        margin: '0 auto',
+      position: 'relative',
+      '& > svg': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
       },
     },
     '& tbody tr': {
@@ -41,6 +42,7 @@ const Languages = () => {
   const counts = useLanguageCounts()
   const colors = useLanguageColors()
   const dispatch = useDispatch()
+  const visStyles = useVisStyles()
 
   const totals = useMemo(() => {
     return counts.reduce(
@@ -68,30 +70,27 @@ const Languages = () => {
         </tr>
       </thead>
       <tbody onMouseLeave={() => onSelectLanguage(null)}>
-        {counts.map((count) => {
-          const backgroundColor = colors[count.language]
-          return (
-            <tr
-              key={count.language}
-              onMouseEnter={() => onSelectLanguage(count.language)}
-            >
-              <td>{count.language}</td>
-              <td>{count.files}</td>
-              <td>{count.lines}</td>
-              <td>
-                <div
-                  style={{
-                    backgroundColor,
-                    border:
-                      backgroundColor === 'transparent'
-                        ? '1px white solid'
-                        : undefined,
-                  }}
+        {counts.map((count) => (
+          <tr
+            key={count.language}
+            onMouseEnter={() => onSelectLanguage(count.language)}
+          >
+            <td>{count.language}</td>
+            <td>{count.files}</td>
+            <td>{count.lines}</td>
+            <td>
+              <svg>
+                <circle
+                  r={8}
+                  cx='50%'
+                  cy='50%'
+                  fill={colors[count.language]}
+                  fillOpacity={visStyles.files.fill.alpha}
                 />
-              </td>
-            </tr>
-          )
-        })}
+              </svg>
+            </td>
+          </tr>
+        ))}
       </tbody>
       <tfoot>
         <tr>

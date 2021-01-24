@@ -49,14 +49,14 @@ const StyleControls = () => {
         gradient='hue'
       />
       <SmartSlider
-        label='file saturation min/max'
+        label='file saturation'
         range={[0, 100, 1]}
         obj={visStyles}
         path='files.fill.saturation'
         onChange={onChangeStyles}
       />
       <SmartSlider
-        label='file lightness min/max'
+        label='file lightness'
         range={[0, 100, 1]}
         obj={visStyles}
         path='files.fill.lightness'
