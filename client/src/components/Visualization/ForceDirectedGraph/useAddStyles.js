@@ -8,7 +8,11 @@ import {
   useHighlightedFolderPath,
   useVisStyles,
 } from 'store/selectors'
-import { partition, multiClassSelector as select } from 'services/utils'
+import {
+  partition,
+  multiClassSelector as select,
+  isWithinFolder,
+} from 'services/utils'
 
 export default function useAddStyles({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
@@ -119,8 +123,8 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
       const [highlightedIds, suppressedIds] = partition(
         folderPaths,
-        (path) => path.startsWith(highlightedFolderPath),
-        (path) => folderIds[path]
+        (path) => isWithinFolder(path, highlightedFolderPath),
+        (path) => folderIds[path],
       )
 
       if (highlightedIds.length) {

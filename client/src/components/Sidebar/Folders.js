@@ -10,6 +10,7 @@ import {
 } from 'store/selectors'
 import { selectFolder, highlightFolder } from 'store/actions/settings'
 import { MAX_NODES } from 'constants.js'
+import { isWithinFolder } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,13 +33,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }))
-
-function isWithinFolder(folderPath, targetFolderPath) {
-  return (
-    folderPath.startsWith(`${targetFolderPath}/`) ||
-    folderPath === targetFolderPath
-  )
-}
 
 const Folders = () => {
   const classes = useStyles()

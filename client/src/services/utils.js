@@ -62,3 +62,8 @@ export const opacityGradient = (steps = 20, direction = 'right') => {
   }).join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }
+
+export const isWithinFolder = (path, targetFolderPath) => (
+  path.startsWith(`${targetFolderPath}/`) ||
+  path === targetFolderPath
+)
