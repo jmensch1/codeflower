@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     borderRight: 'none',
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
+    opacity: 0.9,
   },
   divider: {
     margin: theme.spacing(1, 0.5),

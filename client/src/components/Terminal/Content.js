@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme) => {
       top: 8,
       bottom: 8,
       left: 8,
-      right: 8,
+      right: 6,
       paddingRight: 8,
       overflowY: 'auto',
       wordBreak: 'break-all',
@@ -22,7 +22,7 @@ const useStyles = createUseStyles((theme) => {
       },
       '&::-webkit-scrollbar-thumb': {
         background: 'rgba(255, 105, 180, 1.0)',
-        borderRadius: '4px',
+        borderRadius: 3,
       },
     },
   }

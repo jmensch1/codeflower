@@ -6,7 +6,7 @@ import { useModal } from 'store/selectors'
 import Content from './Content'
 
 const HEADER_HEIGHT = 36
-const SMALL_BODY_WIDTH = 500
+const SMALL_BODY_WIDTH = 400
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -15,24 +15,31 @@ const useStyles = makeStyles((theme) => {
       bottom: 0,
       right: 0,
       zIndex: 1,
-      backgroundColor: 'black',
+      backgroundColor: ({ isOpen }) =>
+        isOpen ? theme.palette.common.black : theme.palette.background.default,
       opacity: 0.9,
-      color: 'white',
+      color: ({ isOpen }) => isOpen ? theme.palette.common.white : theme.palette.text.primary,
       overflow: 'hidden',
-      borderTopLeftRadius: 5,
+      borderTopLeftRadius: ({ isOpen }) => isOpen ? 0 : 5,
       fontFamily: 'monospace',
       userSelect: 'none',
       transition: 'all 0.35s ease-in-out',
       cursor: 'pointer',
       fontSize: 13,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: ({ isOpen }) =>
+        isOpen ? 'transparent' : theme.palette.divider,
+      borderRightWidth: 0,
+      borderBottomWidth: 0,
 
       // full-screen option
-      // width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,
-      // height: ({ isOpen }) => isOpen ? '100%' : HEADER_HEIGHT - 1,
+      width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,
+      height: ({ isOpen }) => isOpen ? '100%' : HEADER_HEIGHT - 1,
 
       // right corner option
-      width: SMALL_BODY_WIDTH,
-      height: ({ isOpen }) => (isOpen ? 500 : HEADER_HEIGHT - 1),
+      // width: SMALL_BODY_WIDTH,
+      // height: ({ isOpen }) => (isOpen ? 500 : HEADER_HEIGHT - 1),
     },
     header: {
       height: HEADER_HEIGHT,
