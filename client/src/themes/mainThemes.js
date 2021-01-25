@@ -4,8 +4,8 @@ const mainThemes = {
     palette: {
       type: 'dark',
       background: {
-        default: '#232323',
-        paper: '#363636',
+        default: 'hsl(0, 0%, 14%)',
+        paper: 'hsl(0, 0%, 21%)',
       },
     },
   },

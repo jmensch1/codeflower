@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
     width: ({ alpha }) => `${alpha * 100}%`,
     backgroundColor: theme.palette.action.selected,
   },
+  icon: {
+    color: theme.palette.text.primary,
+    opacity: 0.38,
+  },
 }))
 
 const Extras = ({ alpha, onRestart }) => {
@@ -34,7 +38,7 @@ const Extras = ({ alpha, onRestart }) => {
         className={classes.button}
         onClick={onRestart}
       >
-        <RefreshIcon />
+        <RefreshIcon className={classes.icon} />
       </IconButton>
       <div className={classes.alphaBar}>
         <div className={classes.alphaInner} />
