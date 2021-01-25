@@ -1,29 +1,22 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
+  root: {
     position: 'absolute',
-    top: 100,
-    right: 10,
-    zIndex: 1,
+    top: '20%',
+    transform: 'translateY(-20%)',
+    right: 0,
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
-    backgroundColor: 'transparent',
+    maxHeight: '100%',
+    backgroundColor: theme.palette.background.default,
     boxShadow: 'none',
-  },
-  background: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: -1,
-    backgroundColor: theme.palette.background.paper,
-    opacity: 0.95,
-    borderRadius: 4,
+    border: `1px ${theme.palette.divider} solid`,
+    borderRight: 'none',
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
   },
   divider: {
     margin: theme.spacing(1, 0.5),
@@ -33,10 +26,9 @@ const useStyles = makeStyles((theme) => ({
 const Bar = ({ children }) => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paper}>
-      <div className={classes.background} />
+    <div className={classes.root}>
       {children}
-    </Paper>
+    </div>
   )
 }
 
