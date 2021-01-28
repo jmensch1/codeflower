@@ -63,6 +63,11 @@ export const opacityGradient = (steps = 20, direction = 'right') => {
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
+export const colorString = (color) => {
+  const { hue, saturation, lightness, alpha } = color
+  return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
+}
+
 export const isWithinFolder = (path, targetFolderPath) => (
   path.startsWith(`${targetFolderPath}/`) ||
   path === targetFolderPath

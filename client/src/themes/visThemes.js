@@ -16,9 +16,20 @@ const periwinkle = {
     },
   },
   folders: {
-    fill: '#ededed',
-    stroke: '#9ecae1',
+    fill: {
+      hue: 0,
+      saturation: 0,
+      lightness: 93,
+      alpha: 1.0,
+    },
+    stroke: {
+      hue: 201,
+      saturation: 53,
+      lightness: 75,
+      alpha: 1.0,
+    },
     strokeWidth: 2,
+    radius: 3.5,
   },
   links: {
     stroke: '#9ecae1',

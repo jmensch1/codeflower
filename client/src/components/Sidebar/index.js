@@ -6,7 +6,7 @@ import Tabs from './Tabs'
 import Languages from './Languages'
 import Folders from './Folders'
 import Authors from './Authors'
-import ForceControls from 'components/Visualization/ForceDirectedGraph/ForceControls'
+// import ForceControls from 'components/Visualization/ForceDirectedGraph/ForceControls'
 import StyleControls from 'components/Visualization/ForceDirectedGraph/StyleControls'
 import ThemeControls from 'components/ThemeControls'
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = () => {
   const classes = useStyles()
   const repo = useRepo()
-  const [tab, setTab] = useState('languages')
+  const [tab, setTab] = useState('controls')
 
   if (!repo) return null
   return (
@@ -50,7 +50,7 @@ const Sidebar = () => {
             case 'authors': return <Authors />
             case 'controls': return (
               <>
-                <ForceControls />
+                {/*<ForceControls />*/}
                 <StyleControls />
               </>
             )

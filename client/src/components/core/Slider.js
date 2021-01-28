@@ -8,7 +8,6 @@ import { hueGradient, lightnessGradient, opacityGradient } from 'services/utils'
 const useSliderStyles = makeStyles(theme => ({
   root: {
     color: theme.palette.text.primary,
-    marginBottom: 10,
   },
   rail: {},
   hue: {

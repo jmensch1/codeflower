@@ -9,6 +9,7 @@ import {
   useVisStyles,
 } from 'store/selectors'
 import {
+  colorString,
   partition,
   multiClassSelector as select,
   isWithinFolder,
@@ -51,20 +52,22 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   useEffect(() => {
     const { coeff, exponent } = visStyles.files.radius
     node.attr('r', (d) => {
-      return d.children ? 3.5 : coeff * Math.pow(d.data.size, exponent)
+      return d.children
+        ? visStyles.folders.radius
+        : coeff * Math.pow(d.data.size, exponent)
     })
-  }, [node, visStyles.files.radius])
+  }, [node, visStyles.files.radius, visStyles.folders.radius])
 
   //// FOLDERS ////
 
   // fill
   useEffect(() => {
-    node.filter('.folder').style('fill', visStyles.folders.fill)
+    node.filter('.folder').style('fill', colorString(visStyles.folders.fill))
   }, [node, visStyles.folders.fill])
 
   // stroke
   useEffect(() => {
-    node.filter('.folder').style('stroke', visStyles.folders.stroke)
+    node.filter('.folder').style('stroke', colorString(visStyles.folders.stroke))
   }, [node, visStyles.folders.stroke])
 
   // stroke-width
