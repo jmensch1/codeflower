@@ -6,9 +6,40 @@ import Tabs from './Tabs'
 import Languages from './Languages'
 import Folders from './Folders'
 import Authors from './Authors'
-// import ForceControls from 'components/Visualization/ForceDirectedGraph/ForceControls'
-import StyleControls from 'components/Visualization/ForceDirectedGraph/StyleControls'
-import ThemeControls from 'components/ThemeControls'
+import Controls from './Controls'
+
+//////////////////// TAB CONFIG ///////////////////
+
+import LanguageIcon from '@material-ui/icons/Language'
+import FolderIcon from '@material-ui/icons/FolderOpen'
+import PeopleIcon from '@material-ui/icons/People'
+import TuneIcon from '@material-ui/icons/Tune'
+import PaletteIcon from '@material-ui/icons/Palette'
+
+const TABS = [
+  {
+    type: 'languages',
+    Icon: LanguageIcon,
+    Component: Languages,
+  },
+  {
+    type: 'folders',
+    Icon: FolderIcon,
+    Component: Folders,
+  },
+  {
+    type: 'authors',
+    Icon: PeopleIcon,
+    Component: Authors,
+  },
+  {
+    type: 'controls',
+    Icon: TuneIcon,
+    Component: Controls,
+  },
+]
+
+/////////////////////// COMPONENT ////////////////////
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +65,7 @@ const Sidebar = () => {
   const classes = useStyles()
   const repo = useRepo()
   const [tab, setTab] = useState('controls')
+  const { Component } = TABS.find((t) => t.type === tab)
 
   if (!repo) return null
   return (
@@ -41,23 +73,9 @@ const Sidebar = () => {
       <div className={classes.header}>
         <Header />
       </div>
-      <Tabs activeTab={tab} onChange={setTab} />
+      <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
       <div className={classes.content}>
-        {(() => {
-          switch(tab) {
-            case 'languages': return <Languages />
-            case 'folders': return <Folders />
-            case 'authors': return <Authors />
-            case 'controls': return (
-              <>
-                {/*<ForceControls />*/}
-                <StyleControls />
-              </>
-            )
-            case 'theme': return <ThemeControls />
-            default: return null
-          }
-        })()}
+        <Component />
       </div>
     </div>
   )

@@ -8,19 +8,20 @@ const useStyles = makeStyles((theme) => ({
   },
   tab: {
     padding: 5,
-    borderTop: `1px ${theme.palette.divider} solid`,
     borderBottom: `1px ${theme.palette.divider} solid`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
     flex: 1,
+    color: theme.palette.text.disabled,
     '&:hover:not($active)': {
-      backgroundColor: theme.palette.action.hover,
+      color: theme.palette.text.primary,
     },
   },
   active: {
-    backgroundColor: theme.palette.action.selected,
+    borderBottom: `1px ${theme.palette.text.primary} solid`,
+    color: theme.palette.text.primary,
     cursor: 'default',
   },
 }))
@@ -36,7 +37,7 @@ const Tabs = ({ tabs, activeTab, onChange }) => {
           className={clsx(classes.tab, { [classes.active]: activeTab === type })}
           onClick={() => onChange(type)}
         >
-          <Icon />
+          { type }
         </div>
       ))}
     </div>
