@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import { useLocation } from 'store/selectors'
 import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
@@ -9,7 +10,17 @@ import ControlBar from './ControlBar'
 import Terminal from './Terminal'
 import Modals from './modals'
 
+const useGlobalStyles = makeStyles(theme => ({
+  '@global': {
+    'a': {
+      textDecoration: 'underline',
+      color: theme.palette.text.primary,
+    },
+  },
+}))
+
 function App() {
+  useGlobalStyles()
   const dispatch = useDispatch()
   const {
     query: { owner, name, branch },

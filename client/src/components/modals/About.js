@@ -21,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: 'none',
       padding: '20px 30px',
     },
-    '& a': {
-      textDecoration: 'underline',
-      color: theme.palette.text.primary,
-    },
     '& h1': {
       marginBottom: 6,
       '&:not(:first-of-type)': {
