@@ -39,10 +39,19 @@ export const hasPath = has
 export const getPath = get
 export const setPath = (obj, path, val) => setWith(clone(obj), path, val, clone)
 
-export const hueGradient = (steps = 20, direction = 'right') => {
-  const inc = 360 / steps
+export const hueGradient = ({
+  steps = 20,
+  direction = 'right',
+  saturation = 100,
+  lightness = 50,
+  alpha = 1.0,
+  hueMin = 0,
+  hueMax = 360,
+} = {}) => {
+
+  const inc = (hueMax - hueMin) / steps
   const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
-    return `hsl(${inc * idx}, 100%, 50%)`
+    return `hsla(${hueMin + inc * idx}, ${saturation}%, ${lightness}%, ${alpha})`
   }).join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }

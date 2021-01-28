@@ -73,13 +73,13 @@ const StyleControls = () => {
         onChange={onChangeStyles}
       />
       <ColorPicker
-        label='files color'
+        label='file colors'
         obj={visStyles}
         path='files.fill'
         onChange={onChangeStyles}
       />
 
-      <SmartSlider
+      {/*<SmartSlider
         label='file hue min/max'
         range={[0, 360, 1]}
         obj={visStyles}
@@ -109,7 +109,7 @@ const StyleControls = () => {
         path='files.fill.alpha'
         onChange={onChangeStyles}
         gradient='opacity'
-      />
+      />*/}
       <SmartSlider
         label='rotation'
         range={[0, 360, 1]}
