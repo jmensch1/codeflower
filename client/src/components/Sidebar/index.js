@@ -14,7 +14,6 @@ import LanguageIcon from '@material-ui/icons/Language'
 import FolderIcon from '@material-ui/icons/FolderOpen'
 import PeopleIcon from '@material-ui/icons/People'
 import TuneIcon from '@material-ui/icons/Tune'
-import PaletteIcon from '@material-ui/icons/Palette'
 
 const TABS = [
   {
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flex: 1,
     overflow: 'auto',
-    padding: 10,
+    paddingTop: 10,
   },
 }))
 

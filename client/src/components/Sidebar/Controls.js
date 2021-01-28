@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Tabs from './Tabs2'
 import ForceControls from 'components/Visualization/ForceDirectedGraph/ForceControls'
-import StyleControls from 'components/Visualization/ForceDirectedGraph/StyleControls'
+import ColorControls from 'components/Visualization/ForceDirectedGraph/ColorControls'
+import FileControls from 'components/Visualization/ForceDirectedGraph/FileControls'
+// import FolderControls from 'components/Visualization/ForceDirectedGraph/FolderControls'
+// import OtherControls from 'components/Visualization/ForceDirectedGraph/OtherControls'
 import ThemeControls from 'components/ThemeControls'
+
 
 //////////////////// TAB CONFIG ///////////////////
 
@@ -13,13 +17,26 @@ const TABS = [
     Component: ForceControls,
   },
   {
-    type: 'styles',
-    Component: StyleControls,
+    type: 'colors',
+    Component: ColorControls,
   },
   {
-    type: 'theme',
+    type: 'files',
+    Component: FileControls,
+  },
+  // {
+  //   type: 'folders',
+  //   Component: FolderControls,
+  // },
+  // {
+  //   type: 'links',
+  //   Component: () => <div>Links</div>,
+  // },
+  {
+    type: 'other',
     Component: ThemeControls,
   },
+
   // {
   //   type: 'other',
   //   Component: () => <div>Other</div>,
@@ -43,13 +60,13 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     overflow: 'hidden',
   },
-  header: {
-    padding: '10px 10px 15px 10px',
+  tabs: {
+    padding: '0 10px',
   },
   content: {
     flex: 1,
     overflow: 'auto',
-    paddingTop: 10,
+    padding: 10,
   },
 }))
 
@@ -60,7 +77,9 @@ const Controls = () => {
 
   return (
     <div className={classes.root}>
-      <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
+      <div className={classes.tabs}>
+        <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
+      </div>
       <div className={classes.content}>
         <Component />
       </div>

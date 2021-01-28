@@ -15,12 +15,15 @@ const useStyles = makeStyles((theme) => ({
   },
   swatch: {
     width: 40,
-    height: 20,
+    height: 15,
     cursor: 'pointer',
     borderRadius: 5,
   },
   sliders: {
     marginTop: 10,
+    '& .MuiSlider-root': {
+      padding: '8px 0',
+    },
   },
 }))
 
@@ -30,7 +33,10 @@ const ColorPicker = ({ label, obj, path, onChange }) => {
     color: colorString(getPath(obj, path))
   })
 
-  const color = getPath(obj, path)
+  const color = {
+    ...getPath(obj, path),
+    alpha: 1.0,
+  }
 
   const swatchStyle = (() => {
     if (color.hue instanceof Array) {
@@ -64,7 +70,6 @@ const ColorPicker = ({ label, obj, path, onChange }) => {
       {open && (
         <div className={classes.sliders}>
         <SmartSlider
-          // label='hue'
           range={[0, 360, 1]}
           obj={obj}
           path={`${path}.hue`}
@@ -72,14 +77,12 @@ const ColorPicker = ({ label, obj, path, onChange }) => {
           gradient='hue'
         />
         <SmartSlider
-          // label='saturation'
           range={[0, 100, 1]}
           obj={obj}
           path={`${path}.saturation`}
           onChange={onChange}
         />
         <SmartSlider
-          // label='lightness'
           range={[0, 100, 1]}
           obj={obj}
           path={`${path}.lightness`}
@@ -87,7 +90,6 @@ const ColorPicker = ({ label, obj, path, onChange }) => {
           gradient='lightness'
         />
         <SmartSlider
-          // label='opacity'
           range={[0, 1, 0.01]}
           obj={obj}
           path={`${path}.alpha`}

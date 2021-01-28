@@ -8,6 +8,14 @@ import { useDispatch } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
+    '& > *': {
+      marginBottom: 12,
+    }
+  },
+  instructions: {
+    fontSize: '0.875em',
+    fontStyle: 'italic',
+    marginBottom: 16,
   },
 }))
 
@@ -23,6 +31,16 @@ const ForceControls = () => {
   if (!visForces) return null
   return (
     <div className={classes.root}>
+      <div className={classes.instructions}>
+        Adjust the&nbsp;
+        <a
+          href="https://github.com/d3/d3-force"
+          target="_blank"
+          rel="noreferrer">
+          d3 forces
+        </a>
+        &nbsp;that apply to the graph.
+      </div>
       <SmartSlider
         label='alpha decay'
         range={[0, 0.1, 0.001]}

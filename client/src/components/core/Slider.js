@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import MuiSlider from '@material-ui/core/Slider'
 import { getPath, setPath, hasPath } from 'services/utils'
@@ -9,7 +9,9 @@ const useSliderStyles = makeStyles(theme => ({
   root: {
     color: theme.palette.text.primary,
   },
-  rail: {},
+  rail: {
+    height: 1,
+  },
   hue: {
     background: hueGradient(),
     opacity: 1,
@@ -30,6 +32,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     fontSize: '0.875em',
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover,
+    }
   },
 }))
 
@@ -46,6 +51,7 @@ export const SmartSlider = ({
 }) => {
   const classes = useStyles()
   const sliderClasses = useSliderStyles({ gradient })
+  const [open, setOpen] = useState(!label)
 
   const handleChange = useCallback((e, newVal) => {
     onChange(setPath(obj, path, transform.out(newVal)))
@@ -60,26 +66,28 @@ export const SmartSlider = ({
   return (
     <div className={classes.root}>
       {label && (
-        <div className={classes.labelRow}>
+        <div className={classes.labelRow} onClick={() => setOpen(!open)}>
           <label>{ label }</label>
           <span>
             { value instanceof Array ? `${value[0]}/${value[1]}` : value }
           </span>
         </div>
       )}
-      <MuiSlider
-        classes={{
-          root: sliderClasses.root,
-          rail: clsx(sliderClasses.rail, sliderClasses[gradient]),
-        }}
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={handleChange}
-        track={false}
-        { ...rest }
-      />
+      {open && (
+        <MuiSlider
+          classes={{
+            root: sliderClasses.root,
+            rail: clsx(sliderClasses.rail, sliderClasses[gradient]),
+          }}
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={handleChange}
+          track={false}
+          { ...rest }
+        />
+      )}
     </div>
   )
 }
