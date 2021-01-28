@@ -8,7 +8,12 @@ const periwinkle = {
       lightness: 50,
       alpha: 1.0,
     },
-    stroke: '#000',
+    stroke: {
+      hue: 0,
+      saturation: 0,
+      lightness: 0,
+      alpha: 1.0,
+    },
     strokeWidth: 0.5,
     radius: {
       coeff: 1.0,

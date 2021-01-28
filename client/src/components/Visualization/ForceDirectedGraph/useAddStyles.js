@@ -40,7 +40,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   // stroke
   useEffect(() => {
-    node.filter('.file').style('stroke', visStyles.files.stroke)
+    node.filter('.file').style('stroke', colorString(visStyles.files.stroke))
   }, [node, visStyles.files.stroke])
 
   // stroke-width
