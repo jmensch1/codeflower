@@ -27,11 +27,24 @@ const useStyles = makeStyles((theme) => ({
   button: {},
   content: {
     paddingTop: '1em',
-    paddingLeft: '1em',
+    paddingBottom: '1em',
+    paddingLeft: '1.5em',
+    position: 'relative',
+  },
+  mask: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: theme.palette.background.paper,
+    opacity: 0.6,
+    zIndex: 1,
+    cursor: 'default',
   },
 }))
 
-const Row = ({ label, button, children }) => {
+const Row = ({ label, button, disabled, children }) => {
   const [open, setOpen] = useState(false)
   const classes = useStyles({ open })
 
@@ -58,6 +71,7 @@ const Row = ({ label, button, children }) => {
       </div>
       {open && (
         <div className={classes.content}>
+          {disabled && <div className={classes.mask} />}
           { children }
         </div>
       )}

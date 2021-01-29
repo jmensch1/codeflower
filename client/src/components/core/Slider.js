@@ -63,7 +63,7 @@ export const SmartSlider = ({
   label,
   transform = { in: (x) => x, out: (x) => x },
   gradient,
-  isOpen = true,
+  isOpen,
   ...rest
 }) => {
   const classes = useStyles()
@@ -80,9 +80,9 @@ export const SmartSlider = ({
     ? transform.in(getPath(obj, path))
     : transform.in(getPath(defaultObj, path))
 
-  useEffect(() => {
-    setOpen(!!isOpen)
-  }, [isOpen])
+  // useEffect(() => {
+  //   setOpen(!!isOpen)
+  // }, [isOpen])
 
   return (
     <div className={classes.root}>

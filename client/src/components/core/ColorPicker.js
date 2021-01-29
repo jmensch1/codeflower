@@ -34,9 +34,9 @@ const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
     color: colorString(getPath(obj, path))
   })
 
-  useEffect(() => {
-    setOpen(isOpen)
-  }, [isOpen])
+  // useEffect(() => {
+  //   setOpen(isOpen)
+  // }, [isOpen])
 
   const color = {
     ...getPath(obj, path),
@@ -80,12 +80,14 @@ const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
           path={`${path}.hue`}
           onChange={onChange}
           gradient='hue'
+          isOpen
         />
         <SmartSlider
           range={[0, 100, 1]}
           obj={obj}
           path={`${path}.saturation`}
           onChange={onChange}
+          isOpen
         />
         <SmartSlider
           range={[0, 100, 1]}
@@ -93,6 +95,7 @@ const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
           path={`${path}.lightness`}
           onChange={onChange}
           gradient='lightness'
+          isOpen
         />
         {/*<SmartSlider
           range={[0, 1, 0.01]}

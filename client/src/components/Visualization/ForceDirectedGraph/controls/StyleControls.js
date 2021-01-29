@@ -8,6 +8,7 @@ import FileControls from './FileControls'
 import FolderControls from './FolderControls'
 import LinkControls from './LinkControls'
 import Row from './Row'
+import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,7 @@ const StyleControls = () => {
     <div className={classes.root}>
       <Row
         label='files'
+        disabled={!getPath(visStyles, 'files.visible')}
         button={
           <Checkbox
             obj={visStyles}
@@ -47,6 +49,7 @@ const StyleControls = () => {
       </Row>
       <Row
         label='folders'
+        disabled={!getPath(visStyles, 'folders.visible')}
         button={
           <Checkbox
             obj={visStyles}
@@ -59,6 +62,7 @@ const StyleControls = () => {
       </Row>
       <Row
         label='links'
+        disabled={!getPath(visStyles, 'links.visible')}
         button={
           <Checkbox
             obj={visStyles}
