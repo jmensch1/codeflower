@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SmartSlider } from './Slider'
 import { makeStyles } from '@material-ui/core/styles'
 import { getPath, colorString, hueGradient } from 'services/utils'
@@ -12,9 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     fontSize: '0.875em',
+    // fontStyle: 'italic',
   },
   swatch: {
-    width: 40,
+    width: 30,
     height: 15,
     cursor: 'pointer',
     borderRadius: 5,
@@ -27,11 +28,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ColorPicker = ({ label, obj, path, onChange }) => {
+const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
   const [open, setOpen] = useState(false)
   const classes = useStyles({
     color: colorString(getPath(obj, path))
   })
+
+  useEffect(() => {
+    setOpen(isOpen)
+  }, [isOpen])
 
   const color = {
     ...getPath(obj, path),
@@ -89,13 +94,13 @@ const ColorPicker = ({ label, obj, path, onChange }) => {
           onChange={onChange}
           gradient='lightness'
         />
-        <SmartSlider
+        {/*<SmartSlider
           range={[0, 1, 0.01]}
           obj={obj}
           path={`${path}.alpha`}
           onChange={onChange}
           gradient='opacity'
-        />
+        />*/}
         </div>
       )}
     </div>

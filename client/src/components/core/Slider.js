@@ -1,9 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import MuiSlider from '@material-ui/core/Slider'
 import { getPath, setPath, hasPath } from 'services/utils'
 import clsx from 'clsx'
 import { hueGradient, lightnessGradient, opacityGradient } from 'services/utils'
+
+const THUMB_SIZE = 8
 
 const useSliderStyles = makeStyles(theme => ({
   root: {
@@ -11,6 +13,14 @@ const useSliderStyles = makeStyles(theme => ({
   },
   rail: {
     height: 1,
+    left: -THUMB_SIZE / 2,
+    width: `calc(100% + ${THUMB_SIZE}px)`,
+  },
+  thumb: {
+    width: THUMB_SIZE,
+    height: THUMB_SIZE,
+    marginTop: -THUMB_SIZE / 2,
+    marginLeft: -THUMB_SIZE / 2,
   },
   hue: {
     background: hueGradient(),
@@ -32,9 +42,15 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     fontSize: '0.875em',
+    '& > label': {
+      // fontStyle: 'italic',
+    },
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
     }
+  },
+  slider: {
+    padding: `0 ${THUMB_SIZE / 2}px`,
   },
 }))
 
@@ -47,11 +63,12 @@ export const SmartSlider = ({
   label,
   transform = { in: (x) => x, out: (x) => x },
   gradient,
+  isOpen = true,
   ...rest
 }) => {
   const classes = useStyles()
   const sliderClasses = useSliderStyles({ gradient })
-  const [open, setOpen] = useState(!label)
+  const [open, setOpen] = useState(isOpen)
 
   const handleChange = useCallback((e, newVal) => {
     onChange(setPath(obj, path, transform.out(newVal)))
@@ -62,6 +79,10 @@ export const SmartSlider = ({
   const value = hasPath(obj, path)
     ? transform.in(getPath(obj, path))
     : transform.in(getPath(defaultObj, path))
+
+  useEffect(() => {
+    setOpen(!!isOpen)
+  }, [isOpen])
 
   return (
     <div className={classes.root}>
@@ -74,19 +95,22 @@ export const SmartSlider = ({
         </div>
       )}
       {open && (
-        <MuiSlider
-          classes={{
-            root: sliderClasses.root,
-            rail: clsx(sliderClasses.rail, sliderClasses[gradient]),
-          }}
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={handleChange}
-          track={false}
-          { ...rest }
-        />
+        <div className={classes.slider}>
+          <MuiSlider
+            classes={{
+              root: sliderClasses.root,
+              rail: clsx(sliderClasses.rail, sliderClasses[gradient]),
+              thumb: sliderClasses.thumb,
+            }}
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={handleChange}
+            track={false}
+            { ...rest }
+          />
+        </div>
       )}
     </div>
   )
