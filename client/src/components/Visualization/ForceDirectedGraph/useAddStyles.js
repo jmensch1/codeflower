@@ -79,7 +79,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   // stroke
   useEffect(() => {
-    link.style('stroke', visStyles.links.stroke)
+    link.style('stroke', colorString(visStyles.links.stroke))
   }, [link, visStyles.links.stroke])
 
   // stroke-width

@@ -37,7 +37,12 @@ const periwinkle = {
     radius: 3.5,
   },
   links: {
-    stroke: '#9ecae1',
+    stroke: {
+      hue: 201,
+      saturation: 53,
+      lightness: 73,
+      alpha: 1.0,
+    },
     strokeWidth: 1,
   },
 }
