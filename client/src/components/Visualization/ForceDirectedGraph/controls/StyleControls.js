@@ -15,15 +15,17 @@ const useRowStyles = makeStyles((theme) => ({
   },
   header: {
     display: 'flex',
+    alignItems: 'center',
   },
-  arrowContainer: {
-    width: '1em',
+  arrow: {
+    width: '1.5em',
+    height: '1.5em',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  arrow: {
-    transform: ({ open }) => open ? 'rotate(90deg)' : 'rotate(0deg)',
+    '& polygon': {
+      fill: theme.palette.text.primary,
+    },
   },
   label: {
     flex: 1,
@@ -43,8 +45,13 @@ const Row = ({ label, button, children }) => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <div className={classes.arrowContainer}>
-          <div className={classes.arrow}>></div>
+        <div className={classes.arrow}>
+          <svg viewBox='0 0 20 20' height='1em' width='1em'>
+            <polygon
+              points={open ? '5,5 10,15, 15,5' : '5,5 15,10 5,15'}
+              className={classes.arrow}
+            />
+          </svg>
         </div>
         <div
           className={classes.label}

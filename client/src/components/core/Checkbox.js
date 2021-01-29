@@ -10,14 +10,20 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
   },
   box: {
-    height: 20,
-    width: 20,
+    height: 18,
+    width: 24,
     border: `1px ${theme.palette.text.primary} solid`,
     opacity: 0.65,
-    borderRadius: 4,
+    borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  circle: {
+    height: 8,
+    width: 8,
+    backgroundColor: theme.palette.text.primary,
+    borderRadius: '50%',
   },
 }))
 
@@ -36,9 +42,9 @@ export const Checkbox = ({
 
   return (
     <div className={classes.root} onClick={handleClick}>
-      <div className={classes.label}>{ label }</div>
+      {label && <div className={classes.label}>{ label }</div>}
       <div className={classes.box}>
-        { checked ? 'X' : '' }
+        { checked ? <div className={classes.circle} /> : null }
       </div>
     </div>
   )

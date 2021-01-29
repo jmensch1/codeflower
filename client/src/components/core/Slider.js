@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
       // fontStyle: 'italic',
     },
     '&:hover': {
-      backgroundColor: theme.palette.action.hover,
+      // backgroundColor: theme.palette.action.hover,
     }
   },
   slider: {
