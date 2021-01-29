@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Tabs from './Tabs2'
 import ForceControls from 'components/Visualization/ForceDirectedGraph/ForceControls'
-import ColorControls from 'components/Visualization/ForceDirectedGraph/ColorControls'
+// import ColorControls from 'components/Visualization/ForceDirectedGraph/ColorControls'
 import FileControls from 'components/Visualization/ForceDirectedGraph/FileControls'
 // import FolderControls from 'components/Visualization/ForceDirectedGraph/FolderControls'
 // import OtherControls from 'components/Visualization/ForceDirectedGraph/OtherControls'
 import ThemeControls from 'components/ThemeControls'
+import StyleControls from 'components/Visualization/ForceDirectedGraph/StyleControls'
 
 
 //////////////////// TAB CONFIG ///////////////////
@@ -17,9 +18,13 @@ const TABS = [
     Component: ForceControls,
   },
   {
-    type: 'colors',
-    Component: ColorControls,
+    type: 'styles',
+    Component: StyleControls,
   },
+  // {
+  //   type: 'colors',
+  //   Component: ColorControls,
+  // },
   {
     type: 'files',
     Component: FileControls,
