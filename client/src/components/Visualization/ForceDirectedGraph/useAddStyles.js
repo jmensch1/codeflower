@@ -26,6 +26,12 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   //// FILES ////
 
+  useEffect(() => {
+    node
+      .filter('.file')
+      .style('visibility', visStyles.files.visible ? 'visible' : 'hidden')
+  }, [node, visStyles.files.visible])
+
   // fill
   useEffect(() => {
     node
@@ -60,6 +66,12 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   //// FOLDERS ////
 
+  useEffect(() => {
+    node
+      .filter('.folder')
+      .style('visibility', visStyles.folders.visible ? 'visible' : 'hidden')
+  }, [node, visStyles.folders.visible])
+
   // fill
   useEffect(() => {
     node.filter('.folder').style('fill', colorString(visStyles.folders.fill))
@@ -76,6 +88,10 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   }, [node, visStyles.folders.strokeWidth])
 
   //// LINKS ////
+
+  useEffect(() => {
+    link.style('visibility', visStyles.links.visible ? 'visible' : 'hidden')
+  }, [link, visStyles.links.visible])
 
   // stroke
   useEffect(() => {

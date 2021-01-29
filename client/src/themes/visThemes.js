@@ -2,6 +2,7 @@ const periwinkle = {
   id: 'periwinkle',
   rotation: 0,
   files: {
+    visible: true,
     fill: {
       hue: [170, 360],
       saturation: 100,
@@ -21,6 +22,7 @@ const periwinkle = {
     },
   },
   folders: {
+    visible: true,
     fill: {
       hue: 0,
       saturation: 0,
@@ -37,6 +39,7 @@ const periwinkle = {
     radius: 3.5,
   },
   links: {
+    visible: true,
     stroke: {
       hue: 201,
       saturation: 53,
