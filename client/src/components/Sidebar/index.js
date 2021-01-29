@@ -7,13 +7,12 @@ import Languages from './Languages'
 import Folders from './Folders'
 import Authors from './Authors'
 import Controls from './Controls'
-
-//////////////////// TAB CONFIG ///////////////////
-
 import LanguageIcon from '@material-ui/icons/Language'
 import FolderIcon from '@material-ui/icons/FolderOpen'
 import PeopleIcon from '@material-ui/icons/People'
 import TuneIcon from '@material-ui/icons/Tune'
+
+//////////////////// TAB CONFIG ///////////////////
 
 const TABS = [
   {
