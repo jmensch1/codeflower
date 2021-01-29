@@ -9,12 +9,12 @@ import { useDispatch } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      marginBottom: 8,
+      marginBottom: 10,
     }
   },
 }))
 
-const FileControls = () => {
+const LinkControls = () => {
   const classes = useStyles()
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
@@ -30,56 +30,27 @@ const FileControls = () => {
   return (
     <div className={classes.root}>
       <ColorPicker
-        label='fill: colors'
+        label='color'
         obj={visStyles}
-        path='files.fill'
+        path='links.stroke'
         onChange={onChangeStyles}
       />
       <SmartSlider
-        label='fill: opacity'
+        label='opacity'
         range={[0, 1, 0.01]}
         obj={visStyles}
-        path='files.fill.alpha'
-        onChange={onChangeStyles}
-        gradient='opacity'
-      />
-      <SmartSlider
-        label='radius: coefficient'
-        range={[1, 50, 1]}
-        obj={visStyles}
-        path='files.radius.coeff'
+        path='links.stroke.alpha'
         onChange={onChangeStyles}
       />
       <SmartSlider
-        label='radius: exponent'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='files.radius.exponent'
-        onChange={onChangeStyles}
-      />
-      <ColorPicker
-        label='stroke: color'
-        obj={visStyles}
-        path='files.stroke'
-        onChange={onChangeStyles}
-      />
-      <SmartSlider
-        label='stroke: opacity'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='files.stroke.alpha'
-        onChange={onChangeStyles}
-        gradient='opacity'
-      />
-      <SmartSlider
-        label='stroke: width'
+        label='width'
         range={[0, 10, 0.5]}
         obj={visStyles}
-        path='files.strokeWidth'
+        path='links.strokeWidth'
         onChange={onChangeStyles}
       />
     </div>
   )
 }
 
-export default FileControls
+export default LinkControls
