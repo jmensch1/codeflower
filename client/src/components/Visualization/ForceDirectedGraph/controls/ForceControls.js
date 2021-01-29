@@ -4,6 +4,9 @@ import { SmartSlider } from 'components/core/Slider'
 import { useVisForces } from 'store/selectors'
 import { setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import Row from './Row'
+import Checkbox from 'components/core/Checkbox'
+import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,69 +44,105 @@ const ForceControls = () => {
         </a>
         &nbsp;that apply to the graph.
       </div>
-      <SmartSlider
+      {/*<SmartSlider
         label='alpha decay'
         range={[0, 0.1, 0.001]}
         obj={visForces}
         path='alphaDecay'
         onChange={onChangeForces}
-      />
-      <SmartSlider
-        label='charge strength'
-        range={[-500, 0, 1]}
-        obj={visForces}
-        path='charge.strength'
-        onChange={onChangeForces}
-      />
-      <SmartSlider
-        label='charge distance min/max'
-        range={[1, 2000]}
-        obj={visForces}
-        path='charge.distance'
-        onChange={onChangeForces}
-      />
-      <SmartSlider
-        label='link distance: files'
-        range={[0, 150, 1]}
-        obj={visForces}
-        path='link.distance.files'
-        onChange={onChangeForces}
-      />
-      <SmartSlider
-        label='link distance: folders'
-        range={[0, 150, 1]}
-        obj={visForces}
-        path='link.distance.folders'
-        onChange={onChangeForces}
-      />
-      <SmartSlider
-        label='link strength'
-        range={[0, 1, 0.01]}
-        obj={visForces}
-        path='link.strength'
-        onChange={onChangeForces}
-      />
-      <SmartSlider
-        label='link iterations'
-        range={[0, 10, 1]}
-        obj={visForces}
-        path='link.iterations'
-        onChange={onChangeForces}
-      />
-      <SmartSlider
-        label='force x/y strength'
-        range={[0, 1, 0.01]}
-        obj={visForces}
-        path='forceXY.strength'
-        onChange={onChangeForces}
-      />
-      <SmartSlider
+      />*/}
+      <Row
+        label='charge'
+        disabled={!getPath(visForces, 'charge.enabled')}
+        // button={
+        //   <Checkbox
+        //     obj={visForces}
+        //     path='charge.enabled'
+        //     onChange={onChangeForces}
+        //   />
+        // }
+      >
+        <SmartSlider
+          label='strength'
+          range={[-500, 0, 1]}
+          obj={visForces}
+          path='charge.strength'
+          onChange={onChangeForces}
+        />
+        <SmartSlider
+          label='distance (min/max)'
+          range={[1, 2000]}
+          obj={visForces}
+          path='charge.distance'
+          onChange={onChangeForces}
+        />
+      </Row>
+      <Row
+        label='link'
+        disabled={!getPath(visForces, 'link.enabled')}
+        // button={
+        //   <Checkbox
+        //     obj={visForces}
+        //     path='link.enabled'
+        //     onChange={onChangeForces}
+        //   />
+        // }
+      >
+        <SmartSlider
+          label='strength'
+          range={[0, 1, 0.01]}
+          obj={visForces}
+          path='link.strength'
+          onChange={onChangeForces}
+        />
+        <SmartSlider
+          label='distance: files'
+          range={[0, 150, 1]}
+          obj={visForces}
+          path='link.distance.files'
+          onChange={onChangeForces}
+        />
+        <SmartSlider
+          label='distance: folders'
+          range={[0, 150, 1]}
+          obj={visForces}
+          path='link.distance.folders'
+          onChange={onChangeForces}
+        />
+        <SmartSlider
+          label='iterations'
+          range={[0, 10, 1]}
+          obj={visForces}
+          path='link.iterations'
+          onChange={onChangeForces}
+        />
+      </Row>
+      <Row
+        label='x/y'
+        disabled={!getPath(visForces, 'forceXY.enabled')}
+        // button={
+        //   <Checkbox
+        //     obj={visForces}
+        //     path='forceXY.enabled'
+        //     onChange={onChangeForces}
+        //   />
+        // }
+      >
+        <SmartSlider
+          label='strength'
+          range={[0, 1, 0.01]}
+          obj={visForces}
+          path='forceXY.strength'
+          onChange={onChangeForces}
+        />
+      </Row>
+      {/*<SmartSlider
         label='force center strength'
         range={[0, 1, 0.01]}
         obj={visForces}
         path='center.strength'
         onChange={onChangeForces}
-      />
+      />*/}
     </div>
   )
 }

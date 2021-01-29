@@ -81,7 +81,7 @@ export default function useAddForces({ simulation, nodes, links }) {
       .strength(visForces.forceXY.strength * visForces.forceXY.enabled)
     simulation
       .force('link')
-      .strength(visForces.link.strength)
+      .strength(visForces.link.strength * visForces.link.enabled)
       .distance((d) =>
         d.target.children
           ? visForces.link.distance.folders

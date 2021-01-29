@@ -27,9 +27,12 @@ const useStyles = makeStyles((theme) => ({
   button: {},
   content: {
     paddingTop: '1em',
-    paddingBottom: '1em',
+    paddingBottom: '0.5em',
     paddingLeft: '1.5em',
     position: 'relative',
+    '& > *': {
+      marginBottom: 8,
+    }
   },
   mask: {
     position: 'absolute',
