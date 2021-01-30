@@ -9,21 +9,18 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     cursor: 'pointer',
   },
-  box: {
-    height: 18,
-    width: 24,
-    border: `1px ${theme.palette.text.primary} solid`,
-    opacity: 0.65,
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  svg: {
+    height: '1.2em',
+    width: '1.2em',
   },
-  circle: {
-    height: 8,
-    width: 8,
-    backgroundColor: theme.palette.text.primary,
-    borderRadius: '50%',
+  outer: {
+    stroke: theme.palette.text.primary,
+    strokeWidth: 2,
+    fill: 'transparent',
+  },
+  inner: {
+    fill: theme.palette.text.primary,
+    display: ({ checked }) => checked ? 'block' : 'none',
   },
 }))
 
@@ -33,8 +30,8 @@ export const Checkbox = ({
   onChange,
   label,
 }) => {
-  const classes = useStyles()
   const checked = getPath(obj, path)
+  const classes = useStyles({ checked })
 
   const handleClick = useCallback(() => {
     onChange(setPath(obj, path, !checked))
@@ -43,9 +40,10 @@ export const Checkbox = ({
   return (
     <div className={classes.root} onClick={handleClick}>
       {label && <div className={classes.label}>{ label }</div>}
-      <div className={classes.box}>
-        { checked ? <div className={classes.circle} /> : null }
-      </div>
+      <svg viewBox='0 0 24 24' className={classes.svg}>
+        <circle r={10} cx={12} cy={12} className={classes.outer} />
+        <circle r={4} cx={12} cy={12} className={classes.inner} />
+      </svg>
     </div>
   )
 }

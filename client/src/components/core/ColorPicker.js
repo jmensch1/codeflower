@@ -34,9 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
   const [open, setOpen] = useState(false)
-  const classes = useStyles({
-    color: colorString(getPath(obj, path))
-  })
+  const classes = useStyles()
 
   useEffect(() => {
     // setOpen(isOpen)
