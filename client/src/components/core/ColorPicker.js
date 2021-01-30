@@ -38,9 +38,9 @@ const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
     color: colorString(getPath(obj, path))
   })
 
-  // useEffect(() => {
-  //   setOpen(isOpen)
-  // }, [isOpen])
+  useEffect(() => {
+    // setOpen(isOpen)
+  }, [isOpen])
 
   const color = {
     ...getPath(obj, path),

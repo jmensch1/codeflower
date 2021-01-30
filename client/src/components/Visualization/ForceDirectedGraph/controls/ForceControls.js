@@ -5,15 +5,14 @@ import { useVisForces } from 'store/selectors'
 import { setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import Row from './Row'
-import Checkbox from 'components/core/Checkbox'
 import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
     '& > *': {
-      marginBottom: 12,
-    }
+      marginBottom: 10,
+    },
   },
   instructions: {
     fontSize: '0.875em',
@@ -68,6 +67,7 @@ const ForceControls = () => {
           obj={visForces}
           path='charge.strength'
           onChange={onChangeForces}
+          alwaysOpen
         />
         <SmartSlider
           label='distance (min/max)'
@@ -75,6 +75,7 @@ const ForceControls = () => {
           obj={visForces}
           path='charge.distance'
           onChange={onChangeForces}
+          alwaysOpen
         />
       </Row>
       <Row
@@ -94,6 +95,7 @@ const ForceControls = () => {
           obj={visForces}
           path='link.strength'
           onChange={onChangeForces}
+          alwaysOpen
         />
         <SmartSlider
           label='distance: files'
@@ -101,6 +103,7 @@ const ForceControls = () => {
           obj={visForces}
           path='link.distance.files'
           onChange={onChangeForces}
+          alwaysOpen
         />
         <SmartSlider
           label='distance: folders'
@@ -108,6 +111,7 @@ const ForceControls = () => {
           obj={visForces}
           path='link.distance.folders'
           onChange={onChangeForces}
+          alwaysOpen
         />
         <SmartSlider
           label='iterations'
@@ -115,6 +119,7 @@ const ForceControls = () => {
           obj={visForces}
           path='link.iterations'
           onChange={onChangeForces}
+          alwaysOpen
         />
       </Row>
       <Row
@@ -134,6 +139,7 @@ const ForceControls = () => {
           obj={visForces}
           path='forceXY.strength'
           onChange={onChangeForces}
+          alwaysOpen
         />
       </Row>
       {/*<SmartSlider

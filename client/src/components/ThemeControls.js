@@ -9,6 +9,9 @@ import { useDispatch } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
+    '& > *': {
+      marginBottom: 10,
+    },
   },
 }))
 
@@ -51,6 +54,7 @@ const ThemeControls = () => {
         defaultObj={theme}
         path='palette.background.default'
         onChange={onChange}
+        alwaysOpen
       />
       <SmartSlider
         label='secondary background'
@@ -63,6 +67,7 @@ const ThemeControls = () => {
         defaultObj={theme}
         path='palette.background.paper'
         onChange={onChange}
+        alwaysOpen
       />
       <SmartSlider
         label='divider opacity'
@@ -75,6 +80,7 @@ const ThemeControls = () => {
         defaultObj={theme}
         path='palette.divider'
         onChange={onChange}
+        alwaysOpen
       />
       <SmartSlider
         label='font size'
@@ -83,6 +89,7 @@ const ThemeControls = () => {
         defaultObj={theme}
         path='typography.fontSize'
         onChange={onChange}
+        alwaysOpen
       />
     </div>
   )

@@ -41,6 +41,7 @@ const FolderControls = () => {
         obj={visStyles}
         path='folders.fill.alpha'
         onChange={onChangeStyles}
+        gradient='opacity'
       />
       <SmartSlider
         label='radius'
@@ -61,6 +62,7 @@ const FolderControls = () => {
         obj={visStyles}
         path='folders.stroke.alpha'
         onChange={onChangeStyles}
+        gradient='opacity'
       />
       <SmartSlider
         label='stroke: width'

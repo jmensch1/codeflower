@@ -44,9 +44,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     fontSize: '0.875em',
-    cursor: 'pointer',
-    '&:hover > $label': {
-      textDecoration: 'underline',
+    cursor: ({ alwaysOpen }) => alwaysOpen ? 'default' : 'pointer',
+    '&:hover > label': {
+      textDecoration: ({ alwaysOpen }) => alwaysOpen ? 'none' : 'underline',
     }
   },
   label: {
@@ -67,11 +67,12 @@ export const SmartSlider = ({
   transform = { in: (x) => x, out: (x) => x },
   gradient,
   isOpen,
+  alwaysOpen,
   ...rest
 }) => {
-  const classes = useStyles()
+  const classes = useStyles({ alwaysOpen })
   const sliderClasses = useSliderStyles({ gradient })
-  const [open, setOpen] = useState(isOpen)
+  const [open, setOpen] = useState(alwaysOpen || isOpen)
 
   const handleChange = useCallback((e, newVal) => {
     onChange(setPath(obj, path, transform.out(newVal)))
@@ -83,14 +84,17 @@ export const SmartSlider = ({
     ? transform.in(getPath(obj, path))
     : transform.in(getPath(defaultObj, path))
 
-  // useEffect(() => {
-  //   setOpen(!!isOpen)
-  // }, [isOpen])
+  useEffect(() => {
+    // setOpen(!!isOpen)
+  }, [isOpen])
 
   return (
     <div className={classes.root}>
       {label && (
-        <div className={classes.header} onClick={() => setOpen(!open)}>
+        <div
+          className={classes.header}
+          onClick={alwaysOpen ? undefined : () => setOpen(!open)}
+        >
           <label className={classes.label}>{ label }</label>
           <span>
             { value instanceof Array ? `${value[0]}/${value[1]}` : value }

@@ -41,6 +41,7 @@ const LinkControls = () => {
         obj={visStyles}
         path='links.stroke.alpha'
         onChange={onChangeStyles}
+        gradient='opacity'
       />
       <SmartSlider
         label='width'
