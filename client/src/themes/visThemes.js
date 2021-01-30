@@ -54,13 +54,19 @@ const bumblebee = {
   id: 'bumblebee',
   rotation: 0,
   files: {
+    visible: true,
     fill: {
       hue: [57, 57],
       saturation: 92,
       lightness: 52,
       alpha: 0,
     },
-    stroke: '#ccc',
+    stroke: {
+      hue: 0,
+      saturation: 0,
+      lightness: 80,
+      alpha: 1.0,
+    },
     strokeWidth: 0.5,
     radius: {
       coeff: 1.0,
@@ -68,12 +74,30 @@ const bumblebee = {
     },
   },
   folders: {
-    fill: '#f5ea14',
-    stroke: '#9ecae1',
+    visible: true,
+    fill: {
+      hue: 57,
+      saturation: 92,
+      lightness: 52,
+      alpha: 1.0,
+    },
+    stroke: {
+      hue: 201,
+      saturation: 53,
+      lightness: 75,
+      alpha: 1.0,
+    },
     strokeWidth: 0,
+    radius: 3.5,
   },
   links: {
-    stroke: '#ccc',
+    visible: true,
+    stroke: {
+      hue: 0,
+      saturation: 0,
+      lightness: 80,
+      alpha: 1.0,
+    },
     strokeWidth: 0.5,
   },
 }
@@ -82,13 +106,19 @@ const rainbow = {
   id: 'rainbow',
   rotation: 0,
   files: {
+    visible: true,
     fill: {
       hue: [0, 360],
       saturation: 90,
       lightness: 70,
       alpha: 1.0,
     },
-    stroke: '#000',
+    stroke: {
+      hue: 0,
+      saturation: 0,
+      lightness: 0,
+      alpha: 1.0,
+    },
     strokeWidth: 0,
     radius: {
       coeff: 1.0,
@@ -96,13 +126,31 @@ const rainbow = {
     },
   },
   folders: {
-    fill: 'rgba(0,0,0,0)',
-    stroke: '#9ecae1',
-    strokeWidth: 0,
+    visible: false,
+    fill: {
+      hue: 0,
+      saturation: 0,
+      lightness: 93,
+      alpha: 1.0,
+    },
+    stroke: {
+      hue: 201,
+      saturation: 53,
+      lightness: 75,
+      alpha: 1.0,
+    },
+    strokeWidth: 2,
+    radius: 3.5,
   },
   links: {
-    stroke: '#9ecae1',
-    strokeWidth: 0,
+    visible: false,
+    stroke: {
+      hue: 201,
+      saturation: 53,
+      lightness: 75,
+      alpha: 1.0,
+    },
+    strokeWidth: 1,
   },
 }
 
