@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      marginBottom: 8,
+      marginBottom: '0.5em',
     }
   },
 }))

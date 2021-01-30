@@ -9,6 +9,7 @@ const THUMB_SIZE = 8
 
 const useSliderStyles = makeStyles(theme => ({
   root: {
+    display: 'block',
     color: theme.palette.text.primary,
   },
   rail: {
@@ -33,21 +34,23 @@ const useSliderStyles = makeStyles(theme => ({
   opacity: {
     background: opacityGradient(),
     opacity: 1,
-  }
+  },
 }))
 
 const useStyles = makeStyles(theme => ({
   root: {},
-  labelRow: {
+  header: {
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     fontSize: '0.875em',
-    '& > label': {
-      // fontStyle: 'italic',
-    },
-    '&:hover': {
-      // backgroundColor: theme.palette.action.hover,
+    cursor: 'pointer',
+    '&:hover > $label': {
+      textDecoration: 'underline',
     }
+  },
+  label: {
+    cursor: 'inherit',
   },
   slider: {
     padding: `0 ${THUMB_SIZE / 2}px`,
@@ -87,8 +90,8 @@ export const SmartSlider = ({
   return (
     <div className={classes.root}>
       {label && (
-        <div className={classes.labelRow} onClick={() => setOpen(!open)}>
-          <label>{ label }</label>
+        <div className={classes.header} onClick={() => setOpen(!open)}>
+          <label className={classes.label}>{ label }</label>
           <span>
             { value instanceof Array ? `${value[0]}/${value[1]}` : value }
           </span>

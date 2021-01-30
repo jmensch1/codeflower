@@ -9,19 +9,23 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    cursor: 'pointer',
+    '&:hover > $label': {
+      textDecoration: 'underline',
+    }
   },
   label: {
+    cursor: 'inherit',
     fontSize: '0.875em',
-    // fontStyle: 'italic',
   },
   swatch: {
-    width: 30,
-    height: 15,
-    cursor: 'pointer',
+    width: '2em',
+    height: '1em',
     borderRadius: 5,
   },
   sliders: {
     marginTop: 10,
+    paddingBottom: 5,
     '& .MuiSlider-root': {
       padding: '8px 0',
     },
@@ -64,13 +68,9 @@ const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
+      <div className={classes.header} onClick={() => setOpen(!open)}>
         <label className={classes.label}>{ label }</label>
-        <div
-          onClick={() => setOpen(!open)}
-          className={classes.swatch}
-          style={swatchStyle}
-        />
+        <div className={classes.swatch} style={swatchStyle} />
       </div>
       {open && (
         <div className={classes.sliders}>

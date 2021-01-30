@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {},
   content: {
-    paddingTop: '1em',
+    paddingTop: '0.75em',
     paddingBottom: '0.5em',
     paddingLeft: '1.5em',
     position: 'relative',
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Row = ({ label, button, disabled, children }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const classes = useStyles({ open })
 
   return (
