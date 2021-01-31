@@ -57,14 +57,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export const SmartSlider = ({
+const Slider = ({
   range,
-  obj,
-  defaultObj,
-  path,
+  value,
   onChange,
   label,
-  transform = { in: (x) => x, out: (x) => x },
   gradient,
   isOpen,
   alwaysOpen,
@@ -75,14 +72,10 @@ export const SmartSlider = ({
   const [open, setOpen] = useState(alwaysOpen || isOpen)
 
   const handleChange = useCallback((e, newVal) => {
-    onChange(setPath(obj, path, transform.out(newVal)))
-  }, [obj, path, onChange, transform])
+    onChange(newVal)
+  }, [onChange])
 
   const [min, max, step] = range || []
-
-  const value = hasPath(obj, path)
-    ? transform.in(getPath(obj, path))
-    : transform.in(getPath(defaultObj, path))
 
   useEffect(() => {
     // setOpen(!!isOpen)
@@ -123,4 +116,29 @@ export const SmartSlider = ({
   )
 }
 
-export default SmartSlider
+export const SmartSlider = ({
+  obj,
+  defaultObj,
+  path,
+  onChange,
+  transform = { in: (x) => x, out: (x) => x },
+  ...rest
+}) => {
+  const handleChange = useCallback((newVal) => {
+    onChange(setPath(obj, path, transform.out(newVal)))
+  }, [obj, path, onChange, transform])
+
+  const value = hasPath(obj, path)
+    ? transform.in(getPath(obj, path))
+    : transform.in(getPath(defaultObj, path))
+
+  return (
+    <Slider
+      value={value}
+      onChange={handleChange}
+      { ...rest }
+    />
+  )
+}
+
+export default Slider
