@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
 
-const CIRCLE_RADIUS = 10
+const CIRCLE_RADIUS = 8
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       '& > line': {
         stroke: 'black',
-        strokeWidth: 3,
+        strokeWidth: 4,
         cursor: 'move',
       },
       '& > circle': {
@@ -152,7 +152,24 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
 
     circle0.attr('cx', x1).attr('cy', y)
     circle1.attr('cx', x2).attr('cy', y)
-    bar.attr('x1', x1).attr('x2', x2).attr('y1', y).attr('y2', y)
+
+    const barLeft = x2 >= x1
+      ? x1 + CIRCLE_RADIUS
+      : x2 + CIRCLE_RADIUS
+
+    const barRight = x2 >= x1
+      ? x2 - CIRCLE_RADIUS
+      : x1 - CIRCLE_RADIUS
+
+    if (barRight >= barLeft)
+      bar
+        .attr('x1', barLeft)
+        .attr('x2', barRight)
+        .attr('y1', y)
+        .attr('y2', y)
+        .attr('visibility', 'visible')
+    else
+      bar.attr('visibility', 'hidden')
 
   }, [color, circle0, circle1, bar, getX, getY])
 
