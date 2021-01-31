@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { SmartSlider } from 'components/core/Slider'
+import Slider, { SmartSlider } from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
 import { useVisStyles } from 'store/selectors'
-import { setVisStyles } from 'store/actions/settings'
+import { setVisStyles, updateVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import DoubleHuePicker from 'components/core/DoubleHuePicker'
-import { getPath, setPath } from 'services/utils'
+import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,9 +28,14 @@ const FileControls = () => {
     }))
   }, [dispatch])
 
-  const onChangeFileFill = useCallback((fill) => {
-    onChangeStyles(setPath(visStyles, 'files.fill', fill))
-  }, [visStyles, onChangeStyles])
+  const onUpdateStyles = useCallback((path, value) => {
+    dispatch(updateVisStyles(path, value))
+  }, [dispatch])
+
+  const onChangeFileFill = useMemo(
+    () => onUpdateStyles.bind(null, 'files.fill'),
+    [onUpdateStyles]
+  )
 
   if (!visStyles) return null
   return (
@@ -59,6 +64,12 @@ const FileControls = () => {
         obj={visStyles}
         path='files.radius.coeff'
         onChange={onChangeStyles}
+      />
+      <Slider
+        label='radius: coefficient'
+        range={[1, 50, 1]}
+        value={getPath(visStyles, 'files.radius.coeff')}
+        onChange={onUpdateStyles.bind(null, 'files.radius.coeff')}
       />
       <SmartSlider
         label='radius: exponent'
