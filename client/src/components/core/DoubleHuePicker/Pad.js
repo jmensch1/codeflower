@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
 
@@ -45,6 +45,7 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
   const [circle0, setCircle0] = useState(null)
   const [circle1, setCircle1] = useState(null)
   const [bar, setBar] = useState(null)
+  const colorRef = useRef(null)
 
   const getHue = useCallback((x) => {
     if (!hueRange || !dimensions) return null
@@ -105,10 +106,10 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
       d3
         .drag()
         .on('drag', ({ x, y }) => {
-          onChange((color) => ({
-            ...color,
-            hue: [getHue(x), color.hue[1]]
-          }))
+          onChange({
+            ...colorRef.current,
+            hue: [getHue(x), colorRef.current.hue[1]]
+          })
         })
     )
   }, [circle0, getHue, onChange])
@@ -120,10 +121,10 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
       d3
         .drag()
         .on('drag', ({ x, y }) => {
-          onChange((color) => ({
-            ...color,
-            hue: [color.hue[0], getHue(x)]
-          }))
+          onChange({
+            ...colorRef.current,
+            hue: [colorRef.current.hue[0], getHue(x)]
+          })
         })
     )
   }, [circle1, getHue, onChange])
@@ -135,16 +136,18 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
       d3
         .drag()
         .on('drag', ({ x, y }) => {
-          onChange((color) => ({
-            ...color,
+          onChange({
+            ...colorRef.current,
             lightness: getLightness(y),
-          }))
+          })
         })
     )
   }, [bar, getLightness, onChange])
 
   useEffect(() => {
     if (!color || !circle0) return
+
+    colorRef.current = color
 
     const x1 = getX(color.hue[0])
     const x2 = getX(color.hue[1])

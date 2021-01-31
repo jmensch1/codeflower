@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DoubleHuePicker = ({ color, onChange }) => {
-  // const [color, setColor] = useState({
-  //   hue: [50, 150],
-  //   saturation: 100,
-  //   lightness: 50,
-  //   alpha: 1.0,
-  // })
+const DoubleHuePicker = ({ /*color, */ onChange }) => {
+  const [color, setColor] = useState({
+    hue: [50, 150],
+    saturation: 100,
+    lightness: 50,
+    alpha: 1.0,
+  })
 
   const classes = useStyles({ color })
 
@@ -56,7 +56,8 @@ const DoubleHuePicker = ({ color, onChange }) => {
       <div className={classes.pad}>
         <Pad
           color={color}
-          onChange={handleChange}
+          //onChange={handleChange}
+          onChange={setColor}
           hueRange={HUE_RANGE}
           lightnessRange={LIGHTNESS_RANGE}
         />
