@@ -1,6 +1,7 @@
 import mainThemes from 'themes/mainThemes'
 import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
+import { setPath } from 'services/utils'
 
 export const types = {
   SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
@@ -11,6 +12,7 @@ export const types = {
   SELECT_AUTHOR: 'settings/SELECT_AUTHOR',
   HIGHLIGHT_AUTHOR: 'settings/HIGHLIGHT_AUTHOR',
   SET_VIS_STYLES: 'settings/SET_VIS_STYLES',
+  UPDATE_VIS_STYLES: 'settings/UPDATE_VIS_STYLES',
   SET_VIS_FORCES: 'settings/SET_VIS_FORCES',
 }
 
@@ -52,6 +54,11 @@ export const highlightAuthor = (authorId) => ({
 export const setVisStyles = (visStyles) => ({
   type: types.SET_VIS_STYLES,
   data: visStyles,
+})
+
+export const updateVisStyles = (path, value) => ({
+  type: types.UPDATE_VIS_STYLES,
+  data: { path, value },
 })
 
 export const setVisForces = (visForces) => ({
@@ -119,6 +126,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         visStyles: action.data,
+      }
+    case types.UPDATE_VIS_STYLES:
+      return {
+        ...state,
+        visStyles: {
+          ...setPath(state.visStyles, action.data.path, action.data.value),
+          id: undefined,
+        },
       }
     case types.SET_VIS_FORCES:
       return {
