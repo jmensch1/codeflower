@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
 
 const CIRCLE_RADIUS = 8
+const BAR_HEIGHT = 8
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,29 +15,41 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       height: '100%',
       width: '100%',
-      '& > line': {
-        stroke: 'black',
-        strokeWidth: 4,
+      '& > rect': {
         cursor: 'move',
       },
       '& > circle': {
         fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 1,
+        strokeWidth: 2,
         cursor: 'ew-resize',
       }
     }
   }
 }))
 
-function clamp(num, min, max) {
+function clamp(num, range) {
+  let [min, max] = range
+  if (max < min) [min, max] = [max, min]
   return Math.min(Math.max(num, min), max)
 }
 
-function interpolate(num, numRange, targetRange) {
-  const numRangeRatio = (num - numRange[0]) / (numRange[1] - numRange[0])
-  const targetValue = numRangeRatio * (targetRange[1] - targetRange[0]) + targetRange[0]
-  return clamp(targetValue, targetRange[0], targetRange[1])
+// clamps x1 and x2 within xRange while maintaining the distance between them
+function clampBar(x1, x2, xRange) {
+  const xDistance = x2 - x1
+
+  x1 = clamp(x1, xRange)
+  x2 = x1 + xDistance
+
+  x2 = clamp(x2, xRange)
+  x1 = x2 - xDistance
+
+  return [x1, x2]
+}
+
+function interpolate(num, domain, range, useClamp = false) {
+  const domainRatio = (num - domain[0]) / (domain[1] - domain[0])
+  const targetValue = domainRatio * (range[1] - range[0]) + range[0]
+  return useClamp ? clamp(targetValue, range) : targetValue
 }
 
 const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
@@ -54,12 +67,17 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
 
   const getX = useCallback((hue) => {
     if (!hueRange || !dimensions) return null
+    return interpolate(hue, hueRange, [0, dimensions.width], true)
+  }, [hueRange, dimensions])
+
+  const getUnclampedX = useCallback((hue) => {
+    if (!hueRange || !dimensions) return null
     return interpolate(hue, hueRange, [0, dimensions.width])
   }, [hueRange, dimensions])
 
   const getLightness = useCallback((y) => {
     if (!lightnessRange || !dimensions) return null
-    return interpolate(y, [0, dimensions.height], lightnessRange)
+    return interpolate(y, [0, dimensions.height], lightnessRange, true)
   }, [lightnessRange, dimensions])
 
   const getY = useCallback((lightness) => {
@@ -75,20 +93,10 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
       height: container.offsetHeight,
     })
 
-    const svg = d3
-      .select(container)
-      .append('svg')
-
-    const circle0 = svg
-      .append('circle')
-      .attr('r', CIRCLE_RADIUS)
-
-    const circle1 = svg
-      .append('circle')
-      .attr('r', CIRCLE_RADIUS)
-
-    const bar = svg
-      .append('line')
+    const svg = d3.select(container).append('svg')
+    const circle0 = svg.append('circle').attr('r', CIRCLE_RADIUS)
+    const circle1 = svg.append('circle').attr('r', CIRCLE_RADIUS)
+    const bar = svg.append('rect')
 
     setCircle0(circle0)
     setCircle1(circle1)
@@ -135,14 +143,20 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
     bar.call(
       d3
         .drag()
-        .on('drag', ({ x, y }) => {
+        .on('drag', ({ y, dx }) => {
+          const [x1, x2] = clampBar(
+            getUnclampedX(colorRef.current.hue[0]) + dx,
+            getUnclampedX(colorRef.current.hue[1]) + dx,
+            [0, dimensions.width],
+          )
           onChange({
             ...colorRef.current,
+            hue: [getHue(x1), getHue(x2)],
             lightness: getLightness(y),
           })
         })
     )
-  }, [bar, getLightness, onChange])
+  }, [bar, getUnclampedX, getHue, getLightness, onChange, dimensions])
 
   useEffect(() => {
     if (!color || !circle0) return
@@ -153,8 +167,17 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
     const x2 = getX(color.hue[1])
     const y = getY(color.lightness)
 
-    circle0.attr('cx', x1).attr('cy', y)
-    circle1.attr('cx', x2).attr('cy', y)
+    const guideLightness = interpolate(color.lightness, [60, 70], [100, 0])
+
+    circle0
+      .attr('cx', x1)
+      .attr('cy', y)
+      .style('stroke', `hsla(0, 0%, ${guideLightness}%, 1.0)`)
+
+    circle1
+      .attr('cx', x2)
+      .attr('cy', y)
+      .style('stroke', `hsla(0, 0%, ${guideLightness}%, 1.0)`)
 
     const barLeft = x2 >= x1
       ? x1 + CIRCLE_RADIUS
@@ -164,15 +187,17 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
       ? x2 - CIRCLE_RADIUS
       : x1 - CIRCLE_RADIUS
 
-    if (barRight >= barLeft)
+    if (barRight >= barLeft) {
       bar
-        .attr('x1', barLeft)
-        .attr('x2', barRight)
-        .attr('y1', y)
-        .attr('y2', y)
+        .attr('x', barLeft)
+        .attr('y', y - BAR_HEIGHT / 2)
+        .attr('width', barRight - barLeft)
+        .attr('height', BAR_HEIGHT)
+        .style('fill', `hsla(0, 0%, ${guideLightness}%, 1.0)`)
         .attr('visibility', 'visible')
-    else
+    } else {
       bar.attr('visibility', 'hidden')
+    }
 
   }, [color, circle0, circle1, bar, getX, getY])
 
