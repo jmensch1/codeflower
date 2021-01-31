@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { hueGradient } from 'services/utils'
 import Pad from './Pad'
@@ -8,8 +8,8 @@ const LIGHTNESS_RANGE = [0, 100]
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 10,
-    outline: '1px red solid',
+    // margin: 10,
+    // outline: '1px red solid',
   },
   pad: {
     height: 200,
@@ -36,15 +36,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DoubleHuePicker = () => {
-  const [color, setColor] = useState({
-    hue: [50, 150],
-    saturation: 100,
-    lightness: 50,
-    alpha: 1.0,
-  })
+const DoubleHuePicker = ({ color, onChange }) => {
+  // const [color, setColor] = useState({
+  //   hue: [50, 150],
+  //   saturation: 100,
+  //   lightness: 50,
+  //   alpha: 1.0,
+  // })
 
   const classes = useStyles({ color })
+
+  const handleChange = useCallback((transform) => {
+    onChange(transform(color))
+  }, [color, onChange])
 
   return (
     <div className={classes.root}>
@@ -52,7 +56,7 @@ const DoubleHuePicker = () => {
       <div className={classes.pad}>
         <Pad
           color={color}
-          onChange={setColor}
+          onChange={handleChange}
           hueRange={HUE_RANGE}
           lightnessRange={LIGHTNESS_RANGE}
         />

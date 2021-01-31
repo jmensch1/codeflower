@@ -5,6 +5,8 @@ import ColorPicker from 'components/core/ColorPicker'
 import { useVisStyles } from 'store/selectors'
 import { setVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import DoubleHuePicker from 'components/core/DoubleHuePicker'
+import { getPath, setPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,9 +28,17 @@ const FileControls = () => {
     }))
   }, [dispatch])
 
+  const onChangeFileFill = useCallback((fill) => {
+    onChangeStyles(setPath(visStyles, 'files.fill', fill))
+  }, [visStyles, onChangeStyles])
+
   if (!visStyles) return null
   return (
     <div className={classes.root}>
+      <DoubleHuePicker
+        color={getPath(visStyles, 'files.fill')}
+        onChange={onChangeFileFill}
+      />
       <ColorPicker
         label='fill: colors'
         obj={visStyles}

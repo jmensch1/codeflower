@@ -9,10 +9,10 @@ import DoubleHuePicker from 'components/core/DoubleHuePicker'
 //////////////////// TAB CONFIG ///////////////////
 
 const TABS = [
-  {
-    type: 'hues',
-    Component: DoubleHuePicker,
-  },
+  // {
+  //   type: 'hues',
+  //   Component: DoubleHuePicker,
+  // },
   {
     type: 'forces',
     Component: ForceControls,
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Controls = () => {
   const classes = useStyles()
-  const [tab, setTab] = useState('hues')
+  const [tab, setTab] = useState('styles')
   const { Component } = TABS.find((t) => t.type === tab)
 
   return (
