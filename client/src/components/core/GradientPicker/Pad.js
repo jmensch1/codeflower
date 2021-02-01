@@ -4,6 +4,7 @@ import * as d3 from 'd3'
 
 const CIRCLE_RADIUS = 8
 const BAR_HEIGHT = 8
+const HANDLE_COLOR = 'hsla(0, 0%, 100%, 1.0)'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,9 +18,11 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       '& > rect': {
         cursor: 'move',
+        fill: HANDLE_COLOR,
       },
       '& > circle': {
         fill: 'transparent',
+        stroke: HANDLE_COLOR,
         strokeWidth: 2,
         cursor: 'ew-resize',
       }
@@ -86,7 +89,7 @@ const Pad = ({ value, onChange, xRange, yRange }) => {
   }, [yRange, dimensions])
 
   useEffect(() => {
-    const container = document.getElementById('double-hue-picker-container')
+    const container = document.getElementById('gradient-picker-pad')
 
     setDimensions({
       width: container.offsetWidth,
@@ -167,15 +170,8 @@ const Pad = ({ value, onChange, xRange, yRange }) => {
     const x2 = getX(value.x[1])
     const y = getY(value.y)
 
-    circle0
-      .attr('cx', x1)
-      .attr('cy', y)
-      .style('stroke', `hsla(0, 0%, 100%, 1.0)`)
-
-    circle1
-      .attr('cx', x2)
-      .attr('cy', y)
-      .style('stroke', `hsla(0, 0%, 100%, 1.0)`)
+    circle0.attr('cx', x1).attr('cy', y)
+    circle1.attr('cx', x2).attr('cy', y)
 
     const barLeft = x2 >= x1
       ? x1 + CIRCLE_RADIUS
@@ -191,7 +187,6 @@ const Pad = ({ value, onChange, xRange, yRange }) => {
         .attr('y', y - BAR_HEIGHT / 2)
         .attr('width', barRight - barLeft)
         .attr('height', BAR_HEIGHT)
-        .style('fill', `hsla(0, 0%, 100%, 1.0)`)
         .attr('visibility', 'visible')
     } else {
       bar.attr('visibility', 'hidden')
@@ -200,7 +195,7 @@ const Pad = ({ value, onChange, xRange, yRange }) => {
   }, [value, circle0, circle1, bar, getX, getY])
 
   return (
-    <div id='double-hue-picker-container' className={classes.root} />
+    <div id='gradient-picker-pad' className={classes.root} />
   )
 }
 

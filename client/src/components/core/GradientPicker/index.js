@@ -3,12 +3,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import { hueGradient, alphaGradient } from 'services/utils'
 import Pad from './Pad'
 import Slider from 'components/core/Slider'
+import tinycolor from 'tinycolor2'
 
-const X_RANGE = [0, 360]
-const Y_RANGE = [1, 0]
-
-const lightnessGradient = 'linear-gradient(0deg, hsla(0,0%,100%,1) 0%, hsla(0,0%,100%,0) 50%, hsla(0,0%,0%,0) 50%, hsla(0,0%,0%,1) 100%)'
-const checkerGradient = 'linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%)'
+const HUE_RANGE = [0, 360]
+const ALPHA_RANGE = [1, 0]
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,35 +15,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     marginBottom: 20,
   },
-
-  pad: {
-    height: 200,
-    marginBottom: 10,
-    position: 'relative',
-    backgroundImage: `${alphaGradient({
-      lightness: 21,
-      saturation: 0,
-      direction: 'bottom',
-    })}, ${hueGradient({
-      hueMin: X_RANGE[0],
-      hueMax: X_RANGE[1],
-      saturation: 100,
-      lightness: 50,
-      alpha: 1.0,
-      steps: 20,
-    })}`,
-  },
-  // background: {
-  //   position: 'absolute',
-  //   top: 0,
-  //   left: 0,
-  //   right: 0,
-  //   bottom: 0,
-  //   zIndex: -1,
-  //   backgroundPosition: '0px 0px, 10px 10px',
-  //   backgroundSize: '20px 20px',
-  //   backgroundImage: 'linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%)',
-  // },
   swatch: {
     height: 25,
     marginBottom: 10,
@@ -56,10 +25,71 @@ const useStyles = makeStyles((theme) => ({
       lightness: color.lightness,
       alpha: color.alpha,
     }),
-  }
+  },
+  pad: {
+    height: 200,
+    marginBottom: 10,
+    position: 'relative',
+  },
+  padBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+    backgroundImage: `
+      ${alphaGradient({
+        saturation: 0,
+        lightness: tinycolor(theme.palette.background.paper).toHsl().l * 100,
+        direction: 'bottom',
+      })}
+      ,
+      ${hueGradient({
+        hueMin: HUE_RANGE[0],
+        hueMax: HUE_RANGE[1],
+        saturation: 100,
+        lightness: 50,
+        alpha: 1.0,
+        steps: 20,
+      })}
+    `,
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: -1,
+      // checker gradient taken from https://hslpicker.com/
+      // TODO: gradient needs to vary with theme.palette.background.paper
+      backgroundSize: '20px 20px',
+      backgroundPosition: '0px 0px, 10px 10px',
+      backgroundImage: `
+        linear-gradient(
+          45deg,
+            rgba(255,255,255,0.008) 25%,
+            transparent 25%,transparent 75%,
+            rgba(255,255,255,0.008) 75%,
+            rgba(255,255,255,0.008)
+        )
+        ,
+        linear-gradient(
+          45deg,
+            rgba(255,255,255,0.008) 25%,
+            transparent 25%,
+            transparent 75%,
+            rgba(255,255,255,0.008) 75%,
+            rgba(255,255,255,0.008)
+        )
+      `,
+    }
+  },
+
 }))
 
-const DoubleHuePicker = ({ /* color, */ onChange }) => {
+const GradientPicker = ({ /* color, */ onChange }) => {
   const [color, setColor] = useState({
     hue: [50, 150],
     saturation: 100,
@@ -73,7 +103,7 @@ const DoubleHuePicker = ({ /* color, */ onChange }) => {
     <div className={classes.root}>
       <div className={classes.swatch} />
       <div className={classes.pad}>
-        <div className={classes.background} />
+        <div className={classes.padBackground} />
         <Pad
           color={color}
           value={{
@@ -82,8 +112,8 @@ const DoubleHuePicker = ({ /* color, */ onChange }) => {
           }}
           //onChange={onChange}
           onChange={({ x: hue, y: alpha }) => setColor({ ...color, hue, alpha })}
-          xRange={X_RANGE}
-          yRange={Y_RANGE}
+          xRange={HUE_RANGE}
+          yRange={ALPHA_RANGE}
         />
       </div>
       <Slider
@@ -104,4 +134,4 @@ const DoubleHuePicker = ({ /* color, */ onChange }) => {
   )
 }
 
-export default DoubleHuePicker
+export default GradientPicker
