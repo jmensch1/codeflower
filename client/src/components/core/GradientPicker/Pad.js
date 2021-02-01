@@ -52,38 +52,38 @@ function interpolate(num, domain, range, useClamp = false) {
   return useClamp ? clamp(targetValue, range) : targetValue
 }
 
-const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
+const Pad = ({ value, onChange, xRange, yRange }) => {
   const classes = useStyles()
   const [dimensions, setDimensions] = useState(null)
   const [circle0, setCircle0] = useState(null)
   const [circle1, setCircle1] = useState(null)
   const [bar, setBar] = useState(null)
-  const colorRef = useRef(null)
+  const valueRef = useRef(null)
 
-  const getHue = useCallback((x) => {
-    if (!hueRange || !dimensions) return null
-    return interpolate(x, [0, dimensions.width], hueRange)
-  }, [hueRange, dimensions])
+  const getXValue = useCallback((x) => {
+    if (!xRange || !dimensions) return null
+    return interpolate(x, [0, dimensions.width], xRange)
+  }, [xRange, dimensions])
 
-  const getX = useCallback((hue) => {
-    if (!hueRange || !dimensions) return null
-    return interpolate(hue, hueRange, [0, dimensions.width], true)
-  }, [hueRange, dimensions])
+  const getX = useCallback((xValue) => {
+    if (!xRange || !dimensions) return null
+    return interpolate(xValue, xRange, [0, dimensions.width], true)
+  }, [xRange, dimensions])
 
-  const getUnclampedX = useCallback((hue) => {
-    if (!hueRange || !dimensions) return null
-    return interpolate(hue, hueRange, [0, dimensions.width])
-  }, [hueRange, dimensions])
+  const getUnclampedX = useCallback((xValue) => {
+    if (!xRange || !dimensions) return null
+    return interpolate(xValue, xRange, [0, dimensions.width])
+  }, [xRange, dimensions])
 
-  const getLightness = useCallback((y) => {
-    if (!lightnessRange || !dimensions) return null
-    return interpolate(y, [0, dimensions.height], lightnessRange, true)
-  }, [lightnessRange, dimensions])
+  const getYValue = useCallback((y) => {
+    if (!yRange || !dimensions) return null
+    return interpolate(y, [0, dimensions.height], yRange, true)
+  }, [yRange, dimensions])
 
-  const getY = useCallback((lightness) => {
-    if (!lightnessRange || !dimensions) return null
-    return interpolate(lightness, lightnessRange, [0, dimensions.height])
-  }, [lightnessRange, dimensions])
+  const getY = useCallback((yValue) => {
+    if (!yRange || !dimensions) return null
+    return interpolate(yValue, yRange, [0, dimensions.height])
+  }, [yRange, dimensions])
 
   useEffect(() => {
     const container = document.getElementById('double-hue-picker-container')
@@ -115,12 +115,12 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
         .drag()
         .on('drag', ({ x, y }) => {
           onChange({
-            ...colorRef.current,
-            hue: [getHue(x), colorRef.current.hue[1]]
+            ...valueRef.current,
+            x: [getXValue(x), valueRef.current.x[1]]
           })
         })
     )
-  }, [circle0, getHue, onChange])
+  }, [circle0, getXValue, onChange])
 
   useEffect(() => {
     if (!circle1) return
@@ -130,12 +130,12 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
         .drag()
         .on('drag', ({ x, y }) => {
           onChange({
-            ...colorRef.current,
-            hue: [colorRef.current.hue[0], getHue(x)]
+            ...valueRef.current,
+            x: [valueRef.current.x[0], getXValue(x)]
           })
         })
     )
-  }, [circle1, getHue, onChange])
+  }, [circle1, getXValue, onChange])
 
   useEffect(() => {
     if (!bar) return
@@ -145,39 +145,37 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
         .drag()
         .on('drag', ({ y, dx }) => {
           const [x1, x2] = clampBar(
-            getUnclampedX(colorRef.current.hue[0]) + dx,
-            getUnclampedX(colorRef.current.hue[1]) + dx,
+            getUnclampedX(valueRef.current.x[0]) + dx,
+            getUnclampedX(valueRef.current.x[1]) + dx,
             [0, dimensions.width],
           )
           onChange({
-            ...colorRef.current,
-            hue: [getHue(x1), getHue(x2)],
-            lightness: getLightness(y),
+            ...valueRef.current,
+            x: [getXValue(x1), getXValue(x2)],
+            y: getYValue(y),
           })
         })
     )
-  }, [bar, getUnclampedX, getHue, getLightness, onChange, dimensions])
+  }, [bar, getUnclampedX, getXValue, getYValue, onChange, dimensions])
 
   useEffect(() => {
-    if (!color || !circle0) return
+    if (!value || !circle0) return
 
-    colorRef.current = color
+    valueRef.current = value
 
-    const x1 = getX(color.hue[0])
-    const x2 = getX(color.hue[1])
-    const y = getY(color.lightness)
-
-    const guideLightness = interpolate(color.lightness, [60, 70], [100, 0])
+    const x1 = getX(value.x[0])
+    const x2 = getX(value.x[1])
+    const y = getY(value.y)
 
     circle0
       .attr('cx', x1)
       .attr('cy', y)
-      .style('stroke', `hsla(0, 0%, ${guideLightness}%, 1.0)`)
+      .style('stroke', `hsla(0, 0%, 100%, 1.0)`)
 
     circle1
       .attr('cx', x2)
       .attr('cy', y)
-      .style('stroke', `hsla(0, 0%, ${guideLightness}%, 1.0)`)
+      .style('stroke', `hsla(0, 0%, 100%, 1.0)`)
 
     const barLeft = x2 >= x1
       ? x1 + CIRCLE_RADIUS
@@ -193,13 +191,13 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
         .attr('y', y - BAR_HEIGHT / 2)
         .attr('width', barRight - barLeft)
         .attr('height', BAR_HEIGHT)
-        .style('fill', `hsla(0, 0%, ${guideLightness}%, 1.0)`)
+        .style('fill', `hsla(0, 0%, 100%, 1.0)`)
         .attr('visibility', 'visible')
     } else {
       bar.attr('visibility', 'hidden')
     }
 
-  }, [color, circle0, circle1, bar, getX, getY])
+  }, [value, circle0, circle1, bar, getX, getY])
 
   return (
     <div id='double-hue-picker-container' className={classes.root} />

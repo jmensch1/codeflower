@@ -56,6 +56,22 @@ export const hueGradient = ({
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
+export const alphaGradient = ({
+  steps = 20,
+  direction = 'right',
+  saturation = 100,
+  lightness = 50,
+  hue = 0,
+  alphaMin = 0,
+  alphaMax = 1,
+} = {}) => {
+  const inc = (alphaMax - alphaMin) / steps
+  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
+    return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alphaMin + inc * idx})`
+  }).join(', ')
+  return `linear-gradient(to ${direction}, ${colors})`
+}
+
 export const lightnessGradient = (steps = 20, direction = 'right') => {
   const inc = 100 / steps
   const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
@@ -71,6 +87,8 @@ export const opacityGradient = (steps = 20, direction = 'right') => {
   }).join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }
+
+
 
 export const colorString = (color) => {
   const { hue, saturation, lightness, alpha } = color
