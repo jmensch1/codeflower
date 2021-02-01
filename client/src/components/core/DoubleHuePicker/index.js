@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { hueGradient } from 'services/utils'
 import Pad from './Pad'
+import Slider from 'components/core/Slider'
 
 const HUE_RANGE = [0, 360]
 const LIGHTNESS_RANGE = [0, 100]
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    padding: 10,
+    border: `1px hsla(0, 0%, 100%, 0.6) solid`,
+    borderRadius: 5,
+    marginBottom: 20,
+  },
   pad: {
     height: 200,
+    marginBottom: 10,
     backgroundImage: `linear-gradient(0deg, hsla(0,0%,100%,1) 0%, hsla(0,0%,100%,0) 50%, hsla(0,0%,0%,0) 50%, hsla(0,0%,0%,1) 100%), ${hueGradient({
       hueMin: HUE_RANGE[0],
       hueMax: HUE_RANGE[1],
@@ -20,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
     })}`,
   },
   swatch: {
-    height: 30,
-    marginBottom: 20,
+    height: 25,
+    marginBottom: 10,
     background: ({ color }) => hueGradient({
       hueMin: color.hue[0],
       hueMax: color.hue[1],
@@ -42,6 +49,8 @@ const DoubleHuePicker = ({ /* color, */ onChange }) => {
 
   const classes = useStyles({ color })
 
+
+
   return (
     <div className={classes.root}>
       <div className={classes.swatch} />
@@ -54,6 +63,20 @@ const DoubleHuePicker = ({ /* color, */ onChange }) => {
           lightnessRange={LIGHTNESS_RANGE}
         />
       </div>
+      <Slider
+        label='saturation'
+        range={[0, 100, 1]}
+        value={color.saturation}
+        onChange={(saturation) => setColor({ ...color, saturation })}
+        alwaysOpen
+      />
+      <Slider
+        label='opacity'
+        range={[0, 1, 0.01]}
+        value={color.alpha}
+        onChange={(alpha) => setColor({ ...color, alpha })}
+        alwaysOpen
+      />
     </div>
   )
 }
