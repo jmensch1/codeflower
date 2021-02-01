@@ -5,6 +5,7 @@ import Pad from './Pad'
 import Slider from 'components/core/Slider'
 import NewSlider from './Slider'
 import tinycolor from 'tinycolor2'
+import { interpolate } from 'services/utils'
 
 const HUE_RANGE = [0, 360]
 const SATURATION_RANGE = [0, 100]
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     bottom: 0,
     zIndex: 0,
-    backgroundImage: `
+    backgroundImage: ({ color }) => `
       ${alphaGradient({
         saturation: 0,
         lightness: tinycolor(theme.palette.background.paper).toHsl().l * 100,
@@ -57,8 +58,8 @@ const useStyles = makeStyles((theme) => ({
       ${hueGradient({
         hueMin: HUE_RANGE[0],
         hueMax: HUE_RANGE[1],
-        saturation: 100,
-        lightness: 50,
+        saturation: color.saturation,
+        lightness: color.lightness,
         alpha: 1.0,
         steps: 20,
       })}
@@ -116,6 +117,15 @@ const GradientPicker = ({
 
   const classes = useStyles({ color })
 
+  const handleColor = `
+    hsla(
+      0,
+      0%,
+      ${interpolate(color.lightness, [60, 70], [100, 0])}%,
+      1.0
+    )
+  `
+
   return (
     <div className={classes.root}>
       <div className={classes.swatch} />
@@ -131,6 +141,7 @@ const GradientPicker = ({
           onChange={({ x: hue, y: alpha }) => handleChange({ ...color, hue, alpha })}
           xRange={HUE_RANGE}
           yRange={ALPHA_RANGE}
+          handleColor={handleColor}
         />
       </div>
       <div className={classes.heading}>saturation</div>
@@ -140,6 +151,7 @@ const GradientPicker = ({
         value={color.saturation}
         onChange={(saturation) => handleChange({ ...color, saturation })}
         range={SATURATION_RANGE}
+        handleColor={handleColor}
       />
       <div style={{ height: 10 }} />
       <div className={classes.heading}>lightness</div>
@@ -149,6 +161,7 @@ const GradientPicker = ({
         value={color.lightness}
         onChange={(lightness) => handleChange({ ...color, lightness })}
         range={LIGHTNESS_RANGE}
+        handleColor={handleColor}
       />
       {/*<Slider
         label='saturation'

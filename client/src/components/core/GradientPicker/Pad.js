@@ -5,7 +5,6 @@ import { clamp, clampBar, interpolate } from 'services/utils'
 
 const CIRCLE_RADIUS = 8
 const BAR_HEIGHT = 8
-const HANDLE_COLOR = 'hsla(0, 0%, 100%, 1.0)'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       '& > rect': {
         cursor: 'move',
-        fill: HANDLE_COLOR,
+        fill: ({ handleColor }) => handleColor || theme.palette.text.primary,
       },
       '& > circle': {
         fill: 'transparent',
-        stroke: HANDLE_COLOR,
+        stroke: ({ handleColor }) => handleColor || theme.palette.text.primary,
         strokeWidth: 2,
         cursor: 'ew-resize',
       }
@@ -31,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Pad = ({ value, onChange, xRange, yRange }) => {
-  const classes = useStyles()
+const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
+  const classes = useStyles({ handleColor })
   const [dimensions, setDimensions] = useState(null)
   const [circle0, setCircle0] = useState(null)
   const [circle1, setCircle1] = useState(null)

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       '& > rect': {
         fill: 'transparent',
-        stroke: 'white',
+        stroke: ({ handleColor }) => handleColor || theme.palette.text.primary,
         strokeWidth: STROKE_WIDTH,
         cursor: 'pointer',
       },
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: ({ color }) => `${lightnessGradient}, ${hueGradient({
       hueMin: color.hue[0],
       hueMax: color.hue[1],
-      saturation: 100,
+      saturation: color.saturation,
       lightness: 50,
       alpha: color.alpha,
       steps: 20,
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
       hueMin: color.hue[0],
       hueMax: color.hue[1],
       saturation: 100,
-      lightness: 50,
+      lightness: color.lightness,
       alpha: color.alpha,
       steps: 20,
       direction: 'bottom',
@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Slider = ({ color, value, onChange, range, gradient }) => {
-  const classes = useStyles({ color })
+const Slider = ({ color, value, onChange, range, gradient, handleColor }) => {
+  const classes = useStyles({ color, handleColor })
   const [dimensions, setDimensions] = useState(null)
   const [bar, setBar] = useState(null)
   const containerRef = useRef(null)
