@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { hueGradient, alphaGradient } from 'services/utils'
 import Pad from './Pad'
 import Slider from 'components/core/Slider'
+import NewSlider from './Slider'
 import tinycolor from 'tinycolor2'
 
 const HUE_RANGE = [0, 360]
@@ -25,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
       lightness: color.lightness,
       alpha: color.alpha,
     }),
+  },
+  heading: {
+    fontSize: '0.7em',
+    fontStyle: 'italic',
+    opacity: 0.8,
+    marginBottom: 2,
   },
   pad: {
     height: 200,
@@ -102,6 +109,8 @@ const GradientPicker = ({ /* color, */ onChange }) => {
   return (
     <div className={classes.root}>
       <div className={classes.swatch} />
+
+      <div className={classes.heading}>hue/opacity</div>
       <div className={classes.pad}>
         <div className={classes.padBackground} />
         <Pad
@@ -116,7 +125,12 @@ const GradientPicker = ({ /* color, */ onChange }) => {
           yRange={ALPHA_RANGE}
         />
       </div>
-      <Slider
+      <div className={classes.heading}>saturation</div>
+      <NewSlider color={color} gradient='saturation' />
+      <div style={{ height: 10 }} />
+      <div className={classes.heading}>lightness</div>
+      <NewSlider color={color} gradient='lightness' />
+      {/*<Slider
         label='saturation'
         range={[0, 100, 1]}
         value={color.saturation}
@@ -129,7 +143,7 @@ const GradientPicker = ({ /* color, */ onChange }) => {
         value={color.lightness}
         onChange={(lightness) => setColor({ ...color, lightness })}
         alwaysOpen
-      />
+      />*/}
     </div>
   )
 }
