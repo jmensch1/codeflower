@@ -4,15 +4,15 @@ import Tabs from './Tabs2'
 import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/ForceControls'
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import ThemeControls from 'components/ThemeControls'
-import DoubleHuePicker from 'components/core/DoubleHuePicker'
+import GradientPicker from 'components/core/GradientPicker'
 
 //////////////////// TAB CONFIG ///////////////////
 
 const TABS = [
-  // {
-  //   type: 'hues',
-  //   Component: DoubleHuePicker,
-  // },
+  {
+    type: 'gradient',
+    Component: GradientPicker,
+  },
   {
     type: 'forces',
     Component: ForceControls,
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Controls = () => {
   const classes = useStyles()
-  const [tab, setTab] = useState('styles')
+  const [tab, setTab] = useState('gradient')
   const { Component } = TABS.find((t) => t.type === tab)
 
   return (
