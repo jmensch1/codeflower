@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
+import { clamp, clampBar, interpolate } from 'services/utils'
 
 const CIRCLE_RADIUS = 8
 const BAR_HEIGHT = 8
@@ -29,31 +30,6 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 }))
-
-function clamp(num, range) {
-  let [min, max] = range
-  if (max < min) [min, max] = [max, min]
-  return Math.min(Math.max(num, min), max)
-}
-
-// clamps x1 and x2 within xRange while maintaining the distance between them
-function clampBar(x1, x2, xRange) {
-  const xDistance = x2 - x1
-
-  x1 = clamp(x1, xRange)
-  x2 = x1 + xDistance
-
-  x2 = clamp(x2, xRange)
-  x1 = x2 - xDistance
-
-  return [x1, x2]
-}
-
-function interpolate(num, domain, range, useClamp = false) {
-  const domainRatio = (num - domain[0]) / (domain[1] - domain[0])
-  const targetValue = domainRatio * (range[1] - range[0]) + range[0]
-  return useClamp ? clamp(targetValue, range) : targetValue
-}
 
 const Pad = ({ value, onChange, xRange, yRange }) => {
   const classes = useStyles()
