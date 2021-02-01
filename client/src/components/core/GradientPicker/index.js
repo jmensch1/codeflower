@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { hueGradient, alphaGradient } from 'services/utils'
 import Pad from './Pad'
@@ -7,6 +7,8 @@ import NewSlider from './Slider'
 import tinycolor from 'tinycolor2'
 
 const HUE_RANGE = [0, 360]
+const SATURATION_RANGE = [0, 100]
+const LIGHTNESS_RANGE = [0, 100]
 const ALPHA_RANGE = [1, 0]
 
 const useStyles = makeStyles((theme) => ({
@@ -96,7 +98,10 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const GradientPicker = ({ /* color, */ onChange }) => {
+const GradientPicker = ({
+  //color,
+  onChange
+}) => {
   const [color, setColor] = useState({
     hue: [50, 150],
     saturation: 100,
@@ -104,12 +109,16 @@ const GradientPicker = ({ /* color, */ onChange }) => {
     alpha: 1.0,
   })
 
+  const handleChange = useCallback((color) => {
+    setColor(color)
+    // onChange(color)
+  }, [onChange])
+
   const classes = useStyles({ color })
 
   return (
     <div className={classes.root}>
       <div className={classes.swatch} />
-
       <div className={classes.heading}>hue/opacity</div>
       <div className={classes.pad}>
         <div className={classes.padBackground} />
@@ -119,29 +128,40 @@ const GradientPicker = ({ /* color, */ onChange }) => {
             x: color.hue,
             y: color.alpha,
           }}
-          //onChange={onChange}
-          onChange={({ x: hue, y: alpha }) => setColor({ ...color, hue, alpha })}
+          onChange={({ x: hue, y: alpha }) => handleChange({ ...color, hue, alpha })}
           xRange={HUE_RANGE}
           yRange={ALPHA_RANGE}
         />
       </div>
       <div className={classes.heading}>saturation</div>
-      <NewSlider color={color} gradient='saturation' />
+      <NewSlider
+        color={color}
+        gradient='saturation'
+        value={color.saturation}
+        onChange={(saturation) => handleChange({ ...color, saturation })}
+        range={SATURATION_RANGE}
+      />
       <div style={{ height: 10 }} />
       <div className={classes.heading}>lightness</div>
-      <NewSlider color={color} gradient='lightness' />
+      <NewSlider
+        color={color}
+        gradient='lightness'
+        value={color.lightness}
+        onChange={(lightness) => handleChange({ ...color, lightness })}
+        range={LIGHTNESS_RANGE}
+      />
       {/*<Slider
         label='saturation'
         range={[0, 100, 1]}
         value={color.saturation}
-        onChange={(saturation) => setColor({ ...color, saturation })}
+        onChange={(saturation) => handleChange({ ...color, saturation })}
         alwaysOpen
       />
       <Slider
         label='lightness'
         range={[0, 1, 0.01]}
         value={color.lightness}
-        onChange={(lightness) => setColor({ ...color, lightness })}
+        onChange={(lightness) => handleChange({ ...color, lightness })}
         alwaysOpen
       />*/}
     </div>

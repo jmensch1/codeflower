@@ -88,6 +88,10 @@ export const opacityGradient = (steps = 20, direction = 'right') => {
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
+export const checkerGradient = () => {
+  return 'repeating-conic-gradient(hsla(0, 0%, 100%, 0.05) 0% 25%, transparent 0% 50%) 50% / 20px 20px'
+}
+
 export const colorString = (color) => {
   const { hue, saturation, lightness, alpha } = color
   return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
