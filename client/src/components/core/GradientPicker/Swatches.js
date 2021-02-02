@@ -6,8 +6,8 @@ const NUM_STEPS = 8
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-between',
-    padding: 5,
+    justifyContent: 'space-around',
+    padding: '5px 0',
   },
 }))
 

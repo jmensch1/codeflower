@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     height: 200,
   },
   slider: {
-    height: 20,
+    height: 25,
   },
 }))
 
@@ -71,7 +71,7 @@ const GradientPicker = ({
       {/*<div className={classes.swatch} />*/}
       <Swatches color={color} />
 
-      <div className={classes.heading}>hue/opacity</div>
+      <div className={classes.heading}>hue/alpha</div>
       <div className={classes.pad}>
         <HueAlphaGradient
           hueRange={HUE_RANGE}
