@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
-import { clamp, clampBar, interpolate } from 'services/utils'
+import { clampBar, interpolate } from 'services/utils'
 
 const CIRCLE_RADIUS = 8
 const BAR_HEIGHT = 8
