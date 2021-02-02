@@ -5,6 +5,9 @@ import { clampBar, interpolate } from 'services/utils'
 
 const CIRCLE_RADIUS = 8
 const BAR_HEIGHT = 8
+const SVG_CURSOR_STYLE = 'default'
+const CIRCLE_CURSOR_STYLE = 'ew-resize'
+const BAR_CURSOR_STYLE = 'move'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,24 +19,26 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       height: '100%',
       width: '100%',
-      '& > rect': {
-        cursor: 'move',
-        fill: ({ handleColor }) => handleColor || theme.palette.text.primary,
-        fillOpacity: 0.6,
-      },
+      cursor: SVG_CURSOR_STYLE,
       '& > circle': {
         fill: 'transparent',
         stroke: ({ handleColor }) => handleColor || theme.palette.text.primary,
         strokeWidth: 2,
-        cursor: 'ew-resize',
-      }
-    }
-  }
+        cursor: CIRCLE_CURSOR_STYLE,
+      },
+      '& > rect': {
+        cursor: BAR_CURSOR_STYLE,
+        fill: ({ handleColor }) => handleColor || theme.palette.text.primary,
+        fillOpacity: 0.6,
+      },
+    },
+  },
 }))
 
 const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
   const classes = useStyles({ handleColor })
   const [dimensions, setDimensions] = useState(null)
+  const [svg, setSvg] = useState(null)
   const [circle0, setCircle0] = useState(null)
   const [circle1, setCircle1] = useState(null)
   const [bar, setBar] = useState(null)
@@ -77,6 +82,7 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
     const circle1 = svg.append('circle').attr('r', CIRCLE_RADIUS)
     const bar = svg.append('rect')
 
+    setSvg(svg)
     setCircle0(circle0)
     setCircle1(circle1)
     setBar(bar)
@@ -92,14 +98,16 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
     circle0.call(
       d3
         .drag()
-        .on('drag', ({ x, y }) => {
+        .on('start', () => svg.style('cursor', CIRCLE_CURSOR_STYLE))
+        .on('drag', ({ x }) => {
           onChange({
-            ...valueRef.current,
-            x: [getXValue(x), valueRef.current.x[1]]
+            x: [getXValue(x), valueRef.current.x[1]],
+            y: valueRef.current.y,
           })
         })
+        .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
     )
-  }, [circle0, getXValue, onChange])
+  }, [svg, circle0, getXValue, onChange])
 
   useEffect(() => {
     if (!circle1) return
@@ -107,14 +115,16 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
     circle1.call(
       d3
         .drag()
-        .on('drag', ({ x, y }) => {
+        .on('start', () => svg.style('cursor', CIRCLE_CURSOR_STYLE))
+        .on('drag', ({ x }) => {
           onChange({
-            ...valueRef.current,
-            x: [valueRef.current.x[0], getXValue(x)]
+            x: [valueRef.current.x[0], getXValue(x)],
+            y: valueRef.current.y,
           })
         })
+        .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
     )
-  }, [circle1, getXValue, onChange])
+  }, [svg, circle1, getXValue, onChange])
 
   useEffect(() => {
     if (!bar) return
@@ -122,6 +132,7 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
     bar.call(
       d3
         .drag()
+        .on('start', () => svg.style('cursor', BAR_CURSOR_STYLE))
         .on('drag', ({ y, dx }) => {
           const [x1, x2] = clampBar(
             getUnclampedX(valueRef.current.x[0]) + dx,
@@ -129,16 +140,16 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
             [0, dimensions.width],
           )
           onChange({
-            ...valueRef.current,
             x: [getXValue(x1), getXValue(x2)],
             y: getYValue(y),
           })
         })
+        .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
     )
-  }, [bar, getUnclampedX, getXValue, getYValue, onChange, dimensions])
+  }, [svg, bar, getUnclampedX, getXValue, getYValue, onChange, dimensions])
 
   useEffect(() => {
-    if (!value || !circle0) return
+    if (!value || !svg || !bar || !circle0 || !circle1) return
 
     valueRef.current = value
 
@@ -149,13 +160,8 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
     circle0.attr('cx', x1).attr('cy', y)
     circle1.attr('cx', x2).attr('cy', y)
 
-    const barLeft = x2 >= x1
-      ? x1 + CIRCLE_RADIUS
-      : x2 + CIRCLE_RADIUS
-
-    const barRight = x2 >= x1
-      ? x2 - CIRCLE_RADIUS
-      : x1 - CIRCLE_RADIUS
+    const barLeft = Math.min(x1, x2) + CIRCLE_RADIUS
+    const barRight = Math.max(x1, x2) - CIRCLE_RADIUS
 
     if (barRight >= barLeft) {
       bar
@@ -168,7 +174,7 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
       bar.attr('visibility', 'hidden')
     }
 
-  }, [value, circle0, circle1, bar, getX, getY])
+  }, [svg, circle0, circle1, bar, value, getX, getY])
 
   return (
     <div id='gradient-picker-pad' className={classes.root} />

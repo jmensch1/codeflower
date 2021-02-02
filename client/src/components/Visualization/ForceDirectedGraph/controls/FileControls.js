@@ -63,13 +63,13 @@ const FileControls = () => {
         onChange={onChangeStyles}
         gradient='opacity'
       />*/}
-      <SmartSlider
+      {/*<SmartSlider
         label='radius: coefficient'
         range={[1, 50, 1]}
         obj={visStyles}
         path='files.radius.coeff'
         onChange={onChangeStyles}
-      />
+      />*/}
       <Slider
         label='radius: coefficient'
         range={[1, 50, 1]}

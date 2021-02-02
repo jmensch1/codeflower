@@ -6,6 +6,8 @@ import * as d3 from 'd3'
 
 const BAR_WIDTH = 10
 const STROKE_WIDTH = 2
+const SVG_CURSOR_STYLE = 'pointer'
+const BAR_CURSOR_STYLE = 'pointer'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,11 +19,12 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       height: '100%',
       width: '100%',
+      cursor: SVG_CURSOR_STYLE,
       '& > rect': {
         fill: 'transparent',
         stroke: ({ handleColor }) => handleColor || theme.palette.text.primary,
         strokeWidth: STROKE_WIDTH,
-        cursor: 'pointer',
+        cursor: BAR_CURSOR_STYLE,
       },
     },
   },
@@ -30,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const Slider = ({ value, onChange, range, gradient, handleColor }) => {
   const classes = useStyles({ handleColor })
   const [dimensions, setDimensions] = useState(null)
+  const [svg, setSvg] = useState(null)
   const [bar, setBar] = useState(null)
   const containerRef = useRef(null)
 
@@ -55,6 +59,7 @@ const Slider = ({ value, onChange, range, gradient, handleColor }) => {
       .attr('width', BAR_WIDTH)
       .attr('y', STROKE_WIDTH / 2)
 
+    setSvg(svg)
     setBar(bar)
 
     return () => {
@@ -63,16 +68,22 @@ const Slider = ({ value, onChange, range, gradient, handleColor }) => {
   }, [])
 
   useEffect(() => {
-    if (!bar) return
+    if (!svg) return
+
+    svg.on('click', ({ offsetX }) => onChange(getValue(offsetX)))
+  }, [svg, getValue, onChange])
+
+  useEffect(() => {
+    if (!svg || !bar) return
 
     bar.call(
       d3
         .drag()
-        .on('drag', ({ x }) => {
-          onChange(getValue(x))
-        })
+        .on('start', () => svg.style('cursor', BAR_CURSOR_STYLE))
+        .on('drag', ({ x }) => onChange(getValue(x)))
+        .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
     )
-  }, [bar, getValue, onChange])
+  }, [svg, bar, getValue, onChange])
 
   useEffect(() => {
     if (!value || !bar) return
