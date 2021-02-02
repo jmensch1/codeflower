@@ -51,6 +51,8 @@ const Pad = ({
   const [bar, setBar] = useState(null)
   const valueRef = useRef(null)
 
+  //// TRANFORMERS ////
+
   const getXValue = useCallback((x) => {
     if (!xRange || !dimensions) return null
     return interpolate(x, [0, dimensions.width], xRange, true)
@@ -76,6 +78,8 @@ const Pad = ({
     return interpolate(yValue, yRange, [dimensions.height, 0])
   }, [yRange, dimensions])
 
+  //// INITIALIZE ////
+
   useEffect(() => {
     const container = containerRef.current
 
@@ -87,7 +91,7 @@ const Pad = ({
     const svg = d3.select(container).append('svg')
     const circle0 = svg.append('circle').attr('r', CIRCLE_RADIUS)
     const circle1 = svg.append('circle').attr('r', CIRCLE_RADIUS)
-    const bar = svg.append('rect')
+    const bar = svg.append('rect').attr('height', BAR_HEIGHT)
 
     setSvg(svg)
     setCircle0(circle0)
@@ -99,39 +103,41 @@ const Pad = ({
     }
   }, [])
 
-  useEffect(() => {
-    if (!circle0) return
-
-    circle0.call(
-      d3
-        .drag()
-        .on('start', () => svg.style('cursor', CIRCLE_CURSOR_STYLE))
-        .on('drag', ({ x }) => {
-          onChange({
-            x: [getXValue(x), valueRef.current.x[1]],
-            y: valueRef.current.y,
-          })
-        })
-        .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
-    )
-  }, [svg, circle0, getXValue, onChange])
+  //// CIRCLE DRAG HANDLERS ////
 
   useEffect(() => {
-    if (!circle1) return
+    if (!circle0 || !circle1) return
 
-    circle1.call(
+    const changeCursor = () => svg.style('cursor', CIRCLE_CURSOR_STYLE)
+    const restoreCursor = () => svg.style('cursor', SVG_CURSOR_STYLE)
+
+    const createDrag = (onDrag) => (
       d3
         .drag()
-        .on('start', () => svg.style('cursor', CIRCLE_CURSOR_STYLE))
-        .on('drag', ({ x }) => {
-          onChange({
-            x: [valueRef.current.x[0], getXValue(x)],
-            y: valueRef.current.y,
-          })
-        })
-        .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
+        .on('start', changeCursor)
+        .on('drag', onDrag)
+        .on('end', restoreCursor)
     )
-  }, [svg, circle1, getXValue, onChange])
+
+    const circle0Drag = createDrag(({ x }) => {
+      onChange({
+        x: [getXValue(x), valueRef.current.x[1]],
+        y: valueRef.current.y,
+      })
+    })
+
+    const circle1Drag = createDrag(({ x }) => {
+      onChange({
+        x: [valueRef.current.x[0], getXValue(x)],
+        y: valueRef.current.y,
+      })
+    })
+
+    circle0.call(circle0Drag)
+    circle1.call(circle1Drag)
+  }, [svg, circle0, circle1, getXValue, onChange])
+
+  //// BAR DRAG HANDLER ////
 
   useEffect(() => {
     if (!bar) return
@@ -155,6 +161,8 @@ const Pad = ({
     )
   }, [svg, bar, getUnclampedX, getXValue, getYValue, onChange, dimensions])
 
+  //// UPDATE ELEMENTS ////
+
   useEffect(() => {
     if (!value || !svg || !bar || !circle0 || !circle1) return
 
@@ -175,12 +183,10 @@ const Pad = ({
         .attr('x', barLeft)
         .attr('y', y - BAR_HEIGHT / 2)
         .attr('width', barRight - barLeft)
-        .attr('height', BAR_HEIGHT)
         .attr('visibility', 'visible')
     } else {
       bar.attr('visibility', 'hidden')
     }
-
   }, [svg, circle0, circle1, bar, value, getX, getY])
 
   return (
