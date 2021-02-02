@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { hueGradient } from 'services/utils'
 import Pad from './Pad'
@@ -40,13 +40,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const DoubleHuePicker = ({ color, onChange }) => {
-  // const [color, setColor] = useState({
-  //   hue: [50, 150],
-  //   saturation: 100,
-  //   lightness: 50,
-  //   alpha: 1.0,
-  // })
-
   const classes = useStyles({ color })
 
   return (
