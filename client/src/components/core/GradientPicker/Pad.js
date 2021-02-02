@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
       '& > rect': {
         cursor: 'move',
         fill: ({ handleColor }) => handleColor || theme.palette.text.primary,
+        fillOpacity: 0.6,
       },
       '& > circle': {
         fill: 'transparent',

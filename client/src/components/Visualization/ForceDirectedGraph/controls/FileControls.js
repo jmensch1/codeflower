@@ -49,7 +49,7 @@ const FileControls = () => {
         color={getPath(visStyles, 'files.fill')}
         onChange={onChangeFileFill}
       />
-      <ColorPicker
+      {/*<ColorPicker
         label='fill: colors'
         obj={visStyles}
         path='files.fill'
@@ -62,7 +62,7 @@ const FileControls = () => {
         path='files.fill.alpha'
         onChange={onChangeStyles}
         gradient='opacity'
-      />
+      />*/}
       <SmartSlider
         label='radius: coefficient'
         range={[1, 50, 1]}

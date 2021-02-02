@@ -39,17 +39,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DoubleHuePicker = ({ /* color, */ onChange }) => {
-  const [color, setColor] = useState({
-    hue: [50, 150],
-    saturation: 100,
-    lightness: 50,
-    alpha: 1.0,
-  })
+const DoubleHuePicker = ({ color, onChange }) => {
+  // const [color, setColor] = useState({
+  //   hue: [50, 150],
+  //   saturation: 100,
+  //   lightness: 50,
+  //   alpha: 1.0,
+  // })
 
   const classes = useStyles({ color })
-
-
 
   return (
     <div className={classes.root}>
@@ -57,8 +55,7 @@ const DoubleHuePicker = ({ /* color, */ onChange }) => {
       <div className={classes.pad}>
         <Pad
           color={color}
-          //onChange={onChange}
-          onChange={setColor}
+          onChange={onChange}
           hueRange={HUE_RANGE}
           lightnessRange={LIGHTNESS_RANGE}
         />
@@ -67,14 +64,14 @@ const DoubleHuePicker = ({ /* color, */ onChange }) => {
         label='saturation'
         range={[0, 100, 1]}
         value={color.saturation}
-        onChange={(saturation) => setColor({ ...color, saturation })}
+        onChange={(saturation) => onChange({ ...color, saturation })}
         alwaysOpen
       />
       <Slider
         label='opacity'
         range={[0, 1, 0.01]}
         value={color.alpha}
-        onChange={(alpha) => setColor({ ...color, alpha })}
+        onChange={(alpha) => onChange({ ...color, alpha })}
         alwaysOpen
       />
     </div>
