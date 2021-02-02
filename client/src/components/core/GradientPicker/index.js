@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { hueGradient } from 'services/utils'
+import { hueGradient, interpolate } from 'services/utils'
 import Pad from './Pad'
 import Slider from './Slider'
-import { interpolate } from 'services/utils'
 import HueAlphaGradient from './gradients/HueAlpha'
+import LightnessHueGradient from './gradients/LightnessHue'
+import SaturationHueGradient from './gradients/SaturationHue'
 
 const HUE_RANGE = [0, 360]
 const SATURATION_RANGE = [0, 100]
@@ -39,34 +40,27 @@ const useStyles = makeStyles((theme) => ({
   pad: {
     height: 200,
   },
+  slider: {
+    height: 20,
+  },
 }))
 
 const GradientPicker = ({
-  //color,
+  color,
   onChange
 }) => {
   const theme = useTheme()
-  const [color, setColor] = useState({
-    hue: [50, 150],
-    saturation: 100,
-    lightness: 50,
-    alpha: 1.0,
-  })
+  const classes = useStyles({ color })
 
   const handleChange = useCallback((color) => {
-    setColor(color)
-    // onChange(color)
-  }, [
-    // onChange
-  ])
-
-  const classes = useStyles({ color })
+    onChange(color)
+  }, [onChange])
 
   const handleColor = `
     hsla(
       0,
       0%,
-      ${interpolate(color.lightness, [60, 70], [100, 0])}%,
+      ${interpolate(color.lightness, [75, 85], [100, 0])}%,
       1.0
     )
   `
@@ -74,6 +68,7 @@ const GradientPicker = ({
   return (
     <div className={classes.root}>
       <div className={classes.swatch} />
+
       <div className={classes.heading}>hue/opacity</div>
       <div className={classes.pad}>
         <HueAlphaGradient
@@ -92,24 +87,40 @@ const GradientPicker = ({
           />
         </HueAlphaGradient>
       </div>
+
       <div className={classes.heading}>saturation</div>
-      <Slider
-        color={color}
-        gradient='saturation'
-        value={color.saturation}
-        onChange={(saturation) => handleChange({ ...color, saturation })}
-        range={SATURATION_RANGE}
-        handleColor={handleColor}
-      />
+      <div className={classes.slider}>
+        <SaturationHueGradient
+          saturationRange={SATURATION_RANGE}
+          hueRange={color.hue}
+          lightness={color.lightness}
+          alpha={color.alpha}
+        >
+          <Slider
+            value={color.saturation}
+            onChange={(saturation) => handleChange({ ...color, saturation })}
+            range={SATURATION_RANGE}
+            handleColor={handleColor}
+          />
+        </SaturationHueGradient>
+      </div>
+
       <div className={classes.heading}>lightness</div>
-      <Slider
-        color={color}
-        gradient='lightness'
-        value={color.lightness}
-        onChange={(lightness) => handleChange({ ...color, lightness })}
-        range={LIGHTNESS_RANGE}
-        handleColor={handleColor}
-      />
+      <div className={classes.slider}>
+        <LightnessHueGradient
+          lightnessRange={LIGHTNESS_RANGE}
+          hueRange={color.hue}
+          saturation={color.saturation}
+          alpha={color.alpha}
+        >
+          <Slider
+            value={color.lightness}
+            onChange={(lightness) => handleChange({ ...color, lightness })}
+            range={LIGHTNESS_RANGE}
+            handleColor={handleColor}
+          />
+        </LightnessHueGradient>
+      </div>
     </div>
   )
 }

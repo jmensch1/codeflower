@@ -8,10 +8,26 @@ import GradientPicker from 'components/core/GradientPicker'
 
 //////////////////// TAB CONFIG ///////////////////
 
+const MockGradientPicker = () => {
+  const [color, setColor] = useState({
+    hue: [50, 150],
+    saturation: 100,
+    lightness: 50,
+    alpha: 1.0,
+  })
+
+  return (
+    <GradientPicker
+      color={color}
+      onChange={setColor}
+    />
+  )
+}
+
 const TABS = [
   {
     type: 'gradient',
-    Component: GradientPicker,
+    Component: MockGradientPicker,
   },
   {
     type: 'forces',

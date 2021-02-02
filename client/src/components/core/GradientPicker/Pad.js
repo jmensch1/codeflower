@@ -40,7 +40,7 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
 
   const getXValue = useCallback((x) => {
     if (!xRange || !dimensions) return null
-    return interpolate(x, [0, dimensions.width], xRange)
+    return interpolate(x, [0, dimensions.width], xRange, true)
   }, [xRange, dimensions])
 
   const getX = useCallback((xValue) => {

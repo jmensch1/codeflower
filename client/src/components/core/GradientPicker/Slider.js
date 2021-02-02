@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import { hueGradient, interpolate } from 'services/utils'
+import { interpolate } from 'services/utils'
 import * as d3 from 'd3'
 
 const BAR_WIDTH = 10
 const STROKE_WIDTH = 2
 
-const lightnessGradient = 'linear-gradient(-90deg, hsla(0,0%,100%,1) 0%, hsla(0,0%,100%,0) 50%, hsla(0,0%,0%,0) 50%, hsla(0,0%,0%,1) 100%)'
-const saturationGradient = 'linear-gradient(90deg, hsla(0,0%,50%,1), hsla(0,0%,50%,0))'
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 20,
+    height: '100%',
     position: 'relative',
     '& > svg': {
       position: 'absolute',
@@ -28,32 +25,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  lightness: {
-    backgroundImage: ({ color }) => `${lightnessGradient}, ${hueGradient({
-      hueMin: color.hue[0],
-      hueMax: color.hue[1],
-      saturation: color.saturation,
-      lightness: 50,
-      alpha: color.alpha,
-      steps: 20,
-      direction: 'bottom',
-    })}`,
-  },
-  saturation: {
-    backgroundImage: ({ color }) => `${saturationGradient}, ${hueGradient({
-      hueMin: color.hue[0],
-      hueMax: color.hue[1],
-      saturation: 100,
-      lightness: color.lightness,
-      alpha: color.alpha,
-      steps: 20,
-      direction: 'bottom',
-    })}`,
-  }
 }))
 
-const Slider = ({ color, value, onChange, range, gradient, handleColor }) => {
-  const classes = useStyles({ color, handleColor })
+const Slider = ({ value, onChange, range, gradient, handleColor }) => {
+  const classes = useStyles({ handleColor })
   const [dimensions, setDimensions] = useState(null)
   const [bar, setBar] = useState(null)
   const containerRef = useRef(null)

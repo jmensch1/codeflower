@@ -6,6 +6,7 @@ import { useVisStyles } from 'store/selectors'
 import { setVisStyles, updateVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import DoubleHuePicker from 'components/core/DoubleHuePicker'
+import GradientPicker from 'components/core/GradientPicker'
 import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,10 @@ const FileControls = () => {
   return (
     <div className={classes.root}>
       <DoubleHuePicker
+        color={getPath(visStyles, 'files.fill')}
+        onChange={onChangeFileFill}
+      />
+      <GradientPicker
         color={getPath(visStyles, 'files.fill')}
         onChange={onChangeFileFill}
       />
