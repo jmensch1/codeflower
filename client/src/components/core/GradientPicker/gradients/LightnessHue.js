@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { hueGradient } from 'services/utils'
+import { hueGradient, checkerGradient } from 'services/utils'
 
 const lightnessGradient = ({ alpha }) => {
   return `
@@ -25,11 +25,11 @@ const useStyles = makeStyles({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundImage: ({ lightnessRange, hueRange, saturation, alpha }) => `
+    background: ({ lightnessRange, hueRange, saturation, alpha }) => `
       ${lightnessGradient({
         alpha
       })}
-      , 
+      ,
       ${hueGradient({
         hueMin: hueRange[0],
         hueMax: hueRange[1],
@@ -40,6 +40,18 @@ const useStyles = makeStyles({
         direction: 'bottom',
       })}
     `,
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: ({ backgroundColor }) => checkerGradient({
+        alpha: 0.008,
+        backgroundColor,
+      }),
+    }
   },
 })
 
@@ -48,6 +60,7 @@ const LightnessHue = ({
   hueRange = [0, 360],
   saturation = 0,
   alpha = 1.0,
+  backgroundColor = 'hsla(0, 0%, 0%, 1.0)',
   children,
 }) => {
   const classes = useStyles({
@@ -55,6 +68,7 @@ const LightnessHue = ({
     hueRange,
     saturation,
     alpha,
+    backgroundColor,
   })
 
   return (

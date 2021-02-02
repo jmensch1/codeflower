@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import tinycolor from 'tinycolor2'
-import { hueGradient, alphaGradient } from 'services/utils'
+import { hueGradient, alphaGradient, checkerGradient } from 'services/utils'
 
 const useStyles = makeStyles({
   root: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundImage: ({ hueRange, saturation, lightness, backgroundColor }) => `
+    background: ({ hueRange, saturation, lightness, backgroundColor }) => `
       ${alphaGradient({
         saturation: 0,
         lightness: tinycolor(backgroundColor).toHsl().l * 100,
@@ -37,28 +37,10 @@ const useStyles = makeStyles({
       left: 0,
       right: 0,
       bottom: 0,
-      // checker gradient taken from https://hslpicker.com/
-      // TODO: gradient needs to vary with theme.palette.background.paper
-      backgroundSize: '20px 20px',
-      backgroundPosition: '0px 0px, 10px 10px',
-      backgroundImage: `
-        linear-gradient(
-          45deg,
-            rgba(255,255,255,0.008) 25%,
-            transparent 25%,transparent 75%,
-            rgba(255,255,255,0.008) 75%,
-            rgba(255,255,255,0.008)
-        )
-        ,
-        linear-gradient(
-          45deg,
-            rgba(255,255,255,0.008) 25%,
-            transparent 25%,
-            transparent 75%,
-            rgba(255,255,255,0.008) 75%,
-            rgba(255,255,255,0.008)
-        )
-      `,
+      background: ({ backgroundColor }) => checkerGradient({
+        alpha: 0.008,
+        backgroundColor,
+      }),
     }
   },
 })

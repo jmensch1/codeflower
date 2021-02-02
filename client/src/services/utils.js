@@ -1,3 +1,5 @@
+import tinycolor from 'tinycolor2'
+
 import setWith from 'lodash/setWith'
 import clone from 'lodash/clone'
 import get from 'lodash/get'
@@ -88,8 +90,38 @@ export const opacityGradient = (steps = 20, direction = 'right') => {
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
-export const checkerGradient = () => {
-  return 'repeating-conic-gradient(hsla(0, 0%, 100%, 0.05) 0% 25%, transparent 0% 50%) 50% / 20px 20px'
+// export const checkerGradient = () => {
+//   return 'repeating-conic-gradient(hsla(0, 0%, 100%, 0.05) 0% 25%, transparent 0% 50%) 50% / 20px 20px'
+// }
+
+// gradient from https://hslpicker.com/
+export const checkerGradient = ({
+  alpha = 1,
+  size = 20,
+  backgroundColor = 'hsla(0,0%,0%,1)',
+} = {}) => {
+  const isDarkBackground = tinycolor(backgroundColor).toHsl().l < 0.5
+  const lightness = isDarkBackground ? 100 : 0
+
+  return `
+    linear-gradient(
+      45deg,
+        hsla(0,0%,${lightness}%,${alpha}) 25%,
+        transparent 25%,
+        transparent 75%,
+        hsla(0,0%,${lightness}%,${alpha}) 75%,
+        hsla(0,0%,${lightness}%,${alpha})
+    ) 0px 0px / ${size}px ${size}px
+    ,
+    linear-gradient(
+      45deg,
+        hsla(0,0%,${lightness}%,${alpha}) 25%,
+        transparent 25%,
+        transparent 75%,
+        hsla(0,0%,${lightness}%,${alpha}) 75%,
+        hsla(0,0%,${lightness}%,${alpha})
+    ) ${size / 2}px ${size / 2}px / ${size}px ${size}px
+  `
 }
 
 export const colorString = (color) => {

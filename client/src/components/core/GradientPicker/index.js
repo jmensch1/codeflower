@@ -97,6 +97,7 @@ const GradientPicker = ({
           hueRange={color.hue}
           lightness={color.lightness}
           alpha={color.alpha}
+          backgroundColor={theme.palette.background.default}
         >
           <Slider
             value={color.saturation}
@@ -114,6 +115,7 @@ const GradientPicker = ({
           hueRange={color.hue}
           saturation={color.saturation}
           alpha={color.alpha}
+          backgroundColor={theme.palette.background.default}
         >
           <Slider
             value={color.lightness}

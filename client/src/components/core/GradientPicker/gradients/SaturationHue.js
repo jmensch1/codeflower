@@ -1,8 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { hueGradient } from 'services/utils'
+import { hueGradient, checkerGradient } from 'services/utils'
 
-//const saturationGradient = 'linear-gradient(90deg, hsla(0,0%,50%,1), hsla(0,0%,50%,0))'
 const saturationGradient = ({ alpha }) => {
   return `
     linear-gradient(
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundImage: ({ saturationRange, hueRange, lightness, alpha }) => `
+    background: ({ saturationRange, hueRange, lightness, alpha }) => `
       ${saturationGradient({
         alpha
       })}
@@ -39,6 +38,18 @@ const useStyles = makeStyles({
         direction: 'bottom',
       })}
     `,
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: ({ backgroundColor }) => checkerGradient({
+        alpha: 0.008,
+        backgroundColor,
+      }),
+    }
   },
 })
 
@@ -47,6 +58,7 @@ const LightnessHue = ({
   hueRange = [0, 360],
   lightness = 0,
   alpha = 1.0,
+  backgroundColor = 'hsla(0, 0%, 0%, 1.0)',
   children,
 }) => {
   const classes = useStyles({
@@ -54,6 +66,7 @@ const LightnessHue = ({
     hueRange,
     lightness,
     alpha,
+    backgroundColor,
   })
 
   return (
