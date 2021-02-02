@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { interpolate } from 'services/utils'
 import * as d3 from 'd3'
 
 const BAR_WIDTH = 10
-const STROKE_WIDTH = 2
+const BAR_STROKE_WIDTH = 2
 const SVG_CURSOR_STYLE = 'pointer'
 const BAR_CURSOR_STYLE = 'pointer'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     height: '100%',
     position: 'relative',
@@ -22,20 +21,25 @@ const useStyles = makeStyles((theme) => ({
       cursor: SVG_CURSOR_STYLE,
       '& > rect': {
         fill: 'transparent',
-        stroke: ({ handleColor }) => handleColor || theme.palette.text.primary,
-        strokeWidth: STROKE_WIDTH,
+        stroke: ({ handleColor }) => handleColor,
+        strokeWidth: BAR_STROKE_WIDTH,
         cursor: BAR_CURSOR_STYLE,
       },
     },
   },
-}))
+})
 
-const Slider = ({ value, onChange, range, gradient, handleColor }) => {
+const Slider = ({
+  value,
+  onChange,
+  range,
+  handleColor = 'hsla(0,0%,100%,1.0)',
+}) => {
+  const containerRef = useRef(null)
   const classes = useStyles({ handleColor })
   const [dimensions, setDimensions] = useState(null)
   const [svg, setSvg] = useState(null)
   const [bar, setBar] = useState(null)
-  const containerRef = useRef(null)
 
   const getValue = useCallback((x) => {
     if (!range || !dimensions) return null
@@ -55,9 +59,9 @@ const Slider = ({ value, onChange, range, gradient, handleColor }) => {
     const svg = d3.select(container).append('svg')
     const bar = svg
       .append('rect')
-      .attr('height', height - STROKE_WIDTH)
+      .attr('height', height - BAR_STROKE_WIDTH)
       .attr('width', BAR_WIDTH)
-      .attr('y', STROKE_WIDTH / 2)
+      .attr('y', BAR_STROKE_WIDTH / 2)
 
     setSvg(svg)
     setBar(bar)
@@ -92,10 +96,7 @@ const Slider = ({ value, onChange, range, gradient, handleColor }) => {
   }, [value, bar, getX])
 
   return (
-    <div
-      ref={containerRef}
-      className={clsx(classes.root, classes[gradient])}
-    />
+    <div ref={containerRef} className={classes.root} />
   )
 }
 

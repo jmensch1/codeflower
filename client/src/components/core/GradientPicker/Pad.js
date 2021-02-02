@@ -9,7 +9,7 @@ const SVG_CURSOR_STYLE = 'default'
 const CIRCLE_CURSOR_STYLE = 'ew-resize'
 const BAR_CURSOR_STYLE = 'move'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     height: '100%',
     position: 'relative',
@@ -22,20 +22,27 @@ const useStyles = makeStyles((theme) => ({
       cursor: SVG_CURSOR_STYLE,
       '& > circle': {
         fill: 'transparent',
-        stroke: ({ handleColor }) => handleColor || theme.palette.text.primary,
+        stroke: ({ handleColor }) => handleColor,
         strokeWidth: 2,
         cursor: CIRCLE_CURSOR_STYLE,
       },
       '& > rect': {
         cursor: BAR_CURSOR_STYLE,
-        fill: ({ handleColor }) => handleColor || theme.palette.text.primary,
+        fill: ({ handleColor }) => handleColor,
         fillOpacity: 0.6,
       },
     },
   },
-}))
+})
 
-const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
+const Pad = ({
+  value,
+  onChange,
+  xRange,
+  yRange,
+  handleColor = 'hsla(0,0%,100%,1.0)',
+}) => {
+  const containerRef = useRef(null)
   const classes = useStyles({ handleColor })
   const [dimensions, setDimensions] = useState(null)
   const [svg, setSvg] = useState(null)
@@ -70,7 +77,7 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
   }, [yRange, dimensions])
 
   useEffect(() => {
-    const container = document.getElementById('gradient-picker-pad')
+    const container = containerRef.current
 
     setDimensions({
       width: container.offsetWidth,
@@ -177,7 +184,7 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
   }, [svg, circle0, circle1, bar, value, getX, getY])
 
   return (
-    <div id='gradient-picker-pad' className={classes.root} />
+    <div ref={containerRef} className={classes.root} />
   )
 }
 
