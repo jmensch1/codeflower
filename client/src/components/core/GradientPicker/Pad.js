@@ -56,12 +56,12 @@ const Pad = ({ value, onChange, xRange, yRange, handleColor }) => {
 
   const getYValue = useCallback((y) => {
     if (!yRange || !dimensions) return null
-    return interpolate(y, [0, dimensions.height], yRange, true)
+    return interpolate(y, [dimensions.height, 0], yRange, true)
   }, [yRange, dimensions])
 
   const getY = useCallback((yValue) => {
     if (!yRange || !dimensions) return null
-    return interpolate(yValue, yRange, [0, dimensions.height])
+    return interpolate(yValue, yRange, [dimensions.height, 0])
   }, [yRange, dimensions])
 
   useEffect(() => {

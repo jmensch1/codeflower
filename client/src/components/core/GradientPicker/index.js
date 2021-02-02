@@ -11,7 +11,7 @@ import Swatches from './Swatches'
 const HUE_RANGE = [0, 360]
 const SATURATION_RANGE = [0, 100]
 const LIGHTNESS_RANGE = [0, 100]
-const ALPHA_RANGE = [1, 0]
+const ALPHA_RANGE = [0, 1]
 
 const useStyles = makeStyles((theme) => ({
   root: {

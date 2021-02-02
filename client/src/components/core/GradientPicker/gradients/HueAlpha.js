@@ -14,8 +14,10 @@ const useStyles = makeStyles({
     bottom: 0,
     left: 0,
     right: 0,
-    background: ({ hueRange, saturation, lightness, backgroundColor }) => `
+    background: ({ hueRange, alphaRange, saturation, lightness, backgroundColor }) => `
       ${alphaGradient({
+        alphaMin: alphaRange[0],
+        alphaMax: alphaRange[1],
         saturation: 0,
         lightness: tinycolor(backgroundColor).toHsl().l * 100,
         direction: 'bottom',

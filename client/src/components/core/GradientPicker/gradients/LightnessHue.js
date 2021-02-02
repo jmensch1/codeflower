@@ -2,14 +2,14 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { hueGradient, checkerGradient } from 'services/utils'
 
-const lightnessGradient = ({ alpha }) => {
+const lightnessGradient = ({ alpha = 1.0 }) => {
   return `
     linear-gradient(
-      -90deg,
-        hsla(0,0%,100%,${alpha}) 0%,
-        hsla(0,0%,100%,0) 50%,
+      90deg,
+        hsla(0,0%,0%,${alpha}) 0%,
         hsla(0,0%,0%,0) 50%,
-        hsla(0,0%,0%,${alpha}) 100%
+        hsla(0,0%,100%,0) 50%,
+        hsla(0,0%,100%,${alpha}) 100%
     )
   `
 }
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     right: 0,
     background: ({ lightnessRange, hueRange, saturation, alpha }) => `
       ${lightnessGradient({
-        alpha
+        alpha,
       })}
       ,
       ${hueGradient({
