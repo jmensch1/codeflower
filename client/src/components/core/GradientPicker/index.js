@@ -36,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: 'italic',
     opacity: 0.8,
     marginBottom: 2,
-    marginTop: 10,
+    '&:not(:first-of-type)': {
+      marginTop: 10,
+    },
   },
   pad: {
     height: 200,

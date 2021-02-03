@@ -8,7 +8,7 @@ import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 10,
+    padding: 10,
   },
 }))
 

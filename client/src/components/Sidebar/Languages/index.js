@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from './Table'
+import GradientButton from './GradientButton'
 import Gradient from './Gradient'
-import PaletteIcon from '@material-ui/icons/Palette'
-import DownIcon from '@material-ui/icons/ArrowDropDown'
-import UpIcon from '@material-ui/icons/ArrowDropUp'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,52 +17,54 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   gradient: {
-    flex: 0,
     backgroundColor: ({ showGradient }) => showGradient
       ? theme.palette.background.default
       : 'transparent',
   },
-  gradientButton: {
-    borderTop: `1px ${theme.palette.divider} solid`,
-    padding: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    cursor: 'pointer',
-  },
-  icon: {
-    color: theme.palette.text.primary,
-    opacity: 0.38,
-    display: 'block',
-  },
-  gradientContainer: {
-    height: ({ showGradient }) => showGradient ? 340 : 0,
-    transition: 'all 0.25s ease-out',
-    borderTop: `1px ${theme.palette.divider} solid`,
+  gradientInner: {
+    transition: ({ measured }) => measured ? 'all 0.25s ease-out' : undefined,
+    borderTop: ({ showGradient }) =>
+      showGradient ? `1px ${theme.palette.divider} solid` : undefined,
+    height: ({ showGradient, height, measured }) =>
+      measured ? (showGradient ? height : 0) : undefined
   },
 }))
 
 const Languages = () => {
   const [showGradient, setShowGradient] = useState(false)
-  const classes = useStyles({ showGradient })
+  const [dimensions, setDimensions] = useState(null)
+  const [measured, setMeasured] = useState(false)
+  const gradientRef = useRef(null)
+
+  const classes = useStyles({
+    showGradient,
+    measured,
+    height: dimensions?.height,
+  })
+
+  useEffect(() => {
+    setDimensions(gradientRef.current.getBoundingClientRect())
+    setTimeout(() => setMeasured(true), 0) // prevents flicker
+  }, [])
+
+  const toggle = useCallback(() => {
+    setShowGradient((showGradient) => !showGradient)
+  }, [])
 
   return (
     <div className={classes.root}>
       <div className={classes.table}>
         <Table />
       </div>
-      <div className={classes.gradient}>
+      <div style={{ opacity: measured ? undefined : 0 }} className={classes.gradient}>
+        <GradientButton
+          onClick={toggle}
+          showGradient={showGradient}
+        />
         <div
-          className={classes.gradientButton}
-          onClick={() => setShowGradient(!showGradient)}
+          ref={gradientRef}
+          className={classes.gradientInner}
         >
-          <PaletteIcon className={classes.icon} />
-          {showGradient
-            ? <DownIcon className={classes.icon} />
-            : <UpIcon className={classes.icon} />
-          }
-        </div>
-        <div className={classes.gradientContainer}>
           <Gradient />
         </div>
       </div>
