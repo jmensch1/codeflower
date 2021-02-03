@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import MuiSlider from '@material-ui/core/Slider'
-import { getPath, setPath, hasPath } from 'services/utils'
 import clsx from 'clsx'
 import { hueGradient, lightnessGradient, opacityGradient } from 'services/utils'
 
@@ -113,31 +112,6 @@ const Slider = ({
         </div>
       )}
     </div>
-  )
-}
-
-export const SmartSlider = ({
-  obj,
-  defaultObj,
-  path,
-  onChange,
-  transform = { in: (x) => x, out: (x) => x },
-  ...rest
-}) => {
-  const handleChange = useCallback((newVal) => {
-    onChange(setPath(obj, path, transform.out(newVal)))
-  }, [obj, path, onChange, transform])
-
-  const value = hasPath(obj, path)
-    ? transform.in(getPath(obj, path))
-    : transform.in(getPath(defaultObj, path))
-
-  return (
-    <Slider
-      value={value}
-      onChange={handleChange}
-      { ...rest }
-    />
   )
 }
 
