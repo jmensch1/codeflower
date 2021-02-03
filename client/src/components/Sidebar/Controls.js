@@ -5,7 +5,7 @@ import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import ThemeControls from 'components/ThemeControls'
 import GradientPicker from 'components/core/GradientPicker'
-import CoolSlider from 'components/core/CoolSlider'
+import Slider from 'components/core/Slider'
 
 //////////////////// TAB CONFIG ///////////////////
 
@@ -38,15 +38,15 @@ const MockSlider = () => {
       border: '1px hsla(0,0%,100%,0.3) solid',
       borderRadius: 5
     }}>
-      <CoolSlider
-        height={20}
+      <Slider
+        label='coefficient'
         value={value}
         onChange={setValue}
         range={[0, 100]}
       />
       <div style={{ height: 10 }} />
-      <CoolSlider
-        height={20}
+      <Slider
+        label='exponent'
         value={value2}
         onChange={setValue2}
         range={[0, 100]}
