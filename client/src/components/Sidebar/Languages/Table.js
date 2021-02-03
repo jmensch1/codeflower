@@ -5,6 +5,14 @@ import { useLanguageCounts, useLanguageColors, useVisStyles } from 'store/select
 import { selectLanguage } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    overflow: 'auto',
+  },
   table: {
     borderCollapse: 'collapse',
     width: '100%',
@@ -37,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Languages = () => {
+const LanguagesTable = () => {
   const classes = useStyles()
   const counts = useLanguageCounts()
   const colors = useLanguageColors()
@@ -60,48 +68,50 @@ const Languages = () => {
   }
 
   return (
-    <table className={classes.table}>
-      <thead>
-        <tr>
-          <th>language</th>
-          <th>files</th>
-          <th>lines</th>
-          <th>color</th>
-        </tr>
-      </thead>
-      <tbody onMouseLeave={() => onSelectLanguage(null)}>
-        {counts.map((count) => (
-          <tr
-            key={count.language}
-            onMouseEnter={() => onSelectLanguage(count.language)}
-          >
-            <td>{count.language}</td>
-            <td>{count.files}</td>
-            <td>{count.lines}</td>
-            <td>
-              <svg>
-                <circle
-                  r={8}
-                  cx='50%'
-                  cy='50%'
-                  fill={colors[count.language]}
-                  fillOpacity={visStyles.files.fill.alpha}
-                />
-              </svg>
-            </td>
+    <div className={classes.root}>
+      <table className={classes.table}>
+        <thead>
+          <tr>
+            <th>language</th>
+            <th>files</th>
+            <th>lines</th>
+            <th>color</th>
           </tr>
-        ))}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>totals</td>
-          <td>{totals.files}</td>
-          <td>{totals.lines}</td>
-          <td></td>
-        </tr>
-      </tfoot>
-    </table>
+        </thead>
+        <tbody onMouseLeave={() => onSelectLanguage(null)}>
+          {counts.map((count) => (
+            <tr
+              key={count.language}
+              onMouseEnter={() => onSelectLanguage(count.language)}
+            >
+              <td>{count.language}</td>
+              <td>{count.files}</td>
+              <td>{count.lines}</td>
+              <td>
+                <svg>
+                  <circle
+                    r={8}
+                    cx='50%'
+                    cy='50%'
+                    fill={colors[count.language]}
+                    fillOpacity={visStyles.files.fill.alpha}
+                  />
+                </svg>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>totals</td>
+            <td>{totals.files}</td>
+            <td>{totals.lines}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   )
 }
 
-export default Languages
+export default LanguagesTable

@@ -15,10 +15,10 @@ const ALPHA_RANGE = [0, 1]
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: 10,
-    border: `1px hsla(0, 0%, 100%, 0.6) solid`,
-    borderRadius: 5,
-    marginBottom: 30,
+    // padding: 10,
+    // border: `1px hsla(0, 0%, 100%, 0.6) solid`,
+    // borderRadius: 5,
+    // marginBottom: 30,
   },
   swatch: {
     height: 25,
@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
 
 const GradientPicker = ({
   color,
-  onChange
+  onChange,
+  showSwatches,
 }) => {
   const theme = useTheme()
   const classes = useStyles({ color })
@@ -85,7 +86,7 @@ const GradientPicker = ({
   return (
     <div className={classes.root}>
       {/*<div className={classes.swatch} />*/}
-      <Swatches color={color} />
+      { showSwatches && <Swatches color={color} /> }
 
       <div className={classes.heading}>hue/alpha</div>
       <div className={classes.pad}>

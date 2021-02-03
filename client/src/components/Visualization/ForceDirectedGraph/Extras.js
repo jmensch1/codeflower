@@ -6,8 +6,8 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
-    bottom: 10,
-    left: 10,
+    bottom: 8,
+    left: 8,
     display: 'flex',
     alignItems: 'center',
   },
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme.palette.text.primary,
     opacity: 0.38,
+    display: 'block',
   },
 }))
 
