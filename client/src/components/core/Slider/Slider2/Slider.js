@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Slider = ({
-  height = 15,
+  height = 16,
   value,
   onChange,
   range,
@@ -49,7 +49,9 @@ const Slider = ({
 
   const getValue = useCallback((x) => {
     if (!range || !dimensions) return null
-    return interpolate(x, [dimensions.height / 2, dimensions.width - dimensions.height / 2], range)
+    const value = interpolate(x, [dimensions.height / 2, dimensions.width - dimensions.height / 2], range, true)
+    const step = range[2] || 1
+    return step * Math.round(value / step)
   }, [range, dimensions])
 
   const getX = useCallback((xValue) => {
@@ -96,7 +98,7 @@ const Slider = ({
   }, [svg, bar, getValue, onChange])
 
   useEffect(() => {
-    if (!value || !bar) return
+    if (!bar) return
 
     bar.attr('cx', getX(value))
   }, [value, bar, getX])
