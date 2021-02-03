@@ -43,7 +43,7 @@ const Slider = ({
 
   const getValue = useCallback((x) => {
     if (!range || !dimensions) return null
-    return interpolate(x, [0, dimensions.width], range)
+    return interpolate(x, [0, dimensions.width], range, true)
   }, [range, dimensions])
 
   const getX = useCallback((xValue) => {
@@ -90,7 +90,7 @@ const Slider = ({
   }, [svg, bar, getValue, onChange])
 
   useEffect(() => {
-    if (!value || !bar) return
+    if (!bar) return
 
     bar.attr('x', getX(value) - BAR_WIDTH / 2)
   }, [value, bar, getX])
