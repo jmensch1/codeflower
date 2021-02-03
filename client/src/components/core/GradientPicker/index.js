@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { hueGradient, interpolate } from 'services/utils'
 import Pad from './Pad'
@@ -52,9 +52,25 @@ const GradientPicker = ({
 }) => {
   const theme = useTheme()
   const classes = useStyles({ color })
+  const colorRef = useRef(null)
 
-  const handleChange = useCallback((color) => {
-    onChange(color)
+  // save color in ref so that it doesn't need to be included in dependency
+  // arrays of handlers below, which would cause them to be recreated
+  // every time the color changes
+  useEffect(() => {
+    colorRef.current = color
+  }, [color])
+
+  const handleHueAlphaChange = useCallback(({ x: hue, y: alpha }) => {
+    onChange({ ...colorRef.current, hue, alpha })
+  }, [onChange])
+
+  const handleSaturationChange = useCallback((saturation) => {
+    onChange({ ...colorRef.current, saturation })
+  }, [onChange])
+
+  const handleLightnessChange = useCallback((lightness) => {
+    onChange({ ...colorRef.current, lightness })
   }, [onChange])
 
   const handleColor = `
@@ -82,7 +98,7 @@ const GradientPicker = ({
         >
           <Pad
             value={{ x: color.hue, y: color.alpha }}
-            onChange={({ x: hue, y: alpha }) => handleChange({ ...color, hue, alpha })}
+            onChange={handleHueAlphaChange}
             xRange={HUE_RANGE}
             yRange={ALPHA_RANGE}
             handleColor={handleColor}
@@ -101,7 +117,7 @@ const GradientPicker = ({
         >
           <Slider
             value={color.saturation}
-            onChange={(saturation) => handleChange({ ...color, saturation })}
+            onChange={handleSaturationChange}
             range={SATURATION_RANGE}
             handleColor={handleColor}
           />
@@ -119,7 +135,7 @@ const GradientPicker = ({
         >
           <Slider
             value={color.lightness}
-            onChange={(lightness) => handleChange({ ...color, lightness })}
+            onChange={handleLightnessChange}
             range={LIGHTNESS_RANGE}
             handleColor={handleColor}
           />
