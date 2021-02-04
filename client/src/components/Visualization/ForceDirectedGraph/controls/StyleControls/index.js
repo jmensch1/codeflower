@@ -7,7 +7,7 @@ import Checkbox from 'components/core/Checkbox'
 import FileControls from './FileControls'
 import FolderControls from './FolderControls'
 import LinkControls from './LinkControls'
-import Row from './Row'
+import Row from '../Row'
 import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
