@@ -5,10 +5,39 @@ import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
 import ThemeControls from 'components/ThemeControls'
+import SinglePad from 'components/core/SinglePad'
 
 //////////////////// TAB CONFIG ///////////////////
 
+const xRange = [0, 100]
+const yRange = [0, 50]
+
+const Test = () => {
+  const [point, setPoint] = useState({
+    x: 50,
+    y: 50,
+  })
+
+  return (
+    <>
+      <div style={{ marginBottom: 10 }}>{point.x.toFixed(2)} / {point.y.toFixed(2)}</div>
+      <div style={{ height: 200, position: 'relative' }}>
+        <SinglePad
+          value={point}
+          onChange={setPoint}
+          xRange={xRange}
+          yRange={yRange}
+        />
+      </div>
+    </>
+  )
+}
+
 const TABS = [
+  {
+    type: 'test',
+    Component: Test,
+  },
   {
     type: 'forces',
     Component: ForceControls,
@@ -48,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Controls = () => {
   const classes = useStyles()
-  const [tab, setTab] = useState('forces')
+  const [tab, setTab] = useState('test')
   const { Component } = TABS.find((t) => t.type === tab)
 
   return (
