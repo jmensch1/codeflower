@@ -6,6 +6,8 @@ import { useVisStyles } from 'store/selectors'
 import { setVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import Row from '../Row'
+import Swatch from 'components/core/Swatch'
+import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -31,7 +33,11 @@ const LinkControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row label="stroke" level={1}>
+      <Row
+        label="stroke"
+        level={1}
+        headerRight={<Swatch color={getPath(visStyles, 'links.stroke')} />}
+      >
         <ColorPicker
           label="color"
           obj={visStyles}
@@ -39,9 +45,12 @@ const LinkControls = () => {
           onChange={onChangeStyles}
         />
       </Row>
-      <Row label="width" level={1}>
+      <Row
+        label="stroke width"
+        level={1}
+        headerRight={getPath(visStyles, 'links.strokeWidth').toFixed(1)}
+      >
         <SmartSlider
-          label="width"
           range={[0, 10, 0.5]}
           obj={visStyles}
           path="links.strokeWidth"

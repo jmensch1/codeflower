@@ -30,6 +30,8 @@ function getColorFromAlpha(alpha) {
   return `rgba(255, 255, 255, ${alpha})`
 }
 
+const toFixed2 = (x) => x.toFixed(2)
+
 const ThemeControls = () => {
   const classes = useStyles()
   const mainTheme = useMainTheme()
@@ -83,6 +85,7 @@ const ThemeControls = () => {
         path="palette.divider"
         onChange={onChange}
         alwaysOpen
+        renderValue={toFixed2}
       />
       <SmartSlider
         label="font size"

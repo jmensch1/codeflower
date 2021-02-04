@@ -40,7 +40,7 @@ const ForceControls = () => {
           target="_blank"
           rel="noreferrer"
         >
-          d3 forces
+          forces
         </a>
         &nbsp;that apply to the graph.
       </div>

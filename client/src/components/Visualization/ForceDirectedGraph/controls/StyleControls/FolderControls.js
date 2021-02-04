@@ -6,6 +6,8 @@ import { useVisStyles } from 'store/selectors'
 import { setVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import Row from '../Row'
+import Swatch from 'components/core/Swatch'
+import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -31,7 +33,10 @@ const FolderControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row label="fill" level={1}>
+      <Row
+        label="fill"
+        level={1}
+        headerRight={<Swatch color={getPath(visStyles, 'folders.fill')} />}>
         <ColorPicker
           label="fill: color"
           obj={visStyles}
@@ -39,27 +44,41 @@ const FolderControls = () => {
           onChange={onChangeStyles}
         />
       </Row>
-      <Row label="size" level={1}>
+      <Row
+        label="radius"
+        level={1}
+        headerRight={getPath(visStyles, 'folders.radius').toFixed(1)}
+      >
         <SmartSlider
-          label="radius"
-          range={[1, 20, 0.5]}
+          range={[0, 20, 0.5]}
           obj={visStyles}
           path="folders.radius"
           onChange={onChangeStyles}
         />
-        <SmartSlider
-          label="stroke width"
-          range={[0, 10, 0.5]}
-          obj={visStyles}
-          path="folders.strokeWidth"
-          onChange={onChangeStyles}
-        />
       </Row>
-      <Row label={'stroke'} level={1}>
+
+      <Row
+        label="stroke"
+        level={1}
+        headerRight={<Swatch color={getPath(visStyles, 'folders.stroke')} />}
+      >
         <ColorPicker
           label="stroke: color"
           obj={visStyles}
           path="folders.stroke"
+          onChange={onChangeStyles}
+        />
+      </Row>
+
+      <Row
+        label="stroke width"
+        level={1}
+        headerRight={getPath(visStyles, 'folders.strokeWidth').toFixed(1)}
+      >
+        <SmartSlider
+          range={[0, 10, 0.5]}
+          obj={visStyles}
+          path="folders.strokeWidth"
           onChange={onChangeStyles}
         />
       </Row>
