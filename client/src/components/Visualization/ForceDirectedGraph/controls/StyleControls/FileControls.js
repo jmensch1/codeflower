@@ -5,16 +5,12 @@ import ColorPicker from 'components/core/ColorPicker'
 import { useVisStyles } from 'store/selectors'
 import { setVisStyles, updateVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
-import DoubleHuePicker from 'components/core/DoubleHuePicker'
 import GradientPicker from 'components/core/GradientPicker'
 import { getPath } from 'services/utils'
+import Row from '../Row'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      marginBottom: '0.5em',
-    }
-  },
+  root: {},
 }))
 
 const FileControls = () => {
@@ -41,69 +37,50 @@ const FileControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <DoubleHuePicker
-        color={getPath(visStyles, 'files.fill')}
-        onChange={onChangeFileFill}
-      />
-      <GradientPicker
-        color={getPath(visStyles, 'files.fill')}
-        onChange={onChangeFileFill}
-      />
-      {/*<ColorPicker
-        label='fill: colors'
-        obj={visStyles}
-        path='files.fill'
-        onChange={onChangeStyles}
-      />
-      <SmartSlider
-        label='fill: opacity'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='files.fill.alpha'
-        onChange={onChangeStyles}
-        gradient='opacity'
-      />*/}
-      {/*<SmartSlider
-        label='radius: coefficient'
-        range={[1, 50, 1]}
-        obj={visStyles}
-        path='files.radius.coeff'
-        onChange={onChangeStyles}
-      />*/}
-      <Slider
-        label='radius: coefficient'
-        range={[1, 50, 1]}
-        value={getPath(visStyles, 'files.radius.coeff')}
-        onChange={onUpdateStyles.bind(null, 'files.radius.coeff')}
-      />
-      <SmartSlider
-        label='radius: exponent'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='files.radius.exponent'
-        onChange={onChangeStyles}
-      />
-      <ColorPicker
-        label='stroke: color'
-        obj={visStyles}
-        path='files.stroke'
-        onChange={onChangeStyles}
-      />
-      <SmartSlider
-        label='stroke: opacity'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='files.stroke.alpha'
-        onChange={onChangeStyles}
-        gradient='opacity'
-      />
-      <SmartSlider
-        label='stroke: width'
-        range={[0, 10, 0.5]}
-        obj={visStyles}
-        path='files.strokeWidth'
-        onChange={onChangeStyles}
-      />
+      <Row label='fill' level={1}>
+        <GradientPicker
+          color={getPath(visStyles, 'files.fill')}
+          onChange={onChangeFileFill}
+        />
+      </Row>
+      <Row label='radius' level={1}>
+        <Slider
+          label='coefficient'
+          range={[1, 50, 1]}
+          value={getPath(visStyles, 'files.radius.coeff')}
+          onChange={onUpdateStyles.bind(null, 'files.radius.coeff')}
+        />
+        <SmartSlider
+          label='exponent'
+          range={[0, 1, 0.01]}
+          obj={visStyles}
+          path='files.radius.exponent'
+          onChange={onChangeStyles}
+        />
+      </Row>
+      <Row label='stroke' level={1}>
+        <ColorPicker
+          label='stroke: color'
+          obj={visStyles}
+          path='files.stroke'
+          onChange={onChangeStyles}
+        />
+        <SmartSlider
+          label='stroke: opacity'
+          range={[0, 1, 0.01]}
+          obj={visStyles}
+          path='files.stroke.alpha'
+          onChange={onChangeStyles}
+          gradient='opacity'
+        />
+        <SmartSlider
+          label='stroke: width'
+          range={[0, 10, 0.5]}
+          obj={visStyles}
+          path='files.strokeWidth'
+          onChange={onChangeStyles}
+        />
+      </Row>
     </div>
   )
 }

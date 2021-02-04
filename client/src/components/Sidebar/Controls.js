@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flex: 1,
     overflow: 'auto',
-    padding: 10,
+    padding: '1.25em',
   },
 }))
 

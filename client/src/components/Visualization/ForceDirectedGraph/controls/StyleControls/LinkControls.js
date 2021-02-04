@@ -5,13 +5,10 @@ import ColorPicker from 'components/core/ColorPicker'
 import { useVisStyles } from 'store/selectors'
 import { setVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import Row from '../Row'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      marginBottom: 10,
-    }
-  },
+  root: {},
 }))
 
 const LinkControls = () => {
@@ -29,27 +26,23 @@ const LinkControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <ColorPicker
-        label='color'
-        obj={visStyles}
-        path='links.stroke'
-        onChange={onChangeStyles}
-      />
-      <SmartSlider
-        label='opacity'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='links.stroke.alpha'
-        onChange={onChangeStyles}
-        gradient='opacity'
-      />
-      <SmartSlider
-        label='width'
-        range={[0, 10, 0.5]}
-        obj={visStyles}
-        path='links.strokeWidth'
-        onChange={onChangeStyles}
-      />
+      <Row label='stroke' level={1}>
+        <ColorPicker
+          label='color'
+          obj={visStyles}
+          path='links.stroke'
+          onChange={onChangeStyles}
+        />
+      </Row>
+      <Row label='width' level={1}>
+        <SmartSlider
+          label='width'
+          range={[0, 10, 0.5]}
+          obj={visStyles}
+          path='links.strokeWidth'
+          onChange={onChangeStyles}
+        />
+      </Row>
     </div>
   )
 }

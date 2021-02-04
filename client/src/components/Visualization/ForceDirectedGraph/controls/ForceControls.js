@@ -6,19 +6,13 @@ import { setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import Row from './Row'
 import { getPath } from 'services/utils'
-// import Checkbox from 'components/core/Checkbox'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: 10,
-    '& > *': {
-      marginBottom: 10,
-    },
-  },
+  root: {},
   instructions: {
     fontSize: '0.875em',
     fontStyle: 'italic',
-    marginBottom: 16,
+    marginBottom: '1.25em',
   },
 }))
 
@@ -50,13 +44,7 @@ const ForceControls = () => {
       <Row
         label='charge'
         disabled={!getPath(visForces, 'charge.enabled')}
-        // button={
-        //   <Checkbox
-        //     obj={visForces}
-        //     path='charge.enabled'
-        //     onChange={onChangeForces}
-        //   />
-        // }
+        initialOpen
       >
         <SmartSlider
           label='strength'
@@ -75,16 +63,11 @@ const ForceControls = () => {
           alwaysOpen
         />
       </Row>
+      
       <Row
         label='link'
         disabled={!getPath(visForces, 'link.enabled')}
-        // button={
-        //   <Checkbox
-        //     obj={visForces}
-        //     path='link.enabled'
-        //     onChange={onChangeForces}
-        //   />
-        // }
+        initialOpen
       >
         <SmartSlider
           label='strength'
@@ -124,13 +107,7 @@ const ForceControls = () => {
       <Row
         label='x/y'
         disabled={!getPath(visForces, 'forceXY.enabled')}
-        // button={
-        //   <Checkbox
-        //     obj={visForces}
-        //     path='forceXY.enabled'
-        //     onChange={onChangeForces}
-        //   />
-        // }
+        initialOpen
       >
         <SmartSlider
           label='strength'

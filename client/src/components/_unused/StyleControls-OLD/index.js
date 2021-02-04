@@ -11,7 +11,12 @@ import Row from '../Row'
 import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    padding: 10,
+    '& > *': {
+      marginBottom: 10,
+    }
+  },
 }))
 
 const StyleControls = () => {
@@ -32,8 +37,7 @@ const StyleControls = () => {
       <Row
         label='files'
         disabled={!getPath(visStyles, 'files.visible')}
-        initialOpen
-        headerRight={
+        button={
           <Checkbox
             obj={visStyles}
             path='files.visible'
@@ -46,8 +50,7 @@ const StyleControls = () => {
       <Row
         label='folders'
         disabled={!getPath(visStyles, 'folders.visible')}
-        initialOpen
-        headerRight={
+        button={
           <Checkbox
             obj={visStyles}
             path='folders.visible'
@@ -60,8 +63,7 @@ const StyleControls = () => {
       <Row
         label='links'
         disabled={!getPath(visStyles, 'links.visible')}
-        initialOpen
-        headerRight={
+        button={
           <Checkbox
             obj={visStyles}
             path='links.visible'

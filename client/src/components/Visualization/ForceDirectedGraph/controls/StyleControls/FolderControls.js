@@ -5,13 +5,10 @@ import ColorPicker from 'components/core/ColorPicker'
 import { useVisStyles } from 'store/selectors'
 import { setVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import Row from '../Row'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      marginBottom: 10,
-    }
-  },
+  root: {},
 }))
 
 const FolderControls = () => {
@@ -29,48 +26,38 @@ const FolderControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <ColorPicker
-        label='fill: color'
-        obj={visStyles}
-        path='folders.fill'
-        onChange={onChangeStyles}
-      />
-      <SmartSlider
-        label='fill: opacity'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='folders.fill.alpha'
-        onChange={onChangeStyles}
-        gradient='opacity'
-      />
-      <SmartSlider
-        label='radius'
-        range={[1, 20, 0.5]}
-        obj={visStyles}
-        path='folders.radius'
-        onChange={onChangeStyles}
-      />
-      <ColorPicker
-        label='stroke: color'
-        obj={visStyles}
-        path='folders.stroke'
-        onChange={onChangeStyles}
-      />
-      <SmartSlider
-        label='stroke: opacity'
-        range={[0, 1, 0.01]}
-        obj={visStyles}
-        path='folders.stroke.alpha'
-        onChange={onChangeStyles}
-        gradient='opacity'
-      />
-      <SmartSlider
-        label='stroke: width'
-        range={[0, 10, 0.5]}
-        obj={visStyles}
-        path='folders.strokeWidth'
-        onChange={onChangeStyles}
-      />
+      <Row label='fill' level={1}>
+        <ColorPicker
+          label='fill: color'
+          obj={visStyles}
+          path='folders.fill'
+          onChange={onChangeStyles}
+        />
+      </Row>
+      <Row label='size' level={1}>
+        <SmartSlider
+          label='radius'
+          range={[1, 20, 0.5]}
+          obj={visStyles}
+          path='folders.radius'
+          onChange={onChangeStyles}
+        />
+        <SmartSlider
+          label='stroke width'
+          range={[0, 10, 0.5]}
+          obj={visStyles}
+          path='folders.strokeWidth'
+          onChange={onChangeStyles}
+        />
+      </Row>
+      <Row label={'stroke'} level={1}>
+        <ColorPicker
+          label='stroke: color'
+          obj={visStyles}
+          path='folders.stroke'
+          onChange={onChangeStyles}
+        />
+      </Row>
     </div>
   )
 }

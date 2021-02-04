@@ -5,6 +5,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     userSelect: 'none',
     cursor: 'pointer',
+    fontSize: ({ level }) => `${1 - 0.1 * level}em`,
+    marginBottom: '1em',
   },
   header: {
     display: 'flex',
@@ -29,14 +31,14 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     fontWeight: 'bold',
   },
-  button: {},
+  headerRight: {},
   content: {
-    paddingTop: '0.75em',
-    paddingBottom: '0.5em',
-    paddingLeft: ({ indent }) => indent ? '1.5em' : 0,
+    marginTop: '0.75em',
+    marginBottom: '2em',
+    marginLeft: ({ indent }) => indent ? '1.5em' : 0,
     position: 'relative',
-    '& > *': {
-      marginBottom: 12,
+    '& > *:not($mask)': {
+      marginBottom: '0.75em',
     }
   },
   mask: {
@@ -52,9 +54,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Row = ({ label, button, disabled, children }) => {
-  const [open, setOpen] = useState(true)
-  const classes = useStyles({ open, indent: true })
+const Row = ({
+  label,
+  headerRight,
+  disabled,
+  indent = true,
+  level = 0,
+  children,
+  initialOpen = false,
+}) => {
+  const [open, setOpen] = useState(initialOpen)
+  const classes = useStyles({ open, indent, level })
 
   return (
     <div className={classes.root}>
@@ -70,8 +80,8 @@ const Row = ({ label, button, disabled, children }) => {
           </div>
           <div className={classes.label}>{ label }</div>
         </div>
-        <div className={classes.button}>
-          { button }
+        <div className={classes.headerRight}>
+          { headerRight }
         </div>
       </div>
       {open && (
