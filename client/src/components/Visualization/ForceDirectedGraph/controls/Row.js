@@ -66,6 +66,10 @@ const Row = ({
   const [open, setOpen] = useState(initialOpen)
   const classes = useStyles({ open, indent, level })
 
+  const headerRightContent = typeof headerRight === 'function'
+    ? headerRight({ open })
+    : headerRight
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -80,7 +84,7 @@ const Row = ({
           </div>
           <div className={classes.label}>{label}</div>
         </div>
-        <div className={classes.headerRight}>{headerRight}</div>
+        <div className={classes.headerRight}>{headerRightContent}</div>
       </div>
       {open && (
         <div className={classes.content}>

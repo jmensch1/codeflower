@@ -6,7 +6,6 @@ import Slider from './Slider'
 import HueAlphaGradient from './gradients/HueAlpha'
 import LightnessHueGradient from './gradients/LightnessHue'
 import SaturationHueGradient from './gradients/SaturationHue'
-import Swatches from './Swatches'
 
 const HUE_RANGE = [0, 360]
 const SATURATION_RANGE = [0, 100]
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const GradientPicker = ({ color, onChange, showSwatches }) => {
+const GradientPicker = ({ color, onChange }) => {
   const theme = useTheme()
   const classes = useStyles({ color })
   const colorRef = useRef(null)
@@ -94,7 +93,6 @@ const GradientPicker = ({ color, onChange, showSwatches }) => {
   return (
     <div className={classes.root}>
       {/*<div className={classes.swatch} />*/}
-      {showSwatches && <Swatches color={color} />}
 
       <div className={classes.heading}>hue/alpha</div>
       <div className={classes.pad}>

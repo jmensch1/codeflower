@@ -9,6 +9,7 @@ import GradientPicker from 'components/core/GradientPicker'
 import { getPath } from 'services/utils'
 import Row from '../Row'
 import Swatch from 'components/core/Swatch'
+import Swatches from 'components/core/Swatches'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -49,7 +50,18 @@ const FileControls = () => {
       <Row
         label="fill"
         level={1}
-        headerRight={<Swatch color={getPath(visStyles, 'files.fill')} />}
+        headerRight={({ open }) =>
+          open
+            ? (
+              <Swatches
+                color={getPath(visStyles, 'files.fill')}
+                num={9}
+                size="1em"
+                margin="0 0 0 0.5em"
+              />
+            )
+            : <Swatch color={getPath(visStyles, 'files.fill')} />
+        }
       >
         <GradientPicker
           color={getPath(visStyles, 'files.fill')}
