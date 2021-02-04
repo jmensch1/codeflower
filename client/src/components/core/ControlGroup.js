@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     '& > *': {
       marginTop: 10,
-    }
+    },
   },
 }))
 
@@ -32,23 +32,19 @@ const ControlGroup = ({ label, children }) => {
   const [open, setOpen] = useState(false)
   const classes = useStyles({ open })
 
-  const childrenWithProps = React.Children.map(children, child => {
+  const childrenWithProps = React.Children.map(children, (child) => {
     return React.cloneElement(child, { isOpen: open })
   })
 
   return (
     <div className={classes.root}>
       <div className={classes.header} onClick={() => setOpen(!open)}>
-        <div className={classes.label}>
-          { label }
-        </div>
+        <div className={classes.label}>{label}</div>
         <div className={classes.toggle}>
-          { open ? <ExpandLessIcon /> : <ExpandMoreIcon /> }
+          {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </div>
       </div>
-      <div className={classes.content}>
-        { childrenWithProps }
-      </div>
+      <div className={classes.content}>{childrenWithProps}</div>
     </div>
   )
 }

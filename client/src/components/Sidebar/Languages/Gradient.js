@@ -17,9 +17,12 @@ const LanguagesGradient = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onUpdateStyles = useCallback((path, value) => {
-    dispatch(updateVisStyles(path, value))
-  }, [dispatch])
+  const onUpdateStyles = useCallback(
+    (path, value) => {
+      dispatch(updateVisStyles(path, value))
+    },
+    [dispatch]
+  )
 
   const onChangeFileFill = useMemo(
     () => onUpdateStyles.bind(null, 'files.fill'),

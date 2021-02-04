@@ -14,7 +14,13 @@ const useStyles = makeStyles({
     bottom: 0,
     left: 0,
     right: 0,
-    background: ({ hueRange, alphaRange, saturation, lightness, backgroundColor }) => `
+    background: ({
+      hueRange,
+      alphaRange,
+      saturation,
+      lightness,
+      backgroundColor,
+    }) => `
       ${alphaGradient({
         alphaMin: alphaRange[0],
         alphaMax: alphaRange[1],
@@ -39,11 +45,12 @@ const useStyles = makeStyles({
       left: 0,
       right: 0,
       bottom: 0,
-      background: ({ backgroundColor }) => checkerGradient({
-        alpha: 0.008,
-        backgroundColor,
-      }),
-    }
+      background: ({ backgroundColor }) =>
+        checkerGradient({
+          alpha: 0.008,
+          backgroundColor,
+        }),
+    },
   },
 })
 
@@ -66,7 +73,7 @@ const HueAlpha = ({
   return (
     <div className={classes.root}>
       <div className={classes.background} />
-      { children }
+      {children}
     </div>
   )
 }

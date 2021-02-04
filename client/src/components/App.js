@@ -10,9 +10,9 @@ import ControlBar from './ControlBar'
 import Terminal from './Terminal'
 import Modals from './modals'
 
-const useGlobalStyles = makeStyles(theme => ({
+const useGlobalStyles = makeStyles((theme) => ({
   '@global': {
-    'a': {
+    a: {
       textDecoration: 'underline',
       color: theme.palette.text.primary,
     },
@@ -33,7 +33,7 @@ function App() {
 
   return (
     <>
-      <div style={{ display: 'flex', height: '100vh', }}>
+      <div style={{ display: 'flex', height: '100vh' }}>
         <Sidebar />
         <div style={{ position: 'relative', flex: 1 }}>
           <Visualization />

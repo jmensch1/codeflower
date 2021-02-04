@@ -7,16 +7,17 @@ const CIRCLE_STROKE_WIDTH = 0
 const SVG_CURSOR_STYLE = 'pointer'
 const BAR_CURSOR_STYLE = 'pointer'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: ({ height }) => height,
     borderRadius: ({ height }) => height / 2,
     position: 'relative',
-    background: ({ height }) => checkerGradient({
-      alpha: 0.1,
-      size: height / 3,
-      backgroundColor: theme.palette.background.paper
-    }),
+    background: ({ height }) =>
+      checkerGradient({
+        alpha: 0.1,
+        size: height / 3,
+        backgroundColor: theme.palette.background.paper,
+      }),
     '& > svg': {
       position: 'absolute',
       top: 0,
@@ -33,30 +34,40 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Slider = ({
-  height = 12,
-  value,
-  onChange,
-  range,
-  handleColor,
-}) => {
+const Slider = ({ height = 12, value, onChange, range, handleColor }) => {
   const containerRef = useRef(null)
   const classes = useStyles({ height, handleColor })
   const [dimensions, setDimensions] = useState(null)
   const [svg, setSvg] = useState(null)
   const [bar, setBar] = useState(null)
 
-  const getValue = useCallback((x) => {
-    if (!range || !dimensions) return null
-    const value = interpolate(x, [dimensions.height / 2, dimensions.width - dimensions.height / 2], range, true)
-    const step = range[2] || 1
-    return step * Math.round(value / step)
-  }, [range, dimensions])
+  const getValue = useCallback(
+    (x) => {
+      if (!range || !dimensions) return null
+      const value = interpolate(
+        x,
+        [dimensions.height / 2, dimensions.width - dimensions.height / 2],
+        range,
+        true
+      )
+      const step = range[2] || 1
+      return step * Math.round(value / step)
+    },
+    [range, dimensions]
+  )
 
-  const getX = useCallback((xValue) => {
-    if (!range || !dimensions) return null
-    return interpolate(xValue, range, [dimensions.height / 2, dimensions.width - dimensions.height / 2], true)
-  }, [range, dimensions])
+  const getX = useCallback(
+    (xValue) => {
+      if (!range || !dimensions) return null
+      return interpolate(
+        xValue,
+        range,
+        [dimensions.height / 2, dimensions.width - dimensions.height / 2],
+        true
+      )
+    },
+    [range, dimensions]
+  )
 
   useEffect(() => {
     const container = containerRef.current
@@ -102,9 +113,7 @@ const Slider = ({
     bar.attr('cx', getX(value))
   }, [value, bar, getX])
 
-  return (
-    <div ref={containerRef} className={classes.root} />
-  )
+  return <div ref={containerRef} className={classes.root} />
 }
 
 export default Slider

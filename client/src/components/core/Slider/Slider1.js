@@ -6,7 +6,7 @@ import { hueGradient, lightnessGradient, opacityGradient } from 'services/utils'
 
 const THUMB_SIZE = 8
 
-const useSliderStyles = makeStyles(theme => ({
+const useSliderStyles = makeStyles((theme) => ({
   root: {
     display: 'block',
     color: theme.palette.text.primary,
@@ -36,17 +36,17 @@ const useSliderStyles = makeStyles(theme => ({
   },
 }))
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   header: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     fontSize: '0.875em',
-    cursor: ({ alwaysOpen }) => alwaysOpen ? 'default' : 'pointer',
+    cursor: ({ alwaysOpen }) => (alwaysOpen ? 'default' : 'pointer'),
     '&:hover > label': {
-      textDecoration: ({ alwaysOpen }) => alwaysOpen ? 'none' : 'underline',
-    }
+      textDecoration: ({ alwaysOpen }) => (alwaysOpen ? 'none' : 'underline'),
+    },
   },
   label: {
     cursor: 'inherit',
@@ -70,9 +70,12 @@ const Slider = ({
   const sliderClasses = useSliderStyles({ gradient })
   const [open, setOpen] = useState(alwaysOpen || isOpen)
 
-  const handleChange = useCallback((e, newVal) => {
-    onChange(newVal)
-  }, [onChange])
+  const handleChange = useCallback(
+    (e, newVal) => {
+      onChange(newVal)
+    },
+    [onChange]
+  )
 
   const [min, max, step] = range || []
 
@@ -87,9 +90,9 @@ const Slider = ({
           className={classes.header}
           onClick={alwaysOpen ? undefined : () => setOpen(!open)}
         >
-          <label className={classes.label}>{ label }</label>
+          <label className={classes.label}>{label}</label>
           <span>
-            { value instanceof Array ? `${value[0]}/${value[1]}` : value }
+            {value instanceof Array ? `${value[0]}/${value[1]}` : value}
           </span>
         </div>
       )}
@@ -107,7 +110,7 @@ const Slider = ({
             value={value}
             onChange={handleChange}
             track={false}
-            { ...rest }
+            {...rest}
           />
         </div>
       )}

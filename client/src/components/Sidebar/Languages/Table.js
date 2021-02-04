@@ -1,7 +1,11 @@
 import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { useLanguageCounts, useLanguageColors, useVisStyles } from 'store/selectors'
+import {
+  useLanguageCounts,
+  useLanguageColors,
+  useVisStyles,
+} from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({
@@ -91,8 +95,8 @@ const LanguagesTable = () => {
                 <svg>
                   <circle
                     r={8}
-                    cx='50%'
-                    cy='50%'
+                    cx="50%"
+                    cy="50%"
                     fill={colors[count.language]}
                     fillOpacity={visStyles.files.fill.alpha}
                   />

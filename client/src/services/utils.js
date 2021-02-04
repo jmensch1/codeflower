@@ -50,11 +50,14 @@ export const hueGradient = ({
   hueMin = 0,
   hueMax = 360,
 } = {}) => {
-
   const inc = (hueMax - hueMin) / steps
-  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
-    return `hsla(${hueMin + inc * idx}, ${saturation}%, ${lightness}%, ${alpha})`
-  }).join(', ')
+  const colors = Array.from({ length: steps + 1 })
+    .map((_, idx) => {
+      return `hsla(${
+        hueMin + inc * idx
+      }, ${saturation}%, ${lightness}%, ${alpha})`
+    })
+    .join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
@@ -68,25 +71,33 @@ export const alphaGradient = ({
   alphaMax = 1,
 } = {}) => {
   const inc = (alphaMax - alphaMin) / steps
-  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
-    return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alphaMin + inc * idx})`
-  }).join(', ')
+  const colors = Array.from({ length: steps + 1 })
+    .map((_, idx) => {
+      return `hsla(${hue}, ${saturation}%, ${lightness}%, ${
+        alphaMin + inc * idx
+      })`
+    })
+    .join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
 export const lightnessGradient = (steps = 20, direction = 'right') => {
   const inc = 100 / steps
-  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
-    return `hsl(0, 0%, ${inc * idx}%)`
-  }).join(', ')
+  const colors = Array.from({ length: steps + 1 })
+    .map((_, idx) => {
+      return `hsl(0, 0%, ${inc * idx}%)`
+    })
+    .join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
 export const opacityGradient = (steps = 20, direction = 'right') => {
   const inc = 1 / steps
-  const colors = Array.from({ length: steps + 1 }).map((_, idx) => {
-    return `hsla(0, 0%, 100%, ${inc * idx})`
-  }).join(', ')
+  const colors = Array.from({ length: steps + 1 })
+    .map((_, idx) => {
+      return `hsla(0, 0%, 100%, ${inc * idx})`
+    })
+    .join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
@@ -129,10 +140,8 @@ export const colorString = (color) => {
   return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
 }
 
-export const isWithinFolder = (path, targetFolderPath) => (
-  path.startsWith(`${targetFolderPath}/`) ||
-  path === targetFolderPath
-)
+export const isWithinFolder = (path, targetFolderPath) =>
+  path.startsWith(`${targetFolderPath}/`) || path === targetFolderPath
 
 export const clamp = (num, range) => {
   let [min, max] = range

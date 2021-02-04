@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       marginBottom: 10,
-    }
+    },
   },
 }))
 
@@ -19,56 +19,61 @@ const FolderControls = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles({
-      ...visStyles,
-      id: undefined,
-    }))
-  }, [dispatch])
+  const onChangeStyles = useCallback(
+    (visStyles) => {
+      dispatch(
+        setVisStyles({
+          ...visStyles,
+          id: undefined,
+        })
+      )
+    },
+    [dispatch]
+  )
 
   if (!visStyles) return null
   return (
     <div className={classes.root}>
       <ColorPicker
-        label='fill: color'
+        label="fill: color"
         obj={visStyles}
-        path='folders.fill'
+        path="folders.fill"
         onChange={onChangeStyles}
       />
       <SmartSlider
-        label='fill: opacity'
+        label="fill: opacity"
         range={[0, 1, 0.01]}
         obj={visStyles}
-        path='folders.fill.alpha'
+        path="folders.fill.alpha"
         onChange={onChangeStyles}
-        gradient='opacity'
+        gradient="opacity"
       />
       <SmartSlider
-        label='radius'
+        label="radius"
         range={[1, 20, 0.5]}
         obj={visStyles}
-        path='folders.radius'
+        path="folders.radius"
         onChange={onChangeStyles}
       />
       <ColorPicker
-        label='stroke: color'
+        label="stroke: color"
         obj={visStyles}
-        path='folders.stroke'
+        path="folders.stroke"
         onChange={onChangeStyles}
       />
       <SmartSlider
-        label='stroke: opacity'
+        label="stroke: opacity"
         range={[0, 1, 0.01]}
         obj={visStyles}
-        path='folders.stroke.alpha'
+        path="folders.stroke.alpha"
         onChange={onChangeStyles}
-        gradient='opacity'
+        gradient="opacity"
       />
       <SmartSlider
-        label='stroke: width'
+        label="stroke: width"
         range={[0, 10, 0.5]}
         obj={visStyles}
-        path='folders.strokeWidth'
+        path="folders.strokeWidth"
         onChange={onChangeStyles}
       />
     </div>

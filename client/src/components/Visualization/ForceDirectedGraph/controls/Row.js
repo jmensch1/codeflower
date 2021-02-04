@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
   content: {
     marginTop: '0.75em',
     marginBottom: '2em',
-    marginLeft: ({ indent }) => indent ? '1.5em' : 0,
+    marginLeft: ({ indent }) => (indent ? '1.5em' : 0),
     position: 'relative',
     '& > *:not($mask)': {
       marginBottom: '0.75em',
-    }
+    },
   },
   mask: {
     position: 'absolute',
@@ -71,23 +71,21 @@ const Row = ({
       <div className={classes.header}>
         <div className={classes.arrowAndLabel} onClick={() => setOpen(!open)}>
           <div className={classes.arrow}>
-            <svg viewBox='0 0 20 20' height='1em' width='1em'>
+            <svg viewBox="0 0 20 20" height="1em" width="1em">
               <polygon
                 points={open ? '5,5 10,15, 15,5' : '5,5 15,10 5,15'}
                 className={classes.arrow}
               />
             </svg>
           </div>
-          <div className={classes.label}>{ label }</div>
+          <div className={classes.label}>{label}</div>
         </div>
-        <div className={classes.headerRight}>
-          { headerRight }
-        </div>
+        <div className={classes.headerRight}>{headerRight}</div>
       </div>
       {open && (
         <div className={classes.content}>
           {disabled && <div className={classes.mask} />}
-          { children }
+          {children}
         </div>
       )}
     </div>

@@ -17,16 +17,15 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   gradient: {
-    backgroundColor: ({ showGradient }) => showGradient
-      ? theme.palette.background.default
-      : 'transparent',
+    backgroundColor: ({ showGradient }) =>
+      showGradient ? theme.palette.background.default : 'transparent',
   },
   gradientInner: {
-    transition: ({ measured }) => measured ? 'all 0.25s ease-out' : undefined,
+    transition: ({ measured }) => (measured ? 'all 0.25s ease-out' : undefined),
     borderTop: ({ showGradient }) =>
       showGradient ? `1px ${theme.palette.divider} solid` : undefined,
     height: ({ showGradient, height, measured }) =>
-      measured ? (showGradient ? height : 0) : undefined
+      measured ? (showGradient ? height : 0) : undefined,
   },
 }))
 
@@ -56,15 +55,12 @@ const Languages = () => {
       <div className={classes.table}>
         <Table />
       </div>
-      <div style={{ opacity: measured ? undefined : 0 }} className={classes.gradient}>
-        <GradientButton
-          onClick={toggle}
-          showGradient={showGradient}
-        />
-        <div
-          ref={gradientRef}
-          className={classes.gradientInner}
-        >
+      <div
+        style={{ opacity: measured ? undefined : 0 }}
+        className={classes.gradient}
+      >
+        <GradientButton onClick={toggle} showGradient={showGradient} />
+        <div ref={gradientRef} className={classes.gradientInner}>
           <Gradient />
         </div>
       </div>

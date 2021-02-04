@@ -36,14 +36,17 @@ const ThemeControls = () => {
   const theme = useTheme()
   const dispatch = useDispatch()
 
-  const onChange = useCallback((mainTheme) => {
-    dispatch(setMainTheme(mainTheme))
-  }, [dispatch])
+  const onChange = useCallback(
+    (mainTheme) => {
+      dispatch(setMainTheme(mainTheme))
+    },
+    [dispatch]
+  )
 
   return (
     <div className={classes.root}>
       <SmartSlider
-        label='main background'
+        label="main background"
         range={[0, 100, 1]}
         transform={{
           in: getLightnessFromColor,
@@ -51,12 +54,12 @@ const ThemeControls = () => {
         }}
         obj={mainTheme}
         defaultObj={theme}
-        path='palette.background.default'
+        path="palette.background.default"
         onChange={onChange}
         alwaysOpen
       />
       <SmartSlider
-        label='secondary background'
+        label="secondary background"
         range={[0, 100, 1]}
         transform={{
           in: getLightnessFromColor,
@@ -64,12 +67,12 @@ const ThemeControls = () => {
         }}
         obj={mainTheme}
         defaultObj={theme}
-        path='palette.background.paper'
+        path="palette.background.paper"
         onChange={onChange}
         alwaysOpen
       />
       <SmartSlider
-        label='divider opacity'
+        label="divider opacity"
         range={[0, 1, 0.01]}
         transform={{
           in: getAlphaFromColor,
@@ -77,16 +80,16 @@ const ThemeControls = () => {
         }}
         obj={mainTheme}
         defaultObj={theme}
-        path='palette.divider'
+        path="palette.divider"
         onChange={onChange}
         alwaysOpen
       />
       <SmartSlider
-        label='font size'
+        label="font size"
         range={[8, 20, 1]}
         obj={mainTheme}
         defaultObj={theme}
-        path='typography.fontSize'
+        path="typography.fontSize"
         onChange={onChange}
         alwaysOpen
       />

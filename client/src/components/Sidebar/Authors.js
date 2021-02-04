@@ -48,13 +48,10 @@ const Authors = () => {
     [dispatch]
   )
 
-  const clear = useCallback(
-    () => {
-      select(null)
-      highlight(null)
-    },
-    [select, highlight]
-  )
+  const clear = useCallback(() => {
+    select(null)
+    highlight(null)
+  }, [select, highlight])
 
   if (!authors) return null
   return (
@@ -72,7 +69,7 @@ const Authors = () => {
             <tr
               key={author.id}
               className={clsx({
-                [classes.selected]: author.id === selectedAuthorId
+                [classes.selected]: author.id === selectedAuthorId,
               })}
               onMouseEnter={highlight.bind(null, author.id)}
               onClick={() => {

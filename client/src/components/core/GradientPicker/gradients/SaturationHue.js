@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     right: 0,
     background: ({ saturationRange, hueRange, lightness, alpha }) => `
       ${saturationGradient({
-        alpha
+        alpha,
       })}
       ,
       ${hueGradient({
@@ -45,11 +45,12 @@ const useStyles = makeStyles({
       left: 0,
       right: 0,
       bottom: 0,
-      background: ({ backgroundColor }) => checkerGradient({
-        alpha: 0.008,
-        backgroundColor,
-      }),
-    }
+      background: ({ backgroundColor }) =>
+        checkerGradient({
+          alpha: 0.008,
+          backgroundColor,
+        }),
+    },
   },
 })
 
@@ -72,7 +73,7 @@ const LightnessHue = ({
   return (
     <div className={classes.root}>
       <div className={classes.background} />
-      { children }
+      {children}
     </div>
   )
 }

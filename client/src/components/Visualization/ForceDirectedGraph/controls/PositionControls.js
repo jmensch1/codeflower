@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       marginBottom: '1em',
-    }
+    },
   },
 }))
 
@@ -18,21 +18,26 @@ const StyleControls = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles({
-      ...visStyles,
-      id: undefined,
-    }))
-  }, [dispatch])
+  const onChangeStyles = useCallback(
+    (visStyles) => {
+      dispatch(
+        setVisStyles({
+          ...visStyles,
+          id: undefined,
+        })
+      )
+    },
+    [dispatch]
+  )
 
   if (!visStyles) return null
   return (
     <div className={classes.root}>
       <SmartSlider
-        label='rotation'
+        label="rotation"
         range={[0, 360, 1]}
         obj={visStyles}
-        path='rotation'
+        path="rotation"
         onChange={onChangeStyles}
       />
     </div>

@@ -16,30 +16,35 @@ const LinkControls = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles({
-      ...visStyles,
-      id: undefined,
-    }))
-  }, [dispatch])
+  const onChangeStyles = useCallback(
+    (visStyles) => {
+      dispatch(
+        setVisStyles({
+          ...visStyles,
+          id: undefined,
+        })
+      )
+    },
+    [dispatch]
+  )
 
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row label='stroke' level={1}>
+      <Row label="stroke" level={1}>
         <ColorPicker
-          label='color'
+          label="color"
           obj={visStyles}
-          path='links.stroke'
+          path="links.stroke"
           onChange={onChangeStyles}
         />
       </Row>
-      <Row label='width' level={1}>
+      <Row label="width" level={1}>
         <SmartSlider
-          label='width'
+          label="width"
           range={[0, 10, 0.5]}
           obj={visStyles}
-          path='links.strokeWidth'
+          path="links.strokeWidth"
           onChange={onChangeStyles}
         />
       </Row>

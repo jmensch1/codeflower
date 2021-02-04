@@ -35,10 +35,12 @@ const Tabs = ({ tabs, activeTab, onChange }) => {
       {tabs.map(({ type, Icon, Comppone }) => (
         <div
           key={type}
-          className={clsx(classes.tab, { [classes.active]: activeTab === type })}
+          className={clsx(classes.tab, {
+            [classes.active]: activeTab === type,
+          })}
           onClick={() => onChange(type)}
         >
-          { type }
+          {type}
         </div>
       ))}
     </div>

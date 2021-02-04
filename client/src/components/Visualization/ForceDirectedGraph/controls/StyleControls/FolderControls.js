@@ -16,45 +16,50 @@ const FolderControls = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles({
-      ...visStyles,
-      id: undefined,
-    }))
-  }, [dispatch])
+  const onChangeStyles = useCallback(
+    (visStyles) => {
+      dispatch(
+        setVisStyles({
+          ...visStyles,
+          id: undefined,
+        })
+      )
+    },
+    [dispatch]
+  )
 
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row label='fill' level={1}>
+      <Row label="fill" level={1}>
         <ColorPicker
-          label='fill: color'
+          label="fill: color"
           obj={visStyles}
-          path='folders.fill'
+          path="folders.fill"
           onChange={onChangeStyles}
         />
       </Row>
-      <Row label='size' level={1}>
+      <Row label="size" level={1}>
         <SmartSlider
-          label='radius'
+          label="radius"
           range={[1, 20, 0.5]}
           obj={visStyles}
-          path='folders.radius'
+          path="folders.radius"
           onChange={onChangeStyles}
         />
         <SmartSlider
-          label='stroke width'
+          label="stroke width"
           range={[0, 10, 0.5]}
           obj={visStyles}
-          path='folders.strokeWidth'
+          path="folders.strokeWidth"
           onChange={onChangeStyles}
         />
       </Row>
       <Row label={'stroke'} level={1}>
         <ColorPicker
-          label='stroke: color'
+          label="stroke: color"
           obj={visStyles}
-          path='folders.stroke'
+          path="folders.stroke"
           onChange={onChangeStyles}
         />
       </Row>

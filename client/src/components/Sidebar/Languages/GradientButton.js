@@ -26,10 +26,11 @@ const GradientButton = ({ showGradient, onClick }) => {
   return (
     <div className={classes.root} onClick={onClick}>
       <PaletteIcon className={classes.icon} />
-      {showGradient
-        ? <DownIcon className={classes.icon} />
-        : <UpIcon className={classes.icon} />
-      }
+      {showGradient ? (
+        <DownIcon className={classes.icon} />
+      ) : (
+        <UpIcon className={classes.icon} />
+      )}
     </div>
   )
 }

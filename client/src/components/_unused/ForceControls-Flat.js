@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     '& > *': {
       marginBottom: 12,
-    }
+    },
   },
   instructions: {
     fontSize: '0.875em',
@@ -24,9 +24,12 @@ const ForceControls = () => {
   const visForces = useVisForces()
   const dispatch = useDispatch()
 
-  const onChangeForces = useCallback((visForces) => {
-    dispatch(setVisForces(visForces))
-  }, [dispatch])
+  const onChangeForces = useCallback(
+    (visForces) => {
+      dispatch(setVisForces(visForces))
+    },
+    [dispatch]
+  )
 
   if (!visForces) return null
   return (
@@ -36,72 +39,73 @@ const ForceControls = () => {
         <a
           href="https://github.com/d3/d3-force"
           target="_blank"
-          rel="noreferrer">
+          rel="noreferrer"
+        >
           d3 forces
         </a>
         &nbsp;that apply to the graph.
       </div>
       <SmartSlider
-        label='alpha decay'
+        label="alpha decay"
         range={[0, 0.1, 0.001]}
         obj={visForces}
-        path='alphaDecay'
+        path="alphaDecay"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='charge strength'
+        label="charge strength"
         range={[-500, 0, 1]}
         obj={visForces}
-        path='charge.strength'
+        path="charge.strength"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='charge distance min/max'
+        label="charge distance min/max"
         range={[1, 2000]}
         obj={visForces}
-        path='charge.distance'
+        path="charge.distance"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='link distance: files'
+        label="link distance: files"
         range={[0, 150, 1]}
         obj={visForces}
-        path='link.distance.files'
+        path="link.distance.files"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='link distance: folders'
+        label="link distance: folders"
         range={[0, 150, 1]}
         obj={visForces}
-        path='link.distance.folders'
+        path="link.distance.folders"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='link strength'
+        label="link strength"
         range={[0, 1, 0.01]}
         obj={visForces}
-        path='link.strength'
+        path="link.strength"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='link iterations'
+        label="link iterations"
         range={[0, 10, 1]}
         obj={visForces}
-        path='link.iterations'
+        path="link.iterations"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='force x/y strength'
+        label="force x/y strength"
         range={[0, 1, 0.01]}
         obj={visForces}
-        path='forceXY.strength'
+        path="forceXY.strength"
         onChange={onChangeForces}
       />
       <SmartSlider
-        label='force center strength'
+        label="force center strength"
         range={[0, 1, 0.01]}
         obj={visForces}
-        path='center.strength'
+        path="center.strength"
         onChange={onChangeForces}
       />
     </div>

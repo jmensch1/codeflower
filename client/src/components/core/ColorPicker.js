@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     '&:hover > $label': {
       textDecoration: 'underline',
-    }
+    },
   },
   label: {
     cursor: 'inherit',
@@ -58,44 +58,42 @@ const ColorPicker = ({ label, obj, path, onChange, isOpen }) => {
         borderWidth: 0,
       }
     } else {
-      return (
-        { backgroundColor: colorString(color) }
-      )
+      return { backgroundColor: colorString(color) }
     }
   })()
 
   return (
     <div className={classes.root}>
       <div className={classes.header} onClick={() => setOpen(!open)}>
-        <label className={classes.label}>{ label }</label>
+        <label className={classes.label}>{label}</label>
         <div className={classes.swatch} style={swatchStyle} />
       </div>
       {open && (
         <div className={classes.sliders}>
-        <SmartSlider
-          range={[0, 360, 1]}
-          obj={obj}
-          path={`${path}.hue`}
-          onChange={onChange}
-          gradient='hue'
-          isOpen
-        />
-        <SmartSlider
-          range={[0, 100, 1]}
-          obj={obj}
-          path={`${path}.saturation`}
-          onChange={onChange}
-          isOpen
-        />
-        <SmartSlider
-          range={[0, 100, 1]}
-          obj={obj}
-          path={`${path}.lightness`}
-          onChange={onChange}
-          gradient='lightness'
-          isOpen
-        />
-        {/*<SmartSlider
+          <SmartSlider
+            range={[0, 360, 1]}
+            obj={obj}
+            path={`${path}.hue`}
+            onChange={onChange}
+            gradient="hue"
+            isOpen
+          />
+          <SmartSlider
+            range={[0, 100, 1]}
+            obj={obj}
+            path={`${path}.saturation`}
+            onChange={onChange}
+            isOpen
+          />
+          <SmartSlider
+            range={[0, 100, 1]}
+            obj={obj}
+            path={`${path}.lightness`}
+            onChange={onChange}
+            gradient="lightness"
+            isOpen
+          />
+          {/*<SmartSlider
           range={[0, 1, 0.01]}
           obj={obj}
           path={`${path}.alpha`}

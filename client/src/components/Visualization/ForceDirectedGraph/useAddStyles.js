@@ -34,9 +34,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   // fill
   useEffect(() => {
-    node
-      .filter('.file')
-      .style('fill', (d) => languageColors[d.data.language])
+    node.filter('.file').style('fill', (d) => languageColors[d.data.language])
   }, [node, languageColors])
 
   // opacity (TODO: combine with fill)
@@ -79,7 +77,9 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
 
   // stroke
   useEffect(() => {
-    node.filter('.folder').style('stroke', colorString(visStyles.folders.stroke))
+    node
+      .filter('.folder')
+      .style('stroke', colorString(visStyles.folders.stroke))
   }, [node, visStyles.folders.stroke])
 
   // stroke-width
@@ -143,19 +143,31 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
       const [highlightedIds, suppressedIds] = partition(
         folderPaths,
         (path) => isWithinFolder(path, highlightedFolderPath),
-        (path) => folderIds[path],
+        (path) => folderIds[path]
       )
 
       if (highlightedIds.length) {
-        node.filter(select('.file.folder-', highlightedIds)).style('display', 'block')
-        node.filter(select('.folder.folder-', highlightedIds)).style('display', 'block')
-        link.filter(select('.link.folder-', highlightedIds)).style('stroke-opacity', 1.0)
+        node
+          .filter(select('.file.folder-', highlightedIds))
+          .style('display', 'block')
+        node
+          .filter(select('.folder.folder-', highlightedIds))
+          .style('display', 'block')
+        link
+          .filter(select('.link.folder-', highlightedIds))
+          .style('stroke-opacity', 1.0)
       }
 
       if (suppressedIds.length) {
-        node.filter(select('.file.folder-', suppressedIds)).style('display', 'none')
-        node.filter(select('.folder.folder-', suppressedIds)).style('display', 'none')
-        link.filter(select('.link.folder-', suppressedIds)).style('stroke-opacity', 0.2)
+        node
+          .filter(select('.file.folder-', suppressedIds))
+          .style('display', 'none')
+        node
+          .filter(select('.folder.folder-', suppressedIds))
+          .style('display', 'none')
+        link
+          .filter(select('.link.folder-', suppressedIds))
+          .style('stroke-opacity', 0.2)
       }
     } else {
       node.filter('.file').style('display', 'block')

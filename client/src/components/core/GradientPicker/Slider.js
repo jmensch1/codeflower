@@ -41,15 +41,21 @@ const Slider = ({
   const [svg, setSvg] = useState(null)
   const [bar, setBar] = useState(null)
 
-  const getValue = useCallback((x) => {
-    if (!range || !dimensions) return null
-    return interpolate(x, [0, dimensions.width], range, true)
-  }, [range, dimensions])
+  const getValue = useCallback(
+    (x) => {
+      if (!range || !dimensions) return null
+      return interpolate(x, [0, dimensions.width], range, true)
+    },
+    [range, dimensions]
+  )
 
-  const getX = useCallback((xValue) => {
-    if (!range || !dimensions) return null
-    return interpolate(xValue, range, [0, dimensions.width], true)
-  }, [range, dimensions])
+  const getX = useCallback(
+    (xValue) => {
+      if (!range || !dimensions) return null
+      return interpolate(xValue, range, [0, dimensions.width], true)
+    },
+    [range, dimensions]
+  )
 
   useEffect(() => {
     const container = containerRef.current
@@ -95,9 +101,7 @@ const Slider = ({
     bar.attr('x', getX(value) - BAR_WIDTH / 2)
   }, [value, bar, getX])
 
-  return (
-    <div ref={containerRef} className={classes.root} />
-  )
+  return <div ref={containerRef} className={classes.root} />
 }
 
 export default Slider

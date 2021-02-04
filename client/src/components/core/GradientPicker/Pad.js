@@ -53,30 +53,45 @@ const Pad = ({
 
   //// TRANFORMERS ////
 
-  const getXValue = useCallback((x) => {
-    if (!xRange || !dimensions) return null
-    return interpolate(x, [0, dimensions.width], xRange, true)
-  }, [xRange, dimensions])
+  const getXValue = useCallback(
+    (x) => {
+      if (!xRange || !dimensions) return null
+      return interpolate(x, [0, dimensions.width], xRange, true)
+    },
+    [xRange, dimensions]
+  )
 
-  const getX = useCallback((xValue) => {
-    if (!xRange || !dimensions) return null
-    return interpolate(xValue, xRange, [0, dimensions.width], true)
-  }, [xRange, dimensions])
+  const getX = useCallback(
+    (xValue) => {
+      if (!xRange || !dimensions) return null
+      return interpolate(xValue, xRange, [0, dimensions.width], true)
+    },
+    [xRange, dimensions]
+  )
 
-  const getUnclampedX = useCallback((xValue) => {
-    if (!xRange || !dimensions) return null
-    return interpolate(xValue, xRange, [0, dimensions.width])
-  }, [xRange, dimensions])
+  const getUnclampedX = useCallback(
+    (xValue) => {
+      if (!xRange || !dimensions) return null
+      return interpolate(xValue, xRange, [0, dimensions.width])
+    },
+    [xRange, dimensions]
+  )
 
-  const getYValue = useCallback((y) => {
-    if (!yRange || !dimensions) return null
-    return interpolate(y, [dimensions.height, 0], yRange, true)
-  }, [yRange, dimensions])
+  const getYValue = useCallback(
+    (y) => {
+      if (!yRange || !dimensions) return null
+      return interpolate(y, [dimensions.height, 0], yRange, true)
+    },
+    [yRange, dimensions]
+  )
 
-  const getY = useCallback((yValue) => {
-    if (!yRange || !dimensions) return null
-    return interpolate(yValue, yRange, [dimensions.height, 0])
-  }, [yRange, dimensions])
+  const getY = useCallback(
+    (yValue) => {
+      if (!yRange || !dimensions) return null
+      return interpolate(yValue, yRange, [dimensions.height, 0])
+    },
+    [yRange, dimensions]
+  )
 
   //// INITIALIZE ////
 
@@ -111,13 +126,12 @@ const Pad = ({
     const changeCursor = () => svg.style('cursor', CIRCLE_CURSOR_STYLE)
     const restoreCursor = () => svg.style('cursor', SVG_CURSOR_STYLE)
 
-    const createDrag = (onDrag) => (
+    const createDrag = (onDrag) =>
       d3
         .drag()
         .on('start', changeCursor)
         .on('drag', onDrag)
         .on('end', restoreCursor)
-    )
 
     const circle0Drag = createDrag(({ x }) => {
       onChange({
@@ -150,7 +164,7 @@ const Pad = ({
           const [x1, x2] = clampBar(
             getUnclampedX(valueRef.current.x[0]) + dx,
             getUnclampedX(valueRef.current.x[1]) + dx,
-            [0, dimensions.width],
+            [0, dimensions.width]
           )
           onChange({
             x: [getXValue(x1), getXValue(x2)],
@@ -189,9 +203,7 @@ const Pad = ({
     }
   }, [svg, circle0, circle1, bar, value, getX, getY])
 
-  return (
-    <div ref={containerRef} className={classes.root} />
-  )
+  return <div ref={containerRef} className={classes.root} />
 }
 
 export default Pad

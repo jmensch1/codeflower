@@ -171,8 +171,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     svg.call(zoom)
 
     // apply the transform on restart
-    if (prevTransform.current)
-      zoom.transform(svg, prevTransform.current)
+    if (prevTransform.current) zoom.transform(svg, prevTransform.current)
 
     //// FINISH ////
 
@@ -191,10 +190,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       <div id="fdg-container" className={classes.root} />
       {visElements && (
         <>
-          <Enhancers
-            visElements={visElements}
-            getNodePath={getNodePath}
-          />
+          <Enhancers visElements={visElements} getNodePath={getNodePath} />
           <Extras alpha={alpha} onRestart={restart} />
         </>
       )}

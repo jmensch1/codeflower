@@ -23,9 +23,12 @@ const ForceControls = () => {
   const visForces = useVisForces()
   const dispatch = useDispatch()
 
-  const onChangeForces = useCallback((visForces) => {
-    dispatch(setVisForces(visForces))
-  }, [dispatch])
+  const onChangeForces = useCallback(
+    (visForces) => {
+      dispatch(setVisForces(visForces))
+    },
+    [dispatch]
+  )
 
   if (!visForces) return null
   return (
@@ -35,85 +38,86 @@ const ForceControls = () => {
         <a
           href="https://github.com/d3/d3-force"
           target="_blank"
-          rel="noreferrer">
+          rel="noreferrer"
+        >
           d3 forces
         </a>
         &nbsp;that apply to the graph.
       </div>
 
       <Row
-        label='charge'
+        label="charge"
         disabled={!getPath(visForces, 'charge.enabled')}
         initialOpen
       >
         <SmartSlider
-          label='strength'
+          label="strength"
           range={[-500, 0, 1]}
           obj={visForces}
-          path='charge.strength'
+          path="charge.strength"
           onChange={onChangeForces}
           alwaysOpen
         />
         <SmartSlider
-          label='distance min'
+          label="distance min"
           range={[1, 500]}
           obj={visForces}
-          path='charge.distanceMin'
-          onChange={onChangeForces}
-          alwaysOpen
-        />
-      </Row>
-      
-      <Row
-        label='link'
-        disabled={!getPath(visForces, 'link.enabled')}
-        initialOpen
-      >
-        <SmartSlider
-          label='strength'
-          range={[0, 1, 0.01]}
-          obj={visForces}
-          path='link.strength'
-          onChange={onChangeForces}
-          alwaysOpen
-          renderValue={toFixed2}
-        />
-        <SmartSlider
-          label='distance: files'
-          range={[0, 150, 1]}
-          obj={visForces}
-          path='link.distance.files'
-          onChange={onChangeForces}
-          alwaysOpen
-        />
-        <SmartSlider
-          label='distance: folders'
-          range={[0, 150, 1]}
-          obj={visForces}
-          path='link.distance.folders'
-          onChange={onChangeForces}
-          alwaysOpen
-        />
-        <SmartSlider
-          label='iterations'
-          range={[0, 5, 1]}
-          obj={visForces}
-          path='link.iterations'
+          path="charge.distanceMin"
           onChange={onChangeForces}
           alwaysOpen
         />
       </Row>
 
       <Row
-        label='x/y'
+        label="link"
+        disabled={!getPath(visForces, 'link.enabled')}
+        initialOpen
+      >
+        <SmartSlider
+          label="strength"
+          range={[0, 1, 0.01]}
+          obj={visForces}
+          path="link.strength"
+          onChange={onChangeForces}
+          alwaysOpen
+          renderValue={toFixed2}
+        />
+        <SmartSlider
+          label="distance: files"
+          range={[0, 150, 1]}
+          obj={visForces}
+          path="link.distance.files"
+          onChange={onChangeForces}
+          alwaysOpen
+        />
+        <SmartSlider
+          label="distance: folders"
+          range={[0, 150, 1]}
+          obj={visForces}
+          path="link.distance.folders"
+          onChange={onChangeForces}
+          alwaysOpen
+        />
+        <SmartSlider
+          label="iterations"
+          range={[0, 5, 1]}
+          obj={visForces}
+          path="link.iterations"
+          onChange={onChangeForces}
+          alwaysOpen
+        />
+      </Row>
+
+      <Row
+        label="x/y"
         disabled={!getPath(visForces, 'forceXY.enabled')}
         initialOpen
       >
         <SmartSlider
-          label='strength'
+          label="strength"
           range={[0, 1, 0.01]}
           obj={visForces}
-          path='forceXY.strength'
+          path="forceXY.strength"
           onChange={onChangeForces}
           alwaysOpen
           renderValue={toFixed2}

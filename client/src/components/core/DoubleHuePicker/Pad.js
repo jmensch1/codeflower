@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
         fill: 'transparent',
         strokeWidth: 2,
         cursor: 'ew-resize',
-      }
-    }
-  }
+      },
+    },
+  },
 }))
 
 function clamp(num, range) {
@@ -60,30 +60,45 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
   const [bar, setBar] = useState(null)
   const colorRef = useRef(null)
 
-  const getHue = useCallback((x) => {
-    if (!hueRange || !dimensions) return null
-    return interpolate(x, [0, dimensions.width], hueRange)
-  }, [hueRange, dimensions])
+  const getHue = useCallback(
+    (x) => {
+      if (!hueRange || !dimensions) return null
+      return interpolate(x, [0, dimensions.width], hueRange)
+    },
+    [hueRange, dimensions]
+  )
 
-  const getX = useCallback((hue) => {
-    if (!hueRange || !dimensions) return null
-    return interpolate(hue, hueRange, [0, dimensions.width], true)
-  }, [hueRange, dimensions])
+  const getX = useCallback(
+    (hue) => {
+      if (!hueRange || !dimensions) return null
+      return interpolate(hue, hueRange, [0, dimensions.width], true)
+    },
+    [hueRange, dimensions]
+  )
 
-  const getUnclampedX = useCallback((hue) => {
-    if (!hueRange || !dimensions) return null
-    return interpolate(hue, hueRange, [0, dimensions.width])
-  }, [hueRange, dimensions])
+  const getUnclampedX = useCallback(
+    (hue) => {
+      if (!hueRange || !dimensions) return null
+      return interpolate(hue, hueRange, [0, dimensions.width])
+    },
+    [hueRange, dimensions]
+  )
 
-  const getLightness = useCallback((y) => {
-    if (!lightnessRange || !dimensions) return null
-    return interpolate(y, [0, dimensions.height], lightnessRange, true)
-  }, [lightnessRange, dimensions])
+  const getLightness = useCallback(
+    (y) => {
+      if (!lightnessRange || !dimensions) return null
+      return interpolate(y, [0, dimensions.height], lightnessRange, true)
+    },
+    [lightnessRange, dimensions]
+  )
 
-  const getY = useCallback((lightness) => {
-    if (!lightnessRange || !dimensions) return null
-    return interpolate(lightness, lightnessRange, [0, dimensions.height])
-  }, [lightnessRange, dimensions])
+  const getY = useCallback(
+    (lightness) => {
+      if (!lightnessRange || !dimensions) return null
+      return interpolate(lightness, lightnessRange, [0, dimensions.height])
+    },
+    [lightnessRange, dimensions]
+  )
 
   useEffect(() => {
     const container = document.getElementById('double-hue-picker-container')
@@ -111,14 +126,12 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
     if (!circle0) return
 
     circle0.call(
-      d3
-        .drag()
-        .on('drag', ({ x, y }) => {
-          onChange({
-            ...colorRef.current,
-            hue: [getHue(x), colorRef.current.hue[1]]
-          })
+      d3.drag().on('drag', ({ x, y }) => {
+        onChange({
+          ...colorRef.current,
+          hue: [getHue(x), colorRef.current.hue[1]],
         })
+      })
     )
   }, [circle0, getHue, onChange])
 
@@ -126,14 +139,12 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
     if (!circle1) return
 
     circle1.call(
-      d3
-        .drag()
-        .on('drag', ({ x, y }) => {
-          onChange({
-            ...colorRef.current,
-            hue: [colorRef.current.hue[0], getHue(x)]
-          })
+      d3.drag().on('drag', ({ x, y }) => {
+        onChange({
+          ...colorRef.current,
+          hue: [colorRef.current.hue[0], getHue(x)],
         })
+      })
     )
   }, [circle1, getHue, onChange])
 
@@ -141,20 +152,18 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
     if (!bar) return
 
     bar.call(
-      d3
-        .drag()
-        .on('drag', ({ y, dx }) => {
-          const [x1, x2] = clampBar(
-            getUnclampedX(colorRef.current.hue[0]) + dx,
-            getUnclampedX(colorRef.current.hue[1]) + dx,
-            [0, dimensions.width],
-          )
-          onChange({
-            ...colorRef.current,
-            hue: [getHue(x1), getHue(x2)],
-            lightness: getLightness(y),
-          })
+      d3.drag().on('drag', ({ y, dx }) => {
+        const [x1, x2] = clampBar(
+          getUnclampedX(colorRef.current.hue[0]) + dx,
+          getUnclampedX(colorRef.current.hue[1]) + dx,
+          [0, dimensions.width]
+        )
+        onChange({
+          ...colorRef.current,
+          hue: [getHue(x1), getHue(x2)],
+          lightness: getLightness(y),
         })
+      })
     )
   }, [bar, getUnclampedX, getHue, getLightness, onChange, dimensions])
 
@@ -179,13 +188,9 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
       .attr('cy', y)
       .style('stroke', `hsla(0, 0%, ${guideLightness}%, 1.0)`)
 
-    const barLeft = x2 >= x1
-      ? x1 + CIRCLE_RADIUS
-      : x2 + CIRCLE_RADIUS
+    const barLeft = x2 >= x1 ? x1 + CIRCLE_RADIUS : x2 + CIRCLE_RADIUS
 
-    const barRight = x2 >= x1
-      ? x2 - CIRCLE_RADIUS
-      : x1 - CIRCLE_RADIUS
+    const barRight = x2 >= x1 ? x2 - CIRCLE_RADIUS : x1 - CIRCLE_RADIUS
 
     if (barRight >= barLeft) {
       bar
@@ -198,12 +203,9 @@ const Pad = ({ color, onChange, hueRange, lightnessRange }) => {
     } else {
       bar.attr('visibility', 'hidden')
     }
-
   }, [color, circle0, circle1, bar, getX, getY])
 
-  return (
-    <div id='double-hue-picker-container' className={classes.root} />
-  )
+  return <div id="double-hue-picker-container" className={classes.root} />
 }
 
 export default Pad

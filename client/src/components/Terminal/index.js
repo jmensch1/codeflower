@@ -18,9 +18,10 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: ({ isOpen }) =>
         isOpen ? theme.palette.common.black : 'transparent',
       opacity: 0.9,
-      color: ({ isOpen }) => isOpen ? theme.palette.common.white : theme.palette.text.primary,
+      color: ({ isOpen }) =>
+        isOpen ? theme.palette.common.white : theme.palette.text.primary,
       overflow: 'hidden',
-      borderTopLeftRadius: ({ isOpen }) => isOpen ? 0 : 5,
+      borderTopLeftRadius: ({ isOpen }) => (isOpen ? 0 : 5),
       fontFamily: 'monospace',
       userSelect: 'none',
       transition: 'all 0.25s ease-in-out',
@@ -34,8 +35,8 @@ const useStyles = makeStyles((theme) => {
       borderBottomWidth: 0,
 
       // full-screen option
-      width: ({ isOpen }) => isOpen ? '100%' : SMALL_BODY_WIDTH,
-      height: ({ isOpen }) => isOpen ? '100%' : HEADER_HEIGHT - 1,
+      width: ({ isOpen }) => (isOpen ? '100%' : SMALL_BODY_WIDTH),
+      height: ({ isOpen }) => (isOpen ? '100%' : HEADER_HEIGHT - 1),
 
       // right corner option
       // width: SMALL_BODY_WIDTH,

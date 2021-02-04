@@ -23,13 +23,14 @@ const useStyles = makeStyles((theme) => ({
   swatch: {
     height: 25,
     marginBottom: 10,
-    background: ({ color }) => hueGradient({
-      hueMin: color.hue[0],
-      hueMax: color.hue[1],
-      saturation: color.saturation,
-      lightness: color.lightness,
-      alpha: color.alpha,
-    }),
+    background: ({ color }) =>
+      hueGradient({
+        hueMin: color.hue[0],
+        hueMax: color.hue[1],
+        saturation: color.saturation,
+        lightness: color.lightness,
+        alpha: color.alpha,
+      }),
   },
   heading: {
     fontSize: '0.7em',
@@ -48,11 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const GradientPicker = ({
-  color,
-  onChange,
-  showSwatches,
-}) => {
+const GradientPicker = ({ color, onChange, showSwatches }) => {
   const theme = useTheme()
   const classes = useStyles({ color })
   const colorRef = useRef(null)
@@ -64,17 +61,26 @@ const GradientPicker = ({
     colorRef.current = color
   }, [color])
 
-  const handleHueAlphaChange = useCallback(({ x: hue, y: alpha }) => {
-    onChange({ ...colorRef.current, hue, alpha })
-  }, [onChange])
+  const handleHueAlphaChange = useCallback(
+    ({ x: hue, y: alpha }) => {
+      onChange({ ...colorRef.current, hue, alpha })
+    },
+    [onChange]
+  )
 
-  const handleSaturationChange = useCallback((saturation) => {
-    onChange({ ...colorRef.current, saturation })
-  }, [onChange])
+  const handleSaturationChange = useCallback(
+    (saturation) => {
+      onChange({ ...colorRef.current, saturation })
+    },
+    [onChange]
+  )
 
-  const handleLightnessChange = useCallback((lightness) => {
-    onChange({ ...colorRef.current, lightness })
-  }, [onChange])
+  const handleLightnessChange = useCallback(
+    (lightness) => {
+      onChange({ ...colorRef.current, lightness })
+    },
+    [onChange]
+  )
 
   const handleColor = `
     hsla(
@@ -88,7 +94,7 @@ const GradientPicker = ({
   return (
     <div className={classes.root}>
       {/*<div className={classes.swatch} />*/}
-      { showSwatches && <Swatches color={color} /> }
+      {showSwatches && <Swatches color={color} />}
 
       <div className={classes.heading}>hue/alpha</div>
       <div className={classes.pad}>

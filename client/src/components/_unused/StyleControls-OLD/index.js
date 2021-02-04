@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     '& > *': {
       marginBottom: 10,
-    }
+    },
   },
 }))
 
@@ -24,23 +24,28 @@ const StyleControls = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles({
-      ...visStyles,
-      id: undefined,
-    }))
-  }, [dispatch])
+  const onChangeStyles = useCallback(
+    (visStyles) => {
+      dispatch(
+        setVisStyles({
+          ...visStyles,
+          id: undefined,
+        })
+      )
+    },
+    [dispatch]
+  )
 
   if (!visStyles) return null
   return (
     <div className={classes.root}>
       <Row
-        label='files'
+        label="files"
         disabled={!getPath(visStyles, 'files.visible')}
         button={
           <Checkbox
             obj={visStyles}
-            path='files.visible'
+            path="files.visible"
             onChange={onChangeStyles}
           />
         }
@@ -48,12 +53,12 @@ const StyleControls = () => {
         <FileControls />
       </Row>
       <Row
-        label='folders'
+        label="folders"
         disabled={!getPath(visStyles, 'folders.visible')}
         button={
           <Checkbox
             obj={visStyles}
-            path='folders.visible'
+            path="folders.visible"
             onChange={onChangeStyles}
           />
         }
@@ -61,12 +66,12 @@ const StyleControls = () => {
         <FolderControls />
       </Row>
       <Row
-        label='links'
+        label="links"
         disabled={!getPath(visStyles, 'links.visible')}
         button={
           <Checkbox
             obj={visStyles}
-            path='links.visible'
+            path="links.visible"
             onChange={onChangeStyles}
           />
         }

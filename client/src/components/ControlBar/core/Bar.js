@@ -26,11 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Bar = ({ children }) => {
   const classes = useStyles()
-  return (
-    <div className={classes.root}>
-      {children}
-    </div>
-  )
+  return <div className={classes.root}>{children}</div>
 }
 
 export default Bar

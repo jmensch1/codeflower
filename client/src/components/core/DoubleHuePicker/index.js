@@ -17,26 +17,29 @@ const useStyles = makeStyles((theme) => ({
   pad: {
     height: 200,
     marginBottom: 10,
-    backgroundImage: `linear-gradient(0deg, hsla(0,0%,100%,1) 0%, hsla(0,0%,100%,0) 50%, hsla(0,0%,0%,0) 50%, hsla(0,0%,0%,1) 100%), ${hueGradient({
-      hueMin: HUE_RANGE[0],
-      hueMax: HUE_RANGE[1],
-      saturation: 100,
-      lightness: 50,
-      alpha: 1,
-      steps: 20,
-    })}`,
+    backgroundImage: `linear-gradient(0deg, hsla(0,0%,100%,1) 0%, hsla(0,0%,100%,0) 50%, hsla(0,0%,0%,0) 50%, hsla(0,0%,0%,1) 100%), ${hueGradient(
+      {
+        hueMin: HUE_RANGE[0],
+        hueMax: HUE_RANGE[1],
+        saturation: 100,
+        lightness: 50,
+        alpha: 1,
+        steps: 20,
+      }
+    )}`,
   },
   swatch: {
     height: 25,
     marginBottom: 10,
-    background: ({ color }) => hueGradient({
-      hueMin: color.hue[0],
-      hueMax: color.hue[1],
-      saturation: color.saturation,
-      lightness: color.lightness,
-      alpha: color.alpha,
-    }),
-  }
+    background: ({ color }) =>
+      hueGradient({
+        hueMin: color.hue[0],
+        hueMax: color.hue[1],
+        saturation: color.saturation,
+        lightness: color.lightness,
+        alpha: color.alpha,
+      }),
+  },
 }))
 
 const DoubleHuePicker = ({ color, onChange }) => {
@@ -54,14 +57,14 @@ const DoubleHuePicker = ({ color, onChange }) => {
         />
       </div>
       <Slider
-        label='saturation'
+        label="saturation"
         range={[0, 100, 1]}
         value={color.saturation}
         onChange={(saturation) => onChange({ ...color, saturation })}
         alwaysOpen
       />
       <Slider
-        label='opacity'
+        label="opacity"
         range={[0, 1, 0.01]}
         value={color.alpha}
         onChange={(alpha) => onChange({ ...color, alpha })}

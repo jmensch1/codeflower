@@ -16,11 +16,10 @@ const Swatches = ({ color }) => {
 
   const [hueMin, hueMax] = color.hue
   const inc = (hueMax - hueMin) / NUM_STEPS
-  const colors = Array.from({ length: NUM_STEPS + 1 })
-    .map((_, idx) => {
-      const { saturation: s, lightness: l, alpha: a } = color
-      return `hsla(${hueMin + inc * idx},${s}%,${l}%,${a})`
-    })
+  const colors = Array.from({ length: NUM_STEPS + 1 }).map((_, idx) => {
+    const { saturation: s, lightness: l, alpha: a } = color
+    return `hsla(${hueMin + inc * idx},${s}%,${l}%,${a})`
+  })
 
   return (
     <div className={classes.root}>

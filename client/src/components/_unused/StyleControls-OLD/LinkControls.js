@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       marginBottom: 10,
-    }
+    },
   },
 }))
 
@@ -19,35 +19,40 @@ const LinkControls = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles({
-      ...visStyles,
-      id: undefined,
-    }))
-  }, [dispatch])
+  const onChangeStyles = useCallback(
+    (visStyles) => {
+      dispatch(
+        setVisStyles({
+          ...visStyles,
+          id: undefined,
+        })
+      )
+    },
+    [dispatch]
+  )
 
   if (!visStyles) return null
   return (
     <div className={classes.root}>
       <ColorPicker
-        label='color'
+        label="color"
         obj={visStyles}
-        path='links.stroke'
+        path="links.stroke"
         onChange={onChangeStyles}
       />
       <SmartSlider
-        label='opacity'
+        label="opacity"
         range={[0, 1, 0.01]}
         obj={visStyles}
-        path='links.stroke.alpha'
+        path="links.stroke.alpha"
         onChange={onChangeStyles}
-        gradient='opacity'
+        gradient="opacity"
       />
       <SmartSlider
-        label='width'
+        label="width"
         range={[0, 10, 0.5]}
         obj={visStyles}
-        path='links.strokeWidth'
+        path="links.strokeWidth"
         onChange={onChangeStyles}
       />
     </div>

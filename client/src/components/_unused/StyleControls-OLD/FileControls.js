@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       marginBottom: '0.5em',
-    }
+    },
   },
 }))
 
@@ -22,16 +22,24 @@ const FileControls = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback((visStyles) => {
-    dispatch(setVisStyles({
-      ...visStyles,
-      id: undefined,
-    }))
-  }, [dispatch])
+  const onChangeStyles = useCallback(
+    (visStyles) => {
+      dispatch(
+        setVisStyles({
+          ...visStyles,
+          id: undefined,
+        })
+      )
+    },
+    [dispatch]
+  )
 
-  const onUpdateStyles = useCallback((path, value) => {
-    dispatch(updateVisStyles(path, value))
-  }, [dispatch])
+  const onUpdateStyles = useCallback(
+    (path, value) => {
+      dispatch(updateVisStyles(path, value))
+    },
+    [dispatch]
+  )
 
   const onChangeFileFill = useMemo(
     () => onUpdateStyles.bind(null, 'files.fill'),
@@ -71,37 +79,37 @@ const FileControls = () => {
         onChange={onChangeStyles}
       />*/}
       <Slider
-        label='radius: coefficient'
+        label="radius: coefficient"
         range={[1, 50, 1]}
         value={getPath(visStyles, 'files.radius.coeff')}
         onChange={onUpdateStyles.bind(null, 'files.radius.coeff')}
       />
       <SmartSlider
-        label='radius: exponent'
+        label="radius: exponent"
         range={[0, 1, 0.01]}
         obj={visStyles}
-        path='files.radius.exponent'
+        path="files.radius.exponent"
         onChange={onChangeStyles}
       />
       <ColorPicker
-        label='stroke: color'
+        label="stroke: color"
         obj={visStyles}
-        path='files.stroke'
+        path="files.stroke"
         onChange={onChangeStyles}
       />
       <SmartSlider
-        label='stroke: opacity'
+        label="stroke: opacity"
         range={[0, 1, 0.01]}
         obj={visStyles}
-        path='files.stroke.alpha'
+        path="files.stroke.alpha"
         onChange={onChangeStyles}
-        gradient='opacity'
+        gradient="opacity"
       />
       <SmartSlider
-        label='stroke: width'
+        label="stroke: width"
         range={[0, 10, 0.5]}
         obj={visStyles}
-        path='files.strokeWidth'
+        path="files.strokeWidth"
         onChange={onChangeStyles}
       />
     </div>

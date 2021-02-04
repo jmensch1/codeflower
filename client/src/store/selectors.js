@@ -69,7 +69,8 @@ const languageColors = createSelector(
     const { hue, saturation, lightness } = fileFill
     const [hueMin, hueMax] = hue
     const languageColor = (languages, index) => {
-      const hue = hueMin + Math.round(((hueMax - hueMin) * index) / languages.length)
+      const hue =
+        hueMin + Math.round(((hueMax - hueMin) * index) / languages.length)
       return `hsl(${hue}, ${saturation}%, ${lightness}%)`
     }
 
