@@ -28,7 +28,8 @@ export const Checkbox = ({ obj, path, onChange, label }) => {
   const checked = getPath(obj, path)
   const classes = useStyles({ checked })
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback((e) => {
+    e.stopPropagation()
     onChange(setPath(obj, path, !checked))
   }, [obj, path, checked, onChange])
 

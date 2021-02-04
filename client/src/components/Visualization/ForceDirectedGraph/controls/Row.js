@@ -4,13 +4,13 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) => ({
   root: {
     userSelect: 'none',
-    cursor: 'pointer',
     fontSize: ({ level }) => `${1 - 0.1 * level}em`,
     marginBottom: '1em',
   },
   header: {
     display: 'flex',
     alignItems: 'center',
+    cursor: 'pointer',
   },
   arrowAndLabel: {
     flex: 1,
@@ -23,8 +23,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    '& polygon': {
-      fill: theme.palette.text.primary,
+    '& > svg': {
+      width: '1em',
+      height: '1em',
+      '& > polygon': {
+        fill: theme.palette.text.primary,
+      },
     },
   },
   label: {
@@ -72,10 +76,10 @@ const Row = ({
 
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
-        <div className={classes.arrowAndLabel} onClick={() => setOpen(!open)}>
+      <div className={classes.header} onClick={() => setOpen(!open)}>
+        <div className={classes.arrowAndLabel}>
           <div className={classes.arrow}>
-            <svg viewBox="0 0 20 20" height="1em" width="1em">
+            <svg viewBox="0 0 20 20">
               <polygon
                 points={open ? '5,5 10,15, 15,5' : '5,5 15,10 5,15'}
                 className={classes.arrow}
