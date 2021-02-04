@@ -6,6 +6,7 @@ import { setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
 import Row from './Row'
 import { getPath } from 'services/utils'
+// import Checkbox from 'components/core/Checkbox'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 16,
   },
 }))
+
+const toFixed2 = (x) => x.toFixed(2)
 
 const ForceControls = () => {
   const classes = useStyles()
@@ -43,13 +46,7 @@ const ForceControls = () => {
         </a>
         &nbsp;that apply to the graph.
       </div>
-      {/*<SmartSlider
-        label='alpha decay'
-        range={[0, 0.1, 0.001]}
-        obj={visForces}
-        path='alphaDecay'
-        onChange={onChangeForces}
-      />*/}
+
       <Row
         label='charge'
         disabled={!getPath(visForces, 'charge.enabled')}
@@ -70,10 +67,10 @@ const ForceControls = () => {
           alwaysOpen
         />
         <SmartSlider
-          label='distance (min/max)'
-          range={[1, 2000]}
+          label='distance min'
+          range={[1, 500]}
           obj={visForces}
-          path='charge.distance'
+          path='charge.distanceMin'
           onChange={onChangeForces}
           alwaysOpen
         />
@@ -96,6 +93,7 @@ const ForceControls = () => {
           path='link.strength'
           onChange={onChangeForces}
           alwaysOpen
+          renderValue={toFixed2}
         />
         <SmartSlider
           label='distance: files'
@@ -115,13 +113,14 @@ const ForceControls = () => {
         />
         <SmartSlider
           label='iterations'
-          range={[0, 10, 1]}
+          range={[0, 5, 1]}
           obj={visForces}
           path='link.iterations'
           onChange={onChangeForces}
           alwaysOpen
         />
       </Row>
+
       <Row
         label='x/y'
         disabled={!getPath(visForces, 'forceXY.enabled')}
@@ -140,15 +139,9 @@ const ForceControls = () => {
           path='forceXY.strength'
           onChange={onChangeForces}
           alwaysOpen
+          renderValue={toFixed2}
         />
       </Row>
-      {/*<SmartSlider
-        label='force center strength'
-        range={[0, 1, 0.01]}
-        obj={visForces}
-        path='center.strength'
-        onChange={onChangeForces}
-      />*/}
     </div>
   )
 }

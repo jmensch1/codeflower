@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { interpolate, checkerGradient } from 'services/utils'
 import * as d3 from 'd3'
 
-const CIRCLE_STROKE_WIDTH = 4
+const CIRCLE_STROKE_WIDTH = 0
 const SVG_CURSOR_STYLE = 'pointer'
 const BAR_CURSOR_STYLE = 'pointer'
 
@@ -12,9 +12,9 @@ const useStyles = makeStyles(theme => ({
     height: ({ height }) => height,
     borderRadius: ({ height }) => height / 2,
     position: 'relative',
-    background: checkerGradient({
+    background: ({ height }) => checkerGradient({
       alpha: 0.1,
-      size: 10,
+      size: height / 3,
       backgroundColor: theme.palette.background.paper
     }),
     '& > svg': {
@@ -25,8 +25,7 @@ const useStyles = makeStyles(theme => ({
       width: '100%',
       cursor: SVG_CURSOR_STYLE,
       '& > circle': {
-        fill: 'transparent',
-        stroke: ({ handleColor }) => handleColor || theme.palette.text.primary,
+        fill: ({ handleColor }) => handleColor || theme.palette.text.primary,
         strokeWidth: CIRCLE_STROKE_WIDTH,
         cursor: BAR_CURSOR_STYLE,
       },
@@ -35,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Slider = ({
-  height = 16,
+  height = 12,
   value,
   onChange,
   range,

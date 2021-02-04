@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import Slider from './Slider1'
+import Slider from './Slider2'
 import { getPath, setPath, hasPath } from 'services/utils'
 
 export const SmartSlider = ({

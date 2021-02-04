@@ -10,11 +10,15 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     fontSize: '0.875em',
     marginBottom: 4,
-    padding: '0 4px',
   },
 }))
 
-const LabeledSlider = ({ label, value, ...rest }) => {
+const LabeledSlider = ({
+  label,
+  value,
+  renderValue = (x) => x,
+  ...rest
+ }) => {
   const classes = useStyles()
 
   return (
@@ -22,9 +26,7 @@ const LabeledSlider = ({ label, value, ...rest }) => {
       {label && (
         <div className={classes.header}>
           <label className={classes.label}>{ label }</label>
-          <span>
-            { value instanceof Array ? `${value[0]}/${value[1]}` : value }
-          </span>
+          <span>{renderValue(value)}</span>
         </div>
       )}
       <Slider value={value} { ...rest } />

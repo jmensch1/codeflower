@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Controls = () => {
   const classes = useStyles()
-  const [tab, setTab] = useState('gradient')
+  const [tab, setTab] = useState('forces')
   const { Component } = TABS.find((t) => t.type === tab)
 
   return (

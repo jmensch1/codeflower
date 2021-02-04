@@ -10,6 +10,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  arrowAndLabel: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+  },
   arrow: {
     width: '1.5em',
     height: '1.5em',
@@ -28,10 +33,10 @@ const useStyles = makeStyles((theme) => ({
   content: {
     paddingTop: '0.75em',
     paddingBottom: '0.5em',
-    paddingLeft: '1.5em',
+    paddingLeft: ({ indent }) => indent ? '1.5em' : 0,
     position: 'relative',
     '& > *': {
-      marginBottom: 8,
+      marginBottom: 12,
     }
   },
   mask: {
@@ -49,24 +54,21 @@ const useStyles = makeStyles((theme) => ({
 
 const Row = ({ label, button, disabled, children }) => {
   const [open, setOpen] = useState(true)
-  const classes = useStyles({ open })
+  const classes = useStyles({ open, indent: true })
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <div className={classes.arrow}>
-          <svg viewBox='0 0 20 20' height='1em' width='1em'>
-            <polygon
-              points={open ? '5,5 10,15, 15,5' : '5,5 15,10 5,15'}
-              className={classes.arrow}
-            />
-          </svg>
-        </div>
-        <div
-          className={classes.label}
-          onClick={() => setOpen(!open)}
-        >
-          { label }
+        <div className={classes.arrowAndLabel} onClick={() => setOpen(!open)}>
+          <div className={classes.arrow}>
+            <svg viewBox='0 0 20 20' height='1em' width='1em'>
+              <polygon
+                points={open ? '5,5 10,15, 15,5' : '5,5 15,10 5,15'}
+                className={classes.arrow}
+              />
+            </svg>
+          </div>
+          <div className={classes.label}>{ label }</div>
         </div>
         <div className={classes.button}>
           { button }

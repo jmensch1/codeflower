@@ -9,7 +9,8 @@ const INITIAL_VIS_FORCES = {
   charge: {
     enabled: true,
     strength: -200,
-    distance: [1, 2000],
+    distanceMin: 1,
+    distanceMax: 2000,
   },
   forceXY: {
     enabled: true,
@@ -66,8 +67,8 @@ export default function useAddForces({ simulation, nodes, links }) {
     simulation
       .force('charge')
       .strength(visForces.charge.strength * visForces.charge.enabled)
-      .distanceMin(visForces.charge.distance[0])
-      .distanceMax(visForces.charge.distance[1])
+      .distanceMin(visForces.charge.distanceMin)
+      .distanceMax(visForces.charge.distanceMax)
     simulation
       .force('collide')
       .strength(visForces.collide.strength * visForces.collide.enabled)

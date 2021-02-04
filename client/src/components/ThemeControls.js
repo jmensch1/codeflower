@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
     '& > *': {
-      marginBottom: 10,
+      marginBottom: 12,
     },
   },
 }))
