@@ -1,65 +1,78 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useEffect, useRef, useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import SinglePad from './SinglePad'
-import tinycolor from 'tinycolor2'
 import Slider from 'components/core/Slider'
 import Background from './Background'
 
+//// CONSTANTS ////
+
 const HUE_RANGE = [0, 360, 1]
-const SATURATION_RANGE = [0, 1]
-const VALUE_RANGE = [0, 1]
+const SATURATION_RANGE = [0, 100]
+const VALUE_RANGE = [0, 100]
 const ALPHA_RANGE = [0, 1, 0.01]
+
+//// COLOR CONVERSION ////
+// functions from npm color-convert
+
+function hslToHsv(hsl) {
+  const h = hsl[0]
+  let s = hsl[1] / 100
+  let l = hsl[2] / 100
+  let smin = s
+  const lmin = Math.max(l, 0.01)
+
+  l *= 2
+  s *= (l <= 1) ? l : 2 - l
+  smin *= lmin <= 1 ? lmin : 2 - lmin
+  const v = (l + s) / 2
+  const sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s)
+
+  return [h, sv * 100, v * 100]
+}
+
+function hsvToHsl(hsv) {
+  const h = hsv[0]
+  const s = hsv[1] / 100
+  const v = hsv[2] / 100
+  const vmin = Math.max(v, 0.01)
+  let sl
+  let l
+
+  l = (2 - s) * v
+  const lmin = (2 - s) * vmin
+  sl = s * vmin
+  sl /= (lmin <= 1) ? lmin : 2 - lmin
+  sl = sl || 0
+  l /= 2
+
+  return [h, sl * 100, l * 100]
+}
+
+//// COMPONENT ////
 
 const useStyles = makeStyles(theme => ({
   root: {},
+  pad: {
+    height: 200,
+  },
+  slider: {
+    marginTop: 10,
+  },
 }))
-
-function hslaToHsva(hsla) {
-  const { hue: h, saturation: s, lightness: l, alpha: a } = hsla
-  return tinycolor(`hsla(${h}, ${s}%, ${l}%, ${a})`).toHsv()
-}
-
-function hsvaToHsla(hsva) {
-  const { h, s, v, a } = hsva
-  const hsla = tinycolor(`hsva(${h}, ${s * 100}%, ${v * 100}%, ${a})`).toHsl()
-  return {
-    hue: hsla.h,
-    saturation: hsla.s * 100,
-    lightness: hsla.l * 100,
-    alpha: hsla.a,
-  }
-}
 
 const ColorPicker = ({ color, onChange }) => {
   const classes = useStyles()
-  const [point, setPoint] = useState(null)
-  const initialRun = useRef(true)
   const colorRef = useRef(null)
 
   useEffect(() => {
     colorRef.current = color
-
-    if (!initialRun.current) return
-
-    initialRun.current = false
-    const hsva = hslaToHsva(color)
-    setPoint({ x: hsva.s, y: hsva.v })
   }, [color])
 
-  useEffect(() => {
-    if (!point) return
-
-    onChange({
-      ...hsvaToHsla({
-        h: colorRef.current.hue,
-        s: point.x,
-        v: point.y,
-        a: colorRef.current.alpha,
-      }),
-      hue: colorRef.current.hue,
-      alpha: colorRef.current.alpha,
-    })
-  }, [point, onChange])
+  const onChangePad = useCallback(({ x, y }) => {
+    const { hue, alpha } = colorRef.current
+    const [, saturation, lightness] = hsvToHsl([hue, x, y])
+    onChange({ hue, saturation, lightness, alpha })
+  }, [onChange])
 
   const onChangeHue = useCallback((hue) => {
     onChange({ ...colorRef.current, hue })
@@ -69,12 +82,20 @@ const ColorPicker = ({ color, onChange }) => {
     onChange({ ...colorRef.current, alpha })
   }, [onChange])
 
+  const [, saturation, lightness] = useMemo(() => {
+    const { hue: h, saturation: s, lightness: l } = color
+    return hslToHsv([h, s, l])
+  }, [color])
+
   return (
     <div className={classes.root}>
-      <div style={{ height: 200 }}>
+      <div className={classes.pad}>
         <SinglePad
-          value={point}
-          onChange={setPoint}
+          value={{
+            x: saturation,
+            y: lightness,
+          }}
+          onChange={onChangePad}
           xRange={SATURATION_RANGE}
           yRange={VALUE_RANGE}
           padBackground={
@@ -85,21 +106,23 @@ const ColorPicker = ({ color, onChange }) => {
           }
         />
       </div>
-      <div style={{ height: 10 }} />
-      <Slider
-        label='hue'
-        value={color.hue}
-        onChange={onChangeHue}
-        range={HUE_RANGE}
-      />
-      <div style={{ height: 10 }} />
-      <Slider
-        label='alpha'
-        value={color.alpha}
-        onChange={onChangeAlpha}
-        range={ALPHA_RANGE}
-        renderValue={(x) => x.toFixed(2)}
-      />
+      <div className={classes.slider}>
+        <Slider
+          label='hue'
+          value={color.hue}
+          onChange={onChangeHue}
+          range={HUE_RANGE}
+        />
+      </div>
+      <div className={classes.slider}>
+        <Slider
+          label='alpha'
+          value={color.alpha}
+          onChange={onChangeAlpha}
+          range={ALPHA_RANGE}
+          renderValue={(x) => x.toFixed(2)}
+        />
+      </div>
     </div>
   )
 }
