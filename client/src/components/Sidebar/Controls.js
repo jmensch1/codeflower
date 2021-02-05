@@ -5,30 +5,26 @@ import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
 import ThemeControls from 'components/ThemeControls'
-import SinglePad from 'components/core/SinglePad'
+import ColorPicker from 'components/core/ColorPickerNew'
+import Swatch from 'components/core/Swatch'
 
 //////////////////// TAB CONFIG ///////////////////
 
-const xRange = [0, 100]
-const yRange = [0, 50]
-
 const Test = () => {
-  const [point, setPoint] = useState({
-    x: 50,
-    y: 50,
+  const [color, setColor] = useState({
+    hue: 150,
+    saturation: 50,
+    lightness: 50,
+    alpha: 0.8,
   })
 
   return (
     <>
-      <div style={{ marginBottom: 10 }}>{point.x.toFixed(2)} / {point.y.toFixed(2)}</div>
-      <div style={{ height: 200, position: 'relative' }}>
-        <SinglePad
-          value={point}
-          onChange={setPoint}
-          xRange={xRange}
-          yRange={yRange}
-        />
-      </div>
+      <Swatch color={color} />
+      <ColorPicker
+        color={color}
+        onChange={setColor}
+      />
     </>
   )
 }

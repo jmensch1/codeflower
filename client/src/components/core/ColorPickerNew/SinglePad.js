@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
-import { interpolate, checkerGradient, hueGradient, alphaGradient } from 'services/utils'
-import tinycolor from 'tinycolor2'
+import { interpolate, checkerGradient } from 'services/utils'
 
 const CIRCLE_RADIUS = 8
 const CIRCLE_STROKE_WIDTH = 2
@@ -15,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     padding: CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH / 2,
     background: checkerGradient({
       alpha: 0.05,
-      size: CIRCLE_RADIUS /2,
+      size: CIRCLE_RADIUS / 2,
       backgroundColor: theme.palette.background.paper,
     }),
     borderRadius: CIRCLE_RADIUS,
@@ -23,42 +22,6 @@ const useStyles = makeStyles(theme => ({
   svgContainer: {
     height: '100%',
     position: 'relative',
-    background: `
-      ${alphaGradient({
-        alphaMin: 0,
-        alphaMax: 1,
-        saturation: 0,
-        lightness: tinycolor(theme.palette.background.paper).toHsl().l * 100,
-        direction: 'bottom',
-      })}
-      ,
-      ${hueGradient({
-        hueMin: 0,
-        hueMax: 360,
-        saturation: 100,
-        lightness: 50,
-      })}
-    `,
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: checkerGradient({
-        alpha: 0.05,
-        backgroundColor: theme.palette.background.paper,
-        size: CIRCLE_RADIUS /2,
-      }),
-    },
-    // background: `
-    //   linear-gradient(
-    //     to bottom,
-    //       rgb(0, 0, 0),
-    //       rgba(0, 0, 0, 0)
-    //   )
-    // `,
     '& > svg': {
       position: 'absolute',
       top: 0,
@@ -84,6 +47,7 @@ const Pad = ({
   xRange,
   yRange,
   handleColor = 'hsla(0,0%,100%,1.0)',
+  padBackground = null
 }) => {
   const containerRef = useRef(null)
   const classes = useStyles({ handleColor })
@@ -208,7 +172,9 @@ const Pad = ({
 
   return (
     <div className={classes.root}>
-      <div ref={containerRef} className={classes.svgContainer} />
+      <div ref={containerRef} className={classes.svgContainer}>
+        { padBackground }
+      </div>
     </div>
   )
 }
