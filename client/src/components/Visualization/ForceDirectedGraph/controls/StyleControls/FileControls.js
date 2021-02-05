@@ -1,15 +1,15 @@
 import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Slider, { SmartSlider } from 'components/core/Slider'
-import ColorPicker from 'components/core/ColorPicker'
+import { useDispatch } from 'react-redux'
 import { useVisStyles } from 'store/selectors'
 import { setVisStyles, updateVisStyles } from 'store/actions/settings'
-import { useDispatch } from 'react-redux'
+import Slider, { SmartSlider } from 'components/core/Slider'
+import ColorPicker from 'components/core/ColorPickerNew'
 import GradientPicker from 'components/core/GradientPicker'
-import { getPath } from 'services/utils'
-import Row from '../Row'
 import Swatch from 'components/core/Swatch'
 import Swatches from 'components/core/Swatches'
+import Row from '../Row'
+import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -41,6 +41,11 @@ const FileControls = () => {
 
   const onChangeFileFill = useMemo(
     () => onUpdateStyles.bind(null, 'files.fill'),
+    [onUpdateStyles]
+  )
+
+  const onChangeFileStroke = useMemo(
+    () => onUpdateStyles.bind(null, 'files.stroke'),
     [onUpdateStyles]
   )
 
@@ -103,10 +108,8 @@ const FileControls = () => {
         headerRight={<Swatch color={getPath(visStyles, 'files.stroke')} />}
       >
         <ColorPicker
-          label="stroke: color"
-          obj={visStyles}
-          path="files.stroke"
-          onChange={onChangeStyles}
+          color={getPath(visStyles, 'files.stroke')}
+          onChange={onChangeFileStroke}
         />
       </Row>
 
