@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useVisStyles } from 'store/selectors'
-import { setVisStyles, updateVisStyles } from 'store/actions/settings'
-import Slider, { SmartSlider } from 'components/core/Slider'
+import { updateVisStyles } from 'store/actions/settings'
+import Slider from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
 import GradientPicker from 'components/core/GradientPicker'
 import Swatch from 'components/core/Swatch'
@@ -19,18 +19,6 @@ const FileControls = () => {
   const classes = useStyles()
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
-
-  const onChangeStyles = useCallback(
-    (visStyles) => {
-      dispatch(
-        setVisStyles({
-          ...visStyles,
-          id: undefined,
-        })
-      )
-    },
-    [dispatch]
-  )
 
   const onUpdateStyles = useCallback(
     (path, value) => {
@@ -92,12 +80,11 @@ const FileControls = () => {
           onChange={onUpdateStyles.bind(null, 'files.radius.coeff')}
           renderValue={() => null}
         />
-        <SmartSlider
+        <Slider
           label="exponent"
           range={[0, 1, 0.01]}
-          obj={visStyles}
-          path="files.radius.exponent"
-          onChange={onChangeStyles}
+          value={getPath(visStyles, 'files.radius.exponent')}
+          onChange={onUpdateStyles.bind(null, 'files.radius.exponent')}
           renderValue={() => null}
         />
       </Row>
@@ -118,11 +105,10 @@ const FileControls = () => {
         level={1}
         headerRight={getPath(visStyles, 'files.strokeWidth').toFixed(1)}
       >
-        <SmartSlider
+        <Slider
           range={[0, 10, 0.5]}
-          obj={visStyles}
-          path="files.strokeWidth"
-          onChange={onChangeStyles}
+          value={getPath(visStyles, 'files.strokeWidth')}
+          onChange={onUpdateStyles.bind(null, 'files.strokeWidth')}
         />
       </Row>
     </div>
