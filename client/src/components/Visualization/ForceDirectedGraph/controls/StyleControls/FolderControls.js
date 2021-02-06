@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { useDispatch } from 'react-redux'
+import { useVisStyles } from 'store/selectors'
+import { setVisStyles, updateVisStyles } from 'store/actions/settings'
 import { SmartSlider } from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
-import { useVisStyles } from 'store/selectors'
-import { setVisStyles } from 'store/actions/settings'
-import { useDispatch } from 'react-redux'
-import Row from '../Row'
 import Swatch from 'components/core/Swatch'
+import Row from '../Row'
 import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +30,23 @@ const FolderControls = () => {
     [dispatch]
   )
 
+  const onUpdateStyles = useCallback(
+    (path, value) => {
+      dispatch(updateVisStyles(path, value))
+    },
+    [dispatch]
+  )
+
+  const onChangeFolderFill = useMemo(
+    () => onUpdateStyles.bind(null, 'folders.fill'),
+    [onUpdateStyles]
+  )
+
+  const onChangeFolderStroke = useMemo(
+    () => onUpdateStyles.bind(null, 'folders.stroke'),
+    [onUpdateStyles]
+  )
+
   if (!visStyles) return null
   return (
     <div className={classes.root}>
@@ -38,10 +55,8 @@ const FolderControls = () => {
         level={1}
         headerRight={<Swatch color={getPath(visStyles, 'folders.fill')} />}>
         <ColorPicker
-          label="fill: color"
-          obj={visStyles}
-          path="folders.fill"
-          onChange={onChangeStyles}
+          color={getPath(visStyles, 'folders.fill')}
+          onChange={onChangeFolderFill}
         />
       </Row>
       <Row
@@ -63,10 +78,8 @@ const FolderControls = () => {
         headerRight={<Swatch color={getPath(visStyles, 'folders.stroke')} />}
       >
         <ColorPicker
-          label="stroke: color"
-          obj={visStyles}
-          path="folders.stroke"
-          onChange={onChangeStyles}
+          color={getPath(visStyles, 'folders.stroke')}
+          onChange={onChangeFolderStroke}
         />
       </Row>
 

@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { useDispatch } from 'react-redux'
+import { useVisStyles } from 'store/selectors'
+import { setVisStyles, updateVisStyles } from 'store/actions/settings'
 import { SmartSlider } from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
-import { useVisStyles } from 'store/selectors'
-import { setVisStyles } from 'store/actions/settings'
-import { useDispatch } from 'react-redux'
-import Row from '../Row'
 import Swatch from 'components/core/Swatch'
+import Row from '../Row'
 import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +30,18 @@ const LinkControls = () => {
     [dispatch]
   )
 
+  const onUpdateStyles = useCallback(
+    (path, value) => {
+      dispatch(updateVisStyles(path, value))
+    },
+    [dispatch]
+  )
+
+  const onChangeLinkStroke = useMemo(
+    () => onUpdateStyles.bind(null, 'links.stroke'),
+    [onUpdateStyles]
+  )
+
   if (!visStyles) return null
   return (
     <div className={classes.root}>
@@ -39,10 +51,8 @@ const LinkControls = () => {
         headerRight={<Swatch color={getPath(visStyles, 'links.stroke')} />}
       >
         <ColorPicker
-          label="color"
-          obj={visStyles}
-          path="links.stroke"
-          onChange={onChangeStyles}
+          color={getPath(visStyles, 'links.stroke')}
+          onChange={onChangeLinkStroke}
         />
       </Row>
       <Row

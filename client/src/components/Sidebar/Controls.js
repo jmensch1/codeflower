@@ -5,7 +5,7 @@ import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
 import ThemeControls from 'components/ThemeControls'
-import ColorPicker from 'components/core/ColorPickerNew'
+import ColorPicker from 'components/core/ColorPicker'
 import Swatch from 'components/core/Swatch'
 
 //////////////////// TAB CONFIG ///////////////////
