@@ -5,6 +5,7 @@ import { setPath } from 'services/utils'
 
 export const types = {
   SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
+  UPDATE_MAIN_THEME: 'settings/UPDATE_MAIN_THEME',
   SET_VIS_TYPE: 'settings/SET_VIS_TYPE',
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
@@ -20,6 +21,11 @@ export const types = {
 export const setMainTheme = (mainTheme) => ({
   type: types.SET_MAIN_THEME,
   data: mainTheme,
+})
+
+export const updateMainTheme = (path, value) => ({
+  type: types.UPDATE_MAIN_THEME,
+  data: { path, value},
 })
 
 export const setVisType = (visType) => ({
@@ -90,6 +96,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         mainTheme: action.data,
+      }
+    case types.UPDATE_MAIN_THEME:
+      return {
+        ...state,
+        mainTheme: setPath(
+          state.mainTheme,
+          action.data.path,
+          action.data.value,
+        ),
       }
     case types.SET_VIS_TYPE:
       return {

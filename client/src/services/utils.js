@@ -55,6 +55,15 @@ export function getPaths(obj, paths) {
   }, {})
 }
 
+export function getPathsWithDefault(obj, paths, defaultObj) {
+  return paths.reduce((out, path) => {
+    out[path] = hasPath(obj, path)
+      ? getPath(obj, path)
+      : getPath(defaultObj, path)
+    return out
+  }, {})
+}
+
 export function noop() { return null }
 
 export const hueGradient = ({

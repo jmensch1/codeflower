@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { SmartSlider } from 'components/core/Slider'
+import { useDispatch } from 'react-redux'
 import tinycolor from 'tinycolor2'
 import { useMainTheme } from 'store/selectors'
-import { setMainTheme } from 'store/actions/settings'
-import { useDispatch } from 'react-redux'
+import { updateMainTheme } from 'store/actions/settings'
+import Slider from 'components/core/Slider'
+import { getPathsWithDefault, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,10 +28,24 @@ function getAlphaFromColor(color) {
 }
 
 function getColorFromAlpha(alpha) {
-  return `rgba(255, 255, 255, ${alpha})`
+  return `hsla(0, 0%, 100%, ${alpha})`
 }
 
 const toFixed2 = (x) => x.toFixed(2)
+
+const PATHS = [
+  'palette.background.default',
+  'palette.background.paper',
+  'palette.divider',
+  'typography.fontSize',
+]
+
+const RANGES = {
+  'palette.background.default': [0, 100, 1],
+  'palette.background.paper': [0, 100, 1],
+  'palette.divider': [0, 1, 0.01],
+  'typography.fontSize': [8, 20, 1],
+}
 
 const ThemeControls = () => {
   const classes = useStyles()
@@ -38,63 +53,46 @@ const ThemeControls = () => {
   const theme = useTheme()
   const dispatch = useDispatch()
 
-  const onChange = useCallback(
-    (mainTheme) => {
-      dispatch(setMainTheme(mainTheme))
-    },
-    [dispatch]
-  )
+  const values = useMemo(() => {
+    return getPathsWithDefault(mainTheme, PATHS, theme)
+  }, [mainTheme, theme])
+
+  const updaters = useMemo(() => {
+    return createUpdaters(PATHS, updateMainTheme, dispatch)
+  }, [dispatch])
 
   return (
     <div className={classes.root}>
-      <SmartSlider
+      <Slider
         label="main background"
-        range={[0, 100, 1]}
-        transform={{
-          in: getLightnessFromColor,
-          out: getColorFromLightness,
+        range={RANGES['palette.background.default']}
+        value={getLightnessFromColor(values['palette.background.default'])}
+        onChange={(value) => {
+          updaters['palette.background.default'](getColorFromLightness(value))
         }}
-        obj={mainTheme}
-        defaultObj={theme}
-        path="palette.background.default"
-        onChange={onChange}
-        alwaysOpen
       />
-      <SmartSlider
+      <Slider
         label="secondary background"
-        range={[0, 100, 1]}
-        transform={{
-          in: getLightnessFromColor,
-          out: getColorFromLightness,
+        range={RANGES['palette.background.paper']}
+        value={getLightnessFromColor(values['palette.background.paper'])}
+        onChange={(value) => {
+          updaters['palette.background.paper'](getColorFromLightness(value))
         }}
-        obj={mainTheme}
-        defaultObj={theme}
-        path="palette.background.paper"
-        onChange={onChange}
-        alwaysOpen
       />
-      <SmartSlider
+      <Slider
         label="divider opacity"
-        range={[0, 1, 0.01]}
-        transform={{
-          in: getAlphaFromColor,
-          out: getColorFromAlpha,
+        range={RANGES['palette.divider']}
+        value={getAlphaFromColor(values['palette.divider'])}
+        onChange={(value) => {
+          updaters['palette.divider'](getColorFromAlpha(value))
         }}
-        obj={mainTheme}
-        defaultObj={theme}
-        path="palette.divider"
-        onChange={onChange}
-        alwaysOpen
         renderValue={toFixed2}
       />
-      <SmartSlider
+      <Slider
         label="font size"
-        range={[8, 20, 1]}
-        obj={mainTheme}
-        defaultObj={theme}
-        path="typography.fontSize"
-        onChange={onChange}
-        alwaysOpen
+        range={RANGES['typography.fontSize']}
+        value={values['typography.fontSize']}
+        onChange={updaters['typography.fontSize']}
       />
     </div>
   )
