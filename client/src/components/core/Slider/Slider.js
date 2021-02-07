@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     background: ({ height }) =>
       checkerGradient({
         alpha: 0.1,
-        size: height / 3,
+        size: 4,
         backgroundColor: theme.palette.background.paper,
       }),
     '& > svg': {

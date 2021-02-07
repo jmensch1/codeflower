@@ -13,8 +13,8 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     padding: CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH / 2,
     background: checkerGradient({
-      alpha: 0.05,
-      size: CIRCLE_RADIUS / 2,
+      alpha: 0.1,
+      size: 4,
       backgroundColor: theme.palette.background.paper,
     }),
     borderRadius: CIRCLE_RADIUS,
@@ -68,7 +68,7 @@ const Pad = ({
   const getX = useCallback(
     (xValue) => {
       if (!xRange || !dimensions) return null
-      return interpolate(xValue, xRange, [0, dimensions.width], true)
+      return interpolate(xValue, xRange, [0, dimensions.width])
     },
     [xRange, dimensions]
   )
