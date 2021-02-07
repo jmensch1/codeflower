@@ -41,6 +41,22 @@ export const hasPath = has
 export const getPath = get
 export const setPath = (obj, path, val) => setWith(clone(obj), path, val, clone)
 
+export function createUpdaters(paths, updateFunc, dispatch) {
+  return paths.reduce((updaters, path) => {
+    updaters[path] = (value) => dispatch(updateFunc(path, value))
+    return updaters
+  }, {})
+}
+
+export function getPaths(obj, paths) {
+  return paths.reduce((out, path) => {
+    out[path] = getPath(obj, path)
+    return out
+  }, {})
+}
+
+export function noop() { return null }
+
 export const hueGradient = ({
   steps = 20,
   direction = 'right',

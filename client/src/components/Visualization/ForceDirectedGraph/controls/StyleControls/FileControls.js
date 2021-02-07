@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useVisStyles } from 'store/selectors'
@@ -9,33 +9,38 @@ import GradientPicker from 'components/core/GradientPicker'
 import Swatch from 'components/core/Swatch'
 import Swatches from 'components/core/Swatches'
 import Row from '../Row'
-import { getPath } from 'services/utils'
+import { getPaths, createUpdaters, noop } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
 }))
+
+const PATHS = [
+  'files.fill',
+  'files.radius.coeff',
+  'files.radius.exponent',
+  'files.stroke',
+  'files.strokeWidth',
+]
+
+const RANGES = {
+  'files.radius.coeff': [1, 50, 1],
+  'files.radius.exponent': [0, 1, 0.01],
+  'files.strokeWidth': [0, 10, 0.5],
+}
 
 const FileControls = () => {
   const classes = useStyles()
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onUpdateStyles = useCallback(
-    (path, value) => {
-      dispatch(updateVisStyles(path, value))
-    },
-    [dispatch]
-  )
+  const values = useMemo(() => {
+    return getPaths(visStyles, PATHS)
+  }, [visStyles])
 
-  const onChangeFileFill = useMemo(
-    () => onUpdateStyles.bind(null, 'files.fill'),
-    [onUpdateStyles]
-  )
-
-  const onChangeFileStroke = useMemo(
-    () => onUpdateStyles.bind(null, 'files.stroke'),
-    [onUpdateStyles]
-  )
+  const updaters = useMemo(() => {
+    return createUpdaters(PATHS, updateVisStyles, dispatch)
+  }, [dispatch])
 
   if (!visStyles) return null
   return (
@@ -47,18 +52,18 @@ const FileControls = () => {
           open
             ? (
               <Swatches
-                color={getPath(visStyles, 'files.fill')}
+                color={values['files.fill']}
                 num={9}
                 size="1em"
                 margin="0 0 0 0.5em"
               />
             )
-            : <Swatch color={getPath(visStyles, 'files.fill')} />
+            : <Swatch color={values['files.fill']} />
         }
       >
         <GradientPicker
-          color={getPath(visStyles, 'files.fill')}
-          onChange={onChangeFileFill}
+          color={values['files.fill']}
+          onChange={updaters['files.fill']}
         />
       </Row>
 
@@ -67,48 +72,48 @@ const FileControls = () => {
         level={1}
         headerRight={
           <>
-            {getPath(visStyles, 'files.radius.coeff')}
+            {values['files.radius.coeff']}
             {' / '}
-            {getPath(visStyles, 'files.radius.exponent').toFixed(2)}
+            {values['files.radius.exponent'].toFixed(2)}
           </>
         }
       >
         <Slider
           label="coefficient"
-          range={[1, 50, 1]}
-          value={getPath(visStyles, 'files.radius.coeff')}
-          onChange={onUpdateStyles.bind(null, 'files.radius.coeff')}
-          renderValue={() => null}
+          range={RANGES['files.radius.coeff']}
+          value={values['files.radius.coeff']}
+          onChange={updaters['files.radius.coeff']}
+          renderValue={noop}
         />
         <Slider
           label="exponent"
-          range={[0, 1, 0.01]}
-          value={getPath(visStyles, 'files.radius.exponent')}
-          onChange={onUpdateStyles.bind(null, 'files.radius.exponent')}
-          renderValue={() => null}
+          range={RANGES['files.radius.exponent']}
+          value={values['files.radius.exponent']}
+          onChange={updaters['files.radius.exponent']}
+          renderValue={noop}
         />
       </Row>
 
       <Row
         label="stroke"
         level={1}
-        headerRight={<Swatch color={getPath(visStyles, 'files.stroke')} />}
+        headerRight={<Swatch color={values['files.stroke']} />}
       >
         <ColorPicker
-          color={getPath(visStyles, 'files.stroke')}
-          onChange={onChangeFileStroke}
+          color={values['files.stroke']}
+          onChange={updaters['files.stroke']}
         />
       </Row>
 
       <Row
         label="stroke width"
         level={1}
-        headerRight={getPath(visStyles, 'files.strokeWidth').toFixed(1)}
+        headerRight={values['files.strokeWidth'].toFixed(1)}
       >
         <Slider
-          range={[0, 10, 0.5]}
-          value={getPath(visStyles, 'files.strokeWidth')}
-          onChange={onUpdateStyles.bind(null, 'files.strokeWidth')}
+          range={RANGES['files.strokeWidth']}
+          value={values['files.strokeWidth']}
+          onChange={updaters['files.strokeWidth']}
         />
       </Row>
     </div>
