@@ -1,46 +1,39 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useVisStyles } from 'store/selectors'
-import { setVisStyles, updateVisStyles } from 'store/actions/settings'
-import { SmartSlider } from 'components/core/Slider'
+import { updateVisStyles } from 'store/actions/settings'
+import Slider  from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
 import Swatch from 'components/core/Swatch'
 import Row from '../Row'
-import { getPath } from 'services/utils'
+import { getPaths, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
 }))
+
+const PATHS = [
+  'links.stroke',
+  'links.strokeWidth',
+]
+
+const RANGES = {
+  'links.strokeWidth': [0, 10, 0.5],
+}
 
 const LinkControls = () => {
   const classes = useStyles()
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback(
-    (visStyles) => {
-      dispatch(
-        setVisStyles({
-          ...visStyles,
-          id: undefined,
-        })
-      )
-    },
-    [dispatch]
-  )
+  const values = useMemo(() => {
+    return getPaths(visStyles, PATHS)
+  }, [visStyles])
 
-  const onUpdateStyles = useCallback(
-    (path, value) => {
-      dispatch(updateVisStyles(path, value))
-    },
-    [dispatch]
-  )
-
-  const onChangeLinkStroke = useMemo(
-    () => onUpdateStyles.bind(null, 'links.stroke'),
-    [onUpdateStyles]
-  )
+  const updaters = useMemo(() => {
+    return createUpdaters(PATHS, updateVisStyles, dispatch)
+  }, [dispatch])
 
   if (!visStyles) return null
   return (
@@ -48,23 +41,22 @@ const LinkControls = () => {
       <Row
         label="stroke"
         level={1}
-        headerRight={<Swatch color={getPath(visStyles, 'links.stroke')} />}
+        headerRight={<Swatch color={values['links.stroke']} />}
       >
         <ColorPicker
-          color={getPath(visStyles, 'links.stroke')}
-          onChange={onChangeLinkStroke}
+          color={values['links.stroke']}
+          onChange={updaters['links.stroke']}
         />
       </Row>
       <Row
         label="stroke width"
         level={1}
-        headerRight={getPath(visStyles, 'links.strokeWidth').toFixed(1)}
+        headerRight={values['links.strokeWidth'].toFixed(1)}
       >
-        <SmartSlider
-          range={[0, 10, 0.5]}
-          obj={visStyles}
-          path="links.strokeWidth"
-          onChange={onChangeStyles}
+        <Slider
+          range={RANGES['links.strokeWidth']}
+          value={values['links.strokeWidth']}
+          onChange={updaters['links.strokeWidth']}
         />
       </Row>
     </div>

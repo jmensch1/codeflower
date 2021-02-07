@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { getPath, setPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,14 +23,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Checkbox = ({ obj, path, onChange, label }) => {
-  const checked = getPath(obj, path)
+export const Checkbox = ({ checked, onChange, label }) => {
   const classes = useStyles({ checked })
 
   const handleClick = useCallback((e) => {
     e.stopPropagation()
-    onChange(setPath(obj, path, !checked))
-  }, [obj, path, checked, onChange])
+    onChange(!checked)
+  }, [checked, onChange])
 
   return (
     <div className={classes.root} onClick={handleClick}>

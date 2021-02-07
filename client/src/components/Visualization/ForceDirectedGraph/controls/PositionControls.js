@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { SmartSlider } from 'components/core/Slider'
-import { useVisStyles } from 'store/selectors'
-import { setVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import { useVisStyles } from 'store/selectors'
+import { updateVisStyles } from 'store/actions/settings'
+import Slider from 'components/core/Slider'
+import { getPaths, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,32 +14,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const PATHS = [
+  'rotation',
+]
+
+const RANGES = {
+  'rotation': [0, 360, 1],
+}
+
 const StyleControls = () => {
   const classes = useStyles()
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChangeStyles = useCallback(
-    (visStyles) => {
-      dispatch(
-        setVisStyles({
-          ...visStyles,
-          id: undefined,
-        })
-      )
-    },
-    [dispatch]
-  )
+  const values = useMemo(() => {
+    return getPaths(visStyles, PATHS)
+  }, [visStyles])
+
+  const updaters = useMemo(() => {
+    return createUpdaters(PATHS, updateVisStyles, dispatch)
+  }, [dispatch])
 
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <SmartSlider
+      <Slider
         label="rotation"
-        range={[0, 360, 1]}
-        obj={visStyles}
-        path="rotation"
-        onChange={onChangeStyles}
+        range={RANGES['rotation']}
+        value={values['rotation']}
+        onChange={updaters['rotation']}
       />
     </div>
   )
