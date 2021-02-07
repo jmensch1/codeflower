@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Row = ({
+const Collapse = ({
   label,
   headerRight,
   disabled,
@@ -100,4 +100,4 @@ const Row = ({
   )
 }
 
-export default Row
+export default Collapse

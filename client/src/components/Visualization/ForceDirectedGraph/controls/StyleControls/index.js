@@ -7,7 +7,7 @@ import Checkbox from 'components/core/Checkbox'
 import FileControls from './FileControls'
 import FolderControls from './FolderControls'
 import LinkControls from './LinkControls'
-import Row from '../Row'
+import Collapse from 'components/core/Collapse'
 import { getPaths, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const StyleControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row
+      <Collapse
         label="files"
         disabled={!values['files.visible']}
         initialOpen
@@ -48,8 +48,8 @@ const StyleControls = () => {
         }
       >
         <FileControls />
-      </Row>
-      <Row
+      </Collapse>
+      <Collapse
         label="folders"
         disabled={!values['folders.visible']}
         initialOpen
@@ -61,8 +61,8 @@ const StyleControls = () => {
         }
       >
         <FolderControls />
-      </Row>
-      <Row
+      </Collapse>
+      <Collapse
         label="links"
         disabled={!values['links.visible']}
         initialOpen
@@ -74,7 +74,7 @@ const StyleControls = () => {
         }
       >
         <LinkControls />
-      </Row>
+      </Collapse>
     </div>
   )
 }

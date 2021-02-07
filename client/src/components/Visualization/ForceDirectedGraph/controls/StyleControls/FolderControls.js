@@ -6,7 +6,7 @@ import { updateVisStyles } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
 import Swatch from 'components/core/Swatch'
-import Row from '../Row'
+import Collapse from 'components/core/Collapse'
 import { getPaths, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +41,7 @@ const FolderControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row
+      <Collapse
         label="fill"
         level={1}
         headerRight={<Swatch color={values['folders.fill']} />}>
@@ -49,8 +49,8 @@ const FolderControls = () => {
           color={values['folders.fill']}
           onChange={updaters['folders.fill']}
         />
-      </Row>
-      <Row
+      </Collapse>
+      <Collapse
         label="radius"
         level={1}
         headerRight={values['folders.radius'].toFixed(1)}
@@ -60,9 +60,9 @@ const FolderControls = () => {
           value={values['folders.radius']}
           onChange={updaters['folders.radius']}
         />
-      </Row>
+      </Collapse>
 
-      <Row
+      <Collapse
         label="stroke"
         level={1}
         headerRight={<Swatch color={values['folders.stroke']} />}
@@ -71,9 +71,9 @@ const FolderControls = () => {
           color={values['folders.stroke']}
           onChange={updaters['folders.stroke']}
         />
-      </Row>
+      </Collapse>
 
-      <Row
+      <Collapse
         label="stroke width"
         level={1}
         headerRight={values['folders.strokeWidth'].toFixed(1)}
@@ -83,7 +83,7 @@ const FolderControls = () => {
           value={values['folders.strokeWidth']}
           onChange={updaters['folders.strokeWidth']}
         />
-      </Row>
+      </Collapse>
     </div>
   )
 }

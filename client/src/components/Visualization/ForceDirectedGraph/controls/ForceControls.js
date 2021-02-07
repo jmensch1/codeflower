@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useVisForces } from 'store/selectors'
 import { updateVisForces } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
-import Row from './Row'
+import Collapse from 'components/core/Collapse'
 import { getPaths, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +69,7 @@ const ForceControls = () => {
         &nbsp;that apply to the graph.
       </div>
 
-      <Row
+      <Collapse
         label="charge"
         disabled={!values['charge.enabled']}
         initialOpen
@@ -86,9 +86,9 @@ const ForceControls = () => {
           value={values['charge.distanceMin']}
           onChange={updaters['charge.distanceMin']}
         />
-      </Row>
+      </Collapse>
 
-      <Row
+      <Collapse
         label="link"
         disabled={!values['link.enabled']}
         initialOpen
@@ -118,9 +118,9 @@ const ForceControls = () => {
           value={values['link.iterations']}
           onChange={updaters['link.iterations']}
         />
-      </Row>
+      </Collapse>
 
-      <Row
+      <Collapse
         label="x/y"
         disabled={!values['forceXY.enabled']}
         initialOpen
@@ -132,7 +132,7 @@ const ForceControls = () => {
           onChange={updaters['forceXY.strength']}
           renderValue={toFixed2}
         />
-      </Row>
+      </Collapse>
     </div>
   )
 }

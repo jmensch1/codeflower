@@ -8,7 +8,7 @@ import ColorPicker from 'components/core/ColorPicker'
 import GradientPicker from 'components/core/GradientPicker'
 import Swatch from 'components/core/Swatch'
 import Swatches from 'components/core/Swatches'
-import Row from '../Row'
+import Collapse from 'components/core/Collapse'
 import { getPaths, createUpdaters, noop } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +45,7 @@ const FileControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row
+      <Collapse
         label="fill"
         level={1}
         headerRight={({ open }) =>
@@ -65,9 +65,9 @@ const FileControls = () => {
           color={values['files.fill']}
           onChange={updaters['files.fill']}
         />
-      </Row>
+      </Collapse>
 
-      <Row
+      <Collapse
         label="radius"
         level={1}
         headerRight={
@@ -92,9 +92,9 @@ const FileControls = () => {
           onChange={updaters['files.radius.exponent']}
           renderValue={noop}
         />
-      </Row>
+      </Collapse>
 
-      <Row
+      <Collapse
         label="stroke"
         level={1}
         headerRight={<Swatch color={values['files.stroke']} />}
@@ -103,9 +103,9 @@ const FileControls = () => {
           color={values['files.stroke']}
           onChange={updaters['files.stroke']}
         />
-      </Row>
+      </Collapse>
 
-      <Row
+      <Collapse
         label="stroke width"
         level={1}
         headerRight={values['files.strokeWidth'].toFixed(1)}
@@ -115,7 +115,7 @@ const FileControls = () => {
           value={values['files.strokeWidth']}
           onChange={updaters['files.strokeWidth']}
         />
-      </Row>
+      </Collapse>
     </div>
   )
 }

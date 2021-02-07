@@ -6,7 +6,7 @@ import { updateVisStyles } from 'store/actions/settings'
 import Slider  from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
 import Swatch from 'components/core/Swatch'
-import Row from '../Row'
+import Collapse from 'components/core/Collapse'
 import { getPaths, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,7 @@ const LinkControls = () => {
   if (!visStyles) return null
   return (
     <div className={classes.root}>
-      <Row
+      <Collapse
         label="stroke"
         level={1}
         headerRight={<Swatch color={values['links.stroke']} />}
@@ -47,8 +47,8 @@ const LinkControls = () => {
           color={values['links.stroke']}
           onChange={updaters['links.stroke']}
         />
-      </Row>
-      <Row
+      </Collapse>
+      <Collapse
         label="stroke width"
         level={1}
         headerRight={values['links.strokeWidth'].toFixed(1)}
@@ -58,7 +58,7 @@ const LinkControls = () => {
           value={values['links.strokeWidth']}
           onChange={updaters['links.strokeWidth']}
         />
-      </Row>
+      </Collapse>
     </div>
   )
 }
