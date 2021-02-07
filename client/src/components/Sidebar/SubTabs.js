@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Tabs = ({ tabs, activeTab, onChange }) => {
+const SubTabs = ({ tabs, activeTab, onChange }) => {
   const classes = useStyles()
 
   return (
@@ -47,4 +47,4 @@ const Tabs = ({ tabs, activeTab, onChange }) => {
   )
 }
 
-export default Tabs
+export default SubTabs

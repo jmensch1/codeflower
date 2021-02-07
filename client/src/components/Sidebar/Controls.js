@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Tabs from './Tabs2'
+import SubTabs from './SubTabs'
 import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/ForceControls'
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
@@ -79,7 +79,7 @@ const Controls = () => {
   return (
     <div className={classes.root}>
       <div className={classes.tabs}>
-        <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
+        <SubTabs tabs={TABS} activeTab={tab} onChange={setTab} />
       </div>
       <div className={classes.content}>
         <Component />
