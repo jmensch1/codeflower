@@ -1,27 +1,34 @@
-import React, { useCallback } from 'react'
-import Slider from './Slider2'
-import { getPath, setPath, hasPath } from 'services/utils'
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Slider from './Slider'
 
-export const SmartSlider = ({
-  obj,
-  defaultObj,
-  path,
-  onChange,
-  transform = { in: (x) => x, out: (x) => x },
-  ...rest
-}) => {
-  const handleChange = useCallback(
-    (newVal) => {
-      onChange(setPath(obj, path, transform.out(newVal)))
-    },
-    [obj, path, onChange, transform]
+const useStyles = makeStyles((theme) => ({
+  root: {},
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    fontSize: '0.875em',
+    marginBottom: 4,
+  },
+}))
+
+const identity = (x) => x
+
+const LabeledSlider = ({ label, value, renderValue = identity, ...rest }) => {
+  const classes = useStyles()
+
+  return (
+    <div className={classes.root}>
+      {label && (
+        <div className={classes.header}>
+          <label className={classes.label}>{label}</label>
+          <span>{renderValue(value)}</span>
+        </div>
+      )}
+      <Slider value={value} {...rest} />
+    </div>
   )
-
-  const value = hasPath(obj, path)
-    ? transform.in(getPath(obj, path))
-    : transform.in(getPath(defaultObj, path))
-
-  return <Slider value={value} onChange={handleChange} {...rest} />
 }
 
-export default Slider
+export default LabeledSlider
