@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { SmartSlider } from 'components/core/Slider'
-import { useVisForces } from 'store/selectors'
-import { setVisForces } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
+import { useVisForces } from 'store/selectors'
+import { updateVisForces } from 'store/actions/settings'
+import Slider from 'components/core/Slider'
 import Row from './Row'
-import { getPath } from 'services/utils'
+import { getPaths, createUpdaters } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -18,17 +18,41 @@ const useStyles = makeStyles((theme) => ({
 
 const toFixed2 = (x) => x.toFixed(2)
 
+const PATHS = [
+  'charge.enabled',
+  'charge.strength',
+  'charge.distanceMin',
+  'link.enabled',
+  'link.strength',
+  'link.distance.files',
+  'link.distance.folders',
+  'link.iterations',
+  'forceXY.enabled',
+  'forceXY.strength',
+]
+
+const RANGES = {
+  'charge.strength': [-500, 0, 1],
+  'charge.distanceMin': [1, 500],
+  'link.strength': [0, 1, 0.01],
+  'link.distance.files': [0, 150, 1],
+  'link.distance.folders': [0, 150, 1],
+  'link.iterations': [0, 5, 1],
+  'forceXY.strength': [0, 1, 0.01],
+}
+
 const ForceControls = () => {
   const classes = useStyles()
   const visForces = useVisForces()
   const dispatch = useDispatch()
 
-  const onChangeForces = useCallback(
-    (visForces) => {
-      dispatch(setVisForces(visForces))
-    },
-    [dispatch]
-  )
+  const values = useMemo(() => {
+    return getPaths(visForces, PATHS)
+  }, [visForces])
+
+  const updaters = useMemo(() => {
+    return createUpdaters(PATHS, updateVisForces, dispatch)
+  }, [dispatch])
 
   if (!visForces) return null
   return (
@@ -47,79 +71,65 @@ const ForceControls = () => {
 
       <Row
         label="charge"
-        disabled={!getPath(visForces, 'charge.enabled')}
+        disabled={!values['charge.enabled']}
         initialOpen
       >
-        <SmartSlider
+        <Slider
           label="strength"
-          range={[-500, 0, 1]}
-          obj={visForces}
-          path="charge.strength"
-          onChange={onChangeForces}
-          alwaysOpen
+          range={RANGES['charge.strength']}
+          value={values['charge.strength']}
+          onChange={updaters['charge.strength']}
         />
-        <SmartSlider
+        <Slider
           label="distance min"
-          range={[1, 500]}
-          obj={visForces}
-          path="charge.distanceMin"
-          onChange={onChangeForces}
-          alwaysOpen
+          range={RANGES['charge.distanceMin']}
+          value={values['charge.distanceMin']}
+          onChange={updaters['charge.distanceMin']}
         />
       </Row>
 
       <Row
         label="link"
-        disabled={!getPath(visForces, 'link.enabled')}
+        disabled={!values['link.enabled']}
         initialOpen
       >
-        <SmartSlider
+        <Slider
           label="strength"
-          range={[0, 1, 0.01]}
-          obj={visForces}
-          path="link.strength"
-          onChange={onChangeForces}
-          alwaysOpen
+          range={RANGES['link.strength']}
+          value={values['link.strength']}
+          onChange={updaters['link.strength']}
           renderValue={toFixed2}
         />
-        <SmartSlider
+        <Slider
           label="distance: files"
-          range={[0, 150, 1]}
-          obj={visForces}
-          path="link.distance.files"
-          onChange={onChangeForces}
-          alwaysOpen
+          range={RANGES['link.distance.files']}
+          value={values['link.distance.files']}
+          onChange={updaters['link.distance.files']}
         />
-        <SmartSlider
+        <Slider
           label="distance: folders"
-          range={[0, 150, 1]}
-          obj={visForces}
-          path="link.distance.folders"
-          onChange={onChangeForces}
-          alwaysOpen
+          range={RANGES['link.distance.folders']}
+          value={values['link.distance.folders']}
+          onChange={updaters['link.distance.folders']}
         />
-        <SmartSlider
+        <Slider
           label="iterations"
-          range={[0, 5, 1]}
-          obj={visForces}
-          path="link.iterations"
-          onChange={onChangeForces}
-          alwaysOpen
+          range={RANGES['link.iterations']}
+          value={values['link.iterations']}
+          onChange={updaters['link.iterations']}
         />
       </Row>
 
       <Row
         label="x/y"
-        disabled={!getPath(visForces, 'forceXY.enabled')}
+        disabled={!values['forceXY.enabled']}
         initialOpen
       >
-        <SmartSlider
+        <Slider
           label="strength"
-          range={[0, 1, 0.01]}
-          obj={visForces}
-          path="forceXY.strength"
-          onChange={onChangeForces}
-          alwaysOpen
+          range={RANGES['forceXY.strength']}
+          value={values['forceXY.strength']}
+          onChange={updaters['forceXY.strength']}
           renderValue={toFixed2}
         />
       </Row>

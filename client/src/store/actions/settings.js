@@ -14,6 +14,7 @@ export const types = {
   SET_VIS_STYLES: 'settings/SET_VIS_STYLES',
   UPDATE_VIS_STYLES: 'settings/UPDATE_VIS_STYLES',
   SET_VIS_FORCES: 'settings/SET_VIS_FORCES',
+  UPDATE_VIS_FORCES: 'settings/UPDATE_VIS_FORCES',
 }
 
 export const setMainTheme = (mainTheme) => ({
@@ -64,6 +65,11 @@ export const updateVisStyles = (path, value) => ({
 export const setVisForces = (visForces) => ({
   type: types.SET_VIS_FORCES,
   data: visForces,
+})
+
+export const updateVisForces = (path, value) => ({
+  type: types.UPDATE_VIS_FORCES,
+  data: { path, value },
 })
 
 const initialState = {
@@ -139,6 +145,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         visForces: action.data,
+      }
+    case types.UPDATE_VIS_FORCES:
+      return {
+        ...state,
+        visForces: setPath(
+          state.visForces,
+          action.data.path,
+          action.data.value,
+        ),
       }
     default:
       return state
