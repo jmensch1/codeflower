@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Swatches = ({ color, num, size, margin }) => {
+const Swatches = ({ color, num = 9, size = '1.5em', margin = '0.5em' }) => {
   const classes = useStyles()
 
   const colors = useMemo(() => {

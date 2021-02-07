@@ -1,16 +1,27 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
-import { clampBar, interpolate } from 'services/utils'
+import { clampBar, interpolate, checkerGradient } from 'services/utils'
 
 const CIRCLE_RADIUS = 8
+const CIRCLE_STROKE_WIDTH = 2
 const BAR_HEIGHT = 8
 const SVG_CURSOR_STYLE = 'default'
 const CIRCLE_CURSOR_STYLE = 'ew-resize'
 const BAR_CURSOR_STYLE = 'move'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
+    height: '100%',
+    padding: CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH / 2,
+    background: checkerGradient({
+      alpha: 0.1,
+      size: 4,
+      backgroundColor: theme.palette.background.paper,
+    }),
+    borderRadius: CIRCLE_RADIUS,
+  },
+  svgContainer: {
     height: '100%',
     position: 'relative',
     '& > svg': {
@@ -20,10 +31,12 @@ const useStyles = makeStyles({
       height: '100%',
       width: '100%',
       cursor: SVG_CURSOR_STYLE,
+      overflow: 'visible',
+      zIndex: 2,
       '& > circle': {
         fill: 'transparent',
         stroke: ({ handleColor }) => handleColor,
-        strokeWidth: 2,
+        strokeWidth: CIRCLE_STROKE_WIDTH,
         cursor: CIRCLE_CURSOR_STYLE,
       },
       '& > rect': {
@@ -33,7 +46,15 @@ const useStyles = makeStyles({
       },
     },
   },
-})
+  background: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
+}))
 
 const Pad = ({
   value,
@@ -41,6 +62,7 @@ const Pad = ({
   xRange,
   yRange,
   handleColor = 'hsla(0,0%,100%,1.0)',
+  background = null,
 }) => {
   const containerRef = useRef(null)
   const classes = useStyles({ handleColor })
@@ -203,7 +225,13 @@ const Pad = ({
     }
   }, [svg, circle0, circle1, bar, value, getX, getY])
 
-  return <div ref={containerRef} className={classes.root} />
+  return (
+    <div className={classes.root}>
+      <div ref={containerRef} className={classes.svgContainer}>
+        <div className={classes.background}>{ background }</div>
+      </div>
+    </div>
+  )
 }
 
 export default Pad

@@ -19,6 +19,7 @@ const useStyles = makeStyles({
       height: '100%',
       width: '100%',
       cursor: SVG_CURSOR_STYLE,
+      zIndex: 2,
       '& > rect': {
         fill: 'transparent',
         stroke: ({ handleColor }) => handleColor,
@@ -27,6 +28,14 @@ const useStyles = makeStyles({
       },
     },
   },
+  background: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
 })
 
 const Slider = ({
@@ -34,6 +43,7 @@ const Slider = ({
   onChange,
   range,
   handleColor = 'hsla(0,0%,100%,1.0)',
+  background = null,
 }) => {
   const containerRef = useRef(null)
   const classes = useStyles({ handleColor })
@@ -101,7 +111,11 @@ const Slider = ({
     bar.attr('x', getX(value) - BAR_WIDTH / 2)
   }, [value, bar, getX])
 
-  return <div ref={containerRef} className={classes.root} />
+  return (
+    <div ref={containerRef} className={classes.root}>
+      <div className={classes.background}>{ background }</div>
+    </div>
+  )
 }
 
 export default Slider
