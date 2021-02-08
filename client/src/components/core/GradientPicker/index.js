@@ -14,12 +14,14 @@ const ALPHA_RANGE = [0, 1]
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  heading: {
-    display: 'none',
+  label: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     fontSize: '0.7em',
     fontStyle: 'italic',
     opacity: 0.8,
-    marginBottom: 2,
+    marginBottom: 3,
     '&:not(:first-of-type)': {
       marginTop: 10,
     },
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const GradientPicker = ({ color, onChange }) => {
+const GradientPicker = ({ color, onChange, showLabels = true }) => {
   const theme = useTheme()
   const classes = useStyles({ color })
   const colorRef = useRef(null)
@@ -76,7 +78,16 @@ const GradientPicker = ({ color, onChange }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.heading}>hue/alpha</div>
+      {showLabels && (
+        <div className={classes.label}>
+          <span>hue / alpha</span>
+          <span>
+            { color.hue[0].toFixed(0) } - {color.hue[1].toFixed(0)}
+            {' / '}
+            { color.alpha.toFixed(2) }
+          </span>
+        </div>
+      )}
       <div className={classes.pad}>
         <Pad
           value={{ x: color.hue, y: color.alpha }}
@@ -94,8 +105,13 @@ const GradientPicker = ({ color, onChange }) => {
         />
       </div>
 
-      <div className={classes.heading}>saturation</div>
       <div className={classes.slider}>
+        {showLabels && (
+          <div className={classes.label}>
+            <span>saturation</span>
+            <span>{ color.saturation.toFixed(0) }</span>
+          </div>
+        )}
         <Slider
           value={color.saturation}
           onChange={onChangeSaturation}
@@ -111,8 +127,13 @@ const GradientPicker = ({ color, onChange }) => {
         />
       </div>
 
-      <div className={classes.heading}>lightness</div>
       <div className={classes.slider}>
+        {showLabels && (
+          <div className={classes.label}>
+            <span>lightness</span>
+            <span>{ color.lightness.toFixed(0) }</span>
+          </div>
+        )}
         <Slider
           value={color.lightness}
           onChange={onChangeLightness}

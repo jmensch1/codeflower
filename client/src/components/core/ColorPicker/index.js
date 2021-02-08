@@ -53,6 +53,18 @@ function hsvToHsl(hsv) {
 
 const useStyles = makeStyles(theme => ({
   root: {},
+  label: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    fontSize: '0.7em',
+    fontStyle: 'italic',
+    opacity: 0.8,
+    marginBottom: 3,
+    '&:not(:first-of-type)': {
+      marginTop: 10,
+    },
+  },
   pad: {
     height: 200,
   },
@@ -61,7 +73,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ColorPicker = ({ color, onChange }) => {
+const ColorPicker = ({ color, onChange, showLabels = true }) => {
   const classes = useStyles()
   const colorRef = useRef(null)
 
@@ -90,6 +102,12 @@ const ColorPicker = ({ color, onChange }) => {
 
   return (
     <div className={classes.root}>
+      {showLabels && (
+        <div className={classes.label}>
+          <span>saturation / lightness</span>
+          <span>{ saturation.toFixed(0) } / { lightness.toFixed(0) }</span>
+        </div>
+      )}
       <div className={classes.pad}>
         <Pad
           value={{
@@ -105,18 +123,30 @@ const ColorPicker = ({ color, onChange }) => {
           })}
         />
       </div>
+
       <div className={classes.slider}>
+        {showLabels && (
+          <div className={classes.label}>
+            <span>hue</span>
+            <span>{ color.hue.toFixed(0) }</span>
+          </div>
+        )}
         <Slider
-          // label='hue'
           value={color.hue}
           onChange={onChangeHue}
           range={HUE_RANGE}
           background={hueGradient()}
         />
       </div>
+
       <div className={classes.slider}>
+        {showLabels && (
+          <div className={classes.label}>
+            <span>alpha</span>
+            <span>{ color.alpha.toFixed(2) }</span>
+          </div>
+        )}
         <Slider
-          // label='alpha'
           value={color.alpha}
           onChange={onChangeAlpha}
           range={ALPHA_RANGE}

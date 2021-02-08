@@ -34,6 +34,7 @@ const LanguagesGradient = () => {
       <GradientPicker
         color={getPath(visStyles, 'files.fill')}
         onChange={onChangeFileFill}
+        showLabels={false}
       />
     </div>
   )
