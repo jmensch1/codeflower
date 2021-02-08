@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import SinglePad from './SinglePad'
+import Pad from './Pad'
 import Slider from 'components/core/Slider'
-import Background from './Background'
+import SaturationLightness from './SaturationLightness'
 
 //// CONSTANTS ////
 
@@ -90,7 +90,7 @@ const ColorPicker = ({ color, onChange }) => {
   return (
     <div className={classes.root}>
       <div className={classes.pad}>
-        <SinglePad
+        <Pad
           value={{
             x: saturation,
             y: lightness,
@@ -98,8 +98,8 @@ const ColorPicker = ({ color, onChange }) => {
           onChange={onChangePad}
           xRange={SATURATION_RANGE}
           yRange={VALUE_RANGE}
-          padBackground={
-            <Background
+          background={
+            <SaturationLightness
               hue={color.hue}
               alpha={color.alpha}
             />

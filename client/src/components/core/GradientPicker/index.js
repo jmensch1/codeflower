@@ -43,21 +43,21 @@ const GradientPicker = ({ color, onChange }) => {
     colorRef.current = color
   }, [color])
 
-  const handleHueAlphaChange = useCallback(
+  const onChangePad = useCallback(
     ({ x: hue, y: alpha }) => {
       onChange({ ...colorRef.current, hue, alpha })
     },
     [onChange]
   )
 
-  const handleSaturationChange = useCallback(
+  const onChangeSaturation = useCallback(
     (saturation) => {
       onChange({ ...colorRef.current, saturation })
     },
     [onChange]
   )
 
-  const handleLightnessChange = useCallback(
+  const onChangeLightness = useCallback(
     (lightness) => {
       onChange({ ...colorRef.current, lightness })
     },
@@ -79,7 +79,7 @@ const GradientPicker = ({ color, onChange }) => {
       <div className={classes.pad}>
         <Pad
           value={{ x: color.hue, y: color.alpha }}
-          onChange={handleHueAlphaChange}
+          onChange={onChangePad}
           xRange={HUE_RANGE}
           yRange={ALPHA_RANGE}
           handleColor={handleColor}
@@ -99,7 +99,7 @@ const GradientPicker = ({ color, onChange }) => {
       <div className={classes.slider}>
         <Slider
           value={color.saturation}
-          onChange={handleSaturationChange}
+          onChange={onChangeSaturation}
           range={SATURATION_RANGE}
           handleColor={handleColor}
           background={
@@ -118,7 +118,7 @@ const GradientPicker = ({ color, onChange }) => {
       <div className={classes.slider}>
         <Slider
           value={color.lightness}
-          onChange={handleLightnessChange}
+          onChange={onChangeLightness}
           range={LIGHTNESS_RANGE}
           handleColor={handleColor}
           background={

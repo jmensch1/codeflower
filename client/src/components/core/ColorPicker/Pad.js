@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
       left: 0,
       height: '100%',
       width: '100%',
-      zIndex: 1,
+      zIndex: 2,
       overflow: 'visible',
       cursor: SVG_CURSOR_STYLE,
       '& > circle': {
@@ -39,6 +39,14 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
+  background: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
 }))
 
 const Pad = ({
@@ -47,7 +55,7 @@ const Pad = ({
   xRange,
   yRange,
   handleColor = 'hsla(0,0%,100%,1.0)',
-  padBackground = null
+  background = null
 }) => {
   const containerRef = useRef(null)
   const classes = useStyles({ handleColor })
@@ -173,7 +181,7 @@ const Pad = ({
   return (
     <div className={classes.root}>
       <div ref={containerRef} className={classes.svgContainer}>
-        { padBackground }
+        <div className={classes.background}>{ background }</div>
       </div>
     </div>
   )
