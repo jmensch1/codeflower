@@ -5,16 +5,16 @@ import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
 import ThemeControls from 'components/ThemeControls'
-import ColorPicker from 'components/core/ColorPicker'
-import Swatch from 'components/core/Swatch'
-// import GradientPicker from 'components/core/GradientPicker'
-// import Swatches from 'components/core/Swatches'
+// import ColorPicker from 'components/core/ColorPicker'
+// import Swatch from 'components/core/Swatch'
+import GradientPicker from 'components/core/GradientPicker'
+import Swatches from 'components/core/Swatches'
 
 //////////////////// TAB CONFIG ///////////////////
 
 const Test = () => {
   const [color, setColor] = useState({
-    hue: 150,
+    hue: [150, 360],
     saturation: 100,
     lightness: 50,
     alpha: 0.8,
@@ -23,9 +23,9 @@ const Test = () => {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-        <Swatch color={color} />
+        <Swatches color={color} />
       </div>
-      <ColorPicker
+      <GradientPicker
         color={color}
         onChange={setColor}
       />

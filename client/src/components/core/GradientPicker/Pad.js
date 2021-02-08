@@ -42,7 +42,6 @@ const useStyles = makeStyles(theme => ({
       '& > rect': {
         cursor: BAR_CURSOR_STYLE,
         fill: ({ handleColor }) => handleColor,
-        fillOpacity: 0.6,
       },
     },
   },
