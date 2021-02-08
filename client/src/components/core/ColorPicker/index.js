@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Pad from './Pad'
 import Slider from 'components/core/Slider'
-import SaturationLightness from './SaturationLightness'
+import saturationLightness from './saturationLightness'
 import { hueGradient, alphaGradient } from 'services/utils'
 
 //// CONSTANTS ////
@@ -99,12 +99,10 @@ const ColorPicker = ({ color, onChange }) => {
           onChange={onChangePad}
           xRange={SATURATION_RANGE}
           yRange={VALUE_RANGE}
-          background={
-            <SaturationLightness
-              hue={color.hue}
-              alpha={color.alpha}
-            />
-          }
+          background={saturationLightness({
+            hue: color.hue,
+            alpha: color.alpha,
+          })}
         />
       </div>
       <div className={classes.slider}>
