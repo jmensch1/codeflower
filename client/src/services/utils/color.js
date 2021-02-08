@@ -1,58 +1,73 @@
 import tinycolor from 'tinycolor2'
 
-export const colorString = (color) => {
+export function colorString(color) {
   const { hue, saturation, lightness, alpha } = color
   return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
 }
 
 //// GRADIENTS ////
 
-export const hueGradient = ({
-  steps = 20,
+export function hueGradient({
   direction = 'right',
+  hueRange = [0, 360],
   saturation = 100,
   lightness = 50,
-  alpha = 1.0,
-  hueMin = 0,
-  hueMax = 360,
-} = {}) => {
-  const inc = (hueMax - hueMin) / steps
+  alpha = 1,
+  steps = 20,
+} = {}) {
+  const [min, max] = hueRange
+  const inc = (max - min) / steps
   const colors = Array.from({ length: steps + 1 })
     .map((_, idx) => {
-      return `hsla(${
-        hueMin + inc * idx
-      }, ${saturation}%, ${lightness}%, ${alpha})`
+      return `hsla(${min + inc * idx}, ${saturation}%, ${lightness}%, ${alpha})`
     })
     .join(', ')
   return `linear-gradient(to ${direction}, ${colors})`
 }
 
-export const alphaGradient = ({
-  steps = 20,
+export function alphaGradient({
   direction = 'right',
+  hue = 0,
   saturation = 100,
   lightness = 50,
-  hue = 0,
-  alphaMin = 0,
-  alphaMax = 1,
-} = {}) => {
-  const inc = (alphaMax - alphaMin) / steps
-  const colors = Array.from({ length: steps + 1 })
-    .map((_, idx) => {
-      return `hsla(${hue}, ${saturation}%, ${lightness}%, ${
-        alphaMin + inc * idx
-      })`
-    })
-    .join(', ')
-  return `linear-gradient(to ${direction}, ${colors})`
+} = {}) {
+  return `
+    linear-gradient(
+      to ${direction},
+        hsla(${hue}, ${saturation}%, ${lightness}%, 0),
+        hsla(${hue}, ${saturation}%, ${lightness}%, 1)
+    )
+  `
+}
+
+export function lightnessGradient({ direction = 'right', alpha = 1 } = {}) {
+  return `
+    linear-gradient(
+      to ${direction},
+        hsla(0, 0%, 0%, ${alpha}) 0%,
+        hsla(0, 0%, 0%, 0) 50%,
+        hsla(0, 0%, 100%, 0) 50%,
+        hsla(0, 0%, 100%, ${alpha}) 100%
+    )
+  `
+}
+
+export function grayscaleGradient({ direction = 'right', alpha = 1 } = {}) {
+  return `
+    linear-gradient(
+      to ${direction},
+        hsla(0, 0%, 0%, ${alpha}),
+        hsla(0, 0%, 100%, ${alpha})
+    )
+  `
 }
 
 // gradient from https://hslpicker.com/
-export const checkerGradient = ({
+export function checkerGradient({
   alpha = 1,
   size = 20,
   backgroundColor = 'hsla(0,0%,0%,1)',
-} = {}) => {
+} = {}) {
   const isDarkBackground = tinycolor(backgroundColor).toHsl().l < 0.5
   const lightness = isDarkBackground ? 100 : 0
 
@@ -76,26 +91,6 @@ export const checkerGradient = ({
     ) ${size / 2}px ${size / 2}px / ${size}px ${size}px
   `
 }
-
-// export const lightnessGradient = (steps = 20, direction = 'right') => {
-//   const inc = 100 / steps
-//   const colors = Array.from({ length: steps + 1 })
-//     .map((_, idx) => {
-//       return `hsl(0, 0%, ${inc * idx}%)`
-//     })
-//     .join(', ')
-//   return `linear-gradient(to ${direction}, ${colors})`
-// }
-//
-// export const opacityGradient = (steps = 20, direction = 'right') => {
-//   const inc = 1 / steps
-//   const colors = Array.from({ length: steps + 1 })
-//     .map((_, idx) => {
-//       return `hsla(0, 0%, 100%, ${inc * idx})`
-//     })
-//     .join(', ')
-//   return `linear-gradient(to ${direction}, ${colors})`
-// }
 
 //// COLOR CONVERSION ////
 // functions from npm color-convert

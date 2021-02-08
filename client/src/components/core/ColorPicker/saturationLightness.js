@@ -1,19 +1,17 @@
-const saturationLightness = ({ hue, alpha }) =>
+import { alphaGradient } from 'services/utils'
+
+const saturationLightness = ({ hue }) =>
   [
-    `
-    linear-gradient(
-      to top,
-        hsla(0, 0%, 0%, 1.0),
-        hsla(0, 0%, 0%, 0)
-    )
-  `,
-    `
-    linear-gradient(
-      to right,
-        hsla(0, 0%, 100%, 1.0),
-        hsla(0, 0%, 100%, 0)
-    )
-  `,
+    alphaGradient({
+      saturation: 0,
+      lightness: 0,
+      direction: 'bottom',
+    }),
+    alphaGradient({
+      saturation: 0,
+      lightness: 100,
+      direction: 'left',
+    }),
     `hsla(${hue}, 100%, 50%, 1.0)`,
   ].join(',')
 

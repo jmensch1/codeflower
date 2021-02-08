@@ -7,10 +7,10 @@ import { hueGradient, alphaGradient, hslToHsv, hsvToHsl } from 'services/utils'
 
 //// CONSTANTS ////
 
-const HUE_RANGE = [0, 360, 1]
+const HUE_RANGE = [0, 360]
 const SATURATION_RANGE = [0, 100]
 const VALUE_RANGE = [0, 100]
-const ALPHA_RANGE = [0, 1, 0.01]
+const ALPHA_RANGE = [0, 1]
 
 //// COMPONENT ////
 
@@ -67,7 +67,7 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
     [onChange]
   )
 
-  const [, saturation, lightness] = useMemo(() => {
+  const [, saturation, value] = useMemo(() => {
     const { hue: h, saturation: s, lightness: l } = color
     return hslToHsv([h, s, l])
   }, [color])
@@ -78,7 +78,7 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
         <div className={classes.label}>
           <span>saturation / lightness</span>
           <span>
-            {saturation.toFixed(0)} / {lightness.toFixed(0)}
+            {color.saturation.toFixed(0)} / {color.lightness.toFixed(0)}
           </span>
         </div>
       )}
@@ -86,15 +86,12 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
         <Pad
           value={{
             x: saturation,
-            y: lightness,
+            y: value,
           }}
           onChange={onChangePad}
           xRange={SATURATION_RANGE}
           yRange={VALUE_RANGE}
-          background={saturationLightness({
-            hue: color.hue,
-            alpha: color.alpha,
-          })}
+          background={saturationLightness({ hue: color.hue })}
         />
       </div>
 

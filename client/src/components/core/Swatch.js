@@ -10,9 +10,10 @@ const useStyles = makeStyles((theme) => ({
     background: ({ color }) =>
       color?.hue instanceof Array
         ? hueGradient({
-            hueMin: color.hue[0],
-            hueMax: color.hue[1],
-            ...color,
+            hueRange: color.hue,
+            saturation: color.saturation,
+            lightness: color.lightness,
+            alpha: color.alpha,
           })
         : colorString(color),
   },

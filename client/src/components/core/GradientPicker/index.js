@@ -3,9 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { interpolate } from 'services/utils'
 import Pad from './Pad'
 import Slider from 'components/core/Slider'
-import hueAlpha from './gradients/hueAlpha'
-import saturationHue from './gradients/saturationHue'
-import lightnessHue from './gradients/lightnessHue'
+import { hueAlpha, saturationHue, lightnessHue } from './gradients'
 
 const HUE_RANGE = [0, 360]
 const SATURATION_RANGE = [0, 100]
@@ -96,8 +94,6 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
           yRange={ALPHA_RANGE}
           handleColor={handleColor}
           background={hueAlpha({
-            hueRange: HUE_RANGE,
-            alphaRange: ALPHA_RANGE,
             saturation: color.saturation,
             lightness: color.lightness,
             backgroundColor: theme.palette.background.default,
@@ -117,11 +113,9 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
           onChange={onChangeSaturation}
           range={SATURATION_RANGE}
           background={saturationHue({
-            saturationRange: SATURATION_RANGE,
             hueRange: color.hue,
             lightness: color.lightness,
             alpha: color.alpha,
-            backgroundColor: theme.palette.background.paper,
           })}
           handleColor={handleColor}
         />
@@ -139,11 +133,9 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
           onChange={onChangeLightness}
           range={LIGHTNESS_RANGE}
           background={lightnessHue({
-            lightnessRange: LIGHTNESS_RANGE,
             hueRange: color.hue,
             saturation: color.saturation,
             alpha: color.alpha,
-            backgroundColor: theme.palette.background.paper,
           })}
           handleColor={handleColor}
         />
