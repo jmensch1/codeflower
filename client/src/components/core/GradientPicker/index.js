@@ -2,13 +2,10 @@ import React, { useCallback, useRef, useEffect } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { interpolate } from 'services/utils'
 import Pad from './Pad'
-// import Slider from './Slider'
-import SimpleSlider from 'components/core/Slider'
-import HueAlphaGradient from './gradients/HueAlpha'
-// import LightnessHueGradient from './gradients/LightnessHue'
-// import SaturationHueGradient from './gradients/SaturationHue'
-import sathue from './gradients/sathue'
-import lighthue from './gradients/lighthue'
+import Slider from 'components/core/Slider'
+import hueAlpha from './gradients/hueAlpha'
+import saturationHue from './gradients/saturationHue'
+import lightnessHue from './gradients/lightnessHue'
 
 const HUE_RANGE = [0, 360]
 const SATURATION_RANGE = [0, 100]
@@ -87,25 +84,23 @@ const GradientPicker = ({ color, onChange }) => {
           xRange={HUE_RANGE}
           yRange={ALPHA_RANGE}
           handleColor={handleColor}
-          background={
-            <HueAlphaGradient
-              hueRange={HUE_RANGE}
-              alphaRange={ALPHA_RANGE}
-              saturation={color.saturation}
-              lightness={color.lightness}
-              backgroundColor={theme.palette.background.default}
-            />
-          }
+          background={hueAlpha({
+            hueRange: HUE_RANGE,
+            alphaRange: ALPHA_RANGE,
+            saturation: color.saturation,
+            lightness: color.lightness,
+            backgroundColor: theme.palette.background.default,
+          })}
         />
       </div>
 
       <div className={classes.heading}>saturation</div>
       <div className={classes.slider}>
-        <SimpleSlider
+        <Slider
           value={color.saturation}
           onChange={onChangeSaturation}
           range={SATURATION_RANGE}
-          background={sathue({
+          background={saturationHue({
             saturationRange: SATURATION_RANGE,
             hueRange: color.hue,
             lightness: color.lightness,
@@ -118,11 +113,11 @@ const GradientPicker = ({ color, onChange }) => {
 
       <div className={classes.heading}>lightness</div>
       <div className={classes.slider}>
-        <SimpleSlider
+        <Slider
           value={color.lightness}
           onChange={onChangeLightness}
           range={LIGHTNESS_RANGE}
-          background={lighthue({
+          background={lightnessHue({
             lightnessRange: LIGHTNESS_RANGE,
             hueRange: color.hue,
             saturation: color.saturation,
@@ -132,44 +127,6 @@ const GradientPicker = ({ color, onChange }) => {
           handleColor={handleColor}
         />
       </div>
-
-      {/*<div className={classes.heading}>saturation</div>
-      <div className={classes.slider}>
-        <Slider
-          value={color.saturation}
-          onChange={onChangeSaturation}
-          range={SATURATION_RANGE}
-          handleColor={handleColor}
-          background={
-            <SaturationHueGradient
-              saturationRange={SATURATION_RANGE}
-              hueRange={color.hue}
-              lightness={color.lightness}
-              alpha={color.alpha}
-              backgroundColor={theme.palette.background.default}
-            />
-          }
-        />
-      </div>
-
-      <div className={classes.heading}>lightness</div>
-      <div className={classes.slider}>
-        <Slider
-          value={color.lightness}
-          onChange={onChangeLightness}
-          range={LIGHTNESS_RANGE}
-          handleColor={handleColor}
-          background={
-            <LightnessHueGradient
-              lightnessRange={LIGHTNESS_RANGE}
-              hueRange={color.hue}
-              saturation={color.saturation}
-              alpha={color.alpha}
-              backgroundColor={theme.palette.background.default}
-            />
-          }
-        />
-      </div>*/}
     </div>
   )
 }
