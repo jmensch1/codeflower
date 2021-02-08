@@ -44,7 +44,8 @@ const FolderControls = () => {
       <Collapse
         label="fill"
         level={1}
-        headerRight={<Swatch color={values['folders.fill']} />}>
+        headerRight={<Swatch color={values['folders.fill']} />}
+      >
         <ColorPicker
           color={values['folders.fill']}
           onChange={updaters['folders.fill']}

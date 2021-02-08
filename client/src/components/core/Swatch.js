@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
         ? hueGradient({
             hueMin: color.hue[0],
             hueMax: color.hue[1],
-            ...color
+            ...color,
           })
-        : colorString(color)
+        : colorString(color),
   },
 }))
 

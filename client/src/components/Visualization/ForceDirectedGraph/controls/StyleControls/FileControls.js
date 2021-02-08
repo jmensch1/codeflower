@@ -49,16 +49,16 @@ const FileControls = () => {
         label="fill"
         level={1}
         headerRight={({ open }) =>
-          open
-            ? (
-              <Swatches
-                color={values['files.fill']}
-                num={9}
-                size="1em"
-                margin="0 0 0 0.5em"
-              />
-            )
-            : <Swatch color={values['files.fill']} />
+          open ? (
+            <Swatches
+              color={values['files.fill']}
+              num={9}
+              size="1em"
+              margin="0 0 0 0.5em"
+            />
+          ) : (
+            <Swatch color={values['files.fill']} />
+          )
         }
       >
         <GradientPicker

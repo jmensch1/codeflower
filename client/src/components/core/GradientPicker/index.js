@@ -82,9 +82,9 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
         <div className={classes.label}>
           <span>hue / alpha</span>
           <span>
-            { color.hue[0].toFixed(0) } - {color.hue[1].toFixed(0)}
+            {color.hue[0].toFixed(0)} - {color.hue[1].toFixed(0)}
             {' / '}
-            { color.alpha.toFixed(2) }
+            {color.alpha.toFixed(2)}
           </span>
         </div>
       )}
@@ -109,7 +109,7 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
         {showLabels && (
           <div className={classes.label}>
             <span>saturation</span>
-            <span>{ color.saturation.toFixed(0) }</span>
+            <span>{color.saturation.toFixed(0)}</span>
           </div>
         )}
         <Slider
@@ -131,7 +131,7 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
         {showLabels && (
           <div className={classes.label}>
             <span>lightness</span>
-            <span>{ color.lightness.toFixed(0) }</span>
+            <span>{color.lightness.toFixed(0)}</span>
           </div>
         )}
         <Slider

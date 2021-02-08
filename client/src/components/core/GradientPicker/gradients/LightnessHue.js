@@ -18,19 +18,20 @@ const lightnessHue = ({
   saturation = 0,
   alpha = 1.0,
   backgroundColor = 'hsla(0, 0%, 0%, 1.0)',
-}) => [
-  lightnessGradient({
-    alpha: 1,
-  }),
-  hueGradient({
-    hueMin: hueRange[0],
-    hueMax: hueRange[1],
-    saturation,
-    lightness: 50,
-    alpha,
-    steps: 20,
-    direction: 'bottom',
-  }),
-].join(',')
+}) =>
+  [
+    lightnessGradient({
+      alpha: 1,
+    }),
+    hueGradient({
+      hueMin: hueRange[0],
+      hueMax: hueRange[1],
+      saturation,
+      lightness: 50,
+      alpha,
+      steps: 20,
+      direction: 'bottom',
+    }),
+  ].join(',')
 
 export default lightnessHue

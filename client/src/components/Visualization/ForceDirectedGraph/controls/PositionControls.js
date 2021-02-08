@@ -14,12 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PATHS = [
-  'rotation',
-]
+const PATHS = ['rotation']
 
 const RANGES = {
-  'rotation': [0, 360, 1],
+  rotation: [0, 360, 1],
 }
 
 const StyleControls = () => {

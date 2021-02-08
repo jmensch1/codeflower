@@ -70,9 +70,8 @@ const Collapse = ({
   const [open, setOpen] = useState(initialOpen)
   const classes = useStyles({ open, indent, level })
 
-  const headerRightContent = typeof headerRight === 'function'
-    ? headerRight({ open })
-    : headerRight
+  const headerRightContent =
+    typeof headerRight === 'function' ? headerRight({ open }) : headerRight
 
   return (
     <div className={classes.root}>

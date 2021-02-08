@@ -26,10 +26,13 @@ const useStyles = makeStyles((theme) => ({
 export const Checkbox = ({ checked, onChange, label }) => {
   const classes = useStyles({ checked })
 
-  const handleClick = useCallback((e) => {
-    e.stopPropagation()
-    onChange(!checked)
-  }, [checked, onChange])
+  const handleClick = useCallback(
+    (e) => {
+      e.stopPropagation()
+      onChange(!checked)
+    },
+    [checked, onChange]
+  )
 
   return (
     <div className={classes.root} onClick={handleClick}>

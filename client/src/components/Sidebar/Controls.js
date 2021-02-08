@@ -7,37 +7,40 @@ import PositionControls from 'components/Visualization/ForceDirectedGraph/contro
 import ThemeControls from 'components/ThemeControls'
 // import ColorPicker from 'components/core/ColorPicker'
 // import Swatch from 'components/core/Swatch'
-import GradientPicker from 'components/core/GradientPicker'
-import Swatches from 'components/core/Swatches'
+// import GradientPicker from 'components/core/GradientPicker'
+// import Swatches from 'components/core/Swatches'
 
 //////////////////// TAB CONFIG ///////////////////
 
-const Test = () => {
-  const [color, setColor] = useState({
-    hue: [150, 360],
-    saturation: 100,
-    lightness: 50,
-    alpha: 0.8,
-  })
-
-  return (
-    <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-        <Swatches color={color} />
-      </div>
-      <GradientPicker
-        color={color}
-        onChange={setColor}
-      />
-    </>
-  )
-}
+// const Test = () => {
+//   const [color, setColor] = useState({
+//     hue: [150, 360],
+//     saturation: 100,
+//     lightness: 50,
+//     alpha: 0.8,
+//   })
+//
+//   return (
+//     <>
+//       <div
+//         style={{
+//           display: 'flex',
+//           justifyContent: 'flex-end',
+//           marginBottom: 10,
+//         }}
+//       >
+//         <Swatches color={color} />
+//       </div>
+//       <GradientPicker color={color} onChange={setColor} />
+//     </>
+//   )
+// }
 
 const TABS = [
-  {
-    type: 'test',
-    Component: Test,
-  },
+  // {
+  //   type: 'test',
+  //   Component: Test,
+  // },
   {
     type: 'forces',
     Component: ForceControls,
@@ -77,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Controls = () => {
   const classes = useStyles()
-  const [tab, setTab] = useState('test')
+  const [tab, setTab] = useState('forces')
   const { Component } = TABS.find((t) => t.type === tab)
 
   return (

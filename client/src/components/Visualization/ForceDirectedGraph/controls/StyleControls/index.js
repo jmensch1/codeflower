@@ -14,11 +14,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }))
 
-const PATHS = [
-  'files.visible',
-  'folders.visible',
-  'links.visible',
-]
+const PATHS = ['files.visible', 'folders.visible', 'links.visible']
 
 const StyleControls = () => {
   const classes = useStyles()

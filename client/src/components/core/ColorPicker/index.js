@@ -23,7 +23,7 @@ function hslToHsv(hsl) {
   const lmin = Math.max(l, 0.01)
 
   l *= 2
-  s *= (l <= 1) ? l : 2 - l
+  s *= l <= 1 ? l : 2 - l
   smin *= lmin <= 1 ? lmin : 2 - lmin
   const v = (l + s) / 2
   const sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s)
@@ -42,7 +42,7 @@ function hsvToHsl(hsv) {
   l = (2 - s) * v
   const lmin = (2 - s) * vmin
   sl = s * vmin
-  sl /= (lmin <= 1) ? lmin : 2 - lmin
+  sl /= lmin <= 1 ? lmin : 2 - lmin
   sl = sl || 0
   l /= 2
 
@@ -51,7 +51,7 @@ function hsvToHsl(hsv) {
 
 //// COMPONENT ////
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   label: {
     display: 'flex',
@@ -81,19 +81,28 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
     colorRef.current = color
   }, [color])
 
-  const onChangePad = useCallback(({ x, y }) => {
-    const { hue, alpha } = colorRef.current
-    const [, saturation, lightness] = hsvToHsl([hue, x, y])
-    onChange({ hue, saturation, lightness, alpha })
-  }, [onChange])
+  const onChangePad = useCallback(
+    ({ x, y }) => {
+      const { hue, alpha } = colorRef.current
+      const [, saturation, lightness] = hsvToHsl([hue, x, y])
+      onChange({ hue, saturation, lightness, alpha })
+    },
+    [onChange]
+  )
 
-  const onChangeHue = useCallback((hue) => {
-    onChange({ ...colorRef.current, hue })
-  }, [onChange])
+  const onChangeHue = useCallback(
+    (hue) => {
+      onChange({ ...colorRef.current, hue })
+    },
+    [onChange]
+  )
 
-  const onChangeAlpha = useCallback((alpha) => {
-    onChange({ ...colorRef.current, alpha })
-  }, [onChange])
+  const onChangeAlpha = useCallback(
+    (alpha) => {
+      onChange({ ...colorRef.current, alpha })
+    },
+    [onChange]
+  )
 
   const [, saturation, lightness] = useMemo(() => {
     const { hue: h, saturation: s, lightness: l } = color
@@ -105,7 +114,9 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
       {showLabels && (
         <div className={classes.label}>
           <span>saturation / lightness</span>
-          <span>{ saturation.toFixed(0) } / { lightness.toFixed(0) }</span>
+          <span>
+            {saturation.toFixed(0)} / {lightness.toFixed(0)}
+          </span>
         </div>
       )}
       <div className={classes.pad}>
@@ -128,7 +139,7 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
         {showLabels && (
           <div className={classes.label}>
             <span>hue</span>
-            <span>{ color.hue.toFixed(0) }</span>
+            <span>{color.hue.toFixed(0)}</span>
           </div>
         )}
         <Slider
@@ -143,7 +154,7 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
         {showLabels && (
           <div className={classes.label}>
             <span>alpha</span>
-            <span>{ color.alpha.toFixed(2) }</span>
+            <span>{color.alpha.toFixed(2)}</span>
           </div>
         )}
         <Slider

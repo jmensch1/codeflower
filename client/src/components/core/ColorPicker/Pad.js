@@ -8,7 +8,7 @@ const CIRCLE_STROKE_WIDTH = 2
 const SVG_CURSOR_STYLE = 'pointer'
 const CIRCLE_CURSOR_STYLE = 'pointer'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     padding: CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH / 2,
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
       right: 0,
       zIndex: 1,
       background: ({ background }) => background,
-    }
+    },
   },
 }))
 
@@ -175,9 +175,7 @@ const Pad = ({
   useEffect(() => {
     if (!value || !circle) return
 
-    circle
-      .attr('cx', getX(value.x))
-      .attr('cy', getY(value.y))
+    circle.attr('cx', getX(value.x)).attr('cy', getY(value.y))
   }, [circle, value, getX, getY])
 
   return (

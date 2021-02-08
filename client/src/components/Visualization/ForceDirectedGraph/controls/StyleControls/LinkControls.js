@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useVisStyles } from 'store/selectors'
 import { updateVisStyles } from 'store/actions/settings'
-import Slider  from 'components/core/Slider'
+import Slider from 'components/core/Slider'
 import ColorPicker from 'components/core/ColorPicker'
 import Swatch from 'components/core/Swatch'
 import Collapse from 'components/core/Collapse'
@@ -13,10 +13,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }))
 
-const PATHS = [
-  'links.stroke',
-  'links.strokeWidth',
-]
+const PATHS = ['links.stroke', 'links.strokeWidth']
 
 const RANGES = {
   'links.strokeWidth': [0, 10, 0.5],

@@ -16,20 +16,21 @@ const saturationHue = ({
   lightness = 0,
   alpha = 1.0,
   backgroundColor = 'hsla(0, 0%, 0%, 1.0)',
-}) => [
-  saturationGradient({
-    alpha: 1,
-    lightness,
-  }),
-  hueGradient({
-    hueMin: hueRange[0],
-    hueMax: hueRange[1],
-    saturation: 100,
-    lightness,
-    alpha,
-    steps: 20,
-    direction: 'bottom',
-  }),
-].join(',')
+}) =>
+  [
+    saturationGradient({
+      alpha: 1,
+      lightness,
+    }),
+    hueGradient({
+      hueMin: hueRange[0],
+      hueMax: hueRange[1],
+      saturation: 100,
+      lightness,
+      alpha,
+      steps: 20,
+      direction: 'bottom',
+    }),
+  ].join(',')
 
 export default saturationHue

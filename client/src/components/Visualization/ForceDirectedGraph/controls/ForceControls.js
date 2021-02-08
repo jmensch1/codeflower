@@ -69,11 +69,7 @@ const ForceControls = () => {
         &nbsp;that apply to the graph.
       </div>
 
-      <Collapse
-        label="charge"
-        disabled={!values['charge.enabled']}
-        initialOpen
-      >
+      <Collapse label="charge" disabled={!values['charge.enabled']} initialOpen>
         <Slider
           label="strength"
           range={RANGES['charge.strength']}
@@ -88,11 +84,7 @@ const ForceControls = () => {
         />
       </Collapse>
 
-      <Collapse
-        label="link"
-        disabled={!values['link.enabled']}
-        initialOpen
-      >
+      <Collapse label="link" disabled={!values['link.enabled']} initialOpen>
         <Slider
           label="strength"
           range={RANGES['link.strength']}
@@ -120,11 +112,7 @@ const ForceControls = () => {
         />
       </Collapse>
 
-      <Collapse
-        label="x/y"
-        disabled={!values['forceXY.enabled']}
-        initialOpen
-      >
+      <Collapse label="x/y" disabled={!values['forceXY.enabled']} initialOpen>
         <Slider
           label="strength"
           range={RANGES['forceXY.strength']}

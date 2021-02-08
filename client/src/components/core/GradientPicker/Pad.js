@@ -10,7 +10,7 @@ const SVG_CURSOR_STYLE = 'default'
 const CIRCLE_CURSOR_STYLE = 'ew-resize'
 const BAR_CURSOR_STYLE = 'move'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     padding: CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH / 2,
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
       right: 0,
       zIndex: 1,
       background: ({ background }) => background,
-    }
+    },
   },
 }))
 

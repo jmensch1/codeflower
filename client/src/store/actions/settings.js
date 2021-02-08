@@ -25,7 +25,7 @@ export const setMainTheme = (mainTheme) => ({
 
 export const updateMainTheme = (path, value) => ({
   type: types.UPDATE_MAIN_THEME,
-  data: { path, value},
+  data: { path, value },
 })
 
 export const setVisType = (visType) => ({
@@ -103,7 +103,7 @@ const reducer = (state = initialState, action) => {
         mainTheme: setPath(
           state.mainTheme,
           action.data.path,
-          action.data.value,
+          action.data.value
         ),
       }
     case types.SET_VIS_TYPE:
@@ -167,7 +167,7 @@ const reducer = (state = initialState, action) => {
         visForces: setPath(
           state.visForces,
           action.data.path,
-          action.data.value,
+          action.data.value
         ),
       }
     default:

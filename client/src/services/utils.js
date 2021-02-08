@@ -64,7 +64,9 @@ export function getPathsWithDefault(obj, paths, defaultObj) {
   }, {})
 }
 
-export function noop() { return null }
+export function noop() {
+  return null
+}
 
 export const hueGradient = ({
   steps = 20,
