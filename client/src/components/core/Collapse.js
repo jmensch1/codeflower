@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     backgroundColor: theme.palette.background.paper,
-    opacity: 0.6,
-    zIndex: 1,
+    opacity: 0.75,
+    zIndex: 3,
     cursor: 'default',
   },
 }))
