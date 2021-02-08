@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
-import repoUtils from 'services/repo'
+import * as repoUtils from 'services/repo'
 
 ////////// SIMPLE SELECTORS ///////////
 

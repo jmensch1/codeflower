@@ -10,7 +10,7 @@ import {
 } from 'store/selectors'
 import { selectFolder, highlightFolder } from 'store/actions/settings'
 import { MAX_NODES } from 'constants.js'
-import { isWithinFolder } from 'services/utils'
+import { isWithinFolder } from 'services/repo'
 
 const useStyles = makeStyles((theme) => ({
   root: {

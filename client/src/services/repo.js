@@ -1,5 +1,5 @@
 // returns an array of all the paths in the given repo
-function getFolderPaths(root) {
+export function getFolderPaths(root) {
   if (!root) return []
 
   const folderPaths = []
@@ -31,7 +31,7 @@ function getFolderPaths(root) {
 }
 
 // return the portion of a repo object indicated by the given folderPath
-function getFolder(root, folderPath) {
+export function getFolder(root, folderPath) {
   let folder = root
   const props = folderPath.split('/')
   for (let i = 1; i < props.length; i++) {
@@ -46,7 +46,7 @@ function getFolder(root, folderPath) {
 }
 
 // returns the counts of languages in the given folder
-function getLanguageCounts(folder) {
+export function getLanguageCounts(folder) {
   if (!folder) return []
 
   const counts = {}
@@ -78,10 +78,6 @@ function getLanguageCounts(folder) {
     .sort((a, b) => b.lines - a.lines)
 }
 
-const service = {
-  getFolderPaths,
-  getFolder,
-  getLanguageCounts,
+export function isWithinFolder(path, targetFolderPath) {
+  return path.startsWith(`${targetFolderPath}/`) || path === targetFolderPath
 }
-
-export default service

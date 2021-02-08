@@ -1,5 +1,5 @@
 import * as api from 'services/api'
-import repoUtils from 'services/repo'
+import { getFolderPaths } from 'services/repo'
 import { openModal, closeModal } from './modals'
 import { delay } from 'services/utils'
 import { MAX_NODES } from 'constants.js'
@@ -86,7 +86,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
       return largest ? largest.pathName : 'root'
     }
 
-    const folderPaths = repoUtils.getFolderPaths(repo.cloc.tree)
+    const folderPaths = getFolderPaths(repo.cloc.tree)
     if (folderPaths[0].totalNodes < MAX_NODES)
       return onSelectFolder(folderPaths[0].pathName)
 

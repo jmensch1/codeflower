@@ -12,8 +12,8 @@ import {
   colorString,
   partition,
   multiClassSelector as select,
-  isWithinFolder,
 } from 'services/utils'
+import { isWithinFolder } from 'services/repo'
 
 export default function useAddStyles({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
