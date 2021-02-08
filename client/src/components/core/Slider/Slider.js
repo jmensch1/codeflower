@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
       height: '100%',
       width: '100%',
       cursor: SVG_CURSOR_STYLE,
+      overflow: 'visible',
       '& > circle': {
         fill: ({ handleColor }) => handleColor || theme.palette.text.primary,
         strokeWidth: CIRCLE_STROKE_WIDTH,
@@ -32,11 +33,27 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  background: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderRadius: ({ height }) => height / 2,
+    background: ({ background }) => background,
+  },
 }))
 
-const Slider = ({ height = 12, value, onChange, range, handleColor }) => {
+const Slider = ({
+  height = 14,
+  value,
+  onChange,
+  range,
+  handleColor,
+  background = undefined,
+}) => {
   const containerRef = useRef(null)
-  const classes = useStyles({ height, handleColor })
+  const classes = useStyles({ height, handleColor, background })
   const [dimensions, setDimensions] = useState(null)
   const [svg, setSvg] = useState(null)
   const [bar, setBar] = useState(null)
@@ -113,7 +130,11 @@ const Slider = ({ height = 12, value, onChange, range, handleColor }) => {
     bar.attr('cx', getX(value))
   }, [value, bar, getX])
 
-  return <div ref={containerRef} className={classes.root} />
+  return (
+    <div ref={containerRef} className={classes.root}>
+      <div className={classes.background} />
+    </div>
+  )
 }
 
 export default Slider

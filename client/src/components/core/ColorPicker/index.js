@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Pad from './Pad'
 import Slider from 'components/core/Slider'
 import SaturationLightness from './SaturationLightness'
+import { hueGradient, alphaGradient } from 'services/utils'
 
 //// CONSTANTS ////
 
@@ -108,19 +109,21 @@ const ColorPicker = ({ color, onChange }) => {
       </div>
       <div className={classes.slider}>
         <Slider
-          label='hue'
+          // label='hue'
           value={color.hue}
           onChange={onChangeHue}
           range={HUE_RANGE}
+          background={hueGradient()}
         />
       </div>
       <div className={classes.slider}>
         <Slider
-          label='alpha'
+          // label='alpha'
           value={color.alpha}
           onChange={onChangeAlpha}
           range={ALPHA_RANGE}
           renderValue={(x) => x.toFixed(2)}
+          background={alphaGradient({ hue: color.hue })}
         />
       </div>
     </div>
