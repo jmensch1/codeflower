@@ -12,9 +12,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   table: {
-    padding: 10,
     flex: 1,
     position: 'relative',
+    padding: 8,
+    overflow: 'auto',
   },
   gradient: {
     backgroundColor: ({ showGradient }) =>

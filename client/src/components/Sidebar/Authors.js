@@ -6,6 +6,9 @@ import { useAuthors, useSelectedAuthorId } from 'store/selectors'
 import { selectAuthor, highlightAuthor } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: 8,
+  },
   table: {
     borderCollapse: 'collapse',
     width: '100%',
@@ -55,36 +58,38 @@ const Authors = () => {
 
   if (!authors) return null
   return (
-    <table className={classes.table}>
-      <thead>
-        <tr>
-          <th>author</th>
-          <th>commits</th>
-          <th>touched</th>
-        </tr>
-      </thead>
-      <tbody onMouseLeave={clear}>
-        {authors.map((author) => {
-          return (
-            <tr
-              key={author.id}
-              className={clsx({
-                [classes.selected]: author.id === selectedAuthorId,
-              })}
-              onMouseEnter={highlight.bind(null, author.id)}
-              onClick={() => {
-                if (author.id === selectedAuthorId) select(null)
-                else select(author.id)
-              }}
-            >
-              <td>{author.name}</td>
-              <td>{author.commits}</td>
-              <td>{author.numFilesTouched}</td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
+    <div className={classes.root}>
+      <table className={classes.table}>
+        <thead>
+          <tr>
+            <th>author</th>
+            <th>commits</th>
+            <th>touched</th>
+          </tr>
+        </thead>
+        <tbody onMouseLeave={clear}>
+          {authors.map((author) => {
+            return (
+              <tr
+                key={author.id}
+                className={clsx({
+                  [classes.selected]: author.id === selectedAuthorId,
+                })}
+                onMouseEnter={highlight.bind(null, author.id)}
+                onClick={() => {
+                  if (author.id === selectedAuthorId) select(null)
+                  else select(author.id)
+                }}
+              >
+                <td>{author.name}</td>
+                <td>{author.commits}</td>
+                <td>{author.numFilesTouched}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

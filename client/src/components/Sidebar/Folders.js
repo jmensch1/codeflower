@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     // even when horizontal scrollbar is present
     display: 'table',
     width: '100%',
+    padding: 10,
   },
   listItem: {
     fontSize: 14,

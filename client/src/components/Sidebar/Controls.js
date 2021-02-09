@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   tabs: {
-    padding: '0 10px',
+    padding: '10px 10px 0 10px',
   },
   content: {
     flex: 1,
