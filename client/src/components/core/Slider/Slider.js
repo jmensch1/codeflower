@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: ({ height }) => height,
     borderRadius: ({ height }) => height / 2,
     position: 'relative',
+    overflow: 'hidden',
     background: ({ height }) =>
       checkerGradient({
         alpha: 0.1,
@@ -96,7 +97,7 @@ const Slider = ({
       .append('circle')
       .attr('r', (height - CIRCLE_STROKE_WIDTH) / 2)
       .attr('cy', height / 2)
-      .attr('cx', -height) // invisible until calculated below to avoid flash
+      .attr('cx', -height - CIRCLE_STROKE_WIDTH / 2)
 
     setSvg(svg)
     setBar(bar)
