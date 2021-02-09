@@ -37,11 +37,6 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
     node.filter('.file').style('fill', (d) => languageColors[d.data.language])
   }, [node, languageColors])
 
-  // opacity (TODO: combine with fill)
-  useEffect(() => {
-    node.filter('.file').style('fill-opacity', visStyles.files.fill.alpha)
-  }, [node, visStyles.files.fill.alpha])
-
   // stroke
   useEffect(() => {
     node.filter('.file').style('stroke', colorString(visStyles.files.stroke))

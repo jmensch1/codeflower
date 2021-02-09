@@ -98,7 +98,6 @@ const LanguagesTable = () => {
                     cx="50%"
                     cy="50%"
                     fill={colors[count.language]}
-                    fillOpacity={visStyles.files.fill.alpha}
                   />
                 </svg>
               </td>

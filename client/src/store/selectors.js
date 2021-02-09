@@ -66,17 +66,16 @@ const languageColors = createSelector(
   (counts, fileFill) => {
     if (!fileFill) return {}
 
-    const { hue, saturation, lightness } = fileFill
-    const [hueMin, hueMax] = hue
-    const languageColor = (languages, index) => {
-      const hue =
-        hueMin + Math.round(((hueMax - hueMin) * index) / languages.length)
-      return `hsl(${hue}, ${saturation}%, ${lightness}%)`
+    const { hue: [min, max], saturation, lightness, alpha } = fileFill
+    const inc = (max - min) / (counts.length - 1)
+
+    const languageColor = (index) => {
+      const hue = min + inc * index
+      return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
     }
 
-    const languages = counts.map((count) => count.language)
-    return languages.reduce((colors, language, index) => {
-      colors[language] = languageColor(languages, index)
+    return counts.reduce((colors, { language }, index) => {
+      colors[language] = languageColor(index)
       return colors
     }, {})
   }
