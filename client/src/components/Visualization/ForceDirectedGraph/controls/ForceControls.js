@@ -31,7 +31,7 @@ const PATHS = [
 
 const RANGES = {
   'charge.strength': [-500, 0, 1],
-  'charge.distanceMin': [1, 500],
+  'charge.distanceMin': [1, 500, 1],
   'link.strength': [0, 1, 0.01],
   'link.distance.files': [0, 150, 1],
   'link.distance.folders': [0, 150, 1],
