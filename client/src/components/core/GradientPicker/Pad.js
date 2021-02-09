@@ -172,6 +172,11 @@ const Pad = ({
 
     circle0.call(circle0Drag)
     circle1.call(circle1Drag)
+
+    return () => {
+      circle0.on('mousedown.drag', null)
+      circle1.on('mousedown.drag', null)
+    }
   }, [svg, circle0, circle1, getXValue, onChange])
 
   //// BAR DRAG HANDLER ////
@@ -196,6 +201,10 @@ const Pad = ({
         })
         .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
     )
+
+    return () => {
+      bar.on('mousedown.drag', null)
+    }
   }, [svg, bar, getUnclampedX, getXValue, getYValue, onChange, dimensions])
 
   //// UPDATE ELEMENTS ////

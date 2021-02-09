@@ -57,7 +57,7 @@ const Slider = ({
   const classes = useStyles({ height, handleColor, background })
   const [dimensions, setDimensions] = useState(null)
   const [svg, setSvg] = useState(null)
-  const [bar, setBar] = useState(null)
+  const [circle, setCircle] = useState(null)
 
   const getValue = useCallback(
     (x) => {
@@ -93,14 +93,14 @@ const Slider = ({
     setDimensions({ width, height })
 
     const svg = d3.select(container).append('svg')
-    const bar = svg
+    const circle = svg
       .append('circle')
       .attr('r', (height - CIRCLE_STROKE_WIDTH) / 2)
       .attr('cy', height / 2)
       .attr('cx', -height - CIRCLE_STROKE_WIDTH / 2)
 
     setSvg(svg)
-    setBar(bar)
+    setCircle(circle)
 
     return () => {
       container.innerHTML = ''
@@ -111,25 +111,33 @@ const Slider = ({
     if (!svg) return
 
     svg.on('click', ({ offsetX }) => onChange(getValue(offsetX)))
+
+    return () => {
+      svg.on('click', null)
+    }
   }, [svg, getValue, onChange])
 
   useEffect(() => {
-    if (!svg || !bar) return
+    if (!svg || !circle) return
 
-    bar.call(
+    circle.call(
       d3
         .drag()
         .on('start', () => svg.style('cursor', BAR_CURSOR_STYLE))
         .on('drag', ({ x }) => onChange(getValue(x)))
         .on('end', () => svg.style('cursor', SVG_CURSOR_STYLE))
     )
-  }, [svg, bar, getValue, onChange])
+
+    return () => {
+      circle.on('mousedown.drag', null)
+    }
+  }, [svg, circle, getValue, onChange])
 
   useEffect(() => {
-    if (!bar) return
+    if (!circle) return
 
-    bar.attr('cx', getX(value))
-  }, [value, bar, getX])
+    circle.attr('cx', getX(value))
+  }, [value, circle, getX])
 
   return (
     <div ref={containerRef} className={classes.root}>
