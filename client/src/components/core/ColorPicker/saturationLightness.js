@@ -1,4 +1,4 @@
-import { alphaGradient } from 'services/utils'
+import { alphaGradient, colorString } from 'services/utils'
 
 const saturationLightness = ({ hue }) =>
   [
@@ -12,7 +12,12 @@ const saturationLightness = ({ hue }) =>
       lightness: 100,
       direction: 'left',
     }),
-    `hsla(${hue}, 100%, 50%, 1.0)`,
+    colorString({
+      hue,
+      saturation: 100,
+      lightness: 50,
+      alpha: 1,
+    }),
   ].join(',')
 
 export default saturationLightness
