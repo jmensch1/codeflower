@@ -62,7 +62,7 @@ const Slider = ({
   const getValue = useCallback(
     (x) => {
       if (!range || !dimensions) return null
-      
+
       const value = interpolate(
         x,
         [dimensions.height / 2, dimensions.width - dimensions.height / 2],

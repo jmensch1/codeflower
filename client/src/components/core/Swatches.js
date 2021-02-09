@@ -12,20 +12,21 @@ const useStyles = makeStyles((theme) => ({
 const Swatches = ({ color, num = 9, size = '1.5em', margin = '0.5em' }) => {
   const classes = useStyles()
   const colors = useMemo(() => colorArray(color, num), [color, num])
+  const svgStyle = useMemo(
+    () => ({
+      width: size,
+      height: size,
+      margin,
+    }),
+    [size, margin]
+  )
 
   return (
     <div className={classes.root}>
       {colors.map((color, idx) => (
-        <div
-          key={idx.toString()}
-          style={{
-            width: size,
-            height: size,
-            backgroundColor: color,
-            borderRadius: '50%',
-            margin,
-          }}
-        />
+        <svg key={idx.toString()} style={svgStyle}>
+          <circle r="50%" cx="50%" cy="50%" fill={color} />
+        </svg>
       ))}
     </div>
   )
