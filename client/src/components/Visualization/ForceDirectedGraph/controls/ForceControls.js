@@ -5,7 +5,7 @@ import { useVisForces } from 'store/selectors'
 import { updateVisForces } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
 import Collapse from 'components/core/Collapse'
-import { getPaths, createUpdaters } from 'services/utils'
+import { getPaths, createUpdaters, toFixed2 } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -15,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '1.25em',
   },
 }))
-
-const toFixed2 = (x) => x.toFixed(2)
 
 const PATHS = [
   'charge.enabled',

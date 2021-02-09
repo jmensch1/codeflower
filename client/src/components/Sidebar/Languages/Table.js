@@ -79,12 +79,7 @@ const LanguagesTable = () => {
             <td>{count.lines}</td>
             <td>
               <svg>
-                <circle
-                  r={8}
-                  cx="50%"
-                  cy="50%"
-                  fill={colors[count.language]}
-                />
+                <circle r={8} cx="50%" cy="50%" fill={colors[count.language]} />
               </svg>
             </td>
           </tr>

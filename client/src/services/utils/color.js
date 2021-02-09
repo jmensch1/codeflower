@@ -15,7 +15,7 @@ export function colorString(color) {
 
 export function colorArray(
   { hueRange: [min, max], saturation, lightness, alpha },
-  numColors,
+  numColors
 ) {
   if (numColors < 1) return []
 
@@ -43,12 +43,15 @@ export function hueGradient({
   return `
     linear-gradient(
       to ${direction},
-        ${colorArray({
-          hueRange,
-          saturation,
-          lightness,
-          alpha,
-        }, steps)}
+        ${colorArray(
+          {
+            hueRange,
+            saturation,
+            lightness,
+            alpha,
+          },
+          steps
+        )}
     )
   `
 }

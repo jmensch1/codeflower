@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Slider from './Slider'
+import { identity } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -12,8 +13,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 4,
   },
 }))
-
-const identity = (x) => x
 
 const LabeledSlider = ({ label, value, renderValue = identity, ...rest }) => {
   const classes = useStyles()

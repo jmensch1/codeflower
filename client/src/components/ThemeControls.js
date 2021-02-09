@@ -10,6 +10,8 @@ import {
   getLightness,
   getAlpha,
   colorString,
+  toFixed0,
+  toFixed2,
 } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,9 +39,6 @@ function getColorFromAlpha(alpha) {
     alpha,
   })
 }
-
-const toFixed0 = (x) => x.toFixed(0)
-const toFixed2 = (x) => x.toFixed(2)
 
 const PATHS = [
   'palette.background.default',
