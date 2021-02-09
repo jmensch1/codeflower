@@ -8,14 +8,7 @@ const useStyles = makeStyles((theme) => ({
     height: '1em',
     borderRadius: '0.25em',
     background: ({ color }) =>
-      color?.hue instanceof Array
-        ? hueGradient({
-            hueRange: color.hue,
-            saturation: color.saturation,
-            lightness: color.lightness,
-            alpha: color.alpha,
-          })
-        : colorString(color),
+      color.hueRange ? hueGradient(color) : colorString(color),
   },
 }))
 

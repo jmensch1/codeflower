@@ -4,7 +4,7 @@ const periwinkle = {
   files: {
     visible: true,
     fill: {
-      hue: [170, 360],
+      hueRange: [170, 360],
       saturation: 100,
       lightness: 50,
       alpha: 1.0,
@@ -56,7 +56,7 @@ const bumblebee = {
   files: {
     visible: true,
     fill: {
-      hue: [57, 57],
+      hueRange: [57, 57],
       saturation: 92,
       lightness: 52,
       alpha: 0,
@@ -108,7 +108,7 @@ const rainbow = {
   files: {
     visible: true,
     fill: {
-      hue: [0, 360],
+      hueRange: [0, 360],
       saturation: 90,
       lightness: 70,
       alpha: 1.0,

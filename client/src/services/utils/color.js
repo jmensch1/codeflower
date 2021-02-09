@@ -1,8 +1,33 @@
 import tinycolor from 'tinycolor2'
 
+export function getLightness(color) {
+  return tinycolor(color).toHsl().l * 100
+}
+
+export function getAlpha(color) {
+  return tinycolor(color).getAlpha()
+}
+
 export function colorString(color) {
   const { hue, saturation, lightness, alpha } = color
   return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
+}
+
+export function colorArray(
+  { hueRange: [min, max], saturation, lightness, alpha },
+  numColors,
+) {
+  if (numColors < 1) return []
+
+  const inc = numColors === 1 ? 0 : (max - min) / (numColors - 1)
+  return Array.from({ length: numColors }).map((_, idx) =>
+    colorString({
+      hue: min + inc * idx,
+      saturation,
+      lightness,
+      alpha,
+    })
+  )
 }
 
 //// GRADIENTS ////
@@ -15,14 +40,17 @@ export function hueGradient({
   alpha = 1,
   steps = 20,
 } = {}) {
-  const [min, max] = hueRange
-  const inc = (max - min) / steps
-  const colors = Array.from({ length: steps + 1 })
-    .map((_, idx) => {
-      return `hsla(${min + inc * idx}, ${saturation}%, ${lightness}%, ${alpha})`
-    })
-    .join(', ')
-  return `linear-gradient(to ${direction}, ${colors})`
+  return `
+    linear-gradient(
+      to ${direction},
+        ${colorArray({
+          hueRange,
+          saturation,
+          lightness,
+          alpha,
+        }, steps)}
+    )
+  `
 }
 
 export function alphaGradient({
@@ -68,26 +96,26 @@ export function checkerGradient({
   size = 20,
   backgroundColor = 'hsla(0,0%,0%,1)',
 } = {}) {
-  const isDarkBackground = tinycolor(backgroundColor).toHsl().l < 0.5
+  const isDarkBackground = getLightness(backgroundColor) < 50
   const lightness = isDarkBackground ? 100 : 0
 
   return `
     linear-gradient(
       45deg,
-        hsla(0,0%,${lightness}%,${alpha}) 25%,
+        hsla(0, 0%, ${lightness}%, ${alpha}) 25%,
         transparent 25%,
         transparent 75%,
-        hsla(0,0%,${lightness}%,${alpha}) 75%,
-        hsla(0,0%,${lightness}%,${alpha})
+        hsla(0, 0%, ${lightness}%, ${alpha}) 75%,
+        hsla(0, 0%, ${lightness}%, ${alpha})
     ) 0px 0px / ${size}px ${size}px
     ,
     linear-gradient(
       45deg,
-        hsla(0,0%,${lightness}%,${alpha}) 25%,
+        hsla(0, 0%, ${lightness}%, ${alpha}) 25%,
         transparent 25%,
         transparent 75%,
-        hsla(0,0%,${lightness}%,${alpha}) 75%,
-        hsla(0,0%,${lightness}%,${alpha})
+        hsla(0, 0%, ${lightness}%, ${alpha}) 75%,
+        hsla(0, 0%, ${lightness}%, ${alpha})
     ) ${size / 2}px ${size / 2}px / ${size}px ${size}px
   `
 }

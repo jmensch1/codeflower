@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 import * as repoUtils from 'services/repo'
+import { colorArray } from 'services/utils'
 
 ////////// SIMPLE SELECTORS ///////////
 
@@ -66,16 +67,9 @@ const languageColors = createSelector(
   (counts, fileFill) => {
     if (!fileFill) return {}
 
-    const { hue: [min, max], saturation, lightness, alpha } = fileFill
-    const inc = (max - min) / (counts.length - 1)
-
-    const languageColor = (index) => {
-      const hue = min + inc * index
-      return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
-    }
-
+    const langColors = colorArray(fileFill, counts.length)
     return counts.reduce((colors, { language }, index) => {
-      colors[language] = languageColor(index)
+      colors[language] = langColors[index]
       return colors
     }, {})
   }

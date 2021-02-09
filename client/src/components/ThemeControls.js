@@ -1,11 +1,16 @@
 import React, { useMemo } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
-import tinycolor from 'tinycolor2'
 import { useMainTheme } from 'store/selectors'
 import { updateMainTheme } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
-import { getPathsWithDefault, createUpdaters } from 'services/utils'
+import {
+  getPathsWithDefault,
+  createUpdaters,
+  getLightness,
+  getAlpha,
+  colorString,
+} from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,22 +20,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function getLightnessFromColor(color) {
-  return Math.round(100 * tinycolor(color).toHsl().l)
-}
-
 function getColorFromLightness(lightness) {
-  return `hsl(0, 0%, ${lightness}%)`
-}
-
-function getAlphaFromColor(color) {
-  return tinycolor(color).getAlpha()
+  return colorString({
+    hue: 0,
+    saturation: 0,
+    lightness,
+    alpha: 1,
+  })
 }
 
 function getColorFromAlpha(alpha) {
-  return `hsla(0, 0%, 100%, ${alpha})`
+  return colorString({
+    hue: 0,
+    saturation: 0,
+    lightness: 100,
+    alpha,
+  })
 }
 
+const toFixed0 = (x) => x.toFixed(0)
 const toFixed2 = (x) => x.toFixed(2)
 
 const PATHS = [
@@ -66,23 +74,25 @@ const ThemeControls = () => {
       <Slider
         label="main background"
         range={RANGES['palette.background.default']}
-        value={getLightnessFromColor(values['palette.background.default'])}
+        value={getLightness(values['palette.background.default'])}
         onChange={(value) => {
           updaters['palette.background.default'](getColorFromLightness(value))
         }}
+        renderValue={toFixed0}
       />
       <Slider
         label="secondary background"
         range={RANGES['palette.background.paper']}
-        value={getLightnessFromColor(values['palette.background.paper'])}
+        value={getLightness(values['palette.background.paper'])}
         onChange={(value) => {
           updaters['palette.background.paper'](getColorFromLightness(value))
         }}
+        renderValue={toFixed0}
       />
       <Slider
         label="divider opacity"
         range={RANGES['palette.divider']}
-        value={getAlphaFromColor(values['palette.divider'])}
+        value={getAlpha(values['palette.divider'])}
         onChange={(value) => {
           updaters['palette.divider'](getColorFromAlpha(value))
         }}

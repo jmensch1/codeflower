@@ -45,8 +45,8 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
   }, [color])
 
   const onChangePad = useCallback(
-    ({ x: hue, y: alpha }) => {
-      onChange({ ...colorRef.current, hue, alpha })
+    ({ x: hueRange, y: alpha }) => {
+      onChange({ ...colorRef.current, hueRange, alpha })
     },
     [onChange]
   )
@@ -80,7 +80,7 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
         <div className={classes.label}>
           <span>hue / alpha</span>
           <span>
-            {color.hue[0].toFixed(0)} - {color.hue[1].toFixed(0)}
+            {color.hueRange[0].toFixed(0)} - {color.hueRange[1].toFixed(0)}
             {' / '}
             {color.alpha.toFixed(2)}
           </span>
@@ -88,7 +88,7 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
       )}
       <div className={classes.pad}>
         <Pad
-          value={{ x: color.hue, y: color.alpha }}
+          value={{ x: color.hueRange, y: color.alpha }}
           onChange={onChangePad}
           xRange={HUE_RANGE}
           yRange={ALPHA_RANGE}
@@ -113,7 +113,7 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
           onChange={onChangeSaturation}
           range={SATURATION_RANGE}
           background={saturationHue({
-            hueRange: color.hue,
+            hueRange: color.hueRange,
             lightness: color.lightness,
             alpha: color.alpha,
           })}
@@ -133,7 +133,7 @@ const GradientPicker = ({ color, onChange, showLabels = true }) => {
           onChange={onChangeLightness}
           range={LIGHTNESS_RANGE}
           background={lightnessHue({
-            hueRange: color.hue,
+            hueRange: color.hueRange,
             saturation: color.saturation,
             alpha: color.alpha,
           })}

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { colorArray } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,15 +11,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Swatches = ({ color, num = 9, size = '1.5em', margin = '0.5em' }) => {
   const classes = useStyles()
-
-  const colors = useMemo(() => {
-    const [hueMin, hueMax] = color.hue
-    const inc = (hueMax - hueMin) / (num - 1)
-    return Array.from({ length: num }).map((_, idx) => {
-      const { saturation: s, lightness: l, alpha: a } = color
-      return `hsla(${hueMin + inc * idx},${s}%,${l}%,${a})`
-    })
-  }, [color, num])
+  const colors = useMemo(() => colorArray(color, num), [color, num])
 
   return (
     <div className={classes.root}>

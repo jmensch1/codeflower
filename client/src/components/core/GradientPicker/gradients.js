@@ -1,9 +1,9 @@
-import tinycolor from 'tinycolor2'
 import {
   hueGradient,
   alphaGradient,
   lightnessGradient,
   checkerGradient,
+  getLightness,
 } from 'services/utils'
 
 export const hueAlpha = ({ saturation, lightness, backgroundColor }) =>
@@ -14,7 +14,7 @@ export const hueAlpha = ({ saturation, lightness, backgroundColor }) =>
     }),
     alphaGradient({
       saturation: 0,
-      lightness: tinycolor(backgroundColor).toHsl().l * 100,
+      lightness: getLightness(backgroundColor),
       direction: 'bottom',
     }),
     hueGradient({
