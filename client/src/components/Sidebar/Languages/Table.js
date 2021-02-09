@@ -1,22 +1,10 @@
 import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  useLanguageCounts,
-  useLanguageColors,
-  useVisStyles,
-} from 'store/selectors'
+import { useLanguageCounts, useLanguageColors } from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   position: 'absolute',
-  //   top: 0,
-  //   left: 0,
-  //   width: '100%',
-  //   height: '100%',
-  //   overflow: 'auto',
-  // },
   table: {
     borderCollapse: 'collapse',
     width: '100%',
@@ -54,7 +42,6 @@ const LanguagesTable = () => {
   const counts = useLanguageCounts()
   const colors = useLanguageColors()
   const dispatch = useDispatch()
-  const visStyles = useVisStyles()
 
   const totals = useMemo(() => {
     return counts.reduce(
