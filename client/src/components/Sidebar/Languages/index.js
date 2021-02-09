@@ -52,14 +52,14 @@ const Languages = () => {
   }, [])
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      style={{ transform: measured ? undefined : 'translateY(100%)' }}
+    >
       <div className={classes.table}>
         <Table />
       </div>
-      <div
-        style={{ opacity: measured ? undefined : 0 }}
-        className={classes.gradient}
-      >
+      <div className={classes.gradient}>
         <GradientButton onClick={toggle} showGradient={showGradient} />
         <div ref={gradientRef} className={classes.gradientInner}>
           <Gradient />
