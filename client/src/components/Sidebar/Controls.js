@@ -3,44 +3,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import SubTabs from './SubTabs'
 import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/ForceControls'
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
-import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
-import ThemeControls from 'components/ThemeControls'
-// import ColorPicker from 'components/core/ColorPicker'
-// import Swatch from 'components/core/Swatch'
-// import GradientPicker from 'components/core/GradientPicker'
-// import Swatches from 'components/core/Swatches'
+// import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
+// import ThemeControls from 'components/ThemeControls'
 
 //////////////////// TAB CONFIG ///////////////////
 
-// const Test = () => {
-//   const [color, setColor] = useState({
-//     hue: [150, 360],
-//     saturation: 100,
-//     lightness: 50,
-//     alpha: 0.8,
-//   })
-//
-//   return (
-//     <>
-//       <div
-//         style={{
-//           display: 'flex',
-//           justifyContent: 'flex-end',
-//           marginBottom: 10,
-//         }}
-//       >
-//         <Swatches color={color} />
-//       </div>
-//       <GradientPicker color={color} onChange={setColor} />
-//     </>
-//   )
-// }
-
 const TABS = [
-  // {
-  //   type: 'test',
-  //   Component: Test,
-  // },
   {
     type: 'forces',
     Component: ForceControls,
@@ -49,14 +17,14 @@ const TABS = [
     type: 'styles',
     Component: StyleControls,
   },
-  {
-    type: 'position',
-    Component: PositionControls,
-  },
-  {
-    type: 'other',
-    Component: ThemeControls,
-  },
+  // {
+  //   type: 'position',
+  //   Component: PositionControls,
+  // },
+  // {
+  //   type: 'other',
+  //   Component: ThemeControls,
+  // },
 ]
 
 /////////////////////// COMPONENT ////////////////////
