@@ -8,7 +8,7 @@ import MainThemeProvider from './components/MainThemeProvider'
 import store from './store'
 //import reportWebVitals from './reportWebVitals'
 
-console.log('environment:', process.env)
+// console.log('environment:', process.env)
 
 ReactDOM.render(
   <Provider store={store}>
