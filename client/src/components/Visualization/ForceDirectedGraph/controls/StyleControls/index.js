@@ -7,6 +7,7 @@ import Checkbox from 'components/core/Checkbox'
 import FileControls from './FileControls'
 import FolderControls from './FolderControls'
 import LinkControls from './LinkControls'
+import BackgroundControls from './BackgroundControls'
 import Collapse from 'components/core/Collapse'
 import { getPaths, createUpdaters } from 'services/utils'
 
@@ -70,6 +71,9 @@ const StyleControls = () => {
         }
       >
         <LinkControls />
+      </Collapse>
+      <Collapse label="background" initialOpen>
+        <BackgroundControls />
       </Collapse>
     </div>
   )

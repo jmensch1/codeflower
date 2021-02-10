@@ -36,7 +36,7 @@ const Enhancers = ({ visElements }) => {
     simulation,
   } = visElements
 
-  useAddStyles({ node, nodeG, link, linkG })
+  useAddStyles({ svg, node, nodeG, link, linkG })
   useAddForces({ simulation, nodes, links })
   useAddMouse({ node, simulation })
   useAddZoom({ svg, node, link })

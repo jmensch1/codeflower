@@ -12,7 +12,7 @@ import { isWithinFolder } from 'services/repo'
 
 const SUPPRESSED_LINK_OPACITY = 0.2
 
-export default function useAddStyles({ nodeG, node, linkG, link }) {
+export default function useAddStyles({ svg, nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
   const highlightedAuthorId = useHighlightedAuthorId()
@@ -27,6 +27,11 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
     }),
     [node]
   )
+
+  //// BACKGROUND ////
+  useEffect(() => {
+    svg.style('background-color', colorString(visStyles.background.fill))
+  }, [svg, visStyles.background.fill])
 
   //// FILES ////
 

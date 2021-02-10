@@ -47,6 +47,14 @@ const periwinkle = {
     },
     strokeWidth: 1,
   },
+  background: {
+    fill: {
+      hue: 0,
+      saturation: 0,
+      lightness: 14,
+      alpha: 1,
+    },
+  },
 }
 
 const bumblebee = {
@@ -98,6 +106,14 @@ const bumblebee = {
     },
     strokeWidth: 0.5,
   },
+  background: {
+    fill: {
+      hue: 0,
+      saturation: 0,
+      lightness: 14,
+      alpha: 1,
+    },
+  },
 }
 
 const rainbow = {
@@ -148,6 +164,14 @@ const rainbow = {
       alpha: 1.0,
     },
     strokeWidth: 1,
+  },
+  background: {
+    fill: {
+      hue: 0,
+      saturation: 0,
+      lightness: 14,
+      alpha: 1,
+    },
   },
 }
 
