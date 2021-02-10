@@ -15,6 +15,8 @@ import {
 } from 'services/utils'
 import { isWithinFolder } from 'services/repo'
 
+const SUPPRESSED_LINK_OPACITY = 0.2
+
 export default function useAddStyles({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
@@ -107,7 +109,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
       node.filter(`.file.${clx}`).style('display', 'block')
       node.filter(`.file:not(.${clx})`).style('display', 'none')
       node.filter('.folder').style('display', 'none')
-      link.style('stroke-opacity', 0.2)
+      link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
     } else {
       node.filter('.file').style('display', 'block')
       node.filter('.folder').style('display', 'block')
@@ -122,7 +124,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
       node.filter(`.file.${clx}`).style('display', 'block')
       node.filter(`.file:not(.${clx})`).style('display', 'none')
       node.filter('.folder').style('display', 'none')
-      link.style('stroke-opacity', 0.2)
+      link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
     } else {
       node.filter('.file').style('display', 'block')
       node.filter('.folder').style('display', 'block')
@@ -162,7 +164,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
           .style('display', 'none')
         link
           .filter(select('.link.folder-', suppressedIds))
-          .style('stroke-opacity', 0.2)
+          .style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
       }
     } else {
       node.filter('.file').style('display', 'block')
