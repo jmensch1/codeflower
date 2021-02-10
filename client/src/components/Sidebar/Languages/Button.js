@@ -20,13 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const GradientButton = ({ showGradient, onClick }) => {
+const Button = ({ open, onClick }) => {
   const classes = useStyles()
 
   return (
     <div className={classes.root} onClick={onClick}>
       <PaletteIcon className={classes.icon} />
-      {showGradient ? (
+      {open ? (
         <DownIcon className={classes.icon} />
       ) : (
         <UpIcon className={classes.icon} />
@@ -35,4 +35,4 @@ const GradientButton = ({ showGradient, onClick }) => {
   )
 }
 
-export default GradientButton
+export default Button

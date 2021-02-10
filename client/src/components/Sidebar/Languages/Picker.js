@@ -1,10 +1,9 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GradientPicker from 'components/core/GradientPicker'
 import { useVisStyles } from 'store/selectors'
 import { updateVisStyles } from 'store/actions/settings'
 import { useDispatch } from 'react-redux'
-import { getPath } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,32 +11,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const LanguagesGradient = () => {
+const Picker = () => {
   const classes = useStyles()
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onUpdateStyles = useCallback(
-    (path, value) => {
-      dispatch(updateVisStyles(path, value))
-    },
-    [dispatch]
-  )
-
-  const onChangeFileFill = useMemo(
-    () => onUpdateStyles.bind(null, 'files.fill'),
-    [onUpdateStyles]
-  )
+  const onChange = useCallback((value) => {
+    dispatch(updateVisStyles('files.fill', value))
+  }, [dispatch])
 
   return (
     <div className={classes.root}>
       <GradientPicker
-        color={getPath(visStyles, 'files.fill')}
-        onChange={onChangeFileFill}
+        color={visStyles.files.fill}
+        onChange={onChange}
         showLabels={false}
       />
     </div>
   )
 }
 
-export default LanguagesGradient
+export default Picker

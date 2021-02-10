@@ -1,69 +1,62 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from './Table'
-import GradientButton from './GradientButton'
-import Gradient from './Gradient'
+import Button from './Button'
+import Picker from './Picker'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     overflow: 'hidden',
+  },
+  main: {
     display: 'flex',
     flexDirection: 'column',
+    height: ({ showPicker, pickerHeight }) =>
+      showPicker ? `calc(100% - ${pickerHeight}px)` : '100%',
+    transition: 'height 0.25s ease-out',
   },
   table: {
     flex: 1,
-    position: 'relative',
     padding: 8,
     overflow: 'auto',
   },
-  gradient: {
-    backgroundColor: ({ showGradient }) =>
-      showGradient ? theme.palette.background.default : 'transparent',
+  button: {
+    backgroundColor: ({ showPicker }) =>
+      showPicker ? theme.palette.background.default : 'transparent',
   },
-  gradientInner: {
-    transition: ({ measured }) => (measured ? 'all 0.25s ease-out' : undefined),
-    borderTop: ({ showGradient }) =>
-      showGradient ? `1px ${theme.palette.divider} solid` : undefined,
-    height: ({ showGradient, height, measured }) =>
-      measured ? (showGradient ? height : 0) : undefined,
+  picker: {
+    borderTop: `1px ${theme.palette.divider} solid`,
+    backgroundColor: theme.palette.background.default,
   },
 }))
 
 const Languages = () => {
-  const [showGradient, setShowGradient] = useState(false)
-  const [dimensions, setDimensions] = useState(null)
-  const [measured, setMeasured] = useState(false)
-  const gradientRef = useRef(null)
-
-  const classes = useStyles({
-    showGradient,
-    measured,
-    height: dimensions?.height,
-  })
+  const pickerRef = useRef(null)
+  const [pickerHeight, setPickerHeight] = useState(0)
+  const [showPicker, setShowPicker] = useState(false)
+  const classes = useStyles({ showPicker, pickerHeight })
 
   useEffect(() => {
-    setDimensions(gradientRef.current.getBoundingClientRect())
-    setTimeout(() => setMeasured(true), 0) // prevents flicker
+    setPickerHeight(pickerRef.current.offsetHeight)
   }, [])
 
   const toggle = useCallback(() => {
-    setShowGradient((showGradient) => !showGradient)
+    setShowPicker((showPicker) => !showPicker)
   }, [])
 
   return (
-    <div
-      className={classes.root}
-      style={{ transform: measured ? undefined : 'translateY(100%)' }}
-    >
-      <div className={classes.table}>
-        <Table />
-      </div>
-      <div className={classes.gradient}>
-        <GradientButton onClick={toggle} showGradient={showGradient} />
-        <div ref={gradientRef} className={classes.gradientInner}>
-          <Gradient />
+    <div className={classes.root} >
+      <div className={classes.main}>
+        <div className={classes.table}>
+          <Table />
         </div>
+        <div className={classes.button}>
+          <Button onClick={toggle} open={showPicker} />
+        </div>
+      </div>
+      <div ref={pickerRef} className={classes.picker}>
+        <Picker />
       </div>
     </div>
   )
