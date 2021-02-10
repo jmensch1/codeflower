@@ -101,7 +101,7 @@ const Slider = ({
       .append('circle')
       .attr('r', (height - CIRCLE_STROKE_WIDTH) / 2)
       .attr('cy', height / 2)
-      .attr('cx', -height - CIRCLE_STROKE_WIDTH / 2)
+      .attr('cx', -2 * (height + CIRCLE_STROKE_WIDTH))
 
     setSvg(svg)
     setCircle(circle)

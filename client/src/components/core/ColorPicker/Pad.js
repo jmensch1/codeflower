@@ -113,8 +113,7 @@ const Pad = ({
     const circle = svg
       .append('circle')
       .attr('r', CIRCLE_RADIUS)
-      .attr('cx', -CIRCLE_RADIUS)
-      .attr('cy', -CIRCLE_RADIUS)
+      .attr('cx', -2 * (CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH))
 
     setSvg(svg)
     setCircle(circle)

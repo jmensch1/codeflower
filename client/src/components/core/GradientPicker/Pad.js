@@ -127,8 +127,14 @@ const Pad = ({
     })
 
     const svg = d3.select(container).append('svg')
-    const circle0 = svg.append('circle').attr('r', CIRCLE_RADIUS)
-    const circle1 = svg.append('circle').attr('r', CIRCLE_RADIUS)
+    const circle0 = svg
+      .append('circle')
+      .attr('r', CIRCLE_RADIUS)
+      .attr('cx', -2 * (CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH))
+    const circle1 = svg
+      .append('circle')
+      .attr('r', CIRCLE_RADIUS)
+      .attr('cx', -2 * (CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH))
     const bar = svg.append('rect').attr('height', BAR_HEIGHT)
 
     setSvg(svg)
