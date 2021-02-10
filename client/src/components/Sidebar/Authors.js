@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     '& th, & td': {
       textAlign: 'left',
       padding: '5px 10px',
+      '&:not(:first-child)': {
+        textAlign: 'center',
+      }
     },
     '& tbody tr': {
       cursor: 'pointer',
@@ -64,7 +67,7 @@ const Authors = () => {
           <tr>
             <th>author</th>
             <th>commits</th>
-            <th>touched</th>
+            {/*<th>touched</th>*/}
           </tr>
         </thead>
         <tbody onMouseLeave={clear}>
@@ -76,14 +79,14 @@ const Authors = () => {
                   [classes.selected]: author.id === selectedAuthorId,
                 })}
                 onMouseEnter={highlight.bind(null, author.id)}
-                onClick={() => {
-                  if (author.id === selectedAuthorId) select(null)
-                  else select(author.id)
-                }}
+                // onClick={() => {
+                //   if (author.id === selectedAuthorId) select(null)
+                //   else select(author.id)
+                // }}
               >
                 <td>{author.name}</td>
                 <td>{author.commits}</td>
-                <td>{author.numFilesTouched}</td>
+                {/*<td>{author.numFilesTouched}</td>*/}
               </tr>
             )
           })}
