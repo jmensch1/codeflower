@@ -9,7 +9,7 @@ body {
   right: 0;
   bottom: 0;
   overflow: hidden;
-  background-color: #232323;
+  background-color: hsla(0, 0%, 14%, 1);
   z-index: -1;
 }
 

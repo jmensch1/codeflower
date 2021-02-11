@@ -34,6 +34,9 @@
 
   // add the Codeflower tab to the navigation bar
   function addTab() {
+    // halt if already added to page
+    if ($('.codeflower-init').length) return
+
     // save the current repo
     currentRepo = getRepo();
 
