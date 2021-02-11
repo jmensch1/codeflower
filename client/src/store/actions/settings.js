@@ -16,6 +16,8 @@ export const types = {
   UPDATE_VIS_STYLES: 'settings/UPDATE_VIS_STYLES',
   SET_VIS_FORCES: 'settings/SET_VIS_FORCES',
   UPDATE_VIS_FORCES: 'settings/UPDATE_VIS_FORCES',
+  SET_VIS_POSITION: 'settings/SET_VIS_POSITION',
+  UPDATE_VIS_POSITION: 'settings/UPDATE_VIS_POSITION',
 }
 
 export const setMainTheme = (mainTheme) => ({
@@ -78,6 +80,16 @@ export const updateVisForces = (path, value) => ({
   data: { path, value },
 })
 
+export const setVisPosition = (visPosition) => ({
+  type: types.SET_VIS_POSITION,
+  data: visPosition,
+})
+
+export const updateVisPosition = (path, value) => ({
+  type: types.UPDATE_VIS_POSITION,
+  data: { path, value },
+})
+
 const initialState = {
   mainTheme: mainThemes.dark,
   visType: 'force',
@@ -88,6 +100,7 @@ const initialState = {
   highlightedAuthorId: null,
   visStyles: visThemes.periwinkle,
   visForces: null,
+  visPosition: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -166,6 +179,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         visForces: setPath(
           state.visForces,
+          action.data.path,
+          action.data.value
+        ),
+      }
+    case types.SET_VIS_POSITION:
+      return {
+        ...state,
+        visPosition: action.data,
+      }
+    case types.UPDATE_VIS_POSITION:
+      return {
+        ...state,
+        visPosition: setPath(
+          state.visPosition,
           action.data.path,
           action.data.value
         ),

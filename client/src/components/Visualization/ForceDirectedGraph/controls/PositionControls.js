@@ -1,10 +1,17 @@
-import React, { useMemo } from 'react'
+/*
+NOTE: this may not work because the wheel zoom doesn't seem to
+have a predictable range for translate x/y. So the sliders can't be
+given an accurate range in advance. And making the range dynamic
+creates some weird behavior.
+*/
+
+import React, { useMemo, useRef, useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
-import { useVisStyles } from 'store/selectors'
-import { updateVisStyles } from 'store/actions/settings'
+import { useVisPosition } from 'store/selectors'
+import { setVisPosition } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
-import { getPaths, createUpdaters } from 'services/utils'
+import { getPaths, toFixed0, toFixed2 } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,36 +21,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PATHS = ['rotation']
+const PATHS = ['x', 'y', 'k']
 
 const RANGES = {
-  rotation: [0, 360, 1],
+  x: [-1000, 1000],
+  y: [-1000, 1000],
+  k: [0.1, 10],
 }
 
-const StyleControls = () => {
+const PositionControls = () => {
   const classes = useStyles()
-  const visStyles = useVisStyles()
   const dispatch = useDispatch()
+  const visPosition = useVisPosition()
+  const visPositionRef = useRef(null)
 
   const values = useMemo(() => {
-    return getPaths(visStyles, PATHS)
-  }, [visStyles])
+    return getPaths(visPosition, PATHS)
+  }, [visPosition])
 
-  const updaters = useMemo(() => {
-    return createUpdaters(PATHS, updateVisStyles, dispatch)
+  useEffect(() => {
+    visPositionRef.current = visPosition
+  }, [visPosition])
+
+  const updateVisPosition = useCallback((newValues) => {
+    dispatch(setVisPosition({
+      ...visPositionRef.current,
+      ...newValues,
+      source: 'slider',
+    }))
   }, [dispatch])
 
-  if (!visStyles) return null
+  if (!visPosition) return null
   return (
     <div className={classes.root}>
       <Slider
-        label="rotation"
-        range={RANGES['rotation']}
-        value={values['rotation']}
-        onChange={updaters['rotation']}
+        label="translate x"
+        range={RANGES['x']}
+        value={values['x']}
+        onChange={(x) => updateVisPosition({ x })}
+        renderValue={toFixed0}
+      />
+      <Slider
+        label="translate y"
+        range={RANGES['y']}
+        value={values['y']}
+        onChange={(y) => updateVisPosition({ y })}
+        renderValue={toFixed0}
+      />
+      <Slider
+        label="scale"
+        range={RANGES['k']}
+        value={values['k']}
+        onChange={(k) => updateVisPosition({ k })}
+        renderValue={toFixed2}
       />
     </div>
   )
 }
 
-export default StyleControls
+export default PositionControls

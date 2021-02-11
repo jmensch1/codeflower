@@ -22,6 +22,7 @@ const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
 const visStyles = (state) => state.settings.visStyles
 const fileFill = (state) => state.settings.visStyles?.files.fill
 const visForces = (state) => state.settings.visForces
+const visPosition = (state) => state.settings.visPosition
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -108,6 +109,7 @@ export const useMainTheme = () => useSelector(mainTheme)
 export const useVisType = () => useSelector(visType)
 export const useVisStyles = () => useSelector(visStyles)
 export const useVisForces = () => useSelector(visForces)
+export const useVisPosition = () => useSelector(visPosition)
 
 ////////// PARAMATERIZED USE SELECTOR ///////////
 

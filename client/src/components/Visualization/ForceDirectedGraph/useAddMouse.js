@@ -7,7 +7,6 @@ import { useTooltip } from '../Tooltip'
 export default function useAddMouse({
   svg,
   node,
-  link,
   simulation,
   getNodePath,
 }) {
@@ -78,5 +77,12 @@ export default function useAddMouse({
     node.on('click', (e, d) => {
       if (!d.children) openFile(d)
     })
-  }, [simulation, node, link, svg, setTooltip, openFile])
+
+    return () => {
+      node.on('mousedown.drag', null)
+      node.on('mousemove', null)
+      node.on('mouseout', null)
+      node.on('click', null)
+    }
+  }, [simulation, node, svg, setTooltip, openFile])
 }
