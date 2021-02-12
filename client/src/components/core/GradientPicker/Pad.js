@@ -13,6 +13,7 @@ const BAR_CURSOR_STYLE = 'move'
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
+    overflow: 'hidden',
     padding: CIRCLE_RADIUS + CIRCLE_STROKE_WIDTH / 2,
     background: checkerGradient({
       alpha: 0.1,
