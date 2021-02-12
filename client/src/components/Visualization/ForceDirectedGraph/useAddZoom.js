@@ -2,29 +2,29 @@ import { useEffect, useCallback, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import * as d3 from 'd3'
 import { useVisPosition } from 'store/selectors'
-import { setVisPosition } from 'store/actions/settings'
+import { updateVisPosition } from 'store/actions/settings'
 
 export default function useAddZoom({ svg, node, link }) {
   const dispatch = useDispatch()
-  const visPosition = useVisPosition()
+  const { zoom: transform } = useVisPosition()
   const transformRef = useRef(null)
   const [zoom, setZoom] = useState(null)
 
   const setTransform = useCallback(
     (transform) => {
       const { x, y, k } = transform
-      dispatch(setVisPosition({ x, y, k, source: 'wheel' }))
+      dispatch(updateVisPosition('zoom', { x, y, k, source: 'wheel' }))
     },
     [dispatch]
   )
 
   useEffect(() => {
-    if (!zoom || !visPosition || visPosition.source === 'wheel') return
+    if (!zoom || !transform || transform.source === 'wheel') return
 
-    const { x, y, k } = visPosition
-    const transform = d3.zoomIdentity.translate(x, y).scale(k)
-    zoom.transform(svg, transform)
-  }, [svg, zoom, visPosition])
+    const { x, y, k } = transform
+    const t = d3.zoomIdentity.translate(x, y).scale(k)
+    zoom.transform(svg, t)
+  }, [svg, zoom, transform])
 
   useEffect(() => {
     function zoomed({ transform }) {

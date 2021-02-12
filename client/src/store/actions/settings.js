@@ -100,7 +100,10 @@ const initialState = {
   highlightedAuthorId: null,
   visStyles: visThemes.periwinkle,
   visForces: null,
-  visPosition: null,
+  visPosition: {
+    rotation: 0,
+    zoom: null,
+  },
 }
 
 const reducer = (state = initialState, action) => {

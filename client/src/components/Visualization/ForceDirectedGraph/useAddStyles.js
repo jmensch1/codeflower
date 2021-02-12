@@ -7,6 +7,7 @@ import {
   useFolderIds,
   useHighlightedFolderPath,
   useVisStyles,
+  useVisPosition,
 } from 'store/selectors'
 import {
   colorString,
@@ -25,6 +26,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   const folderIds = useFolderIds()
   const highlightedFolderPath = useHighlightedFolderPath()
   const visStyles = useVisStyles()
+  const visPosition = useVisPosition()
 
   //// FILES ////
 
@@ -176,7 +178,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   //// ROTATION ////
 
   useEffect(() => {
-    nodeG.style('transform', `rotate(${visStyles.rotation}deg)`)
-    linkG.style('transform', `rotate(${visStyles.rotation}deg)`)
-  }, [nodeG, linkG, visStyles.rotation])
+    nodeG.style('transform', `rotate(${visPosition.rotation}deg)`)
+    linkG.style('transform', `rotate(${visPosition.rotation}deg)`)
+  }, [nodeG, linkG, visPosition.rotation])
 }
