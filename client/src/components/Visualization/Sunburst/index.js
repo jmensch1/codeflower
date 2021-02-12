@@ -1,9 +1,12 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
+import clsx from 'clsx'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelectedFolder } from 'store/selectors'
-import { openModal } from 'store/actions/modals'
+import { useSelectedFolder, useFolderIds, useLanguageIds } from 'store/selectors'
 import { useDispatch } from 'react-redux'
+import useAddStyles from './useAddStyles'
+import useAddMouse from './useAddMouse'
+
 
 const RADIUS_RATIO = 0.9
 const PAD_ANGLE = 0 // 0.005
@@ -15,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     left: 0,
     right: 0,
-    ...theme.visualization.default,
-    ...theme.visualization.sunburst,
-    ...theme.languages,
     '& svg': {
       position: 'absolute',
       top: 0,
@@ -41,21 +41,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Sunburst = ({ langClasses }) => {
-  const container = useRef(null)
-  const tooltip = useRef(null)
+const Enhancers = ({ visElements, getNodePath }) => {
+  const {
+    // svg,
+    node,
+  } = visElements
+
+  useAddStyles({ node, link: d3.selectAll('.hello') })
+  // useAddForces({ simulation, nodes, links })
+  useAddMouse({ node, getNodePath })
+  // useAddZoom({ svg, node, link })
+
+  return null
+}
+
+const Sunburst = ({ getFullPath }) => {
   const classes = useStyles()
   const tree = useSelectedFolder()
   const dispatch = useDispatch()
+  const languageIds = useLanguageIds()
+  const folderIds = useFolderIds()
+  const [visElements, setVisElements] = useState(null)
+
+  const getNodePath = useCallback(
+    (node) => {
+      const partialPath = node
+        .ancestors()
+        .map((d) => d.data.name)
+        .reverse()
+        .slice(1)
+        .join('/')
+      return getFullPath(partialPath)
+    },
+    [getFullPath]
+  )
 
   useEffect(() => {
     if (!tree) return
 
-    //// SETUP ////
-
-    const width = container.current.offsetWidth
-    const height = container.current.offsetHeight
+    const container = document.getElementById('sunburst-container')
+    const width = container.offsetWidth
+    const height = container.offsetHeight
     const radius = (RADIUS_RATIO * Math.min(width, height)) / 2
+
+    //// DATA ////
 
     const arc = d3
       .arc()
@@ -76,22 +105,31 @@ const Sunburst = ({ langClasses }) => {
 
     const root = partition(tree)
 
+    //// DOM ////
+
     const svg = d3
-      .select(container.current)
+      .select(container)
       .append('svg')
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
-    const path = svg
+    const node = svg
       .append('g')
       .selectAll('path')
       .data(root.descendants().filter((d) => d.depth))
       .join('path')
       .attr('class', (d) =>
-        !!d.children ? 'directory' : 'file ' + langClasses[d.data.language]
+        d.children
+          ? clsx('folder', `folder-${folderIds[getNodePath(d)]}`)
+          : clsx(
+              'file',
+              `lang-${languageIds[d.data.language]}`,
+              d.parent && `folder-${folderIds[getNodePath(d.parent)]}`,
+              ...d.data.authorIds.map((authorId) => `author-${authorId}`)
+            )
       )
       .attr('d', arc)
 
-    // svg.append('g')
+    // const text = svg.append('g')
     //     .attr('pointer-events', 'none')
     //     .attr('text-anchor', 'middle')
     //     .attr('font-size', 10)
@@ -107,63 +145,33 @@ const Sunburst = ({ langClasses }) => {
     //     .attr('dy', '0.35em')
     //     .text(d => d.data.name + (d.data.size ? ` (${d.data.size})` : ''))
 
-    //// TOOLTIP ////
-
-    const tt = d3.select(tooltip.current)
-
-    path
-      .on('mouseover', () => tt.style('visibility', 'visible'))
-      .on('mousemove', (e, d) => {
-        tt.style('top', `${e.offsetY}px`)
-          .style('left', `${e.offsetX}px`)
-          .html(
-            d.children ? d.data.name : `${d.data.name} (${d.data.size} loc)`
-          )
-      })
-      .on('mouseout', () => tt.style('visibility', 'hidden'))
-
     //// ZOOMING ////
 
     svg.call(d3.zoom().scaleExtent([0.1, 10]).on('zoom', zoomed))
 
     function zoomed({ transform }) {
-      tt.style('visibility', 'hidden')
-      path.attr('transform', transform)
+      node.attr('transform', transform)
+      // text.attr('transform', transform)
     }
 
-    //// GET FILE ////
+    //// FINISH ////
 
-    path.on('click', (e, d) => {
-      if (d.children) return
-      const filePath = d
-        .ancestors()
-        .map((d) => d.data.name)
-        .reverse()
-        .slice(1)
-        .join('/')
-      dispatch(
-        openModal('fileViewer', {
-          filePath,
-          metadata: d.data,
-        })
-      )
-    })
-
-    //// CLEANUP ////
-
-    const containerCurrent = container.current
-    const tooltipCurrent = tooltip.current
+    setVisElements({ svg, node })
     return () => {
-      containerCurrent.innerHTML = ''
-      tooltipCurrent.innerHTML = ''
+      container.innerHTML = ''
     }
-  }, [tree, langClasses, dispatch])
+  }, [tree, folderIds, languageIds, getNodePath, dispatch])
 
   if (!tree) return null
   return (
     <>
-      <div ref={container} className={classes.root} />
-      <div ref={tooltip} className={classes.tooltip} />
+      <div id="sunburst-container" className={classes.root} />
+      {visElements && (
+        <Enhancers
+          visElements={visElements}
+          getNodePath={getNodePath}
+        />
+      )}
     </>
   )
 }
