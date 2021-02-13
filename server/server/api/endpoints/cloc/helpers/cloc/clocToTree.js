@@ -1,4 +1,4 @@
-function getChildren(tree) {
+function getChildren(tree, path) {
   return Object.keys(tree)
     .map((name) => {
       if (tree[name].language)
@@ -9,7 +9,8 @@ function getChildren(tree) {
       else
         return {
           name,
-          children: getChildren(tree[name]),
+          path: `${path}/${name}`,
+          children: getChildren(tree[name], `${path}/${name}`),
         }
     })
     .sort((a, b) => (b.name > a.name ? 1 : -1))
@@ -28,11 +29,13 @@ function clocToTree(cloc) {
       cur = cur[folder]
     })
     cur[file] = cloc[path]
+    cur[file].path = `root/${path}`
   })
 
   return {
     name: 'root',
-    children: getChildren(root),
+    path: 'root',
+    children: getChildren(root, 'root'),
   }
 }
 

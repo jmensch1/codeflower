@@ -3,23 +3,16 @@ import { useDispatch } from 'react-redux'
 import { openModal } from 'store/actions/modals'
 import { useTooltip } from '../Tooltip'
 
-export default function useAddMouse({
-  node,
-  getNodePath,
-}) {
+export default function useAddMouse({ node }) {
   const dispatch = useDispatch()
   const setTooltip = useTooltip()
 
   const openFile = useCallback(
     (node) => {
-      dispatch(
-        openModal('fileViewer', {
-          filePath: getNodePath(node),
-          metadata: node.data,
-        })
-      )
+      const { path: filePath, ...metadata } = node.data
+      dispatch(openModal('fileViewer', { filePath, metadata }))
     },
-    [dispatch, getNodePath]
+    [dispatch]
   )
 
   useEffect(() => {

@@ -1,12 +1,9 @@
-import React, { useEffect, useCallback, useState } from 'react'
-import clsx from 'clsx'
+import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelectedFolder, useFolderIds, useLanguageIds } from 'store/selectors'
-import { useDispatch } from 'react-redux'
-import useAddStyles from './useAddStyles'
+import { useSelectedFolder } from 'store/selectors'
+// import useAddStyles from './useAddStyles'
 import useAddMouse from './useAddMouse'
-
 
 const RADIUS_RATIO = 0.9
 const PAD_ANGLE = 0 // 0.005
@@ -41,15 +38,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Enhancers = ({ visElements, getNodePath }) => {
+const Enhancers = ({ visElements }) => {
   const {
     // svg,
     node,
   } = visElements
 
-  useAddStyles({ node, link: d3.selectAll('.hello') })
+  // useAddStyles({ node, link: d3.selectAll('.hello') })
   // useAddForces({ simulation, nodes, links })
-  useAddMouse({ node, getNodePath })
+  useAddMouse({ node })
   // useAddZoom({ svg, node, link })
 
   return null
@@ -58,23 +55,7 @@ const Enhancers = ({ visElements, getNodePath }) => {
 const Sunburst = ({ getFullPath }) => {
   const classes = useStyles()
   const tree = useSelectedFolder()
-  const dispatch = useDispatch()
-  const languageIds = useLanguageIds()
-  const folderIds = useFolderIds()
   const [visElements, setVisElements] = useState(null)
-
-  const getNodePath = useCallback(
-    (node) => {
-      const partialPath = node
-        .ancestors()
-        .map((d) => d.data.name)
-        .reverse()
-        .slice(1)
-        .join('/')
-      return getFullPath(partialPath)
-    },
-    [getFullPath]
-  )
 
   useEffect(() => {
     if (!tree) return
@@ -117,16 +98,7 @@ const Sunburst = ({ getFullPath }) => {
       .selectAll('path')
       .data(root.descendants().filter((d) => d.depth))
       .join('path')
-      .attr('class', (d) =>
-        d.children
-          ? clsx('folder', `folder-${folderIds[getNodePath(d)]}`)
-          : clsx(
-              'file',
-              `lang-${languageIds[d.data.language]}`,
-              d.parent && `folder-${folderIds[getNodePath(d.parent)]}`,
-              ...d.data.authorIds.map((authorId) => `author-${authorId}`)
-            )
-      )
+      .attr('class', (d) => d.children ? 'folder' : 'file')
       .attr('d', arc)
 
     // const text = svg.append('g')
@@ -160,18 +132,13 @@ const Sunburst = ({ getFullPath }) => {
     return () => {
       container.innerHTML = ''
     }
-  }, [tree, folderIds, languageIds, getNodePath, dispatch])
+  }, [tree])
 
   if (!tree) return null
   return (
     <>
       <div id="sunburst-container" className={classes.root} />
-      {visElements && (
-        <Enhancers
-          visElements={visElements}
-          getNodePath={getNodePath}
-        />
-      )}
+      {visElements && <Enhancers visElements={visElements} />}
     </>
   )
 }

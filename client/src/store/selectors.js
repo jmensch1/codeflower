@@ -37,13 +37,6 @@ const folderPaths = createSelector([rootFolder], (rootFolder) => {
   return repoUtils.getFolderPaths(rootFolder)
 })
 
-const folderIds = createSelector([folderPaths], (folderPaths) =>
-  folderPaths.reduce((ids, path, index) => {
-    ids[path.pathName] = index
-    return ids
-  }, {})
-)
-
 const selectedFolder = createSelector(
   [rootFolder, selectedFolderPath],
   (rootFolder, selectedFolderPath) => {
@@ -56,13 +49,6 @@ const languageCounts = createSelector([selectedFolder], (selectedFolder) =>
   repoUtils.getLanguageCounts(selectedFolder)
 )
 
-const languageIds = createSelector([languageCounts], (languageCounts) =>
-  languageCounts.reduce((ids, count, index) => {
-    ids[count.language] = index
-    return ids
-  }, {})
-)
-
 const languageColors = createSelector(
   [languageCounts, fileFill],
   (counts, fileFill) => {
@@ -73,14 +59,6 @@ const languageColors = createSelector(
       colors[language] = langColors[index]
       return colors
     }, {})
-  }
-)
-
-const selectedAuthor = createSelector(
-  [authors, selectedAuthorId],
-  (authors, selectedAuthorId) => {
-    if (!authors) return null
-    return authors.find((author) => author.id === selectedAuthorId)
   }
 )
 
@@ -97,12 +75,9 @@ export const useSelectedLanguage = () => useSelector(selectedLanguage)
 export const useHighlightedFolderPath = () => useSelector(highlightedFolderPath)
 export const useHighlightedAuthorId = () => useSelector(highlightedAuthorId)
 export const useSelectedAuthorId = () => useSelector(selectedAuthorId)
-export const useSelectedAuthor = () => useSelector(selectedAuthor)
 export const useFolderPaths = () => useSelector(folderPaths)
-export const useFolderIds = () => useSelector(folderIds)
 export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)
-export const useLanguageIds = () => useSelector(languageIds)
 export const useLanguageColors = () => useSelector(languageColors)
 export const useContext = () => useSelector(context)
 export const useMainTheme = () => useSelector(mainTheme)

@@ -1,12 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  useSelectedFolder,
-  useLanguageIds,
-  useFolderIds,
-} from 'store/selectors'
+import { useSelectedFolder } from 'store/selectors'
 import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
 import useAddMouse from './useAddMouse'
@@ -36,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Enhancers = ({ visElements, getNodePath }) => {
+const Enhancers = ({ visElements }) => {
   const {
     svg,
     nodes,
@@ -50,7 +45,7 @@ const Enhancers = ({ visElements, getNodePath }) => {
 
   useAddStyles({ node, nodeG, link, linkG })
   useAddForces({ simulation, nodes, links })
-  useAddMouse({ svg, node, simulation, getNodePath })
+  useAddMouse({ node, simulation })
   useAddZoom({ svg, node, link })
 
   return null
@@ -59,24 +54,9 @@ const Enhancers = ({ visElements, getNodePath }) => {
 const ForceDirectedGraph = ({ getFullPath }) => {
   const classes = useStyles()
   const tree = useSelectedFolder()
-  const languageIds = useLanguageIds()
-  const folderIds = useFolderIds()
   const [visElements, setVisElements] = useState(null)
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
-
-  const getNodePath = useCallback(
-    (node) => {
-      const partialPath = node
-        .ancestors()
-        .map((d) => d.data.name)
-        .reverse()
-        .slice(1)
-        .join('/')
-      return getFullPath(partialPath)
-    },
-    [getFullPath]
-  )
 
   useEffect(() => {
     if (!tree) return
@@ -109,9 +89,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('class', (d) =>
-        clsx('link', `folder-${folderIds[getNodePath(d.source)]}`)
-      )
+      .attr('class', 'link')
 
     const nodeG = svg.append('g')
 
@@ -119,16 +97,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .selectAll('circle')
       .data(nodes)
       .join('circle')
-      .attr('class', (d) =>
-        d.children
-          ? clsx('folder', `folder-${folderIds[getNodePath(d)]}`)
-          : clsx(
-              'file',
-              `lang-${languageIds[d.data.language]}`,
-              d.parent && `folder-${folderIds[getNodePath(d.parent)]}`,
-              ...d.data.authorIds.map((authorId) => `author-${authorId}`)
-            )
-      )
+      .attr('class', (d) => d.children ? 'folder' : 'file')
 
     //// SIMULATION ////
 
@@ -154,7 +123,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     return () => {
       container.innerHTML = ''
     }
-  }, [tree, languageIds, folderIds, getNodePath, restartKey])
+  }, [tree, restartKey])
 
   const restart = useCallback(() => {
     setRestartKey((key) => 1 - key)
@@ -165,7 +134,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       <div id="fdg-container" className={classes.root} />
       {visElements && (
         <>
-          <Enhancers visElements={visElements} getNodePath={getNodePath} />
+          <Enhancers visElements={visElements} />
           <Extras alpha={alpha} onRestart={restart} />
         </>
       )}

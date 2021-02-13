@@ -92,7 +92,7 @@ export const updateVisPosition = (path, value) => ({
 
 const initialState = {
   mainTheme: mainThemes.dark,
-  visType: 'sunburst',
+  visType: 'force',
   selectedLanguage: null,
   selectedFolderPath: null,
   highlightedFolderPath: null,

@@ -1,19 +1,13 @@
 import { useEffect } from 'react'
 import {
   useSelectedLanguage,
-  useLanguageIds,
   useLanguageColors,
   useHighlightedAuthorId,
-  useFolderIds,
   useHighlightedFolderPath,
   useVisStyles,
   useVisPosition,
 } from 'store/selectors'
-import {
-  colorString,
-  partition,
-  multiClassSelector as select,
-} from 'services/utils'
+import { colorString } from 'services/utils'
 import { isWithinFolder } from 'services/repo'
 
 const SUPPRESSED_LINK_OPACITY = 0.2
@@ -21,9 +15,7 @@ const SUPPRESSED_LINK_OPACITY = 0.2
 export default function useAddStyles({ nodeG, node, linkG, link }) {
   const selectedLanguage = useSelectedLanguage()
   const languageColors = useLanguageColors()
-  const languageIds = useLanguageIds()
   const highlightedAuthorId = useHighlightedAuthorId()
-  const folderIds = useFolderIds()
   const highlightedFolderPath = useHighlightedFolderPath()
   const visStyles = useVisStyles()
   const visPosition = useVisPosition()
@@ -107,9 +99,13 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   // selected language
   useEffect(() => {
     if (selectedLanguage) {
-      const clx = `lang-${languageIds[selectedLanguage]}`
-      node.filter(`.file.${clx}`).style('display', 'block')
-      node.filter(`.file:not(.${clx})`).style('display', 'none')
+      node
+        .filter('.file')
+        .style('display', (d) =>
+          d.data.language === selectedLanguage
+            ? 'block'
+            : 'none'
+        )
       node.filter('.folder').style('display', 'none')
       link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
     } else {
@@ -117,14 +113,18 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
       node.filter('.folder').style('display', 'block')
       link.style('stroke-opacity', 1.0)
     }
-  }, [node, link, selectedLanguage, languageIds])
+  }, [node, link, selectedLanguage])
 
   // highlighted author
   useEffect(() => {
     if (highlightedAuthorId !== null) {
-      const clx = `author-${highlightedAuthorId}`
-      node.filter(`.file.${clx}`).style('display', 'block')
-      node.filter(`.file:not(.${clx})`).style('display', 'none')
+      node
+        .filter('.file')
+        .style('display', (d) =>
+          d.data.authorIds.includes(highlightedAuthorId)
+            ? 'block'
+            : 'none'
+        )
       node.filter('.folder').style('display', 'none')
       link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
     } else {
@@ -137,43 +137,23 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   // highlighted folder
   useEffect(() => {
     if (highlightedFolderPath) {
-      const folderPaths = Object.keys(folderIds)
-
-      const [highlightedIds, suppressedIds] = partition(
-        folderPaths,
-        (path) => isWithinFolder(path, highlightedFolderPath),
-        (path) => folderIds[path]
+      node.style('display', (d) =>
+        isWithinFolder(d.data.path, highlightedFolderPath)
+          ? 'block'
+          : 'none'
       )
 
-      if (highlightedIds.length) {
-        node
-          .filter(select('.file.folder-', highlightedIds))
-          .style('display', 'block')
-        node
-          .filter(select('.folder.folder-', highlightedIds))
-          .style('display', 'block')
-        link
-          .filter(select('.link.folder-', highlightedIds))
-          .style('stroke-opacity', 1.0)
-      }
-
-      if (suppressedIds.length) {
-        node
-          .filter(select('.file.folder-', suppressedIds))
-          .style('display', 'none')
-        node
-          .filter(select('.folder.folder-', suppressedIds))
-          .style('display', 'none')
-        link
-          .filter(select('.link.folder-', suppressedIds))
-          .style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
-      }
+      link.style('stroke-opacity', (d) =>
+        isWithinFolder(d.source.data.path, highlightedFolderPath)
+          ? 1.0
+          : SUPPRESSED_LINK_OPACITY
+      )
     } else {
       node.filter('.file').style('display', 'block')
       node.filter('.folder').style('display', 'block')
       link.style('stroke-opacity', 1.0)
     }
-  }, [node, link, highlightedFolderPath, folderIds])
+  }, [node, link, highlightedFolderPath])
 
   //// ROTATION ////
 
