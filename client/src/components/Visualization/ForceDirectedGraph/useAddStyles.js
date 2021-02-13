@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
   useSelectedLanguage,
   useLanguageColors,
@@ -20,66 +20,69 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   const visStyles = useVisStyles()
   const visPosition = useVisPosition()
 
+  const { file, folder } = useMemo(() => ({
+    file: node.filter('.file'),
+    folder: node.filter('.folder'),
+  }), [node])
+
   //// FILES ////
 
+  // visibility
   useEffect(() => {
-    node
-      .filter('.file')
-      .style('visibility', visStyles.files.visible ? 'visible' : 'hidden')
-  }, [node, visStyles.files.visible])
+    file.style('visibility', visStyles.files.visible ? 'visible' : 'hidden')
+  }, [file, visStyles.files.visible])
 
   // fill
   useEffect(() => {
-    node.filter('.file').style('fill', (d) => languageColors[d.data.language])
-  }, [node, languageColors])
-
-  // stroke
-  useEffect(() => {
-    node.filter('.file').style('stroke', colorString(visStyles.files.stroke))
-  }, [node, visStyles.files.stroke])
-
-  // stroke-width
-  useEffect(() => {
-    node.filter('.file').style('stroke-width', visStyles.files.strokeWidth)
-  }, [node, visStyles.files.strokeWidth])
+    file.style('fill', (d) => languageColors[d.data.language])
+  }, [file, languageColors])
 
   // radius
   useEffect(() => {
     const { coeff, exponent } = visStyles.files.radius
-    node.attr('r', (d) => {
-      return d.children
-        ? visStyles.folders.radius
-        : coeff * Math.pow(d.data.size, exponent)
-    })
-  }, [node, visStyles.files.radius, visStyles.folders.radius])
-
-  //// FOLDERS ////
-
-  useEffect(() => {
-    node
-      .filter('.folder')
-      .style('visibility', visStyles.folders.visible ? 'visible' : 'hidden')
-  }, [node, visStyles.folders.visible])
-
-  // fill
-  useEffect(() => {
-    node.filter('.folder').style('fill', colorString(visStyles.folders.fill))
-  }, [node, visStyles.folders.fill])
+    file.attr('r', (d) => coeff * Math.pow(d.data.size, exponent))
+  }, [file, visStyles.files.radius])
 
   // stroke
   useEffect(() => {
-    node
-      .filter('.folder')
-      .style('stroke', colorString(visStyles.folders.stroke))
-  }, [node, visStyles.folders.stroke])
+    file.style('stroke', colorString(visStyles.files.stroke))
+  }, [file, visStyles.files.stroke])
 
   // stroke-width
   useEffect(() => {
-    node.filter('.folder').style('stroke-width', visStyles.folders.strokeWidth)
-  }, [node, visStyles.folders.strokeWidth])
+    file.style('stroke-width', visStyles.files.strokeWidth)
+  }, [file, visStyles.files.strokeWidth])
+
+  //// FOLDERS ////
+
+  // visibility
+  useEffect(() => {
+    folder.style('visibility', visStyles.folders.visible ? 'visible' : 'hidden')
+  }, [folder, visStyles.folders.visible])
+
+  // fill
+  useEffect(() => {
+    folder.style('fill', colorString(visStyles.folders.fill))
+  }, [folder, visStyles.folders.fill])
+
+  // radius
+  useEffect(() => {
+    folder.attr('r', visStyles.folders.radius)
+  }, [folder, visStyles.folders.radius])
+
+  // stroke
+  useEffect(() => {
+    folder.style('stroke', colorString(visStyles.folders.stroke))
+  }, [folder, visStyles.folders.stroke])
+
+  // stroke-width
+  useEffect(() => {
+    folder.style('stroke-width', visStyles.folders.strokeWidth)
+  }, [folder, visStyles.folders.strokeWidth])
 
   //// LINKS ////
 
+  // visibility
   useEffect(() => {
     link.style('visibility', visStyles.links.visible ? 'visible' : 'hidden')
   }, [link, visStyles.links.visible])
@@ -99,40 +102,36 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   // selected language
   useEffect(() => {
     if (selectedLanguage) {
-      node
-        .filter('.file')
-        .style('display', (d) =>
-          d.data.language === selectedLanguage
-            ? 'block'
-            : 'none'
-        )
-      node.filter('.folder').style('display', 'none')
+      file.style('display', (d) =>
+        d.data.language === selectedLanguage
+          ? 'block'
+          : 'none'
+      )
+      folder.style('display', 'none')
       link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
     } else {
-      node.filter('.file').style('display', 'block')
-      node.filter('.folder').style('display', 'block')
+      file.style('display', 'block')
+      folder.style('display', 'block')
       link.style('stroke-opacity', 1.0)
     }
-  }, [node, link, selectedLanguage])
+  }, [file, folder, link, selectedLanguage])
 
   // highlighted author
   useEffect(() => {
     if (highlightedAuthorId !== null) {
-      node
-        .filter('.file')
-        .style('display', (d) =>
-          d.data.authorIds.includes(highlightedAuthorId)
-            ? 'block'
-            : 'none'
-        )
-      node.filter('.folder').style('display', 'none')
+      file.style('display', (d) =>
+        d.data.authorIds.includes(highlightedAuthorId)
+          ? 'block'
+          : 'none'
+      )
+      folder.style('display', 'none')
       link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
     } else {
-      node.filter('.file').style('display', 'block')
-      node.filter('.folder').style('display', 'block')
+      file.style('display', 'block')
+      folder.style('display', 'block')
       link.style('stroke-opacity', 1.0)
     }
-  }, [node, link, highlightedAuthorId])
+  }, [file, folder, link, highlightedAuthorId])
 
   // highlighted folder
   useEffect(() => {
@@ -149,8 +148,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
           : SUPPRESSED_LINK_OPACITY
       )
     } else {
-      node.filter('.file').style('display', 'block')
-      node.filter('.folder').style('display', 'block')
+      node.style('display', 'block')
       link.style('stroke-opacity', 1.0)
     }
   }, [node, link, highlightedFolderPath])
