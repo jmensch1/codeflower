@@ -67,6 +67,7 @@ const languageColors = createSelector(
 export const useLocation = () => useSelector(location)
 export const useQuery = () => useSelector(query)
 export const useRepo = () => useSelector(repo)
+export const useRootFolder = () => useSelector(rootFolder)
 export const useAuthors = () => useSelector(authors)
 export const useFiles = () => useSelector(files)
 export const useSettings = () => useSelector(settings)
