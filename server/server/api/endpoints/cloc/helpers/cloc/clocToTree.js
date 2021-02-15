@@ -13,7 +13,11 @@ function getChildren(tree, path) {
           children: getChildren(tree[name], `${path}/${name}`),
         }
     })
-    .sort((a, b) => (b.name > a.name ? 1 : -1))
+    .sort((a, b) => {
+      if (a.children && !b.children) return -1
+      if (!a.children && b.children) return 1
+      return a.name > b.name ? 1 : -1
+    })
 }
 
 function clocToTree(cloc) {
