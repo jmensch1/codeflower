@@ -49,12 +49,9 @@ const Folders = () => {
   useEffect(() => {
     if (!tree) return
 
-    const nodeSize = 17
+    const nodeSize = 18
 
-    let i = -1
-    const root = d3.hierarchy(tree).eachBefore(d => d.index = i++)
-    const nodes = root.descendants()
-    const links = root.links()
+    const root = d3.hierarchy(tree)
 
     const container = document.getElementById('folders')
     const width = container.offsetWidth
@@ -63,53 +60,74 @@ const Folders = () => {
     const svg = d3
       .select(container)
       .append('svg')
-      .attr('viewBox', [
+      .attr('font-size', 12)
+      .style('overflow', 'visible')
+      .on('mouseout', () => highlight(null))
+
+    root.eachAfter((d) => {
+      if (d.depth > 0) {
+        d._children = d.children;
+        d.children = null;
+      }
+    })
+
+    function update(d) {
+      const nodes = []
+
+      root.eachBefore((d, index) => {
+        d.y = (index - 1) * nodeSize
+        nodes.push(d)
+      })
+
+      svg.attr('viewBox', [
         -nodeSize / 2,
         -nodeSize * 3 / 2,
         width,
-        (nodes.length + 1) * nodeSize
+        (nodes.length) * nodeSize
       ])
-      .attr('font-size', 12)
-      .style('overflow', 'visible')
 
-    const link = svg
-      .append('g')
-        .attr('fill', 'none')
-        .attr('stroke', '#fff')
-      .selectAll('path')
-      .data(links)
-      .join('path')
-        .attr('d', d => `
-          M${d.source.depth * nodeSize},${(d.source.index) * nodeSize}
-          V${d.target.index * nodeSize}
-          h${nodeSize}
-        `);
+      const node = svg.selectAll('g.node').data(nodes, (d) => d.path)
 
-    const node = svg.append('g')
-      .selectAll('g')
-      .data(nodes)
-      .join('g')
-        .attr('transform', d => `translate(0,${(d.index) * nodeSize})`);
+      const nodeEnter = node.enter().append('g').attr('class', 'node')
 
-    node.append('circle')
+      nodeEnter.append('rect')
+        .attr('width', width)
+        .attr('height', nodeSize - 2)
+        .style('fill', 'rgba(255, 0, 0, 0.2)')
+        .style('stroke', 'black')
+        .style('stroke-width', 1)
+        .attr('transform', `translate(-6, ${-nodeSize / 2 + 1})`)
+        .on('mouseover', (e, d) => highlight(d.data.path))
+
+      nodeEnter.append('circle')
         .attr('cx', d => d.depth * nodeSize)
         .attr('r', 2.5)
-        .attr('fill', d => d.children ? '#fff' : '#fff');
+        .attr('fill', d => d.children || d._children ? '#fff' : 'red');
 
-    node.append('text')
+      nodeEnter.append('text')
         .attr('fill', '#fff')
         .attr('dy', '0.32em')
         .attr('x', d => d.depth * nodeSize + 6)
-        .text(d => d.data.name);
+        .text(d => d.data.name)
+        .on('click', click)
 
-    node.on('mouseover', (e, d) => {
-      console.log('mouseover:', d)
-      highlight(d.data.path)
-    })
+      node.merge(nodeEnter).attr('transform', d => `translate(0,${d.y})`)
 
-    // node.on('mouseout', (e, d) => {
-    //   highlight(null)
-    // })
+      node.exit().remove()
+    }
+
+    update(root)
+
+    function click(e, d) {
+      if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+      update(d);
+    }
 
     return () => {
       container.innerHTML = ''
