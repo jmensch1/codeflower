@@ -7,7 +7,11 @@ const useStyles = makeStyles((theme) => ({
     cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
     '&:hover': {
       textDecoration: ({ disabled }) => disabled ? 'none' : 'underline',
-    }
+    },
+    paddingRight: '1.5em',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 }))
 

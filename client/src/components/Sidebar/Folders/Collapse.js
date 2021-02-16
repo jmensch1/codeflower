@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     opacity: ({ disabled }) => disabled ? 0.3 : 1,
     '&:hover': {
       textDecoration: ({ disabled }) => disabled ? 'none' : 'underline',
-    }
+    },
+    overflow: 'hidden',
   },
   arrow: {
     width: ARROW_WIDTH,
@@ -39,12 +40,15 @@ const useStyles = makeStyles((theme) => ({
   label: {
     flex: 1,
     fontWeight: 'bold',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   headerRight: {
     alignSelf: 'stretch',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
+    paddingLeft: '0.5em',
   },
   content: {
     paddingLeft: ARROW_WIDTH,
