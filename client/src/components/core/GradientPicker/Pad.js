@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import * as d3 from 'd3'
 import { clampBar, interpolate, checkerGradient } from 'services/utils'
+import useSize from 'hooks/useSize'
 
 const CIRCLE_RADIUS = 8
 const CIRCLE_STROKE_WIDTH = 2
@@ -67,8 +68,8 @@ const Pad = ({
   background = undefined,
 }) => {
   const containerRef = useRef(null)
+  const dimensions = useSize(containerRef)
   const classes = useStyles({ handleColor, background })
-  const [dimensions, setDimensions] = useState(null)
   const [svg, setSvg] = useState(null)
   const [circle0, setCircle0] = useState(null)
   const [circle1, setCircle1] = useState(null)
@@ -121,13 +122,8 @@ const Pad = ({
 
   useEffect(() => {
     const container = containerRef.current
-
-    setDimensions({
-      width: container.offsetWidth,
-      height: container.offsetHeight,
-    })
-
     const svg = d3.select(container).append('svg')
+
     const circle0 = svg
       .append('circle')
       .attr('r', CIRCLE_RADIUS)

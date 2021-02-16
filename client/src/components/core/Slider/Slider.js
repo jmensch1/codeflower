@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { interpolate, checkerGradient } from 'services/utils'
 import * as d3 from 'd3'
+import useSize from 'hooks/useSize'
 
 const CIRCLE_STROKE_WIDTH = 0
 const SVG_CURSOR_STYLE = 'pointer'
@@ -54,8 +55,8 @@ const Slider = ({
   background = undefined,
 }) => {
   const containerRef = useRef(null)
+  const dimensions = useSize(containerRef)
   const classes = useStyles({ height, handleColor, background })
-  const [dimensions, setDimensions] = useState(null)
   const [svg, setSvg] = useState(null)
   const [circle, setCircle] = useState(null)
 
@@ -93,8 +94,7 @@ const Slider = ({
 
   useEffect(() => {
     const container = containerRef.current
-    const { offsetWidth: width, offsetHeight: height } = container
-    setDimensions({ width, height })
+    const { offsetHeight: height } = container
 
     const svg = d3.select(container).append('svg')
     const circle = svg
