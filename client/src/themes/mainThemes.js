@@ -11,6 +11,9 @@ const mainThemes = {
     layout: {
       sidebarWidth: 350,
     },
+    app: {
+      cursor: 'pointer',
+    },
   },
   light: {
     id: 'light',

@@ -9,18 +9,24 @@ import Visualization from './Visualization'
 import ControlBar from './ControlBar'
 import Terminal from './Terminal'
 import Modals from './modals'
+import DragBar from './DragBar'
 
-const useGlobalStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   '@global': {
     a: {
       textDecoration: 'underline',
       color: theme.palette.text.primary,
     },
   },
+  app: {
+    display: 'flex',
+    height: '100vh',
+    ...theme.app,
+  }
 }))
 
 function App() {
-  useGlobalStyles()
+  const classes = useStyles()
   const dispatch = useDispatch()
   const {
     query: { owner, name, branch },
@@ -33,8 +39,9 @@ function App() {
 
   return (
     <>
-      <div style={{ display: 'flex', height: '100vh' }}>
+      <div className={classes.app}>
         <Sidebar />
+        <DragBar />
         <div style={{ position: 'relative', flex: 1 }}>
           <Visualization />
           <ControlBar />

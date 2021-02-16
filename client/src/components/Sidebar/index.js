@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
-    borderRight: `1px ${theme.palette.divider} solid`,
   },
   header: {
     padding: '10px 10px 15px 10px',
