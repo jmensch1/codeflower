@@ -8,9 +8,6 @@ const mainThemes = {
         paper: 'hsl(0, 0%, 21%)',
       },
     },
-    layout: {
-      sidebarWidth: 350,
-    },
     app: {
       cursor: 'pointer',
     },
@@ -19,9 +16,6 @@ const mainThemes = {
     id: 'light',
     palette: {
       type: 'light',
-    },
-    layout: {
-      sidebarWidth: 350,
     },
   },
 }

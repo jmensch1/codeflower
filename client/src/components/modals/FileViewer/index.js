@@ -14,9 +14,9 @@ import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    left: `${theme.layout.sidebarWidth}px !important`,
+    left: ({ sidebarWidth }) => `${sidebarWidth}px !important`,
     '& .MuiBackdrop-root': {
-      left: theme.layout.sidebarWidth,
+      left: ({ sidebarWidth }) => sidebarWidth,
     },
     '& .MuiDialog-paper': {
       minHeight: 'calc(100% - 64px)',
@@ -58,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const FileViewer = () => {
+const FileViewer = ({ sidebarWidth }) => {
   const {
     isOpen,
     params: { filePath, metadata },
   } = useModal('fileViewer')
-  const classes = useStyles()
+  const classes = useStyles({ sidebarWidth })
   const dispatch = useDispatch()
   const { files, isLoading, error } = useFiles()
 
@@ -80,7 +80,7 @@ const FileViewer = () => {
   if (!isOpen) return null
 
   return (
-    <Dialog className={classes.root} onClose={close} open={isOpen} fullWidth>
+    <Dialog classes={{ root: classes.root }} onClose={close} open={isOpen} fullWidth>
       <DialogTitle className={classes.header}>
         <Typography className={classes.name} variant="h6" component="div">
           {metadata.name}

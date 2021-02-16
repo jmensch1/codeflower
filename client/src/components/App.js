@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useLocation } from 'store/selectors'
 import { useDispatch } from 'react-redux'
@@ -11,6 +11,8 @@ import Terminal from './Terminal'
 import Modals from './modals'
 import DragBar from './DragBar'
 
+const INITIAL_SIDEBAR_WIDTH = 350
+
 const useStyles = makeStyles((theme) => ({
   '@global': {
     a: {
@@ -19,14 +21,32 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   app: {
-    display: 'flex',
     height: '100vh',
-    ...theme.app,
-  }
+    display: 'flex',
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: ({ dragging }) => dragging ? 1 : -1,
+      cursor: 'ew-resize',
+    },
+  },
+  sidebar: {
+    width: ({ sidebarWidth }) => sidebarWidth,
+  },
+  main: {
+    position: 'relative',
+    flex: 1,
+  },
 }))
 
 function App() {
-  const classes = useStyles()
+  const [sidebarWidth, setSidebarWidth] = useState(INITIAL_SIDEBAR_WIDTH)
+  const [dragging, setDragging] = useState(false)
+  const classes = useStyles({ sidebarWidth, dragging })
   const dispatch = useDispatch()
   const {
     query: { owner, name, branch },
@@ -40,15 +60,21 @@ function App() {
   return (
     <>
       <div className={classes.app}>
-        <Sidebar />
-        <DragBar />
-        <div style={{ position: 'relative', flex: 1 }}>
+        <div className={classes.sidebar}>
+          <Sidebar />
+        </div>
+        <DragBar
+          onDragStart={() => setDragging(true)}
+          onDrag={setSidebarWidth}
+          onDragEnd={() => setDragging(false)}
+        />
+        <div className={classes.main}>
           <Visualization />
           <ControlBar />
           <Terminal />
         </div>
       </div>
-      <Modals />
+      <Modals sidebarWidth={sidebarWidth + 4} />
     </>
   )
 }

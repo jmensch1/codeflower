@@ -5,14 +5,14 @@ import Credentials from './Credentials'
 import About from './About'
 import FileViewer from './FileViewer'
 
-const Modals = () => {
+const Modals = ({ sidebarWidth }) => {
   return (
     <>
       <Search />
       <MaxNodes />
       <Credentials />
       <About />
-      <FileViewer />
+      <FileViewer sidebarWidth={sidebarWidth} />
     </>
   )
 }
