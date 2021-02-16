@@ -4,30 +4,16 @@ import { useModal, useFiles } from 'store/selectors'
 import { closeModal } from 'store/actions/modals'
 import { getFile } from 'store/actions/files'
 import { makeStyles } from '@material-ui/core/styles'
-import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
+import Modal from 'components/core/Modal'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    left: ({ sidebarWidth }) => `${sidebarWidth}px !important`,
-    '& .MuiBackdrop-root': {
-      left: ({ sidebarWidth }) => sidebarWidth,
-    },
-    '& .MuiDialog-paper': {
-      minHeight: 'calc(100% - 64px)',
-      width: 800,
-      maxWidth: 'calc(100% - 64px)',
-      boxShadow: 'none',
-    },
-    '& .MuiDialogContent-root': {
-      position: 'relative',
-    },
-  },
+  root: {},
   progress: {
     position: 'absolute',
     zIndex: 1,
@@ -55,15 +41,16 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
     fontSize: 14,
+    margin: 0,
   },
 }))
 
-const FileViewer = ({ sidebarWidth }) => {
+const FileViewer = () => {
   const {
     isOpen,
     params: { filePath, metadata },
   } = useModal('fileViewer')
-  const classes = useStyles({ sidebarWidth })
+  const classes = useStyles()
   const dispatch = useDispatch()
   const { files, isLoading, error } = useFiles()
 
@@ -80,7 +67,7 @@ const FileViewer = ({ sidebarWidth }) => {
   if (!isOpen) return null
 
   return (
-    <Dialog classes={{ root: classes.root }} onClose={close} open={isOpen} fullWidth>
+    <Modal open={isOpen} onClose={close}>
       <DialogTitle className={classes.header}>
         <Typography className={classes.name} variant="h6" component="div">
           {metadata.name}
@@ -110,7 +97,7 @@ const FileViewer = ({ sidebarWidth }) => {
           </pre>
         )}
       </DialogContent>
-    </Dialog>
+    </Modal>
   )
 }
 

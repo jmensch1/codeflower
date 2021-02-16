@@ -5,7 +5,7 @@ import * as d3 from 'd3'
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
-    width: '0.25em',
+    width: 6,
     backgroundColor: theme.palette.divider,
     cursor: 'ew-resize',
   },

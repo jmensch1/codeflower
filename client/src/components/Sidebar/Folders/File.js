@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       textDecoration: ({ disabled }) => disabled ? 'none' : 'underline',
     },
-    paddingRight: '1.5em',
+    marginRight: '1.5em',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',

@@ -5,11 +5,12 @@ import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
 import Sidebar from './Sidebar'
+import DragBar from './DragBar'
 import Visualization from './Visualization'
 import ControlBar from './ControlBar'
 import Terminal from './Terminal'
+import FileViewer from './modals/FileViewer'
 import Modals from './modals'
-import DragBar from './DragBar'
 
 const INITIAL_SIDEBAR_WIDTH = 350
 
@@ -72,9 +73,10 @@ function App() {
           <Visualization />
           <ControlBar />
           <Terminal />
+          <FileViewer />
         </div>
       </div>
-      <Modals sidebarWidth={sidebarWidth + 4} />
+      <Modals />
     </>
   )
 }
