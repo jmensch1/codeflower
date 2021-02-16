@@ -8,7 +8,6 @@ import {
 } from 'store/selectors'
 import { selectFolder, highlightFolder } from 'store/actions/settings'
 import { openModal } from 'store/actions/modals'
-// import { MAX_NODES } from 'constants.js'
 import { isWithinFolder } from 'services/repo'
 import Folder from './Folder'
 
@@ -23,7 +22,7 @@ const Folders = () => {
   const dispatch = useDispatch()
   const selectedFolderPath = useSelectedFolderPath()
   const highlightedFolderPath = useHighlightedFolderPath()
-  const tree = useRootFolder()
+  const rootFolder = useRootFolder()
 
   const select = useCallback(
     (folderPath) => {
@@ -57,7 +56,7 @@ const Folders = () => {
   return (
     <div className={classes.root} onMouseLeave={clearHighlight}>
       <Folder
-        folder={tree}
+        folder={rootFolder}
         level={0}
         highlight={highlight}
         highlightedFolderPath={highlightedFolderPath}

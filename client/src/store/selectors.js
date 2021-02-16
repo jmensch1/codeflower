@@ -33,10 +33,6 @@ const context = (state) => {
 
 ////////// CREATE SELECTOR ///////////
 
-const folderPaths = createSelector([rootFolder], (rootFolder) => {
-  return repoUtils.getFolderPaths(rootFolder)
-})
-
 const selectedFolder = createSelector(
   [rootFolder, selectedFolderPath],
   (rootFolder, selectedFolderPath) => {
@@ -76,7 +72,6 @@ export const useSelectedLanguage = () => useSelector(selectedLanguage)
 export const useHighlightedFolderPath = () => useSelector(highlightedFolderPath)
 export const useHighlightedAuthorId = () => useSelector(highlightedAuthorId)
 export const useSelectedAuthorId = () => useSelector(selectedAuthorId)
-export const useFolderPaths = () => useSelector(folderPaths)
 export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)
 export const useLanguageColors = () => useSelector(languageColors)

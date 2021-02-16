@@ -18,25 +18,31 @@ const Folder = ({
     <Collapse
       label={folder.name}
       level={level}
-      initialOpen={level === 0}
+      initialOpen={
+        level === 0 ||
+        selectedFolderPath.startsWith(`${folder.path}/`)
+      }
       onMouseEnter={highlight.bind(null, folder.path)}
       disabled={disabled}
-      headerRight={({ hovering }) => {
-        const opacity = hovering || selectedFolderPath === folder.path
-          ? 1.0
-          : disabled ? 0.3 : 0.5
-        return (
-          <div style={{ opacity }}>
-            <Checkbox
-              checked={selectedFolderPath === folder.path}
-              onChange={() => {
-                if (selectedFolderPath !== folder.path)
-                  select(folder.path)
-              }}
-            />
-          </div>
-        )
-      }}
+      headerRight={({ hovering }) => (
+        <div
+          style={{
+            opacity: (
+              hovering || selectedFolderPath === folder.path
+                ? 1.0
+                : disabled ? 0.3 : 0.5
+            )
+          }}
+        >
+          <Checkbox
+            checked={selectedFolderPath === folder.path}
+            onChange={() => {
+              if (selectedFolderPath !== folder.path)
+                select(folder.path)
+            }}
+          />
+        </div>
+      )}
     >
       {folder.children.map((child) =>
         child.children ? (
@@ -54,7 +60,7 @@ const Folder = ({
           <File
             key={child.name}
             file={child}
-            openFile={openFile}
+            onClick={openFile.bind(null, child)}
             onMouseEnter={highlight.bind(null, child.path)}
             disabled={disabled}
           />

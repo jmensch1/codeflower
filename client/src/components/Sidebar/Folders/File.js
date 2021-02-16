@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    opacity: ({ disabled }) => disabled ? 0.5 : 1,
+    opacity: ({ disabled }) => disabled ? 0.3 : 1,
     cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
     '&:hover': {
       textDecoration: ({ disabled }) => disabled ? 'none' : 'underline',
@@ -15,13 +15,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const File = ({ file, openFile, onMouseEnter, disabled }) => {
+const File = ({ file, onClick, onMouseEnter, disabled }) => {
   const classes = useStyles({ disabled })
   return (
     <div
       className={classes.root}
-      onClick={disabled ? undefined : openFile.bind(null, file)}
-      onMouseEnter={onMouseEnter}
+      onClick={disabled ? undefined : onClick}
+      onMouseEnter={disabled ? undefined : onMouseEnter}
     >
       { file.name }
     </div>
