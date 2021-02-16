@@ -14,6 +14,10 @@ import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    left: `${theme.layout.sidebarWidth}px !important`,
+    '& .MuiBackdrop-root': {
+      left: theme.layout.sidebarWidth,
+    },
     '& .MuiDialog-paper': {
       minHeight: 'calc(100% - 64px)',
       width: 800,

@@ -41,7 +41,7 @@ const TABS = [
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 350,
+    width: theme.layout.sidebarWidth,
     backgroundColor: theme.palette.background.paper,
     height: '100%',
     display: 'flex',
