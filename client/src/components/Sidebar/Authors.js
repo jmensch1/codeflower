@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& tbody tr': {
-      cursor: 'pointer',
+      cursor: 'default',
       '&:hover:not($selected)': {
         backgroundColor: theme.palette.action.hover,
       },
