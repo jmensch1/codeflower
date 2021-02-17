@@ -4,7 +4,7 @@ import SubTabs from './SubTabs'
 import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/ForceControls'
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
-// import ThemeControls from 'components/ThemeControls'
+// import ThemeControls from 'components/theme/ThemeControls'
 
 //////////////////// TAB CONFIG ///////////////////
 
