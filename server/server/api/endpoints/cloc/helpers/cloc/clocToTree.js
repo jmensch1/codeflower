@@ -20,7 +20,9 @@ function getChildren(tree, path) {
     })
 }
 
-function clocToTree(cloc) {
+function clocToTree(cloc, onUpdate) {
+  onUpdate('\nConverting cloc to tree')
+
   const root = {}
 
   Object.keys(cloc).forEach((path) => {

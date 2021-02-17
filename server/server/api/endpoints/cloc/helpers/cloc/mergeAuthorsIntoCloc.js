@@ -1,4 +1,6 @@
-function mergeAuthorsIntoCloc(cloc, authors) {
+function mergeAuthorsIntoCloc(cloc, authors, onUpdate) {
+  onUpdate('\nMerging authors into cloc')
+
   return Object.keys(cloc).reduce((merged, path) => {
     merged[path] = {
       ...cloc[path],

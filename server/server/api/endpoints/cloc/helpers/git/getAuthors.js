@@ -16,27 +16,29 @@ async function getFilesForAuthor(cwd, email) {
   return stdout.split('\n').slice(1, -1)
 }
 
-function dedupeAuthorsByEmail(authors) {
-  const dedupedAuthors = []
+function groupAuthorsByEmail(authors) {
+  const groupedAuthors = []
 
   authors.forEach((author) => {
-    const dupeAuthor = dedupedAuthors.find((a) => a.email === author.email)
+    const dupeAuthor = groupedAuthors.find((a) => a.email === author.email)
     if (dupeAuthor) dupeAuthor.commits += author.commits
-    else dedupedAuthors.push(author)
+    else groupedAuthors.push(author)
   })
 
-  dedupedAuthors.forEach((author, index) => {
+  groupedAuthors.forEach((author, index) => {
     author.id = index
   })
 
-  return dedupedAuthors
+  return groupedAuthors
 }
 
-async function getAuthorsData(repoId) {
+async function getAuthorsData(repoId, onUpdate) {
   const cwd = config.paths.repo(repoId, 'root')
   const cmd = `git log --pretty=short --no-merges | git shortlog -nse | cat`
 
-  const { stdout } = await exec(cmd, { cwd })
+  onUpdate(`\n>> ${cmd}`)
+
+  const { stdout } = await exec(cmd, { cwd, onUpdate })
 
   let authors = stdout
     .split('\n')
@@ -52,7 +54,9 @@ async function getAuthorsData(repoId) {
       }
     })
 
-  authors = dedupeAuthorsByEmail(authors)
+  onUpdate('\nGrouping authors by email')
+
+  authors = groupAuthorsByEmail(authors)
 
   const authorFiles = await Promise.all(
     authors.map((author) => {
@@ -68,8 +72,8 @@ async function getAuthorsData(repoId) {
   return authors
 }
 
-async function getAuthors(repoId) {
-  const authors = await getAuthorsData(repoId)
+async function getAuthors(repoId, onUpdate) {
+  const authors = await getAuthorsData(repoId, onUpdate)
   const file = config.paths.repo(repoId, 'authors.json')
   writeJson(file, authors)
   return authors

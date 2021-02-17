@@ -71,7 +71,9 @@ async function getCleanIgnored(repoId) {
   return ignored
 }
 
-async function getCleanClocData(repoId) {
+async function getCleanClocData(repoId, onUpdate) {
+  onUpdate('Cleaning cloc data')
+
   const [cloc, ignored] = await Promise.all([
     getCleanCloc(repoId),
     getCleanIgnored(repoId),
