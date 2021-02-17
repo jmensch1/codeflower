@@ -98,7 +98,7 @@ const Sunburst = ({ getFullPath }) => {
       .selectAll('path')
       .data(root.descendants().filter((d) => d.depth))
       .join('path')
-      .attr('class', (d) => d.children ? 'folder' : 'file')
+      .attr('class', (d) => (d.children ? 'folder' : 'file'))
       .attr('d', arc)
 
     // const text = svg.append('g')

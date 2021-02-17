@@ -46,7 +46,7 @@ const Languages = () => {
   }, [])
 
   return (
-    <div className={classes.root} >
+    <div className={classes.root}>
       <div className={classes.main}>
         <div className={classes.table}>
           <Table />

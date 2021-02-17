@@ -11,15 +11,15 @@ const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     alignItems: 'center',
-    cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
+    cursor: ({ disabled }) => (disabled ? 'default' : 'pointer'),
   },
   arrowAndLabel: {
     flex: 1,
     display: 'flex',
     alignItems: 'center',
-    opacity: ({ disabled }) => disabled ? 0.3 : 1,
+    opacity: ({ disabled }) => (disabled ? 0.3 : 1),
     '&:hover': {
-      textDecoration: ({ disabled }) => disabled ? 'none' : 'underline',
+      textDecoration: ({ disabled }) => (disabled ? 'none' : 'underline'),
     },
     overflow: 'hidden',
   },
@@ -71,7 +71,9 @@ const Collapse = ({
   const classes = useStyles({ open, indent, level, disabled })
 
   const headerRightContent =
-    typeof headerRight === 'function' ? headerRight({ open, hovering }) : headerRight
+    typeof headerRight === 'function'
+      ? headerRight({ open, hovering })
+      : headerRight
 
   return (
     <div className={classes.root}>
@@ -94,7 +96,8 @@ const Collapse = ({
         <div
           className={classes.headerRight}
           onMouseEnter={() => setHovering(true)}
-          onMouseLeave={() => setHovering(false)}>
+          onMouseLeave={() => setHovering(false)}
+        >
           {headerRightContent}
         </div>
       </div>

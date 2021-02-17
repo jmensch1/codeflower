@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: 0,
       left: 0,
       right: 0,
-      zIndex: ({ dragging }) => dragging ? 1 : -1,
+      zIndex: ({ dragging }) => (dragging ? 1 : -1),
       cursor: 'ew-resize',
     },
   },

@@ -19,26 +19,25 @@ const Folder = ({
       label={folder.name}
       level={level}
       initialOpen={
-        level === 0 ||
-        selectedFolderPath.startsWith(`${folder.path}/`)
+        level === 0 || selectedFolderPath.startsWith(`${folder.path}/`)
       }
       onMouseEnter={highlight.bind(null, folder.path)}
       disabled={disabled}
       headerRight={({ hovering }) => (
         <div
           style={{
-            opacity: (
+            opacity:
               hovering || selectedFolderPath === folder.path
                 ? 1.0
-                : disabled ? 0.3 : 0.5
-            )
+                : disabled
+                ? 0.3
+                : 0.5,
           }}
         >
           <Checkbox
             checked={selectedFolderPath === folder.path}
             onChange={() => {
-              if (selectedFolderPath !== folder.path)
-                select(folder.path)
+              if (selectedFolderPath !== folder.path) select(folder.path)
             }}
           />
         </div>

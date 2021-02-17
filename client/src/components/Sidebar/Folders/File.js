@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    opacity: ({ disabled }) => disabled ? 0.3 : 1,
-    cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
+    opacity: ({ disabled }) => (disabled ? 0.3 : 1),
+    cursor: ({ disabled }) => (disabled ? 'default' : 'pointer'),
     '&:hover': {
-      textDecoration: ({ disabled }) => disabled ? 'none' : 'underline',
+      textDecoration: ({ disabled }) => (disabled ? 'none' : 'underline'),
     },
     marginRight: '1.5em',
     overflow: 'hidden',
@@ -23,7 +23,7 @@ const File = ({ file, onClick, onMouseEnter, disabled }) => {
       onClick={disabled ? undefined : onClick}
       onMouseEnter={disabled ? undefined : onMouseEnter}
     >
-      { file.name }
+      {file.name}
     </div>
   )
 }

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       padding: '5px 10px',
       '&:not(:first-child)': {
         textAlign: 'center',
-      }
+      },
     },
     '& tbody tr': {
       cursor: 'pointer',

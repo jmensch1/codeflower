@@ -35,8 +35,7 @@ const Folders = () => {
     (folderPath) => {
       if (folderPath && isWithinFolder(folderPath, selectedFolderPath))
         dispatch(highlightFolder(folderPath))
-      else
-        dispatch(highlightFolder(null))
+      else dispatch(highlightFolder(null))
     },
     [dispatch, selectedFolderPath]
   )

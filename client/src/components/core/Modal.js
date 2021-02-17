@@ -42,9 +42,7 @@ const Modal = ({ open, onClose, children }) => {
   return (
     <div className={classes.root}>
       <div className={classes.background} onClick={onClose} />
-      <div className={classes.content}>
-        {children}
-      </div>
+      <div className={classes.content}>{children}</div>
     </div>
   )
 }

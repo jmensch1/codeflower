@@ -68,7 +68,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     // remove unknown languages
     const nodes = root.descendants().filter((n) => !n.data.languageUnknown)
     const links = root.links().filter((l) => !l.target.data.languageUnknown)
-    
+
     // this ensures that larger nodes are on top of smaller ones,
     // and you don't get the weird look where the smaller ones are on
     // top but the links are invisible
@@ -99,7 +99,7 @@ const ForceDirectedGraph = ({ getFullPath }) => {
       .selectAll('circle')
       .data(nodes)
       .join('circle')
-      .attr('class', (d) => d.children ? 'folder' : 'file')
+      .attr('class', (d) => (d.children ? 'folder' : 'file'))
 
     //// SIMULATION ////
 

@@ -16,9 +16,12 @@ const Picker = () => {
   const visStyles = useVisStyles()
   const dispatch = useDispatch()
 
-  const onChange = useCallback((value) => {
-    dispatch(updateVisStyles('files.fill', value))
-  }, [dispatch])
+  const onChange = useCallback(
+    (value) => {
+      dispatch(updateVisStyles('files.fill', value))
+    },
+    [dispatch]
+  )
 
   return (
     <div className={classes.root}>

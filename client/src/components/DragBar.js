@@ -19,7 +19,8 @@ const DragBar = ({ onDragStart, onDrag, onDragEnd }) => {
     const bar = d3.select(barRef.current)
 
     bar.call(
-      d3.drag()
+      d3
+        .drag()
         .on('start', onDragStart)
         .on('drag', ({ x }) => onDrag(x))
         .on('end', onDragEnd)

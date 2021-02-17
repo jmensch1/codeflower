@@ -20,10 +20,13 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   const visStyles = useVisStyles()
   const visPosition = useVisPosition()
 
-  const { file, folder } = useMemo(() => ({
-    file: node.filter('.file'),
-    folder: node.filter('.folder'),
-  }), [node])
+  const { file, folder } = useMemo(
+    () => ({
+      file: node.filter('.file'),
+      folder: node.filter('.folder'),
+    }),
+    [node]
+  )
 
   //// FILES ////
 
@@ -103,9 +106,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   useEffect(() => {
     if (selectedLanguage) {
       file.style('display', (d) =>
-        d.data.language === selectedLanguage
-          ? 'block'
-          : 'none'
+        d.data.language === selectedLanguage ? 'block' : 'none'
       )
       folder.style('display', 'none')
       link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
@@ -120,9 +121,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   useEffect(() => {
     if (highlightedAuthorId !== null) {
       file.style('display', (d) =>
-        d.data.authorIds.includes(highlightedAuthorId)
-          ? 'block'
-          : 'none'
+        d.data.authorIds.includes(highlightedAuthorId) ? 'block' : 'none'
       )
       folder.style('display', 'none')
       link.style('stroke-opacity', SUPPRESSED_LINK_OPACITY)
@@ -137,9 +136,7 @@ export default function useAddStyles({ nodeG, node, linkG, link }) {
   useEffect(() => {
     if (highlightedFolderPath) {
       node.style('display', (d) =>
-        isWithinFolder(d.data.path, highlightedFolderPath)
-          ? 'block'
-          : 'none'
+        isWithinFolder(d.data.path, highlightedFolderPath) ? 'block' : 'none'
       )
 
       link.style('stroke-opacity', (d) =>

@@ -23,18 +23,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PATHS = [
-  'zoom.x',
-  'zoom.y',
-  'zoom.k',
-  'rotation',
-]
+const PATHS = ['zoom.x', 'zoom.y', 'zoom.k', 'rotation']
 
 const RANGES = {
   'zoom.x': [-1000, 1000],
   'zoom.y': [-1000, 1000],
   'zoom.k': [0.1, 10],
-  'rotation': [0, 360],
+  rotation: [0, 360],
 }
 
 const PositionControls = () => {
@@ -51,17 +46,25 @@ const PositionControls = () => {
     zoomRef.current = visPosition.zoom
   }, [visPosition.zoom])
 
-  const updateZoom = useCallback((newValues) => {
-    dispatch(updateVisPosition('zoom', {
-      ...zoomRef.current,
-      ...newValues,
-      source: 'slider',
-    }))
-  }, [dispatch])
+  const updateZoom = useCallback(
+    (newValues) => {
+      dispatch(
+        updateVisPosition('zoom', {
+          ...zoomRef.current,
+          ...newValues,
+          source: 'slider',
+        })
+      )
+    },
+    [dispatch]
+  )
 
-  const updateRotation = useCallback((rotation) => {
-    dispatch(updateVisPosition('rotation', rotation))
-  }, [dispatch])
+  const updateRotation = useCallback(
+    (rotation) => {
+      dispatch(updateVisPosition('rotation', rotation))
+    },
+    [dispatch]
+  )
 
   if (!visPosition) return null
   return (
