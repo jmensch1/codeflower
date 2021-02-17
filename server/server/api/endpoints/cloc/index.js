@@ -51,7 +51,7 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   await execCloc(repoId, onUpdate)
 
   Log(2, '5. Cleaning Cloc Data')
-  let { cloc, ignored } = await getCleanClocData(repoId)
+  let cloc = await getCleanClocData(repoId)
 
   Log(2, '6. Getting Authors')
   let authors = await getAuthors(repoId)
@@ -79,10 +79,7 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
     repoId,
     branches,
     authors,
-    cloc: {
-      tree,
-      ignored,
-    },
+    tree,
   }
 }
 

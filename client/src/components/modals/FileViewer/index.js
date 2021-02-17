@@ -72,9 +72,18 @@ const FileViewer = () => {
         <Typography className={classes.name} variant="h6" component="div">
           {metadata.name}
         </Typography>
-        <Typography className={classes.meta} variant="body2" component="div">
-          {metadata.size} lines of {metadata.language}
-        </Typography>
+        {
+          metadata.languageUnknown
+            ? (
+              <Typography className={classes.meta} variant="body2" component="div">
+                Language unknown
+              </Typography>
+            ) : (
+              <Typography className={classes.meta} variant="body2" component="div">
+                {metadata.size} lines of {metadata.language}
+              </Typography>
+            )
+        }
         {/*<Typography className={classes.meta} variant="body2" component="div">
           {filePath.split('/').join(' • ')}
         </Typography>*/}

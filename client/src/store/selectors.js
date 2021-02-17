@@ -9,7 +9,7 @@ const location = (state) => state.router.location
 const query = (state) => state.query
 const repo = (state) => state.repo
 const authors = (state) => state.repo?.authors
-const rootFolder = (state) => state.repo?.cloc.tree
+const rootFolder = (state) => state.repo?.tree
 const files = (state) => state.files
 const settings = (state) => state.settings
 const mainTheme = (state) => state.settings.mainTheme

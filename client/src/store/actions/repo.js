@@ -86,7 +86,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
       return largest ? largest.pathName : 'root'
     }
 
-    const folderPaths = getFolderPaths(repo.cloc.tree)
+    const folderPaths = getFolderPaths(repo.tree)
     if (folderPaths[0].totalNodes < MAX_NODES)
       return onSelectFolder(folderPaths[0].pathName)
 

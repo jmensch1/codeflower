@@ -1,7 +1,7 @@
 function getChildren(tree, path) {
   return Object.keys(tree)
     .map((name) => {
-      if (tree[name].language)
+      if (tree[name].language || tree[name].languageUnknown)
         return {
           name,
           ...tree[name],

@@ -64,9 +64,11 @@ const ForceDirectedGraph = ({ getFullPath }) => {
     //// DATA ////
 
     const root = d3.hierarchy(tree)
-    const links = root.links()
-    const nodes = root.descendants()
 
+    // remove unknown languages
+    const nodes = root.descendants().filter((n) => !n.data.languageUnknown)
+    const links = root.links().filter((l) => !l.target.data.languageUnknown)
+    
     // this ensures that larger nodes are on top of smaller ones,
     // and you don't get the weird look where the smaller ones are on
     // top but the links are invisible
