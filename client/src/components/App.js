@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useLocation } from 'store/selectors'
+import { useLocation, useRepo } from 'store/selectors'
 import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
@@ -52,6 +52,7 @@ function App() {
   const {
     query: { owner, name, branch },
   } = useLocation()
+  const repo = useRepo()
 
   useEffect(() => {
     if (owner && name) dispatch(getRepo({ owner, name, branch }))
@@ -61,14 +62,18 @@ function App() {
   return (
     <>
       <div className={classes.app}>
-        <div className={classes.sidebar}>
-          <Sidebar />
-        </div>
-        <DragBar
-          onDragStart={() => setDragging(true)}
-          onDrag={setSidebarWidth}
-          onDragEnd={() => setDragging(false)}
-        />
+        {repo && (
+          <>
+            <div className={classes.sidebar}>
+              <Sidebar />
+            </div>
+            <DragBar
+              onDragStart={() => setDragging(true)}
+              onDrag={setSidebarWidth}
+              onDragEnd={() => setDragging(false)}
+            />
+          </>
+        )}
         <div className={classes.main}>
           <Visualization />
           <ControlBar />
