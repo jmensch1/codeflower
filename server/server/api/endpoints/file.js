@@ -10,7 +10,7 @@ module.exports = async ({ repoId, path }) => {
   try {
     const data = await fs.promises.readFile(absPath, 'utf-8')
 
-    mixpanel.track('file', {
+    mixpanel.track('file_success', {
       distinct_id: 'user',
       repoId,
       path,
