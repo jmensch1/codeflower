@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useModal, useFiles } from 'store/selectors'
 import { closeModal } from 'store/actions/modals'
@@ -14,21 +14,15 @@ import Modal from 'components/core/Modal'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  progress: {
-    position: 'absolute',
-    zIndex: 1,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+  header: {
+    textAlign: 'center',
+    borderBottom: `1px ${theme.palette.divider} solid`,
   },
   closeButton: {
     position: 'absolute',
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
-  },
-  header: {
-    textAlign: 'center',
   },
   name: {
     fontWeight: 'bold',
@@ -37,11 +31,29 @@ const useStyles = makeStyles((theme) => ({
   meta: {
     fontStyle: 'italic',
   },
+  content: {
+    overflow: 'hidden',
+    margin: '0.5em',
+    backgroundColor: theme.palette.common.black,
+    height: '100%',
+    position: 'relative',
+  },
   code: {
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
     fontSize: 14,
     margin: 0,
+    height: '100%',
+    overflow: 'auto',
+    padding: '1em',
+    backgroundColor: theme.palette.common.black,
+  },
+  progress: {
+    position: 'absolute',
+    zIndex: 1,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
 }))
 
@@ -53,6 +65,7 @@ const FileViewer = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { files, isLoading, error } = useFiles()
+  const codeRef = useRef(null)
 
   const file = files[filePath]
 
@@ -63,6 +76,13 @@ const FileViewer = () => {
   const close = useCallback(() => {
     dispatch(closeModal('fileViewer'))
   }, [dispatch])
+
+  useEffect(() => {
+    if (file)
+      codeRef.current.innerHTML = file
+    else if (error)
+      codeRef.current.innerHTML = error.message
+  }, [file, error])
 
   if (!isOpen) return null
 
@@ -92,17 +112,17 @@ const FileViewer = () => {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent dividers>
+      <div className={classes.content}>
         {isLoading ? (
           <div className={classes.progress}>
             <CircularProgress color="inherit" />
           </div>
         ) : (
           <pre className={classes.code}>
-            <code>{file || (error && error.message)}</code>
+            <code ref={codeRef} />
           </pre>
         )}
-      </DialogContent>
+      </div>
     </Modal>
   )
 }
