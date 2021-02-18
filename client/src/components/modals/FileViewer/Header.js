@@ -7,13 +7,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    borderBottom: `1px ${theme.palette.divider} solid`,
-    padding: '1.2em',
+    padding: '1.1em',
     position: 'relative',
   },
   closeButton: {
     position: 'absolute',
-    right: '1.2em',
+    right: '1em',
     top: '50%',
     transform: 'translateY(-50%)',
     color: theme.palette.grey[500],
@@ -28,14 +27,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Header = ({ filePath, metadata, onClose }) => {
+const Header = ({ filePath, metadata = {}, onClose }) => {
   const classes = useStyles()
 
-  if (!metadata) return null
   return (
     <div className={classes.root}>
       <div className={classes.name} title={filePath}>
-        {metadata.name}
+        {metadata.name || ' '}
       </div>
       <IconButton
         aria-label="close"

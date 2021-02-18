@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    transform: ({ open }) => open ? 'translateY(0)': 'translateY(-1000%)',
   },
   background: {
     position: 'absolute',
@@ -24,25 +26,29 @@ const useStyles = makeStyles((theme) => ({
     zIndex: -1,
   },
   content: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
+    border: `1px ${theme.palette.divider} solid`,
     borderRadius: 5,
     height: 'calc(100% - 64px)',
-    width: 800,
-    maxWidth: 'calc(100% - 64px)',
+    width: 'calc(100% - 64px)',
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
   },
 }))
 
-const Modal = ({ open, onClose, children }) => {
-  const classes = useStyles()
+const Modal = ({ open, onClose, children, classes }) => {
+  const clx = useStyles({ open })
 
-  if (!open) return null
   return (
-    <div className={classes.root}>
-      <div className={classes.background} onClick={onClose} />
-      <div className={classes.content}>{children}</div>
+    <div className={clsx(clx.root, classes.root)}>
+      <div
+        className={clsx(clx.background, classes.background)}
+        onClick={onClose}
+      />
+      <div className={clsx(clx.content, classes.content)}>
+        {children}
+      </div>
     </div>
   )
 }
