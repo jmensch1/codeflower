@@ -1,28 +1,26 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import HighlightSelect from './HighlightSelect'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
     borderBottom: `1px ${theme.palette.divider} solid`,
+    padding: '1.2em',
+    position: 'relative',
   },
   closeButton: {
     position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
+    right: '1.2em',
+    top: '50%',
+    transform: 'translateY(-50%)',
     color: theme.palette.grey[500],
   },
   name: {
     fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  meta: {
-    fontStyle: 'italic',
+    fontSize: '1.25em',
   },
   select: {
     width: 150,
@@ -30,37 +28,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Header = ({ metadata, onClose }) => {
+const Header = ({ filePath, metadata, onClose }) => {
   const classes = useStyles()
 
+  if (!metadata) return null
   return (
-    <DialogTitle className={classes.root}>
-      <Typography className={classes.name} variant="h6" component="div">
+    <div className={classes.root}>
+      <div className={classes.name} title={filePath}>
         {metadata.name}
-      </Typography>
-      {metadata.languageUnknown ? (
-        <Typography className={classes.meta} variant="body2" component="div">
-          Language unknown
-        </Typography>
-      ) : (
-        <Typography className={classes.meta} variant="body2" component="div">
-          {metadata.size} lines of {metadata.language}
-        </Typography>
-      )}
-      <div className={classes.select}>
-        <HighlightSelect />
       </div>
-      {/*<Typography className={classes.meta} variant="body2" component="div">
-        {filePath.split('/').join(' • ')}
-      </Typography>*/}
       <IconButton
         aria-label="close"
         className={classes.closeButton}
         onClick={onClose}
+        size='small'
       >
         <CloseIcon />
       </IconButton>
-    </DialogTitle>
+    </div>
   )
 }
 

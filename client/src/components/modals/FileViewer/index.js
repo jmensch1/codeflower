@@ -1,40 +1,19 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 import { useDispatch } from 'react-redux'
+import clsx from 'clsx'
 import { useModal, useFiles } from 'store/selectors'
 import { closeModal } from 'store/actions/modals'
 import { getFile } from 'store/actions/files'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from 'components/core/Modal'
 import Header from './Header'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import clsx from 'clsx'
+import Footer from './Footer'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  header: {
-    textAlign: 'center',
-    borderBottom: `1px ${theme.palette.divider} solid`,
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-  name: {
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  meta: {
-    fontStyle: 'italic',
-  },
-  select: {
-    display: 'inline-block',
-  },
   content: {
     overflow: 'hidden',
     margin: '0.5em',
-    backgroundColor: theme.palette.common.black,
     height: '100%',
     position: 'relative',
   },
@@ -45,13 +24,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     overflow: 'auto',
     padding: '1em',
-  },
-  progress: {
-    position: 'absolute',
-    zIndex: 1,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
   },
 }))
 
@@ -77,28 +49,23 @@ const FileViewer = () => {
 
   useEffect(() => {
     if (file)
-      codeRef.current.innerHTML = file
+      codeRef.current.innerHTML = file.content
     else if (error)
       codeRef.current.innerHTML = error.message
   }, [file, error])
 
   return (
     <Modal open={isOpen} onClose={close}>
-      <Header onClose={close} metadata={metadata} />
+      <Header onClose={close} metadata={metadata} filePath={filePath} />
       <div className={classes.content}>
-        {isLoading ? (
-          <div className={classes.progress}>
-            <CircularProgress color="inherit" />
-          </div>
-        ) : (
-          <pre
-            className={clsx('hljs', classes.code)}
-            style={{ padding: '1em' }} // override hljs
-          >
-            <code ref={codeRef} />
-          </pre>
-        )}
+        <pre
+          className={clsx('hljs', classes.code)}
+          style={{ padding: '1em', wordBreak: 'break-word', }} // override hljs
+        >
+          <code ref={codeRef} />
+        </pre>
       </div>
+      <Footer file={file} isLoading={isLoading} />
     </Modal>
   )
 }

@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = () => {
   const classes = useStyles()
   const repo = useRepo()
-  const [tab, setTab] = useState('languages')
+  const [tab, setTab] = useState('folders')
   const { Component } = TABS.find((t) => t.type === tab)
 
   if (!repo) return null

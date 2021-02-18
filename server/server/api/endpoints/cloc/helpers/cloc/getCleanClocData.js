@@ -1,11 +1,15 @@
 const config = require('@config')
 const { readJson, writeJson } = require('@util/files')
 
-async function getCleanCloc(repoId) {
-  const clocFile = config.paths.repo(repoId, config.cloc.dataFile)
-  const cleanClocFile = config.paths.repo(repoId, 'cloc-clean.json')
+const WRITE_FILES = {
+  cleanCloc: false,
+  cleanIgnored: false,
+  merged: true,
+}
 
+async function getCleanCloc(repoId) {
   try {
+    const clocFile = config.paths.repo(repoId, config.cloc.dataFile)
     var cloc = await readJson(clocFile)
   } catch (err) {
     if (err.code === 'ENOENT')
@@ -34,16 +38,17 @@ async function getCleanCloc(repoId) {
     return cleanCloc
   }, {})
 
-  writeJson(cleanClocFile, cloc)
+  if (WRITE_FILES.cleanCloc) {
+    const cleanClocFile = config.paths.repo(repoId, 'cloc-clean.json')
+    writeJson(cleanClocFile, cloc)
+  }
 
   return cloc
 }
 
 async function getCleanIgnored(repoId) {
-  const ignoredFile = config.paths.repo(repoId, config.cloc.ignoredFile)
-  const cleanIgnoredFile = config.paths.repo(repoId, 'ignored-clean.json')
-
   try {
+    const ignoredFile = config.paths.repo(repoId, config.cloc.ignoredFile)
     var ignored = await readJson(ignoredFile)
   } catch (err) {
     if (err.code === 'ENOENT')
@@ -66,7 +71,10 @@ async function getCleanIgnored(repoId) {
       return cleanIgnored
     }, {})
 
-  writeJson(cleanIgnoredFile, ignored)
+  if (WRITE_FILES.cleanIgnored) {
+    const cleanIgnoredFile = config.paths.repo(repoId, 'ignored-clean.json')
+    writeJson(cleanIgnoredFile, ignored)
+  }
 
   return ignored
 }
@@ -79,10 +87,17 @@ async function getCleanClocData(repoId, onUpdate) {
     getCleanIgnored(repoId),
   ])
 
-  return {
+  const merged = {
     ...cloc,
     ...ignored,
   }
+
+  if (WRITE_FILES.merged) {
+    const mergedFile = config.paths.repo(repoId, 'cloc-and-ignored.json')
+    writeJson(mergedFile, merged)
+  }
+
+  return merged
 }
 
 module.exports = getCleanClocData
