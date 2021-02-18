@@ -7,6 +7,7 @@ const WS = require('./protocols/WS')
 const setHostName = require('./util/setHostName')
 const endpoints = require('./api/endpoints')
 const handleErrors = require('./api/handleErrors')
+const mixpanel = require('@util/mixpanel')
 
 /////////// A PROTOCOL-AGNOSTIC SERVER ////////////
 
@@ -42,5 +43,10 @@ WS.createServer(serve.bind(null, WS), httpServer)
 const port = config.ports.HTTP
 httpServer.listen(port, () => {
   Log(1, `WS and HTTP servers started on port ${port}...`)
+  
   setHostName()
+
+  mixpanel.track('server_start', {
+    distinct_id: 'user',
+  })
 })
