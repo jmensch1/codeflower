@@ -1,16 +1,13 @@
-import React, { useEffect, useCallback, useRef, useState } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useModal, useFiles } from 'store/selectors'
 import { closeModal } from 'store/actions/modals'
 import { getFile } from 'store/actions/files'
 import { makeStyles } from '@material-ui/core/styles'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
 import Modal from 'components/core/Modal'
-import Select from 'components/core/Select'
+import Header from './Header'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -31,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
   meta: {
     fontStyle: 'italic',
   },
+  select: {
+    display: 'inline-block',
+  },
   content: {
     overflow: 'hidden',
     margin: '0.5em',
@@ -40,13 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
   code: {
     whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
     fontSize: 14,
     margin: 0,
     height: '100%',
     overflow: 'auto',
     padding: '1em',
-    backgroundColor: theme.palette.common.black,
   },
   progress: {
     position: 'absolute',
@@ -57,12 +55,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const HIGHLIGHT_STYLES = [
-  'solarized-dark',
-  'solarized-light',
-  'github',
-]
-
 const FileViewer = () => {
   const {
     isOpen,
@@ -72,8 +64,6 @@ const FileViewer = () => {
   const dispatch = useDispatch()
   const { files, isLoading, error } = useFiles()
   const codeRef = useRef(null)
-  const [highlightStyle, setHighlightStyle] = useState('github')
-  const stylesheetRef = useRef(null)
 
   const file = files[filePath]
 
@@ -92,58 +82,19 @@ const FileViewer = () => {
       codeRef.current.innerHTML = error.message
   }, [file, error])
 
-  useEffect(() => {
-    console.log('adding stylesheet:', highlightStyle)
-    const stylesheet = document.createElement('link')
-    stylesheet.type = 'text/css'
-    stylesheet.rel = 'stylesheet'
-    stylesheet.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/${highlightStyle}.min.css`
-    document.head.appendChild(stylesheet)
-
-    if (stylesheetRef.current) {
-      stylesheetRef.current.disabled = true
-      document.head.removeChild(stylesheetRef.current)
-    }
-
-    stylesheetRef.current = stylesheet
-  }, [highlightStyle])
-
-  if (!isOpen) return null
-
   return (
     <Modal open={isOpen} onClose={close}>
-      <DialogTitle className={classes.header}>
-        <Typography className={classes.name} variant="h6" component="div">
-          {metadata.name}
-        </Typography>
-        {metadata.languageUnknown ? (
-          <Typography className={classes.meta} variant="body2" component="div">
-            Language unknown
-          </Typography>
-        ) : (
-          <Typography className={classes.meta} variant="body2" component="div">
-            {metadata.size} lines of {metadata.language}
-          </Typography>
-        )}
-        <Select options={HIGHLIGHT_STYLES} value={highlightStyle} onChange={setHighlightStyle} />
-        {/*<Typography className={classes.meta} variant="body2" component="div">
-          {filePath.split('/').join(' • ')}
-        </Typography>*/}
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={close}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+      <Header onClose={close} metadata={metadata} />
       <div className={classes.content}>
         {isLoading ? (
           <div className={classes.progress}>
             <CircularProgress color="inherit" />
           </div>
         ) : (
-          <pre className={classes.code}>
+          <pre
+            className={clsx('hljs', classes.code)}
+            style={{ padding: '1em' }} // override hljs
+          >
             <code ref={codeRef} />
           </pre>
         )}
