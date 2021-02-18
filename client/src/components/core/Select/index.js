@@ -1,3 +1,3 @@
-import Select from './Custom'
+import Select from './Native'
 
 export default Select
