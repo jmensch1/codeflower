@@ -24,4 +24,4 @@ RUN crontab /etc/cron.d/crontab
 RUN touch /var/log/cron.log
 
 EXPOSE 8000
-CMD cron && node server/index.js
+CMD cron && node --max-old-space-size=4096 server/index.js
