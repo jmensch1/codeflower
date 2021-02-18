@@ -1,14 +1,17 @@
 const fs = require('fs')
 const config = require('@config')
 const mixpanel = require('@util/mixpanel')
+const hljs = require('highlight.js')
 
-module.exports = async ({ repoId, path }) => {
+module.exports = async ({ repoId, path, highlight = true }) => {
   if (!repoId || !path) throw config.errors.BadFileRequest
 
   const absPath = config.paths.repo(repoId, 'root', path)
 
   try {
-    const data = await fs.promises.readFile(absPath, 'utf-8')
+    let data = await fs.promises.readFile(absPath, 'utf-8')
+
+    if (highlight) data = hljs.highlightAuto(data).value
 
     mixpanel.track('file_success', {
       distinct_id: 'user',
