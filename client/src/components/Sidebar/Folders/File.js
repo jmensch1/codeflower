@@ -12,18 +12,30 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  openIndicator: {
+    display: 'inline-block',
+    height: '0.5em',
+    width: '0.5em',
+    borderRadius: '50%',
+    marginLeft: '0.5em',
+    backgroundColor: theme.palette.text.primary,
   },
 }))
 
-const File = ({ file, onClick, onMouseEnter, disabled }) => {
-  const classes = useStyles({ disabled })
+const File = ({ file, onClick, onMouseEnter, disabled, isOpen }) => {
+  const classes = useStyles({ disabled, isOpen })
   return (
     <div
       className={classes.root}
       onClick={disabled ? undefined : onClick}
       onMouseEnter={disabled ? undefined : onMouseEnter}
     >
-      {file.name}
+      <span>{file.name}</span>
+      {isOpen && <span className={classes.openIndicator} />}
     </div>
   )
 }

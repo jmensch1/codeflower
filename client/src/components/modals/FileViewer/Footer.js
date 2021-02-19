@@ -50,7 +50,7 @@ const Footer = ({ openedFile, isLoading, opacity, setOpacity }) => {
           : (
             <div>
               {openedFile?.languageUnknown
-                ? <i>Language unknown</i>
+                ? <i>language unknown</i>
                 :  `${openedFile?.language} / ${openedFile?.size} loc`
               }
             </div>

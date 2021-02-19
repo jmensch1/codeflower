@@ -10,6 +10,7 @@ const Folder = ({
   highlightedFolderPath,
   select,
   selectedFolderPath,
+  openedFilePath,
   openFile,
   level,
 }) => {
@@ -19,7 +20,9 @@ const Folder = ({
       label={folder.name}
       level={level}
       initialOpen={
-        level === 0 || selectedFolderPath.startsWith(`${folder.path}/`)
+        level === 0 ||
+        selectedFolderPath.startsWith(`${folder.path}/`) ||
+        (openedFilePath && openedFilePath.startsWith(`${folder.path}/`))
       }
       onMouseEnter={highlight.bind(null, folder.path)}
       disabled={disabled}
@@ -49,6 +52,7 @@ const Folder = ({
             key={child.name}
             folder={child}
             level={level + 1}
+            openedFilePath={openedFilePath}
             openFile={openFile}
             highlight={highlight}
             highlightedFolderPath={highlightedFolderPath}
@@ -61,6 +65,7 @@ const Folder = ({
             file={child}
             onClick={openFile.bind(null, child)}
             onMouseEnter={highlight.bind(null, child.path)}
+            isOpen={openedFilePath === child.path}
             disabled={disabled}
           />
         )

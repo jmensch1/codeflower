@@ -5,6 +5,7 @@ import {
   useRootFolder,
   useSelectedFolderPath,
   useHighlightedFolderPath,
+  useFiles,
 } from 'store/selectors'
 import { selectFolder, highlightFolder } from 'store/actions/settings'
 import { openFile } from 'store/actions/files'
@@ -23,6 +24,7 @@ const Folders = () => {
   const selectedFolderPath = useSelectedFolderPath()
   const highlightedFolderPath = useHighlightedFolderPath()
   const rootFolder = useRootFolder()
+  const { openedFile } = useFiles()
 
   const select = useCallback(
     (folderPath) => {
@@ -58,6 +60,7 @@ const Folders = () => {
         highlightedFolderPath={highlightedFolderPath}
         select={select}
         selectedFolderPath={selectedFolderPath}
+        openedFilePath={openedFile?.path}
         openFile={open}
       />
     </div>
