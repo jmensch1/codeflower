@@ -40,7 +40,7 @@ const Header = ({ openedFile, onClose }) => {
         aria-label="close"
         className={classes.closeButton}
         onClick={onClose}
-        size='small'
+        size="small"
       >
         <CloseIcon />
       </IconButton>

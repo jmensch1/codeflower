@@ -8,10 +8,7 @@ export default function useAddMouse({ node, simulation }) {
   const dispatch = useDispatch()
   const setTooltip = useTooltip()
 
-  const open = useCallback(
-    (file) => dispatch(openFile(file)),
-    [dispatch]
-  )
+  const open = useCallback((file) => dispatch(openFile(file)), [dispatch])
 
   useEffect(() => {
     if (!simulation || !node) return

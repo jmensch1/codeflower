@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     zIndex: 1000,
-    display: ({ open }) => open ? 'flex' : 'none',
+    display: ({ open }) => (open ? 'flex' : 'none'),
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -46,9 +46,7 @@ const Modal = ({ open, onClose, children, classes, keepMounted }) => {
         className={clsx(clx.background, classes.background)}
         onClick={onClose}
       />
-      <div className={clsx(clx.content, classes.content)}>
-        {children}
-      </div>
+      <div className={clsx(clx.content, classes.content)}>{children}</div>
     </div>
   )
 }

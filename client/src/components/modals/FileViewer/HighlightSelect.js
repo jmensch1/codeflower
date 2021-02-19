@@ -29,14 +29,18 @@ const HighlightSelect = () => {
     document.head.appendChild(stylesheet)
 
     // remove old stylesheet
-    stylesheet.addEventListener('load', () => {
-      if (stylesheetRef.current) {
-        stylesheetRef.current.disabled = true
-        document.head.removeChild(stylesheetRef.current)
-      }
+    stylesheet.addEventListener(
+      'load',
+      () => {
+        if (stylesheetRef.current) {
+          stylesheetRef.current.disabled = true
+          document.head.removeChild(stylesheetRef.current)
+        }
 
-      stylesheetRef.current = stylesheet
-    }, { once: true })
+        stylesheetRef.current = stylesheet
+      },
+      { once: true }
+    )
   }, [highlightStyle])
 
   const renderValue = useCallback((value) => {

@@ -46,10 +46,7 @@ const Folders = () => {
     dispatch(highlightFolder(null))
   }, [dispatch])
 
-  const open = useCallback(
-    (file) => dispatch(openFile(file)),
-    [dispatch]
-  )
+  const open = useCallback((file) => dispatch(openFile(file)), [dispatch])
 
   return (
     <div className={classes.root} onMouseLeave={clearHighlight}>

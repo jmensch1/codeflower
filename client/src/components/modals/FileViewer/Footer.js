@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
       fontSize: '1em',
       userSelect: 'none',
-    }
+    },
   },
 }))
 
@@ -45,17 +45,17 @@ const Footer = ({ openedFile, isLoading, opacity, setOpacity }) => {
   return (
     <div className={classes.root}>
       <div className={classes.leftContent}>
-        {isLoading
-          ? <CircularProgress size={14} color="inherit" />
-          : (
-            <div>
-              {openedFile?.languageUnknown
-                ? <i>language unknown</i>
-                :  `${openedFile?.language} / ${openedFile?.size} loc`
-              }
-            </div>
-          )
-        }
+        {isLoading ? (
+          <CircularProgress size={14} color="inherit" />
+        ) : (
+          <div>
+            {openedFile?.languageUnknown ? (
+              <i>language unknown</i>
+            ) : (
+              `${openedFile?.language} / ${openedFile?.size} loc`
+            )}
+          </div>
+        )}
       </div>
       <div className={classes.slider}>
         <Slider value={opacity} range={OPACITY_RANGE} onChange={setOpacity} />

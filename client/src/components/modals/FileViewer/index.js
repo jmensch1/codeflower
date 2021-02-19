@@ -44,21 +44,15 @@ const FileViewer = () => {
     if (openedFile && !file) dispatch(getFile(openedFile.path))
   }, [openedFile, file, dispatch])
 
-  const close = useCallback(
-    () => dispatch(closeFile()),
-    [dispatch]
-  )
+  const close = useCallback(() => dispatch(closeFile()), [dispatch])
 
   useEffect(() => {
     setTimeout(() => {
       preRef.current.scrollTop = 0
 
-      if (file)
-        codeRef.current.innerHTML = file.content || '<i>empty</i>'
-      else if (error)
-        codeRef.current.innerHTML = error.message
-      else
-        codeRef.current.innerHTML = ''
+      if (file) codeRef.current.innerHTML = file.content || '<i>empty</i>'
+      else if (error) codeRef.current.innerHTML = error.message
+      else codeRef.current.innerHTML = ''
     })
   }, [file, error])
 
