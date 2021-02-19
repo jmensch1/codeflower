@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { identity } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -22,6 +23,7 @@ const Select = ({
   options = [],
   onChange = () => {},
   onHover = () => {},
+  renderValue = identity,
 }) => {
   const classes = useStyles()
 
@@ -36,7 +38,7 @@ const Select = ({
     <select className={classes.select} value={value} onChange={handleChange}>
       {options.map((opt) => (
         <option key={opt} value={opt}>
-          {opt}
+          {renderValue(opt)}
         </option>
       ))}
     </select>

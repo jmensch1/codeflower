@@ -1,9 +1,8 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import clsx from 'clsx'
-import { useModal, useFiles } from 'store/selectors'
-import { closeModal } from 'store/actions/modals'
-import { getFile } from 'store/actions/files'
+import { useFiles } from 'store/selectors'
+import { getFile, closeFile } from 'store/actions/files'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from 'components/core/Modal'
 import Header from './Header'
@@ -32,45 +31,45 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const FileViewer = () => {
-  const {
-    isOpen,
-    params: { filePath, metadata },
-  } = useModal('fileViewer')
   const [opacity, setOpacity] = useState(0.95)
   const classes = useStyles({ opacity })
   const dispatch = useDispatch()
-  const { files, isLoading, error } = useFiles()
+  const { files, openedFile, isLoading, error } = useFiles()
   const preRef = useRef(null)
   const codeRef = useRef(null)
 
-  const file = files[filePath]
+  const file = openedFile ? files[openedFile.path] : null
 
   useEffect(() => {
-    if (isOpen && !file) dispatch(getFile(filePath))
-  }, [isOpen, file, filePath, dispatch])
+    if (openedFile && !file) dispatch(getFile(openedFile.path))
+  }, [openedFile, file, dispatch])
 
-  const close = useCallback(() => {
-    dispatch(closeModal('fileViewer'))
-  }, [dispatch])
+  const close = useCallback(
+    () => dispatch(closeFile()),
+    [dispatch]
+  )
 
   useEffect(() => {
     setTimeout(() => {
-      if (file && preRef.current) preRef.current.scrollTop = 0
+      preRef.current.scrollTop = 0
 
       if (file)
-        codeRef.current.innerHTML = file.content
+        codeRef.current.innerHTML = file.content || '<i>empty</i>'
       else if (error)
         codeRef.current.innerHTML = error.message
+      else
+        codeRef.current.innerHTML = ''
     })
   }, [file, error])
 
   return (
     <Modal
-      open={isOpen}
+      open={!!openedFile}
       onClose={close}
       classes={{ content: classes.modalContent }}
+      keepMounted
     >
-      <Header onClose={close} metadata={metadata} filePath={filePath} />
+      <Header onClose={close} openedFile={openedFile} />
       <div className={classes.content}>
         <pre
           ref={preRef}
@@ -84,7 +83,7 @@ const FileViewer = () => {
         </pre>
       </div>
       <Footer
-        metadata={metadata}
+        openedFile={openedFile}
         isLoading={!file || isLoading}
         opacity={opacity}
         setOpacity={setOpacity}

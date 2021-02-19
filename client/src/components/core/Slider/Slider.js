@@ -94,7 +94,6 @@ const Slider = ({
 
   useEffect(() => {
     const container = containerRef.current
-    const { offsetHeight: height } = container
 
     const svg = d3.select(container).append('svg')
     const circle = svg
@@ -109,7 +108,7 @@ const Slider = ({
     return () => {
       container.innerHTML = ''
     }
-  }, [])
+  }, [height])
 
   useEffect(() => {
     if (!svg) return

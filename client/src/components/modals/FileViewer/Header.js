@@ -7,8 +7,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    padding: '1.1em',
+    alignItems: 'center',
     position: 'relative',
+    height: '4em',
   },
   closeButton: {
     position: 'absolute',
@@ -27,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Header = ({ filePath, metadata = {}, onClose }) => {
+const Header = ({ openedFile, onClose }) => {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
-      <div className={classes.name} title={filePath}>
-        {metadata.name || ' '}
+      <div className={classes.name} title={openedFile?.path}>
+        {openedFile?.name || ' '}
       </div>
       <IconButton
         aria-label="close"

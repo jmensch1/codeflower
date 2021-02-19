@@ -1,18 +1,15 @@
 import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import * as d3 from 'd3'
-import { openModal } from 'store/actions/modals'
+import { openFile } from 'store/actions/files'
 import { useTooltip } from '../Tooltip'
 
 export default function useAddMouse({ node, simulation }) {
   const dispatch = useDispatch()
   const setTooltip = useTooltip()
 
-  const openFile = useCallback(
-    (node) => {
-      const { path: filePath, ...metadata } = node.data
-      dispatch(openModal('fileViewer', { filePath, metadata }))
-    },
+  const open = useCallback(
+    (file) => dispatch(openFile(file)),
     [dispatch]
   )
 
@@ -66,7 +63,7 @@ export default function useAddMouse({ node, simulation }) {
     //// OPEN FILE ////
 
     node.on('click', (e, d) => {
-      if (!d.children) openFile(d)
+      if (!d.children) open(d.data)
     })
 
     return () => {
@@ -75,5 +72,5 @@ export default function useAddMouse({ node, simulation }) {
       node.on('mouseout', null)
       node.on('click', null)
     }
-  }, [simulation, node, setTooltip, openFile])
+  }, [simulation, node, setTooltip, open])
 }

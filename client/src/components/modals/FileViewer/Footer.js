@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Footer = ({ metadata, isLoading, opacity, setOpacity }) => {
+const OPACITY_RANGE = [0.1, 1]
+
+const Footer = ({ openedFile, isLoading, opacity, setOpacity }) => {
   const classes = useStyles()
 
   return (
@@ -47,16 +49,16 @@ const Footer = ({ metadata, isLoading, opacity, setOpacity }) => {
           ? <CircularProgress size={14} color="inherit" />
           : (
             <div>
-              {metadata.languageUnknown
+              {openedFile?.languageUnknown
                 ? <i>Language unknown</i>
-                :  `${metadata.language} / ${metadata.size} loc`
+                :  `${openedFile?.language} / ${openedFile?.size} loc`
               }
             </div>
           )
         }
       </div>
       <div className={classes.slider}>
-        <Slider value={opacity} range={[0.1, 1]} onChange={setOpacity} />
+        <Slider value={opacity} range={OPACITY_RANGE} onChange={setOpacity} />
       </div>
       <div className={classes.select}>
         <HighlightSelect />

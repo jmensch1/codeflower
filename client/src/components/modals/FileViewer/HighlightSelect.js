@@ -1,35 +1,15 @@
-import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import Select from 'components/core/Select'
 
+// see /server/node_modules/highlight.js/styles for the right strings
+// demo here: https://highlightjs.org/static/demo/
 const HIGHLIGHT_STYLES = [
-  {
-    value: 'solarized-dark',
-    name: 'solarized dark',
-  },
-  {
-    value: 'solarized-light',
-    name: 'solarized light',
-  },
-  {
-    value: 'github',
-    name: 'github',
-  },
-  {
-    value: 'night-owl',
-    name: 'night owl',
-  },
-  {
-    value: 'sunburst',
-    name: 'sunburst',
-  },
-  {
-    value: 'zenburn' ,
-    name: 'zenburn',
-  },
-  // {
-  //   value: '',
-  //   name: '',
-  // },
+  'night-owl',
+  'solarized-dark',
+  'solarized-light',
+  'github',
+  'sunburst',
+  'zenburn',
 ]
 
 const stylesheetUrl = (highlightStyle) => `
@@ -45,7 +25,7 @@ const HighlightSelect = () => {
     const stylesheet = document.createElement('link')
     stylesheet.type = 'text/css'
     stylesheet.rel = 'stylesheet'
-    stylesheet.href = stylesheetUrl(highlightStyle.value)
+    stylesheet.href = stylesheetUrl(highlightStyle)
     document.head.appendChild(stylesheet)
 
     // remove old stylesheet
@@ -59,19 +39,16 @@ const HighlightSelect = () => {
     }, { once: true })
   }, [highlightStyle])
 
-  const styleNames = useMemo(() => {
-    return HIGHLIGHT_STYLES.map((style) => style.name)
-  }, [])
-
-  const handleChange = useCallback((name) => {
-    setHighlightStyle(HIGHLIGHT_STYLES.find(style => style.name === name))
+  const renderValue = useCallback((value) => {
+    return value.replace(/[.-]/g, ' ')
   }, [])
 
   return (
     <Select
-      options={styleNames}
-      value={highlightStyle.name}
-      onChange={handleChange}
+      options={HIGHLIGHT_STYLES}
+      value={highlightStyle}
+      onChange={setHighlightStyle}
+      renderValue={renderValue}
     />
   )
 }

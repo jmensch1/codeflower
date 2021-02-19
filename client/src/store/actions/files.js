@@ -1,10 +1,21 @@
 import * as api from 'services/api'
 
 export const types = {
+  OPEN_FILE: 'files/OPEN_FILE',
+  CLOSE_FILE: 'files/CLOSE_FILE',
   GET_FILE_PENDING: 'files/GET_FILE_PENDING',
   GET_FILE_SUCCESS: 'files/GET_FILE_SUCCESS',
   GET_FILE_ERROR: 'files/GET_FILE_ERROR',
 }
+
+export const openFile = (file) => ({
+  type: types.OPEN_FILE,
+  data: file,
+})
+
+export const closeFile = () => ({
+  type: types.CLOSE_FILE,
+})
 
 export const getFile = (path) => {
   return async (dispatch, getState) => {
@@ -31,11 +42,22 @@ export const getFile = (path) => {
 const initialState = {
   isLoading: false,
   error: null,
+  openedFile: null,
   files: {},
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case types.OPEN_FILE:
+      return {
+        ...state,
+        openedFile: action.data,
+      }
+    case types.CLOSE_FILE:
+      return {
+        ...state,
+        openedFile: null,
+      }
     case types.GET_FILE_PENDING:
       return {
         ...state,

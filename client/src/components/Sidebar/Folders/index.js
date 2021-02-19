@@ -7,7 +7,7 @@ import {
   useHighlightedFolderPath,
 } from 'store/selectors'
 import { selectFolder, highlightFolder } from 'store/actions/settings'
-import { openModal } from 'store/actions/modals'
+import { openFile } from 'store/actions/files'
 import { isWithinFolder } from 'services/repo'
 import Folder from './Folder'
 
@@ -44,11 +44,8 @@ const Folders = () => {
     dispatch(highlightFolder(null))
   }, [dispatch])
 
-  const openFile = useCallback(
-    (file) => {
-      const { path: filePath, ...metadata } = file
-      dispatch(openModal('fileViewer', { filePath, metadata }))
-    },
+  const open = useCallback(
+    (file) => dispatch(openFile(file)),
     [dispatch]
   )
 
@@ -61,7 +58,7 @@ const Folders = () => {
         highlightedFolderPath={highlightedFolderPath}
         select={select}
         selectedFolderPath={selectedFolderPath}
-        openFile={openFile}
+        openFile={open}
       />
     </div>
   )

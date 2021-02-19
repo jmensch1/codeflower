@@ -10,10 +10,9 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     zIndex: 1000,
-    display: 'flex',
+    display: ({ open }) => open ? 'flex' : 'none',
     alignItems: 'center',
     justifyContent: 'center',
-    transform: ({ open }) => open ? 'translateY(0)': 'translateY(-1000%)',
   },
   background: {
     position: 'absolute',
@@ -37,9 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Modal = ({ open, onClose, children, classes }) => {
+const Modal = ({ open, onClose, children, classes, keepMounted }) => {
   const clx = useStyles({ open })
 
+  if (!open && !keepMounted) return null
   return (
     <div className={clsx(clx.root, classes.root)}>
       <div
