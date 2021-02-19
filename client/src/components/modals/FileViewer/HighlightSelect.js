@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import Select from 'components/core/Select'
 
-// see /server/node_modules/highlight.js/styles for the right strings
+// see https://github.com/highlightjs/highlight.js/tree/master/src/styles
 // demo here: https://highlightjs.org/static/demo/
 const HIGHLIGHT_STYLES = [
   'night-owl',
