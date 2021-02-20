@@ -27,7 +27,7 @@ function applyHighlighting(file, cloc) {
     out.highlightLanguage = highlight.language
     out.clocLanguageRecognized = languageRecognized
     out.content = highlight.value
-  } catch(err) {}
+  } catch (err) {}
 
   return out
 }
@@ -44,7 +44,7 @@ module.exports = async ({ repoId, path }) => {
     const mergedFile = config.paths.repo(repoId, 'cloc-and-ignored.json')
     const mergedCloc = await readJson(mergedFile)
     var cloc = mergedCloc[path]
-  } catch(err) {
+  } catch (err) {
     if (err.code === 'ENOENT') throw config.errors.FileNotFound
     else throw err
   }

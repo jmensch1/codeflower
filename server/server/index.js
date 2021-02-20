@@ -43,7 +43,7 @@ WS.createServer(serve.bind(null, WS), httpServer)
 const port = config.ports.HTTP
 httpServer.listen(port, () => {
   Log(1, `WS and HTTP servers started on port ${port}...`)
-  
+
   setHostName()
 
   mixpanel.track('server_start', {
