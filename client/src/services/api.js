@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 // FOR DEVELOPMENT ONLY
-import testRepo from './data/cloc.json'
-const USE_TEST_REPO = false
+import testRepo from './data/ballotnav.json'
+const USE_TEST_REPO = true
 
 const HTTP_URL = process.env.REACT_APP_API_URL_HTTP || 'http://localhost:8000'
 const WS_URL = process.env.REACT_APP_API_URL_WS || 'ws://localhost:8000'

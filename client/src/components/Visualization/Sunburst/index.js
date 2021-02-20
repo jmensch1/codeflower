@@ -52,7 +52,7 @@ const Enhancers = ({ visElements }) => {
   return null
 }
 
-const Sunburst = ({ getFullPath }) => {
+const Sunburst = () => {
   const classes = useStyles()
   const tree = useSelectedFolder()
   const [visElements, setVisElements] = useState(null)

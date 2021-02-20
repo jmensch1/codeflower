@@ -51,7 +51,7 @@ const Enhancers = ({ visElements }) => {
   return null
 }
 
-const ForceDirectedGraph = ({ getFullPath }) => {
+const ForceDirectedGraph = () => {
   const classes = useStyles()
   const tree = useSelectedFolder()
   const [visElements, setVisElements] = useState(null)
