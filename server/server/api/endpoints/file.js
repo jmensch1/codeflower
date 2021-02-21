@@ -4,32 +4,51 @@ const mixpanel = require('@util/mixpanel')
 const hljs = require('highlight.js')
 const { readJson } = require('@util/files')
 
-function applyHighlighting(file, cloc) {
-  const out = {
+function getExtension(path) {
+  const match = path.match(/\.([^.]*?)$/)
+  return match ? match[1] : null
+}
+
+function applyHighlighting(file, clocLanguage, path) {
+  const nullResult = {
     isHighlighted: false,
-    highlightLanguage: null,
-    cloc,
-    clocLanguageRecognized: false,
     content: file,
   }
 
-  // don't apply highlighting if cloc did not determine a language
-  if (!cloc.language) return out
+  // don't highlight if cloc couldn't identify the language
+  if (!clocLanguage) return nullResult
 
   try {
-    // highlight content
-    const languageRecognized = !!hljs.getLanguage(cloc.language)
-    const highlight = languageRecognized
-      ? hljs.highlight(cloc.language, file)
-      : hljs.highlightAuto(file)
+    // highlight using the cloc language if hljs recognizes it
+    if (!!hljs.getLanguage(clocLanguage))
+      return {
+        isHighlighted: true,
+        highlightLanguage: clocLanguage,
+        highlightLanguageSource: 'cloc',
+        content: hljs.highlight(clocLanguage, file).value,
+      }
 
-    out.isHighlighted = true
-    out.highlightLanguage = highlight.language
-    out.clocLanguageRecognized = languageRecognized
-    out.content = highlight.value
-  } catch (err) {}
+    // if not, try the file extension
+    const extension = getExtension(path)
+    if (!!hljs.getLanguage(extension))
+      return {
+        isHighlighted: true,
+        highlightLanguage: extension,
+        highlightLanguageSource: 'extension',
+        content: hljs.highlight(extension, file).value,
+      }
 
-  return out
+    // finally, let hljs auto detect the language
+    const highlight = hljs.highlightAuto(file)
+    return {
+      isHighlighted: true,
+      highlightLanguage: highlight.language,
+      highlightLanguageSource: 'auto',
+      content: highlight.value,
+    }
+  } catch (err) {
+    return nullResult
+  }
 }
 
 module.exports = async ({ repoId, path }) => {
@@ -49,7 +68,7 @@ module.exports = async ({ repoId, path }) => {
     else throw err
   }
 
-  const out = applyHighlighting(file, cloc)
+  const out = applyHighlighting(file, cloc.language, path)
 
   mixpanel.track('file_success', {
     distinct_id: 'user',
