@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     borderLeft: 'none',
     borderTop: 'none',
     overflow: 'auto',
+    overscrollBehavior: 'contain',
     cursor: 'pointer',
   },
   item: {},
@@ -62,6 +63,7 @@ const Select = ({
     modalRef.current.style.minWidth = `${width}px`
     modalRef.current.style.maxHeight = `calc(100vh - ${bottom + 50}px)`
     modalRef.current.style.overflow = 'auto'
+    modalRef.current.style.overscrollBehavior = 'contain'
     modalRef.current.style.zIndex = 10000
     setIsReady(true)
   }, [])

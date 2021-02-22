@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     height: '100%',
     overflow: 'auto',
+    overscrollBehavior: 'contain',
     padding: '1em',
   },
   modalContent: {

@@ -13,6 +13,7 @@ const useStyles = createUseStyles((theme) => {
       right: 6,
       paddingRight: 8,
       overflowY: 'auto',
+      overscrollBehavior: 'contain',
       wordBreak: 'break-all',
       '&::-webkit-scrollbar': {
         width: 6,

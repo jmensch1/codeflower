@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flex: 1,
     overflow: 'auto',
+    overscrollBehavior: 'contain',
     padding: 20,
   },
 }))

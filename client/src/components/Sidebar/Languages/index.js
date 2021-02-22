@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     padding: 8,
     overflow: 'auto',
+    overscrollBehavior: 'contain',
   },
   button: {
     backgroundColor: ({ showPicker }) =>
