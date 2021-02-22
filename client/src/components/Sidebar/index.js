@@ -7,10 +7,12 @@ import Languages from './Languages'
 import Folders from './Folders'
 import Authors from './Authors'
 import Controls from './Controls'
+import Camera from './Camera'
 import LanguageIcon from '@material-ui/icons/Language'
 import FolderIcon from '@material-ui/icons/FolderOpen'
 import PeopleIcon from '@material-ui/icons/People'
 import TuneIcon from '@material-ui/icons/Tune'
+import CameraIcon from '@material-ui/icons/CameraAlt'
 
 //////////////////// TAB CONFIG ///////////////////
 
@@ -35,6 +37,11 @@ const TABS = [
     Icon: TuneIcon,
     Component: Controls,
   },
+  {
+    type: 'camera',
+    Icon: CameraIcon,
+    Component: Camera,
+  }
 ]
 
 /////////////////////// COMPONENT ////////////////////
@@ -60,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = () => {
   const classes = useStyles()
   const repo = useRepo()
-  const [tab, setTab] = useState('languages')
+  const [tab, setTab] = useState('camera')
   const { Component } = TABS.find((t) => t.type === tab)
 
   if (!repo) return null

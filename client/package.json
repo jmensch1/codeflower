@@ -28,6 +28,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "save-svg-as-png": "^1.4.17",
     "tinycolor2": "^1.4.2",
     "web-vitals": "^0.2.4"
   },
