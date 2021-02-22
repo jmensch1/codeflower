@@ -16,7 +16,7 @@ function getChildren(tree, path) {
     .sort((a, b) => {
       if (a.children && !b.children) return -1
       if (!a.children && b.children) return 1
-      return a.name > b.name ? 1 : -1
+      return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
     })
 }
 
