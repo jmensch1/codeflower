@@ -10,6 +10,7 @@ import repo from './actions/repo'
 import files from './actions/files'
 import settings from './actions/settings'
 import modals from './actions/modals'
+import camera from './actions/camera'
 
 const rootReducer = combineReducers({
   router,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   files,
   settings,
   modals,
+  camera,
 })
 
 const store = createStore(
