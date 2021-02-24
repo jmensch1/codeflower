@@ -6,6 +6,9 @@ import {
 } from 'save-svg-as-png'
 import TextButton from 'components/core/TextButton'
 import Slider from 'components/core/Slider'
+import * as d3 from 'd3'
+import { useRepo } from 'store/selectors'
+import Checkbox from 'components/core/Checkbox'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   preview: {
-    display: 'none', //'inline-block',
+    display: 'inline-block',
     maxWidth: '100%',
     maxHeight: 300,
   },
@@ -38,10 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 const nearestEven = (x) => 2 * Math.round(x / 2)
 
-// returns the bounding box of the svg -- in the viewbox coordinate system
-// -- plus the ratio of the viewBox size to the svg size
-function getViewboxBoundingRect(svg) {
-  const rect = svg.getBoundingClientRect()
+// returns the screen dimensions, viewBox dimensions, and ratio between them
+function getSvgDimensions(svg) {
+  const screen = svg.getBoundingClientRect()
   const matrix = svg.getCTM().inverse()
 
   // top-left corner of svg
@@ -52,19 +54,21 @@ function getViewboxBoundingRect(svg) {
 
   // bottom-right corner
   const pt1 = svg.createSVGPoint()
-  pt1.x = rect.width
-  pt1.y = rect.height
+  pt1.x = screen.width
+  pt1.y = screen.height
   const svgPt1 = pt1.matrixTransform(matrix)
 
-  const width = svgPt1.x - svgPt0.x
-  const height = svgPt1.y - svgPt0.y
+  const viewBox = {
+    left: svgPt0.x,
+    top: svgPt0.y,
+    width: svgPt1.x - svgPt0.x,
+    height: svgPt1.y - svgPt0.y,
+  }
 
   return {
-    x: svgPt0.x,
-    y: svgPt0.y,
-    width,
-    height,
-    ratio: width / rect.width,
+    screen,
+    viewBox,
+    ratio: viewBox.width / screen.width,
   }
 }
 
@@ -72,15 +76,15 @@ const CameraControls = ({ flash }) => {
   const theme = useTheme()
   const classes = useStyles()
   const [svg, setSvg] = useState(null)
-  const [dataUri, setDataUri] = useState(null)
   const [svgDimensions, setSvgDimensions] = useState(null)
+  const [dataUri, setDataUri] = useState(null)
   const [scale, setScale] = useState(1)
+  const repo = useRepo()
+  const [showRepoInfo, setShowRepoInfo] = useState(true)
 
   useEffect(() => {
     setTimeout(() => {
-      const svg = document.querySelector('#fdg-container svg')
-      setSvg(svg)
-      setSvgDimensions(svg.getBoundingClientRect())
+      setSvg(document.querySelector('#fdg-container svg'))
     })
   }, [])
 
@@ -88,7 +92,7 @@ const CameraControls = ({ flash }) => {
     if (!svg) return
 
     const observer = new ResizeObserver(() => {
-      setSvgDimensions(svg.getBoundingClientRect())
+      setSvgDimensions(getSvgDimensions(svg))
     })
 
     observer.observe(document.querySelector('#fdg-container'))
@@ -96,42 +100,64 @@ const CameraControls = ({ flash }) => {
     return () => observer.disconnect()
   }, [svg])
 
-  const snap = useCallback(() => {
+  useEffect(() => {
     if (!svg) return
 
+    const repoName = `${repo.owner} / ${repo.name} (${repo.branch})`
+    const repoInfo = d3.select(svg)
+      .append('text')
+      .attr('class', 'repo-info')
+      .text(repoName)
+      .style('fill', 'white')
+      .style('font-size', 16)
+      .style('font-family', 'sans-serif')
+      .style('visibility', 'hidden')
+
+    return () => repoInfo.remove()
+  }, [svg, repo])
+
+  useEffect(() => {
+    if (!svg || !svgDimensions) return
+
+    const { left, top, height } = svgDimensions.viewBox
+
+    d3
+      .select(svg)
+      .select('.repo-info')
+      .attr('x', left + 10)
+      .attr('y', top + height - 10)
+      .style('visibility', showRepoInfo ? 'visible' : 'hidden')
+  }, [svg, showRepoInfo, svgDimensions])
+
+  const setPreview = useCallback(() => {
+    if (!svg || !svgDimensions) return
+
+    const { viewBox, ratio } = svgDimensions
+    const adjustedScale = scale / (window.devicePixelRatio * ratio)
+
     svgAsDataUri(svg, {
-      ...getViewboxBoundingRect(svg),
+      ...viewBox,
+      scale: adjustedScale,
       excludeCss: true,
       encoderOptions: 1.0,
       backgroundColor: theme.palette.background.default,
-      scale: 1,
     }).then(setDataUri)
-  }, [svg, theme])
+  }, [svg, scale, theme, svgDimensions])
 
   const saveImage = useCallback(() => {
-    if (!svg) return
+    if (!svg || !svgDimensions) return
 
-    const {
-      x: left,
-      y: top,
-      width,
-      height,
-      ratio,
-    } = getViewboxBoundingRect(svg)
-
+    const { viewBox, ratio } = svgDimensions
     const adjustedScale = scale / (window.devicePixelRatio * ratio)
 
     saveSvgAsPng(svg, 'image.png', {
-      left,
-      top,
-      width,
-      height,
+      ...viewBox,
       scale: adjustedScale,
       excludeCss: true,
       encoderOptions: 1.0,
       backgroundColor: theme.palette.background.default,
     })
-  }, [svg, scale, theme])
+  }, [svg, scale, theme, svgDimensions])
 
   const takeSnapshot = useCallback(() => {
     flash()
@@ -143,8 +169,8 @@ const CameraControls = ({ flash }) => {
     <div className={classes.root}>
       <img alt='preview' className={classes.preview} src={dataUri} />
       <div className={classes.dimensions}>
-        <span>width: {nearestEven(svgDimensions.width * scale)}</span>
-        <span>height: {nearestEven(svgDimensions.height * scale)}</span>
+        <span>width: {nearestEven(svgDimensions.screen.width * scale)}</span>
+        <span>height: {nearestEven(svgDimensions.screen.height * scale)}</span>
       </div>
       <div className={classes.slider}>
         <Slider
@@ -155,8 +181,15 @@ const CameraControls = ({ flash }) => {
           renderValue={x => x.toFixed(2)}
         />
       </div>
+      <div className={classes.showRepoInfo}>
+        <Checkbox
+          label='show repo owner/name'
+          checked={showRepoInfo}
+          onChange={setShowRepoInfo}
+        />
+      </div>
       <div className={classes.buttons}>
-        <TextButton label='preview' onClick={snap} />
+        <TextButton label='preview' onClick={setPreview} />
         <TextButton label='save' onClick={takeSnapshot} />
       </div>
     </div>
