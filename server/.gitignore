@@ -1,4 +1,4 @@
 node_modules/
-repos/
+tmp/
 logs/
 .env.local
