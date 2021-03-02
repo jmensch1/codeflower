@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { checkerGradient } from 'services/utils/color'
+import { getSvgDimensions } from './utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +35,11 @@ const Main = ({ settings }) => {
   useEffect(() => {
     const svg = document.querySelector('#fdg-container svg')
     const svgContainer = document.querySelector('#export-container')
+
     const svgClone = svg.cloneNode(true)
+    const { left, top, width, height } = getSvgDimensions(svg).viewBox
+    svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
+
     svgContainer.appendChild(svgClone)
     setSvg(svgClone)
     return () => svgContainer.innerHTML = ''
