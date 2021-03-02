@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { svgAsDataUri } from 'save-svg-as-png'
+import { getSvgDimensions } from './utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,11 +19,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: '2em',
-    '& svg': {
-      maxHeight: '100%',
-      maxWidth: '100%',
-      display: 'block',
-    }
   },
   image: {
     maxHeight: '100%',
@@ -32,23 +29,30 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = () => {
   const classes = useStyles()
-  const svgContainer = useRef(null)
+  const [dataUri, setDataUri] = useState(null)
   const theme = useTheme()
 
   useEffect(() => {
     const svg = document.querySelector('#fdg-container svg')
-    const svgClone = svg.cloneNode(true)
-    svgClone.style.backgroundColor = theme.palette.background.default
-    svgContainer.current.appendChild(svgClone)
+    const scale = 2
+
+    const { viewBox, ratio } = getSvgDimensions(svg)
+    const adjustedScale = scale / (window.devicePixelRatio * ratio)
+
+    svgAsDataUri(svg, {
+      ...viewBox,
+      scale: adjustedScale,
+      excludeCss: true,
+      encoderOptions: 1.0,
+      backgroundColor: theme.palette.background.default,
+    }).then(setDataUri)
   }, [theme])
 
   return (
     <div className={classes.root}>
-      <div
-        className={classes.inner}
-        id="export-container"
-        ref={svgContainer}
-      />
+      <div className={classes.inner}>
+        <img className={classes.image} alt='export' src={dataUri} />
+      </div>
     </div>
   )
 }
