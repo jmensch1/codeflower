@@ -2,14 +2,18 @@ import React, { useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { saveSvgAsPng } from 'save-svg-as-png'
 import { getSvgDimensions } from './utils'
+import Checkbox from 'components/core/Checkbox'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
+    padding: '1em',
+    '& > *': {
+      marginTop: '1.5em',
+    }
   },
   button: {
-    margin: '2em',
-    padding: '1em',
+    padding: '0.5em',
     border: `1px ${theme.palette.divider} solid`,
     borderRadius: '0.25em',
     textAlign: 'center',
@@ -20,14 +24,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Sidebar = () => {
+const Sidebar = ({ settings, onChangeSettings }) => {
   const classes = useStyles()
   const theme = useTheme()
 
   // http://bl.ocks.org/curran/7cf9967028259ea032e8
   const saveSvg = useCallback(() => {
     const svg = document.querySelector('#export-container svg')
-    svg.style.backgroundColor = theme.palette.background.default
+    const origBackground = svg.style.background
+    svg.style.background = settings.transparent
+      ? ''
+      : theme.palette.background.default
 
     const svgAsXML = (new XMLSerializer()).serializeToString(svg)
     const dataURL = "data:image/svg+xml," + encodeURIComponent(svgAsXML)
@@ -38,10 +45,18 @@ const Sidebar = () => {
     dl.setAttribute('download', 'image.svg')
     dl.click()
     document.body.removeChild(dl)
-  }, [theme])
+
+    setTimeout(() => {
+      svg.style.background = origBackground
+    })
+  }, [theme, settings])
 
   const savePng = useCallback(() => {
     const svg = document.querySelector('#export-container svg')
+    const origBackground = svg.style.background
+    svg.style.background = settings.transparent
+      ? ''
+      : theme.palette.background.default
 
     const scale = 2
     const { viewBox, ratio } = getSvgDimensions(svg)
@@ -52,14 +67,22 @@ const Sidebar = () => {
       scale: adjustedScale,
       excludeCss: true,
       encoderOptions: 1.0,
-      backgroundColor: theme.palette.background.default,
     })
-  }, [theme])
+
+    setTimeout(() => {
+      svg.style.background = origBackground
+    })
+  }, [theme, settings])
 
   return (
     <div className={classes.root}>
       <div className={classes.button} onClick={saveSvg}>Save SVG</div>
       <div className={classes.button} onClick={savePng}>Save PNG</div>
+      <Checkbox
+        label='transparent background'
+        checked={settings.transparent}
+        onChange={() => onChangeSettings({...settings, transparent: !settings.transparent })}
+      />
     </div>
   )
 }

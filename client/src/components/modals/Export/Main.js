@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { checkerGradient } from 'services/utils/color'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,33 +22,37 @@ const useStyles = makeStyles((theme) => ({
       maxHeight: '100%',
       maxWidth: '100%',
       display: 'block',
-    }
-  },
-  image: {
-    maxHeight: '100%',
-    maxWidth: '100%',
-    display: 'block',
+    },
   },
 }))
 
-const Main = () => {
+const Main = ({ settings }) => {
   const classes = useStyles()
-  const svgContainer = useRef(null)
   const theme = useTheme()
+  const [svg, setSvg] = useState(null)
 
   useEffect(() => {
     const svg = document.querySelector('#fdg-container svg')
+    const svgContainer = document.querySelector('#export-container')
     const svgClone = svg.cloneNode(true)
-    svgClone.style.backgroundColor = theme.palette.background.default
-    svgContainer.current.appendChild(svgClone)
-  }, [theme])
+    svgContainer.appendChild(svgClone)
+    setSvg(svgClone)
+    return () => svgContainer.innerHTML = ''
+  }, [])
+
+  useEffect(() => {
+    if (!svg) return
+
+    svg.style.background = settings.transparent
+      ? checkerGradient({ alpha: 0.05 })
+      : theme.palette.background.default
+  }, [svg, theme, settings])
 
   return (
     <div className={classes.root}>
       <div
         className={classes.inner}
         id="export-container"
-        ref={svgContainer}
       />
     </div>
   )

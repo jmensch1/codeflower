@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { closeModal } from 'store/actions/modals'
 import { useModal } from 'store/selectors'
@@ -37,6 +37,9 @@ const Export = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { isOpen } = useModal('export')
+  const [settings, setSettings] = useState({
+    transparent: false,
+  })
 
   const close = useCallback(() => {
     dispatch(closeModal('export'))
@@ -54,10 +57,16 @@ const Export = () => {
       <Header onClose={close} />
       <div className={classes.content}>
         <div className={classes.sidebar}>
-          <Sidebar />
+          <Sidebar
+            settings={settings}
+            onChangeSettings={setSettings}
+          />
         </div>
         <div className={classes.main}>
-          <Main />
+          <Main
+            settings={settings}
+            onChangeSettings={setSettings}
+          />
         </div>
       </div>
     </Modal>
