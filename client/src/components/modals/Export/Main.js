@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Export = () => {
+const Main = () => {
   const classes = useStyles()
   const [dataUri, setDataUri] = useState(null)
   const theme = useTheme()
@@ -57,4 +57,4 @@ const Export = () => {
   )
 }
 
-export default Export
+export default Main

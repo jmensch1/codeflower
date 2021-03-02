@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Modal from 'components/core/Modal'
 import Header from './Header'
 import Main from './Main'
+import Sidebar from './Sidebar'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -52,7 +53,9 @@ const Export = () => {
     >
       <Header onClose={close} />
       <div className={classes.content}>
-        <div className={classes.sidebar} />
+        <div className={classes.sidebar}>
+          <Sidebar />
+        </div>
         <div className={classes.main}>
           <Main />
         </div>
