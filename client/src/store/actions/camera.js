@@ -3,6 +3,7 @@ export const types = {
   CAMERA_OFF: 'camera/CAMERA_OFF',
   FLASH_ON: 'camera/FLASH_ON',
   FLASH_OFF: 'camera/FLASH_OFF',
+  SET_TRANSPARENCY: 'camera/SET_TRANSPARENCY',
 }
 
 export const cameraOn = () => ({
@@ -20,9 +21,15 @@ export const flash = () => {
   }
 }
 
+export const setTransparency = (transparent) => ({
+  type: types.SET_TRANSPARENCY,
+  data: transparent,
+})
+
 const initialState = {
   cameraOn: false,
   flashOn: false,
+  transparent: false,
 }
 
 const reducer = (state = initialState, action) => {
@@ -46,6 +53,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         flashOn: false,
+      }
+    case types.SET_TRANSPARENCY:
+      return {
+        ...state,
+        transparent: action.data,
       }
     default:
       return state

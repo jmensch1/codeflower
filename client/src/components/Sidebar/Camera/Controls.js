@@ -79,7 +79,7 @@ function getSvgDimensions(svg) {
   }
 }
 
-const CameraControls = ({ flash }) => {
+const CameraControls = ({ flash, transparent, setTransparent }) => {
   const repo = useRepo()
   const theme = useTheme()
   const classes = useStyles()
@@ -88,7 +88,6 @@ const CameraControls = ({ flash }) => {
   const [format, setFormat] = useState(FORMATS[0])
   const [scale, setScale] = useState(2)
   const [showRepoInfo, setShowRepoInfo] = useState(true)
-  const [transparent, setTransparent] = useState(false)
 
   useEffect(() => {
     setTimeout(() => {

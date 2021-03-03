@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useLocation, useRepo, useCamera } from 'store/selectors'
 import { useDispatch } from 'react-redux'
+import { checkerGradient } from 'services/utils/color'
 import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
 import Sidebar from './Sidebar'
@@ -13,8 +14,6 @@ import FileViewer from './modals/FileViewer'
 import Modals from './modals'
 
 const INITIAL_SIDEBAR_WIDTH = 350
-// const GRADIENT_START_POSITION = '99.5'
-// const GRADIENT_END_OPACITY = '0.5'
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -43,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   main: {
     position: 'relative',
     flex: 1,
+    background: ({ transparent }) => transparent
+      ? checkerGradient({ alpha: 0.04 })
+      : 'none',
   },
   cameraIndicator: {
     border: `1px ${theme.palette.text.primary} dashed`,
@@ -52,28 +54,6 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     pointerEvents: 'none',
-    // backgroundImage: [
-    //   `linear-gradient(
-    //     to bottom,
-    //       rgba(255,255,255, 0) ${GRADIENT_START_POSITION}%,
-    //       rgba(255,255,255, ${GRADIENT_END_OPACITY}) 100%
-    //   )`,
-    //   `linear-gradient(
-    //     to right,
-    //       rgba(255,255,255, 0) ${GRADIENT_START_POSITION}%,
-    //       rgba(255,255,255, ${GRADIENT_END_OPACITY}) 100%
-    //   )`,
-    //   `linear-gradient(
-    //     to left,
-    //       rgba(255,255,255, 0) ${GRADIENT_START_POSITION}%,
-    //       rgba(255,255,255, ${GRADIENT_END_OPACITY}) 100%
-    //   )`,
-    //   `linear-gradient(
-    //     to top,
-    //       rgba(255,255,255, 0) ${GRADIENT_START_POSITION}%,
-    //       rgba(255,255,255, ${GRADIENT_END_OPACITY}) 100%
-    //   )`,
-    // ].join(','),
     '&:after': {
       content: '""',
       position: 'absolute',
@@ -89,10 +69,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function App() {
-  const { cameraOn, flashOn } = useCamera()
+  const { cameraOn, flashOn, transparent } = useCamera()
   const [sidebarWidth, setSidebarWidth] = useState(INITIAL_SIDEBAR_WIDTH)
   const [dragging, setDragging] = useState(false)
-  const classes = useStyles({ sidebarWidth, dragging, cameraOn, flashOn })
+  const classes = useStyles({ sidebarWidth, dragging, cameraOn, flashOn, transparent })
   const dispatch = useDispatch()
   const {
     query: { owner, name, branch },

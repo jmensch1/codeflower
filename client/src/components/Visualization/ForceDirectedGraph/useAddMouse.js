@@ -2,13 +2,17 @@ import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import * as d3 from 'd3'
 import { openFile } from 'store/actions/files'
+import { useCamera } from 'store/selectors'
 import { useTooltip } from '../Tooltip'
 
 export default function useAddMouse({ node, simulation }) {
   const dispatch = useDispatch()
   const setTooltip = useTooltip()
+  const { cameraOn } = useCamera()
 
-  const open = useCallback((file) => dispatch(openFile(file)), [dispatch])
+  const open = useCallback((file) => {
+    if (!cameraOn) dispatch(openFile(file))
+  }, [dispatch, cameraOn])
 
   useEffect(() => {
     if (!simulation || !node) return
