@@ -11,7 +11,7 @@ import VisThemeButtons from './buttons/VisThemeButtons'
 import FullscreenButton from './buttons/FullscreenButton'
 import AboutButton from './buttons/AboutButton'
 // import LinkButton from './buttons/LinkButton'
-import ExportButton from './buttons/ExportButton'
+import GalleryButton from './buttons/GalleryButton'
 
 const ControlBar = () => {
   const repo = useRepo()
@@ -37,7 +37,7 @@ const ControlBar = () => {
       <AboutButton />
       {/*<Divider />
       <LinkButton />*/}
-      <ExportButton />
+      <GalleryButton />
     </Bar>
   )
 }
