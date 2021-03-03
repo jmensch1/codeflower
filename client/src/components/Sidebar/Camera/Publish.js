@@ -4,7 +4,7 @@ import { svgAsPngUri } from 'save-svg-as-png'
 import { useRepo } from 'store/selectors'
 import TextButton from 'components/core/TextButton'
 import { getSvgDimensions } from './utils'
-import axios from 'axios'
+import { uploadImage } from 'services/gallery'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,34 +66,11 @@ const Publish = ({ flash, transparent, setTransparent }) => {
     })
   }, [svg, svgDimensions, theme])
 
-  const upload = useCallback(async () => {
+  const publish = useCallback(async () => {
+    flash()
     const dataUri = await getUri()
-
-    const formData = new FormData()
-    formData.append('file', dataUri)
-    formData.append('public_id', repo.name + Date.now())
-    formData.append('upload_preset', 'tahdwqyy')
-    formData.append('tags', 'myphotoalbum')
-
-    const repoInfo = encodeURIComponent(`${repo.name}/${repo.owner}`)
-    formData.append('context', `repo=${repoInfo}`)
-
-    const url = `https://api.cloudinary.com/v1_1/dt2rs6yf1/upload`
-
-    axios
-      .post(url, formData)
-      .then((result) => {
-        console.log('res:', result)
-      })
-      .catch((err) => {
-        console.log('err:', err)
-      })
-  }, [getUri, repo])
-
-  // const publish = useCallback(() => {
-  //   flash()
-  //   setTimeout(upload, 500)
-  // }, [flash, upload])
+    uploadImage(dataUri, repo)
+  }, [flash, repo, getUri])
 
   return (
     <div className={classes.root}>
@@ -102,8 +79,8 @@ const Publish = ({ flash, transparent, setTransparent }) => {
       </div>
       <TextButton
         className={classes.button}
-        onClick={upload}
-        label="upload"
+        onClick={publish}
+        label="publish"
       />
     </div>
   )
