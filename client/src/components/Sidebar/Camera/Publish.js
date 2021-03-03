@@ -4,6 +4,7 @@ import { svgAsPngUri } from 'save-svg-as-png'
 import { useRepo } from 'store/selectors'
 import TextButton from 'components/core/TextButton'
 import { getSvgDimensions } from './utils'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,7 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   const getUri = useCallback(async () => {
     if (!svg || !svgDimensions) return
 
-    const scale = 2
+    const scale = 4
     const { viewBox, ratio } = svgDimensions
     const adjustedScale = scale / (window.devicePixelRatio * ratio)
 
@@ -67,8 +68,26 @@ const Publish = ({ flash, transparent, setTransparent }) => {
 
   const upload = useCallback(async () => {
     const dataUri = await getUri()
-    console.log('uri:', dataUri)
-    console.log('repo:', repo)
+
+    const formData = new FormData()
+    formData.append('file', dataUri)
+    formData.append('public_id', repo.name + Date.now())
+    formData.append('upload_preset', 'tahdwqyy')
+    formData.append('tags', 'myphotoalbum')
+
+    const repoInfo = encodeURIComponent(`${repo.name}/${repo.owner}`)
+    formData.append('context', `repo=${repoInfo}`)
+
+    const url = `https://api.cloudinary.com/v1_1/dt2rs6yf1/upload`
+
+    axios
+      .post(url, formData)
+      .then((result) => {
+        console.log('res:', result)
+      })
+      .catch((err) => {
+        console.log('err:', err)
+      })
   }, [getUri, repo])
 
   // const publish = useCallback(() => {
