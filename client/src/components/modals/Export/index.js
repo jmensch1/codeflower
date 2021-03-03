@@ -33,13 +33,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const INITIAL_SETTINGS = {
+  transparent: false,
+  format: 'png',
+}
+
 const Export = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { isOpen } = useModal('export')
-  const [settings, setSettings] = useState({
-    transparent: false,
-  })
+  const [settings, setSettings] = useState(INITIAL_SETTINGS)
 
   const close = useCallback(() => {
     dispatch(closeModal('export'))

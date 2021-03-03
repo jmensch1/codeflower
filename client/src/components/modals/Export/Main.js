@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { checkerGradient } from 'services/utils/color'
 import { getSvgDimensions } from './utils'
+import PngCropper from './PngCropper'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     position: 'relative',
   },
-  inner: {
+  svgContainer: {
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: '2em',
+    backgroundColor: theme.palette.background.paper,
     '& svg': {
       maxHeight: '100%',
       maxWidth: '100%',
@@ -34,15 +36,12 @@ const Main = ({ settings }) => {
 
   useEffect(() => {
     const svg = document.querySelector('#fdg-container svg')
-    const svgContainer = document.querySelector('#export-container')
 
     const svgClone = svg.cloneNode(true)
     const { left, top, width, height } = getSvgDimensions(svg).viewBox
     svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
 
-    svgContainer.appendChild(svgClone)
     setSvg(svgClone)
-    return () => svgContainer.innerHTML = ''
   }, [])
 
   useEffect(() => {
@@ -55,10 +54,23 @@ const Main = ({ settings }) => {
 
   return (
     <div className={classes.root}>
-      <div
+      {svg && settings.format === 'svg' && (
+        <div
+          className={classes.svgContainer}
+          ref={(node => node && node.appendChild(svg))}
+        />
+      )}
+      {svg && settings.format === 'png' && (
+        <div className={classes.svgContainer}>
+          <PngCropper
+            svg={svg}
+          />
+        </div>
+      )}
+      {/*<div
         className={classes.inner}
         id="export-container"
-      />
+      />*/}
     </div>
   )
 }

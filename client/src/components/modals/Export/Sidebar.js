@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { saveSvgAsPng } from 'save-svg-as-png'
 import { getSvgDimensions } from './utils'
 import Checkbox from 'components/core/Checkbox'
+import Select from 'components/core/Select'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,6 +83,11 @@ const Sidebar = ({ settings, onChangeSettings }) => {
         label='transparent background'
         checked={settings.transparent}
         onChange={() => onChangeSettings({...settings, transparent: !settings.transparent })}
+      />
+      <Select
+        value={settings.format}
+        options={['png', 'svg']}
+        onChange={(format) => onChangeSettings({...settings, format })}
       />
     </div>
   )
