@@ -3,17 +3,18 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { cameraOn, cameraOff, flash, setTransparency, } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
-import Controls from './Controls'
 import SubTabs from '../SubTabs'
+import Download from './Download'
+import Publish from './Publish'
 
 const TABS = [
   {
     type: 'download',
-    Component: Controls,
+    Component: Download,
   },
   {
     type: 'publish',
-    Component: () => <div>publish</div>,
+    Component: Publish,
   },
 ]
 
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const Camera = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [tab, setTab] = useState('download')
+  const [tab, setTab] = useState('publish')
   const { Component } = TABS.find((t) => t.type === tab)
   const { transparent } = useCamera()
 
