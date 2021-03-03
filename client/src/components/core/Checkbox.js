@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     cursor: 'pointer',
   },
+  label: {
+    fontSize: '0.875em',
+  },
   svg: {
     height: '1.2em',
     width: '1.2em',

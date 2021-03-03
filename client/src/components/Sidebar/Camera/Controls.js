@@ -1,45 +1,52 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useMemo } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import {
-  saveSvgAsPng,
-  svgAsDataUri,
-} from 'save-svg-as-png'
-import TextButton from 'components/core/TextButton'
-import Slider from 'components/core/Slider'
+import { saveSvgAsPng } from 'save-svg-as-png'
 import * as d3 from 'd3'
 import { useRepo } from 'store/selectors'
+import TextButton from 'components/core/TextButton'
+import Slider from 'components/core/Slider'
 import Checkbox from 'components/core/Checkbox'
+import Select from 'components/core/Select'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: 8,
-    textAlign: 'center',
+    userSelect: 'none',
+    '& > *': {
+      marginBottom: '1.25em',
+    }
   },
-  preview: {
-    display: 'inline-block',
-    maxWidth: '100%',
-    maxHeight: 300,
+  instructions: {
+    fontSize: '0.875em',
+    fontStyle: 'italic',
+    marginBottom: '2em',
+    textAlign: 'left',
   },
-  dimensions: {
-    marginTop: 20,
+  format: {
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    fontSize: '0.875em',
+    marginBottom: '1.5em',
+    '& > select': {
+      width: '4em',
+      borderBottom: 'none',
+      padding: 0,
+      fontSize: '1em',
+      userSelect: 'none',
+    }
   },
   slider: {
-    marginTop: 20,
-    width: 200,
+    width: '100%',
     display: 'inline-block',
   },
-  buttons: {
-    marginTop: 20,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+  button: {
+    width: '100%',
+    marginTop: '2em',
   },
 }))
 
-const nearestEven = (x) => 2 * Math.round(x / 2)
+const FORMATS = ['png', 'svg']
+const SCALE_RANGE = [1, 6]
 
 // returns the screen dimensions, viewBox dimensions, and ratio between them
 function getSvgDimensions(svg) {
@@ -73,14 +80,15 @@ function getSvgDimensions(svg) {
 }
 
 const CameraControls = ({ flash }) => {
+  const repo = useRepo()
   const theme = useTheme()
   const classes = useStyles()
   const [svg, setSvg] = useState(null)
   const [svgDimensions, setSvgDimensions] = useState(null)
-  const [dataUri, setDataUri] = useState(null)
-  const [scale, setScale] = useState(1)
-  const repo = useRepo()
+  const [format, setFormat] = useState(FORMATS[0])
+  const [scale, setScale] = useState(2)
   const [showRepoInfo, setShowRepoInfo] = useState(true)
+  const [transparent, setTransparent] = useState(false)
 
   useEffect(() => {
     setTimeout(() => {
@@ -100,14 +108,18 @@ const CameraControls = ({ flash }) => {
     return () => observer.disconnect()
   }, [svg])
 
-  useEffect(() => {
-    if (!svg) return
+  const backgroundColor = useMemo(() => {
+    return transparent ? 'transparent' : theme.palette.background.default
+  }, [theme, transparent])
 
-    const repoName = `${repo.owner} / ${repo.name} (${repo.branch})`
-    const repoInfo = d3.select(svg)
+  useEffect(() => {
+    if (!svg || !repo) return
+
+    const repoInfo = d3
+      .select(svg)
       .append('text')
       .attr('class', 'repo-info')
-      .text(repoName)
+      .text(`${repo.owner} / ${repo.name}`)
       .style('fill', 'white')
       .style('font-size', 16)
       .style('font-family', 'sans-serif')
@@ -129,69 +141,90 @@ const CameraControls = ({ flash }) => {
       .style('visibility', showRepoInfo ? 'visible' : 'hidden')
   }, [svg, showRepoInfo, svgDimensions])
 
-  const setPreview = useCallback(() => {
+  const savePng = useCallback(() => {
     if (!svg || !svgDimensions) return
 
     const { viewBox, ratio } = svgDimensions
     const adjustedScale = scale / (window.devicePixelRatio * ratio)
 
-    svgAsDataUri(svg, {
+    saveSvgAsPng(svg, `${repo.name}.png`, {
       ...viewBox,
       scale: adjustedScale,
       excludeCss: true,
       encoderOptions: 1.0,
-      backgroundColor: theme.palette.background.default,
-    }).then(setDataUri)
-  }, [svg, scale, theme, svgDimensions])
-
-  const saveImage = useCallback(() => {
-    if (!svg || !svgDimensions) return
-
-    const { viewBox, ratio } = svgDimensions
-    const adjustedScale = scale / (window.devicePixelRatio * ratio)
-
-    saveSvgAsPng(svg, 'image.png', {
-      ...viewBox,
-      scale: adjustedScale,
-      excludeCss: true,
-      encoderOptions: 1.0,
-      backgroundColor: theme.palette.background.default,
+      backgroundColor,
     })
-  }, [svg, scale, theme, svgDimensions])
+  }, [svg, svgDimensions, scale, backgroundColor, repo])
 
-  const takeSnapshot = useCallback(() => {
+  // http://bl.ocks.org/curran/7cf9967028259ea032e8
+  const saveSvg = useCallback(() => {
+    const origBackground = svg.style.backgroundColor
+    svg.style.backgroundColor = backgroundColor
+
+    const svgAsXML = (new XMLSerializer()).serializeToString(svg)
+    const dataURL = "data:image/svg+xml," + encodeURIComponent(svgAsXML)
+
+    const dl = document.createElement('a')
+    document.body.appendChild(dl) // This line makes it work in Firefox.
+    dl.setAttribute('href', dataURL)
+    dl.setAttribute('download', `${repo.name}.svg`)
+    dl.click()
+    document.body.removeChild(dl)
+
+    setTimeout(() => {
+      svg.style.backgroundColor = origBackground
+    })
+  }, [svg, backgroundColor, repo])
+
+  const download = useCallback(() => {
     flash()
-    setTimeout(saveImage, 500)
-  }, [flash, saveImage])
+    setTimeout(format === 'svg' ? saveSvg : savePng, 500)
+  }, [flash, format, savePng, saveSvg])
 
-  if (!svgDimensions) return null
+  const renderDimensions = useCallback(() => {
+    if (!svgDimensions) return null
+    const width = (svgDimensions.screen.width * scale).toFixed(0)
+    const height = (svgDimensions.screen.height * scale).toFixed(0)
+    return `${width} x ${height}`
+  }, [svgDimensions, scale])
+
   return (
     <div className={classes.root}>
-      <img alt='preview' className={classes.preview} src={dataUri} />
-      <div className={classes.dimensions}>
-        <span>width: {nearestEven(svgDimensions.screen.width * scale)}</span>
-        <span>height: {nearestEven(svgDimensions.screen.height * scale)}</span>
+      <div className={classes.instructions}>
+        Download a snapshot of the main window.
       </div>
-      <div className={classes.slider}>
+      <div className={classes.format}>
+        <div>image format</div>
+        <Select
+          value={format}
+          onChange={setFormat}
+          options={FORMATS}
+        />
+      </div>
+      {format !== 'svg' && (
         <Slider
           value={scale}
           onChange={setScale}
-          range={[0.2, 5, 0.2]}
-          label='scale'
-          renderValue={x => x.toFixed(2)}
+          range={SCALE_RANGE}
+          label='image dimensions'
+          renderValue={renderDimensions}
         />
-      </div>
-      <div className={classes.showRepoInfo}>
-        <Checkbox
-          label='show repo owner/name'
-          checked={showRepoInfo}
-          onChange={setShowRepoInfo}
-        />
-      </div>
-      <div className={classes.buttons}>
-        <TextButton label='preview' onClick={setPreview} />
-        <TextButton label='save' onClick={takeSnapshot} />
-      </div>
+      )}
+      <Checkbox
+        label='transparent background'
+        checked={transparent}
+        onChange={setTransparent}
+      />
+      <Checkbox
+        label='stamp owner/name'
+        checked={showRepoInfo}
+        onChange={setShowRepoInfo}
+      />
+      <TextButton
+        className={classes.button}
+        label='download'
+        onClick={download}
+      />
     </div>
   )
 }
