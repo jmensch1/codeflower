@@ -38,7 +38,7 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   const theme = useTheme()
   const classes = useStyles()
   const [svg, setSvg] = useState(null)
-  const { svgDimensions } = useCamera()
+  const { aperture } = useCamera()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -46,10 +46,10 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   }, [])
 
   const getUri = useCallback(async () => {
-    if (!svg || !svgDimensions) return
+    if (!svg || !aperture) return
 
     const scale = 4
-    const { viewBox, ratio } = svgDimensions
+    const { viewBox, ratio } = aperture
     const adjustedScale = scale / (window.devicePixelRatio * ratio)
 
     return svgAsPngUri(svg, {
@@ -59,12 +59,14 @@ const Publish = ({ flash, transparent, setTransparent }) => {
       encoderOptions: 1.0,
       backgroundColor: theme.palette.background.default,
     })
-  }, [svg, svgDimensions, theme])
+  }, [svg, aperture, theme])
 
   const publish = useCallback(async () => {
     flash()
-    const dataUri = await getUri()
-    uploadImage(dataUri, repo)
+    setTimeout(async () => {
+      const dataUri = await getUri()
+      uploadImage(dataUri, repo)
+    }, 500)
   }, [flash, repo, getUri])
 
   const openGallery = useCallback(() => {

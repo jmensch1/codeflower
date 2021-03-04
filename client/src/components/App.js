@@ -12,7 +12,7 @@ import ControlBar from './ControlBar'
 import Terminal from './Terminal'
 import FileViewer from './modals/FileViewer'
 import Modals from './modals'
-import Shutter from './Shutter'
+import Aperture from './Aperture'
 
 const INITIAL_SIDEBAR_WIDTH = 350
 
@@ -83,7 +83,7 @@ function App() {
         )}
         <div className={classes.main}>
           <Visualization />
-          {cameraOn && <Shutter />}
+          {cameraOn && <Aperture />}
           <div style={{ visibility: cameraOn ? 'hidden' : 'visible' }}>
             <ControlBar />
             <Terminal />

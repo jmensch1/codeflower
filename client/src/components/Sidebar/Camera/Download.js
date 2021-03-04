@@ -57,7 +57,7 @@ const Download = ({ flash, transparent, setTransparent }) => {
   const [format, setFormat] = useState(FORMATS[0])
   const [scale, setScale] = useState(2)
   const [showRepoInfo, setShowRepoInfo] = useState(true)
-  const { svgDimensions } = useCamera()
+  const { aperture } = useCamera()
 
   useEffect(() => {
     setSvg(document.querySelector('#fdg-container svg'))
@@ -84,9 +84,9 @@ const Download = ({ flash, transparent, setTransparent }) => {
   }, [svg, repo])
 
   useEffect(() => {
-    if (!svg || !svgDimensions) return
+    if (!svg || !aperture) return
 
-    const { left, top, height } = svgDimensions.viewBox
+    const { left, top, height } = aperture.viewBox
 
     d3
       .select(svg)
@@ -94,12 +94,12 @@ const Download = ({ flash, transparent, setTransparent }) => {
       .attr('x', left + 10)
       .attr('y', top + height - 10)
       .style('visibility', showRepoInfo ? 'visible' : 'hidden')
-  }, [svg, showRepoInfo, svgDimensions])
+  }, [svg, showRepoInfo, aperture])
 
   const savePng = useCallback(() => {
-    if (!svg || !svgDimensions) return
+    if (!svg || !aperture) return
 
-    const { viewBox, ratio } = svgDimensions
+    const { viewBox, ratio } = aperture
     const adjustedScale = scale / (window.devicePixelRatio * ratio)
 
     saveSvgAsPng(svg, `${repo.name}.png`, {
@@ -109,7 +109,7 @@ const Download = ({ flash, transparent, setTransparent }) => {
       encoderOptions: 1.0,
       backgroundColor,
     })
-  }, [svg, svgDimensions, scale, backgroundColor, repo])
+  }, [svg, aperture, scale, backgroundColor, repo])
 
   // http://bl.ocks.org/curran/7cf9967028259ea032e8
   const saveSvg = useCallback(() => {
@@ -137,11 +137,11 @@ const Download = ({ flash, transparent, setTransparent }) => {
   }, [flash, format, savePng, saveSvg])
 
   const renderDimensions = useCallback(() => {
-    if (!svgDimensions) return null
-    const width = (svgDimensions.screen.width * scale).toFixed(0)
-    const height = (svgDimensions.screen.height * scale).toFixed(0)
+    if (!aperture) return null
+    const width = (aperture.screen.width * scale).toFixed(0)
+    const height = (aperture.screen.height * scale).toFixed(0)
     return `${width} x ${height}`
-  }, [svgDimensions, scale])
+  }, [aperture, scale])
 
   return (
     <div className={classes.root}>
