@@ -33,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const TARGET_WIDTH = 3000
+
 const Publish = ({ flash, transparent, setTransparent }) => {
   const repo = useRepo()
   const theme = useTheme()
@@ -48,13 +50,12 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   const getUri = useCallback(async () => {
     if (!svg || !aperture) return
 
-    const scale = 4
-    const { viewBox, ratio } = aperture
-    const adjustedScale = scale / (window.devicePixelRatio * ratio)
+    const { viewBox } = aperture
+    const scale = TARGET_WIDTH / (viewBox.width * window.devicePixelRatio)
 
     return svgAsPngUri(svg, {
       ...viewBox,
-      scale: adjustedScale,
+      scale,
       excludeCss: true,
       encoderOptions: 1.0,
       backgroundColor: theme.palette.background.default,
