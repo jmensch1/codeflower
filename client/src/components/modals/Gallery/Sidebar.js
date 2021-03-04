@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import { thumbUrl } from 'services/gallery'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +47,7 @@ const Sidebar = ({ images, selectedImage, onSelect }) => {
         >
           <img
             className={classes.image}
-            src={image.url}
+            src={thumbUrl(image)}
             alt={image.public_id}
           />
         </div>

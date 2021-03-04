@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Modal from 'components/core/Modal'
 // import Header from './Header'
 import Sidebar from './Sidebar'
-import { listImages } from 'services/gallery'
+import { listImages, imageUrl } from 'services/gallery'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -87,7 +87,7 @@ const Gallery = () => {
         <div className={classes.main} onClick={close}>
           {selectedImage && (
             <img
-              src={selectedImage.url}
+              src={imageUrl(selectedImage)}
               className={classes.image}
               alt='main'
             />

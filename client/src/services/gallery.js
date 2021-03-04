@@ -2,42 +2,40 @@ import axios from 'axios'
 
 const CLOUD_NAME = 'dt2rs6yf1'
 const UPLOAD_PRESET = 'tahdwqyy'
-const TAG = 'myphotoalbum'
+const TAG = 'codeflower-local'
+
+const FETCH_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image`
+const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`
+
+export function listImages() {
+  const version = Math.ceil(new Date().getTime() / 1000)
+  const url = `${FETCH_URL}/list/v${version}/${TAG}.json`
+
+  return axios.get(url)
+    .then(({ data: { resources: images }}) => images)
+    .catch((err) => [])
+}
+
+export function imageUrl(image) {
+  const { version, public_id, format } = image
+  return `${FETCH_URL}/upload/v${version}/${public_id}.${format}`
+}
+
+export function thumbUrl(image, { width = 300, format = 'jpg'} = {}) {
+  // https://cloudinary.com/documentation/transformation_reference
+  const transforms = `w_${width}`
+  
+  const { version, public_id } = image
+  return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.${format}`
+}
 
 export function uploadImage(dataUri, repo) {
   const formData = new FormData()
   formData.append('file', dataUri)
-  formData.append('public_id', repo.name + Date.now())
+  formData.append('public_id', `${repo.repoId}-${Date.now()}`)
   formData.append('upload_preset', UPLOAD_PRESET)
   formData.append('tags', TAG)
+  formData.append('context', `repo=${repo.name}/${repo.owner}`)
 
-  const repoInfo = encodeURIComponent(`${repo.name}/${repo.owner}`)
-  formData.append('context', `repo=${repoInfo}`)
-
-  const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`
-
-  return axios
-    .post(url, formData)
-    .then((result) => {
-      console.log('res:', result)
-    })
-    .catch((err) => {
-      console.log('err:', err)
-    })
-}
-
-export function listImages() {
-  const baseUrl = 'https://res.cloudinary.com'
-
-  const version = Math.ceil(new Date().getTime() / 1000)
-  const url = `${baseUrl}/${CLOUD_NAME}/image/list/v${version}/${TAG}.json`
-
-  return axios.get(url)
-    .then(({ data: { resources: images }}) => {
-      return images.map((image) => ({
-        ...image,
-        url: `${baseUrl}/${CLOUD_NAME}/image/upload/v${image.version}/${image.public_id}.${image.format}`
-      }))
-    })
-    .catch((err) => console.log('ERROR LISTING IMAGES:', err))
+  return axios.post(UPLOAD_URL, formData)
 }
