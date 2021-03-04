@@ -1,9 +1,7 @@
 import axios from 'axios'
+import { cloudinary } from 'constants.js'
 
-const CLOUD_NAME = 'dt2rs6yf1'
-const UPLOAD_PRESET = 'tahdwqyy'
-const TAG = 'codeflower-local'
-
+const { CLOUD_NAME, UPLOAD_PRESET, TAG } = cloudinary
 const FETCH_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image`
 const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`
 

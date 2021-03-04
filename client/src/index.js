@@ -7,6 +7,8 @@ import store from './store'
 import MainThemeProvider from './components/theme/MainThemeProvider'
 import App from './components/App'
 
+console.log(process.env)
+
 ReactDOM.render(
   <Provider store={store}>
     <MainThemeProvider>

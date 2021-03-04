@@ -5,7 +5,9 @@ import { closeModal } from 'store/actions/modals'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Typography from '@material-ui/core/Typography'
-import {
+import { about } from 'constants.js'
+
+const {
   WEB_URL,
   GITHUB_URL,
   CHROME_URL,
@@ -13,7 +15,7 @@ import {
   CONTRIBUTORS_URL,
   BUG_REPORT_URL,
   FEATURE_REQUEST_URL,
-} from 'constants.js'
+} = about
 
 const useStyles = makeStyles((theme) => ({
   root: {
