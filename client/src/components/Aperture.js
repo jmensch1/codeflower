@@ -123,14 +123,11 @@ const Aperture = () => {
 
     const viewboxAperture = getViewboxAperture(svg, screenAperture)
 
-    const ratio = viewboxAperture.width / screenAperture.width
-
     setAperture(screenAperture)
     dispatch(updateCamera({
       aperture: {
         screen: screenAperture,
         viewBox: viewboxAperture,
-        ratio,
       },
     }))
   }, [svg, containerRect, aspectRatio, dispatch])

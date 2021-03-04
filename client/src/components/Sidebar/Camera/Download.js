@@ -99,7 +99,8 @@ const Download = ({ flash, transparent, setTransparent }) => {
   const savePng = useCallback(() => {
     if (!svg || !aperture) return
 
-    const { viewBox, ratio } = aperture
+    const { viewBox, screen } = aperture
+    const ratio = viewBox.width / screen.width
     const adjustedScale = scale / (window.devicePixelRatio * ratio)
 
     saveSvgAsPng(svg, `${repo.name}.png`, {
