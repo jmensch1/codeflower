@@ -27,6 +27,10 @@ export function thumbUrl(image, { width = 300, format = 'jpg'} = {}) {
   return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.${format}`
 }
 
+function createContext(obj) {
+  return Object.keys(obj).map((key) => `${key}=${obj[key]}`).join('|')
+}
+
 export function uploadImage(dataUri, repo) {
   const headers = { 'Content-Type': 'application/json' }
 
@@ -35,7 +39,9 @@ export function uploadImage(dataUri, repo) {
     public_id: `${repo.name}-${Date.now()}`,
     upload_preset: UPLOAD_PRESET,
     tags: TAG,
-    context: `repo=${encodeURIComponent(`${repo.name}/${repo.owner}`)}`,
+    context: createContext({
+      repo: `${repo.name}/${repo.owner}`,
+    }),
   }
 
   return axios.post(UPLOAD_URL, JSON.stringify(data), { headers })
