@@ -7,7 +7,7 @@ import TextButton from 'components/core/TextButton'
 import Slider from 'components/core/Slider'
 import Checkbox from 'components/core/Checkbox'
 import Select from 'components/core/Select'
-import { getSvgDimensions } from './utils'
+import { useCamera } from 'store/selectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,28 +54,14 @@ const Download = ({ flash, transparent, setTransparent }) => {
   const theme = useTheme()
   const classes = useStyles()
   const [svg, setSvg] = useState(null)
-  const [svgDimensions, setSvgDimensions] = useState(null)
   const [format, setFormat] = useState(FORMATS[0])
   const [scale, setScale] = useState(2)
   const [showRepoInfo, setShowRepoInfo] = useState(true)
+  const { svgDimensions } = useCamera()
 
   useEffect(() => {
-    setTimeout(() => {
-      setSvg(document.querySelector('#fdg-container svg'))
-    })
+    setSvg(document.querySelector('#fdg-container svg'))
   }, [])
-
-  useEffect(() => {
-    if (!svg) return
-
-    const observer = new ResizeObserver(() => {
-      setSvgDimensions(getSvgDimensions(svg))
-    })
-
-    observer.observe(document.querySelector('#fdg-container'))
-
-    return () => observer.disconnect()
-  }, [svg])
 
   const backgroundColor = useMemo(() => {
     return transparent ? 'transparent' : theme.palette.background.default

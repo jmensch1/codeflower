@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState, useRef } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useCamera } from 'store/selectors'
@@ -58,6 +58,7 @@ const ForceDirectedGraph = () => {
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
   const { cameraOn } = useCamera()
+  const svgRef = useRef(null)
 
   useEffect(() => {
     if (!tree) return
@@ -82,8 +83,7 @@ const ForceDirectedGraph = () => {
     const height = container.offsetHeight
 
     const svg = d3
-      .select(container)
-      .append('svg')
+      .select(svgRef.current)
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
     // svg
@@ -143,15 +143,15 @@ const ForceDirectedGraph = () => {
   }, [])
 
   return (
-    <>
-      <div id="fdg-container" className={classes.root} />
+    <div id="fdg-container" className={classes.root}>
+      <svg ref={svgRef} />
       {visElements && (
         <>
           <Enhancers visElements={visElements} />
           {!cameraOn && <Extras alpha={alpha} onRestart={restart} />}
         </>
       )}
-    </>
+    </div>
   )
 }
 

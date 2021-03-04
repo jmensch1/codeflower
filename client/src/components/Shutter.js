@@ -2,6 +2,8 @@
 
 import React, { useRef, useEffect, useState, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { useDispatch } from 'react-redux'
+import { updateCamera } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
 import useSize from 'hooks/useSize'
 
@@ -60,15 +62,52 @@ function getAperture(containerWidth, containerHeight, aspect) {
   }
 }
 
+// returns the aperture in svg coordinates, and ratio between the
+// two coordinate systems
+export function getSvgDimensions(svg, aperture) {
+  const { x, y, width, height } = aperture
+  const matrix = svg.getCTM().inverse()
+
+  // top-left corner of svg
+  const pt0 = svg.createSVGPoint()
+  pt0.x = x
+  pt0.y = y
+  const svgPt0 = pt0.matrixTransform(matrix)
+
+  // bottom-right corner
+  const pt1 = svg.createSVGPoint()
+  pt1.x = x + width
+  pt1.y = y + height
+  const svgPt1 = pt1.matrixTransform(matrix)
+
+  const viewBox = {
+    left: svgPt0.x,
+    top: svgPt0.y,
+    width: svgPt1.x - svgPt0.x,
+    height: svgPt1.y - svgPt0.y,
+  }
+
+  return {
+    viewBox,
+    ratio: viewBox.width / width,
+  }
+}
+
 const Shutter = () => {
   const { flashOn, aspectRatio } = useCamera()
   const [aperture, setAperture] = useState(null)
   const classes = useStyles({ flashOn })
   const container = useRef(null)
   const dimensions = useSize(container)
+  const [svg, setSvg] = useState(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!dimensions) return
+    setSvg(document.querySelector('#fdg-container svg'))
+  }, [])
+
+  useEffect(() => {
+    if (!dimensions || !svg) return
 
     const { width, height } = dimensions
 
@@ -76,8 +115,12 @@ const Shutter = () => {
       ? getAperture(width, height, aspectRatio)
       : { x: 0, y: 0, width, height }
 
+    const svgDimensions = getSvgDimensions(svg, aperture)
+    svgDimensions.screen = aperture
+
     setAperture(aperture)
-  }, [dimensions, aspectRatio])
+    dispatch(updateCamera({ svgDimensions }))
+  }, [svg, dimensions, aspectRatio, dispatch])
 
   const content = useMemo(() => {
     if (!aperture) return null

@@ -1,10 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { useDispatch } from 'react-redux'
 import { svgAsPngUri } from 'save-svg-as-png'
 import { useRepo } from 'store/selectors'
 import TextButton from 'components/core/TextButton'
-import { getSvgDimensions } from './utils'
 import { uploadImage } from 'services/gallery'
+import { useCamera } from 'store/selectors'
+import { openModal } from 'store/actions/modals'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '2em',
     textAlign: 'left',
   },
+  link: {
+    textDecoration: 'underline',
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
   button: {
     width: '100%',
     marginTop: '2em',
@@ -30,25 +38,12 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   const theme = useTheme()
   const classes = useStyles()
   const [svg, setSvg] = useState(null)
-  const [svgDimensions, setSvgDimensions] = useState(null)
+  const { svgDimensions } = useCamera()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    setTimeout(() => {
-      setSvg(document.querySelector('#fdg-container svg'))
-    })
+    setSvg(document.querySelector('#fdg-container svg'))
   }, [])
-
-  useEffect(() => {
-    if (!svg) return
-
-    const observer = new ResizeObserver(() => {
-      setSvgDimensions(getSvgDimensions(svg))
-    })
-
-    observer.observe(document.querySelector('#fdg-container'))
-
-    return () => observer.disconnect()
-  }, [svg])
 
   const getUri = useCallback(async () => {
     if (!svg || !svgDimensions) return
@@ -72,10 +67,15 @@ const Publish = ({ flash, transparent, setTransparent }) => {
     uploadImage(dataUri, repo)
   }, [flash, repo, getUri])
 
+  const openGallery = useCallback(() => {
+    dispatch(openModal('gallery'))
+  }, [dispatch])
+
   return (
     <div className={classes.root}>
       <div className={classes.instructions}>
-        Add an image to the gallery.
+        Add an image to the{' '}
+        <span onClick={openGallery} className={classes.link}>gallery</span>.
       </div>
       <TextButton
         className={classes.button}
