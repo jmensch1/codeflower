@@ -75,7 +75,7 @@ const Shutter = () => {
     const aperture = aspectRatio
       ? getAperture(width, height, aspectRatio)
       : { x: 0, y: 0, width, height }
-      
+
     setAperture(aperture)
   }, [dimensions, aspectRatio])
 

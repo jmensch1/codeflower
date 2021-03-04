@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { cameraOn, cameraOff, flash, setTransparency, } from 'store/actions/camera'
+import { updateCamera } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
 import SubTabs from '../SubTabs'
 import Download from './Download'
@@ -44,20 +44,25 @@ const Camera = () => {
   const { transparent } = useCamera()
 
   useEffect(() => {
-    dispatch(cameraOn())
-    return () => {
-      dispatch(cameraOff())
-      dispatch(setTransparency(false))
-    }
-  }, [dispatch])
+    dispatch(updateCamera({
+      cameraOn: true,
+      aspectRatio: tab === 'download' ? null : 4 / 3,
+    }))
 
-  const doFlash = useCallback(
-    () => dispatch(flash()),
-    [dispatch]
-  )
+    return () => dispatch(updateCamera({
+      cameraOn: false,
+      transparent: false,
+      aspectRatio: null,
+    }))
+  }, [tab, dispatch])
 
   const setTransparent = useCallback((transparent) => {
-    dispatch(setTransparency(transparent))
+    dispatch(updateCamera({ transparent }))
+  }, [dispatch])
+
+  const flash = useCallback(() => {
+    dispatch(updateCamera({ flashOn: true }))
+    setTimeout(() => dispatch(updateCamera({ flashOn: false })), 100)
   }, [dispatch])
 
   return (
@@ -67,7 +72,7 @@ const Camera = () => {
       </div>
       <div className={classes.content}>
         <Component
-          flash={doFlash}
+          flash={flash}
           transparent={transparent}
           setTransparent={setTransparent}
         />
