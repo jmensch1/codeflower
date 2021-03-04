@@ -30,6 +30,7 @@ const initialState = {
   cameraOn: false,
   flashOn: false,
   transparent: false,
+  aspectRatio: 4 / 3,
 }
 
 const reducer = (state = initialState, action) => {

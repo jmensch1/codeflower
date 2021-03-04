@@ -1,6 +1,6 @@
 // NOTE: parent component must be relatively positioned
 
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useCamera } from 'store/selectors'
 import useSize from 'hooks/useSize'
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     pointerEvents: 'none',
   },
-  shutter: {
+  aperture: {
     border: `1px ${theme.palette.text.primary} dashed`,
     position: 'absolute',
     pointerEvents: 'none',
@@ -37,32 +37,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function getPosition(parentWidth, parentHeight, aspect) {
-  const parentAspect = parentWidth / parentHeight
+function getAperture(containerWidth, containerHeight, aspect) {
+  const containerAspect = containerWidth / containerHeight
 
-  let width, height
-  if (parentAspect > aspect) {
-    height = 100
-    width = 100 * aspect / parentAspect
-  } else {
-    width = 100
-    height = 100 * parentAspect / aspect
-  }
+  const { width, height } = containerAspect > aspect
+    ? {
+      width: aspect / containerAspect,
+      height: 1,
+    } : {
+      width: 1,
+      height: containerAspect / aspect
+    }
 
-  const top = (100 - height) / 2;
-  const left = (100 - width) / 2;
+  const x = (1 - width) / 2
+  const y = (1 - height) / 2
 
   return {
-    width,
-    height,
-    top,
-    left,
+    x: x * containerWidth,
+    y: y * containerHeight,
+    width: width * containerWidth,
+    height: height * containerHeight,
   }
 }
 
 const Shutter = () => {
-  const { flashOn } = useCamera()
-  const [shutterPosition, setShutterPosition] = useState(null)
+  const { flashOn, aspectRatio } = useCamera()
+  const [aperture, setAperture] = useState(null)
   const classes = useStyles({ flashOn })
   const container = useRef(null)
   const dimensions = useSize(container)
@@ -71,62 +71,67 @@ const Shutter = () => {
     if (!dimensions) return
 
     const { width, height } = dimensions
-    const position = getPosition(width, height, 4 / 3)
-    setShutterPosition(position)
-  }, [dimensions])
+
+    const aperture = aspectRatio
+      ? getAperture(width, height, aspectRatio)
+      : { x: 0, y: 0, width, height }
+      
+    setAperture(aperture)
+  }, [dimensions, aspectRatio])
+
+  const content = useMemo(() => {
+    if (!aperture) return null
+
+    const { x: left, y: top, width, height } = aperture
+    return (
+      <>
+        <div
+          className={classes.aperture}
+          style={{ left, top, width, height }}
+        />
+        <div
+          className={classes.blocker}
+          style={{
+            top: 0,
+            bottom: 0,
+            left: 0,
+            width: left,
+          }}
+        />
+        <div
+          className={classes.blocker}
+          style={{
+            top: 0,
+            bottom: 0,
+            right: 0,
+            width: left,
+          }}
+        />
+        <div
+          className={classes.blocker}
+          style={{
+            left: 0,
+            right: 0,
+            top: 0,
+            height: top,
+          }}
+        />
+        <div
+          className={classes.blocker}
+          style={{
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: top,
+          }}
+        />
+      </>
+    )
+  }, [aperture, classes])
 
   return (
     <div className={classes.root} ref={container}>
-      {shutterPosition && (
-        <>
-          <div
-            className={classes.shutter}
-            style={{
-              left: shutterPosition.left + '%',
-              top: shutterPosition.top + '%',
-              width: shutterPosition.width + '%',
-              height: shutterPosition.height + '%',
-            }}
-          />
-          <div
-            className={classes.blocker}
-            style={{
-              top: 0,
-              bottom: 0,
-              left: 0,
-              width: shutterPosition.left + '%',
-            }}
-          />
-          <div
-            className={classes.blocker}
-            style={{
-              top: 0,
-              bottom: 0,
-              right: 0,
-              width: shutterPosition.left + '%',
-            }}
-          />
-          <div
-            className={classes.blocker}
-            style={{
-              left: 0,
-              right: 0,
-              top: 0,
-              height: shutterPosition.top + '%',
-            }}
-          />
-          <div
-            className={classes.blocker}
-            style={{
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: shutterPosition.top + '%',
-            }}
-          />
-
-        </>
-      )}
+      { content }
     </div>
   )
 }
