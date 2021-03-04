@@ -24,18 +24,21 @@ export function imageUrl(image) {
 export function thumbUrl(image, { width = 300, format = 'jpg'} = {}) {
   // https://cloudinary.com/documentation/transformation_reference
   const transforms = `w_${width}`
-  
+
   const { version, public_id } = image
   return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.${format}`
 }
 
 export function uploadImage(dataUri, repo) {
-  const formData = new FormData()
-  formData.append('file', dataUri)
-  formData.append('public_id', `${repo.repoId}-${Date.now()}`)
-  formData.append('upload_preset', UPLOAD_PRESET)
-  formData.append('tags', TAG)
-  formData.append('context', `repo=${repo.name}/${repo.owner}`)
+  const headers = { 'Content-Type': 'application/json' }
 
-  return axios.post(UPLOAD_URL, formData)
+  const data = {
+    file: dataUri,
+    public_id: `${repo.name}-${Date.now()}`,
+    upload_preset: UPLOAD_PRESET,
+    tags: TAG,
+    context: `repo=${encodeURIComponent(`${repo.name}/${repo.owner}`)}`,
+  }
+
+  return axios.post(UPLOAD_URL, JSON.stringify(data), { headers })
 }
