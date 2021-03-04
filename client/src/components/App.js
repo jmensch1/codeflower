@@ -12,6 +12,7 @@ import ControlBar from './ControlBar'
 import Terminal from './Terminal'
 import FileViewer from './modals/FileViewer'
 import Modals from './modals'
+import Shutter from './Shutter'
 
 const INITIAL_SIDEBAR_WIDTH = 350
 
@@ -46,33 +47,13 @@ const useStyles = makeStyles((theme) => ({
       ? checkerGradient({ alpha: 0.04 })
       : 'none',
   },
-  cameraIndicator: {
-    border: `1px ${theme.palette.text.primary} dashed`,
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    pointerEvents: 'none',
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: ({ flashOn }) =>
-        flashOn ? `hsla(0,0%,100%,0.5)` : `hsla(0,0%,100%,0)`,
-      transition: 'background-color 0.1s ease-out',
-    }
-  },
 }))
 
 function App() {
-  const { cameraOn, flashOn, transparent } = useCamera()
+  const { cameraOn, transparent } = useCamera()
   const [sidebarWidth, setSidebarWidth] = useState(INITIAL_SIDEBAR_WIDTH)
   const [dragging, setDragging] = useState(false)
-  const classes = useStyles({ sidebarWidth, dragging, cameraOn, flashOn, transparent })
+  const classes = useStyles({ sidebarWidth, dragging, cameraOn, transparent })
   const dispatch = useDispatch()
   const {
     query: { owner, name, branch },
@@ -102,7 +83,7 @@ function App() {
         )}
         <div className={classes.main}>
           <Visualization />
-          {cameraOn && <div className={classes.cameraIndicator} />}
+          {cameraOn && <Shutter />}
           <div style={{ visibility: cameraOn ? 'hidden' : 'visible' }}>
             <ControlBar />
             <Terminal />
