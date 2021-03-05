@@ -7,7 +7,7 @@ import Modal from 'components/core/Modal'
 // import Header from './Header'
 // import Sidebar from './Sidebar'
 import { listImages, imageUrl } from 'services/gallery'
-import Thumbnails from './Thumbnails'
+import Rack from './Rack'
 import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
@@ -104,21 +104,20 @@ const Gallery = () => {
         content: classes.modalContent,
       }}
     >
-
       {/*<Header onClose={close} />*/}
       <div className={classes.content}>
         <div className={classes.sidebar}>
-          <Thumbnails
+          <Rack
             images={images}
             onSelect={setSelectedImage}
             selectedImage={selectedImage}
           />
-          <Thumbnails
+          <Rack
             images={images}
             onSelect={setSelectedImage}
             selectedImage={selectedImage}
           />
-          <Thumbnails
+          <Rack
             images={images}
             onSelect={setSelectedImage}
             selectedImage={selectedImage}
@@ -129,15 +128,7 @@ const Gallery = () => {
             selectedImage={selectedImage}
           />*/}
         </div>
-        <div className={classes.main} onClick={close} ref={mainRef}>
-          {false && selectedImage && (
-            <img
-              src={imageUrl(selectedImage)}
-              className={classes.image}
-              alt='main'
-            />
-          )}
-        </div>
+        <div className={classes.main} onClick={close} ref={mainRef} />
       </div>
     </Modal>
   )
