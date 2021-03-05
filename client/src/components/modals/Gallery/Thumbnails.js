@@ -4,17 +4,39 @@ import clsx from 'clsx'
 import { thumbUrl } from 'services/gallery'
 
 const THUMB_WIDTH = 100
-const ENLARGED_WIDTH = 300
-const SPACING = 20
+const ENLARGED_WIDTH = 100
+const SPACING = 25
+const BOTTOM_BAR_HEIGHT = 40
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'relative',
+    height: BOTTOM_BAR_HEIGHT,
+    marginTop: 130,
+  },
+  middleBar: {
     position: 'absolute',
+    left: 0,
+    width: '100%',
+    bottom: 20,
+    height: THUMB_WIDTH / 4,
+    backgroundColor: 'black',
+    border: '1px white solid',
+    borderRight: 'none',
+    borderLeft: 'none',
+    zIndex: 1000,
+  },
+  bottomBar: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
     bottom: 0,
-    left: '50%',
-    transform: ({ numImages }) => `translateX(-${0.5 * numImages * SPACING}px)`,
-    right: 100,
-    zIndex: 100,
+    height: BOTTOM_BAR_HEIGHT,
+    backgroundColor: 'black',
+    border: '1px white solid',
+    borderRight: 'none',
+    borderLeft: 'none',
+    zIndex: 1000,
   },
   imageContainer: {
     width: THUMB_WIDTH,
@@ -23,8 +45,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    borderLeft: `1px ${theme.palette.divider} solid`,
     position: 'relative',
+    // '&:hover': {
+    //   '& img': {
+    //     transform: `translateY(-${THUMB_WIDTH * 0.75 + 5}px)`,
+    //   }
+    // }
   },
   selected: {
     // outline: '1px white solid',
@@ -33,26 +59,50 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '100%',
     maxWidth: '100%',
     display: 'block',
+    transition: 'all 0.15s ease-out',
+    border: `1px white solid`,
+    pointerEvents: 'none',
+    borderRadius: 5,
+  },
+  hoveredImage: {
+    transform: `translateY(-${THUMB_WIDTH * 0.75 + 5}px)`,
   },
   bigImage: {
     width: ENLARGED_WIDTH,
     height: ENLARGED_WIDTH * 0.75,
     position: 'absolute',
     bottom: THUMB_WIDTH * 0.75 + 5,
-    left: '50%',
-    transform: 'translateX(-50%)',
+    left: 0,
+    //transform: 'translateX(-50%)',
     outline: `1px ${theme.palette.divider} solid`,
   },
 }))
 
-const Sidebar = ({ images, selectedImage, onSelect }) => {
+const Rack = ({ images, selectedImage, onSelect }) => {
   const classes = useStyles({ numImages: images.length })
   const [hoveredId, setHoveredId] = useState(null)
 
-  console.log(hoveredId)
+  const selectedIndex = images.findIndex(image => image === selectedImage)
 
   return (
     <div className={classes.root} onMouseLeave={() => setHoveredId(null)}>
+      <div className={classes.bottomBar} onMouseEnter={() => setHoveredId(null)}>
+        {selectedIndex !== -1 && (
+          <div
+            style={{
+              position: 'absolute',
+              top: (BOTTOM_BAR_HEIGHT - 10) / 2,
+              left: 20 + ((SPACING - 10) / 2) + selectedIndex * SPACING,
+              height: 10,
+              width: 10,
+              borderRadius: '50%',
+              backgroundColor: 'white',
+              transition: 'left 0.2s ease-out',
+            }}
+          />
+        )}
+      </div>
+      {/*<div className={classes.middleBar} />*/}
       {images.map((image, idx) => (
         <div
           key={image.public_id}
@@ -63,17 +113,22 @@ const Sidebar = ({ images, selectedImage, onSelect }) => {
             position: 'absolute',
             zIndex: 1,
             bottom: 0,
-            left: idx * SPACING,
+            left: 20 + idx * SPACING,
           }}
-          onClick={onSelect.bind(null, image)}
+          onClick={() => {
+            onSelect(image)
+            setHoveredId(null)
+          }}
           onMouseEnter={() => setHoveredId(image.public_id)}
         >
           <img
-            className={classes.image}
+            className={clsx(classes.image, {
+              [classes.hoveredImage]: hoveredId === image.public_id,
+            })}
             src={thumbUrl(image)}
             alt={image.public_id}
           />
-          {hoveredId === image.public_id && selectedImage.public_id !== image.public_id && (
+          {false && hoveredId === image.public_id && (
             <div className={classes.bigImage}>
               <img
                 className={classes.image}
@@ -88,4 +143,4 @@ const Sidebar = ({ images, selectedImage, onSelect }) => {
   )
 }
 
-export default Sidebar
+export default Rack

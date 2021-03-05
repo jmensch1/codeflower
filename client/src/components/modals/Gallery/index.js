@@ -5,7 +5,7 @@ import { useModal } from 'store/selectors'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from 'components/core/Modal'
 // import Header from './Header'
-import Sidebar from './Sidebar'
+// import Sidebar from './Sidebar'
 import { listImages, imageUrl } from 'services/gallery'
 import Thumbnails from './Thumbnails'
 
@@ -27,19 +27,15 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   sidebar: {
-    width: 300,
+    width: 400,
     height: '100%',
     overflow: 'auto',
-    borderRight: `1px ${theme.palette.divider} solid`,
+    borderRight: `1px white solid`,
+    position: 'relative',
   },
   main: {
     flex: 1,
     display: 'flex',
-    position: 'absolute',
-    top: 100,
-    left: 100,
-    right: 100,
-    bottom: 100,
     justifyContent: 'center',
     alignItems: 'center',
     padding: '2em',
@@ -80,20 +76,31 @@ const Gallery = () => {
         content: classes.modalContent,
       }}
     >
-      <Thumbnails
-        images={images}
-        onSelect={setSelectedImage}
-        selectedImage={selectedImage}
-      />
+
       {/*<Header onClose={close} />*/}
       <div className={classes.content}>
-        {/*<div className={classes.sidebar}>
-          <Sidebar
+        <div className={classes.sidebar}>
+          <Thumbnails
             images={images}
             onSelect={setSelectedImage}
             selectedImage={selectedImage}
           />
-        </div>*/}
+          <Thumbnails
+            images={images}
+            onSelect={setSelectedImage}
+            selectedImage={selectedImage}
+          />
+          <Thumbnails
+            images={images}
+            onSelect={setSelectedImage}
+            selectedImage={selectedImage}
+          />
+          {/*<Sidebar
+            images={images}
+            onSelect={setSelectedImage}
+            selectedImage={selectedImage}
+          />*/}
+        </div>
         <div className={classes.main} onClick={close}>
           {selectedImage && (
             <img
