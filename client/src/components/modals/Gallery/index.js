@@ -7,6 +7,7 @@ import Modal from 'components/core/Modal'
 // import Header from './Header'
 import Sidebar from './Sidebar'
 import { listImages, imageUrl } from 'services/gallery'
+import Thumbnails from './Thumbnails'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     width: '100%',
     height: '100%',
+    position: 'relative',
   },
   content: {
     display: 'flex',
@@ -33,8 +35,11 @@ const useStyles = makeStyles((theme) => ({
   main: {
     flex: 1,
     display: 'flex',
-    height: '100%',
-    position: 'relative',
+    position: 'absolute',
+    top: 100,
+    left: 100,
+    right: 100,
+    bottom: 100,
     justifyContent: 'center',
     alignItems: 'center',
     padding: '2em',
@@ -75,15 +80,20 @@ const Gallery = () => {
         content: classes.modalContent,
       }}
     >
+      <Thumbnails
+        images={images}
+        onSelect={setSelectedImage}
+        selectedImage={selectedImage}
+      />
       {/*<Header onClose={close} />*/}
       <div className={classes.content}>
-        <div className={classes.sidebar}>
+        {/*<div className={classes.sidebar}>
           <Sidebar
             images={images}
             onSelect={setSelectedImage}
             selectedImage={selectedImage}
           />
-        </div>
+        </div>*/}
         <div className={classes.main} onClick={close}>
           {selectedImage && (
             <img

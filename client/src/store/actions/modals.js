@@ -24,7 +24,12 @@ export const toggleModal = (modalType, params = {}) => {
   }
 }
 
-const initialState = {}
+const initialState = {
+  gallery: {
+    isOpen: true,
+    params: {},
+  }
+}
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
