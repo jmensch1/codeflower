@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { svgAsPngUri } from 'save-svg-as-png'
@@ -39,13 +39,8 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   const repo = useRepo()
   const theme = useTheme()
   const classes = useStyles()
-  const [svg, setSvg] = useState(null)
-  const { aperture } = useCamera()
+  const { svg, aperture } = useCamera()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    setSvg(document.querySelector('#fdg-container svg'))
-  }, [])
 
   const getUri = useCallback(async () => {
     if (!svg || !aperture) return

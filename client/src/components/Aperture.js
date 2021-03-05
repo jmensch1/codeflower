@@ -102,15 +102,12 @@ const Aperture = () => {
   const classes = useStyles({ flashOn })
   const container = useRef(null)
   const containerRect = useSize(container)
-  const [svg, setSvg] = useState(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    setSvg(document.querySelector('#fdg-container svg'))
-  }, [])
+    if (!containerRect) return
 
-  useEffect(() => {
-    if (!containerRect || !svg) return
+    const svg = document.querySelector('#vis-container')
 
     const screenAperture = aspectRatio
       ? getAperture(containerRect, aspectRatio)
@@ -129,8 +126,9 @@ const Aperture = () => {
         screen: screenAperture,
         viewBox: viewboxAperture,
       },
+      svg,
     }))
-  }, [svg, containerRect, aspectRatio, dispatch])
+  }, [containerRect, aspectRatio, dispatch])
 
   const content = useMemo(() => {
     if (!aperture) return null

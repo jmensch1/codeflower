@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useRef } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useCamera } from 'store/selectors'
@@ -12,21 +12,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
     top: 0,
-    bottom: 0,
     left: 0,
-    right: 0,
-    '& svg': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      '& .file': {
-        cursor: 'pointer',
-      },
-      '& circle:not(.file)': {
-        cursor: 'move',
-      },
+    width: '100%',
+    height: '100%',
+    '& .file': {
+      cursor: 'pointer',
+    },
+    '& circle:not(.file)': {
+      cursor: 'move',
     },
   },
 }))
@@ -58,7 +51,6 @@ const ForceDirectedGraph = () => {
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
   const { cameraOn } = useCamera()
-  const svgRef = useRef(null)
 
   useEffect(() => {
     if (!tree) return
@@ -78,23 +70,11 @@ const ForceDirectedGraph = () => {
 
     //// DOM ////
 
-    const container = document.getElementById('fdg-container')
-    const width = container.offsetWidth
-    const height = container.offsetHeight
-
+    const container = document.querySelector('#vis-container')
+    const { width, height } = container.getBoundingClientRect()
     const svg = d3
-      .select(svgRef.current)
+      .select(container)
       .attr('viewBox', [-width / 2, -height / 2, width, height])
-
-    // svg
-    //   .append('rect')
-    //   .attr('x', -width / 2)
-    //   .attr('y', -height / 2)
-    //   .attr('width', width)
-    //   .attr('height', height)
-    //   .style('stroke', 'red')
-    //   .style('stroke-width', 2)
-    //   .style('fill', 'transparent')
 
     const linkG = svg.append('g')
 
@@ -143,15 +123,15 @@ const ForceDirectedGraph = () => {
   }, [])
 
   return (
-    <div id="fdg-container" className={classes.root}>
-      <svg ref={svgRef} />
+    <>
+      <svg className={classes.root} id="vis-container" />
       {visElements && (
         <>
           <Enhancers visElements={visElements} />
           {!cameraOn && <Extras alpha={alpha} onRestart={restart} />}
         </>
       )}
-    </div>
+    </>
   )
 }
 

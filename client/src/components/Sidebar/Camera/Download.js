@@ -53,15 +53,10 @@ const Download = ({ flash, transparent, setTransparent }) => {
   const repo = useRepo()
   const theme = useTheme()
   const classes = useStyles()
-  const [svg, setSvg] = useState(null)
   const [format, setFormat] = useState(FORMATS[0])
   const [scale, setScale] = useState(2)
   const [showRepoInfo, setShowRepoInfo] = useState(true)
-  const { aperture } = useCamera()
-
-  useEffect(() => {
-    setSvg(document.querySelector('#fdg-container svg'))
-  }, [])
+  const { svg, aperture } = useCamera()
 
   const backgroundColor = useMemo(() => {
     return transparent ? 'transparent' : theme.palette.background.default
