@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { closeModal } from 'store/actions/modals'
 import { useModal } from 'store/selectors'
@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '2em',
+    position: 'relative',
+    '& svg': {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    }
   },
   image: {
     maxHeight: '100%',
@@ -47,12 +55,29 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+async function urlToSvg(url) {
+  return new Promise((resolve, reject) => {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', url);
+    xhr.addEventListener('load', function(ev)
+    {
+        var xml = ev.target.response;
+        var dom = new DOMParser();
+        var svg = dom.parseFromString(xml, 'image/svg+xml');
+        resolve(svg.rootElement)
+    });
+    xhr.send(null);
+  })
+}
+
 const Gallery = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { isOpen } = useModal('gallery')
   const [images, setImages] = useState([])
   const [selectedImage, setSelectedImage] = useState(null)
+  const mainRef = useRef(null)
 
   const close = useCallback(() => {
     dispatch(closeModal('gallery'))
@@ -66,6 +91,13 @@ const Gallery = () => {
       setSelectedImage(images[0])
     })
   }, [isOpen])
+
+  useEffect(() => {
+    if (!selectedImage) return
+    urlToSvg(imageUrl(selectedImage)).then(svg => {
+      mainRef.current.appendChild(svg)
+    })
+  }, [selectedImage])
 
   return (
     <Modal
@@ -101,8 +133,8 @@ const Gallery = () => {
             selectedImage={selectedImage}
           />*/}
         </div>
-        <div className={classes.main} onClick={close}>
-          {selectedImage && (
+        <div className={classes.main} onClick={close} ref={mainRef}>
+          {false && selectedImage && (
             <img
               src={imageUrl(selectedImage)}
               className={classes.image}

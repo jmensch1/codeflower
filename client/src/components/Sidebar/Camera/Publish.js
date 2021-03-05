@@ -42,7 +42,8 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   const { svg, aperture } = useCamera()
   const dispatch = useDispatch()
 
-  const getUri = useCallback(async () => {
+  // eslint-disable-next-line
+  const getPngUri = useCallback(async () => {
     if (!svg || !aperture) return
 
     const { viewBox } = aperture
@@ -57,13 +58,27 @@ const Publish = ({ flash, transparent, setTransparent }) => {
     })
   }, [svg, aperture, theme])
 
+  const getSvgUri = useCallback(async () => {
+    const origBackground = svg.style.backgroundColor
+    svg.style.backgroundColor = theme.palette.background.default
+
+    const svgAsXML = (new XMLSerializer()).serializeToString(svg)
+    const dataUri = 'data:image/svg+xml;base64,' + btoa(svgAsXML)
+
+    setTimeout(() => {
+      svg.style.backgroundColor = origBackground
+    })
+
+    return dataUri
+  }, [svg, theme])
+
   const publish = useCallback(async () => {
     flash()
     setTimeout(async () => {
-      const dataUri = await getUri()
-      uploadImage(dataUri, repo)
+      const dataUri = await getSvgUri()
+      uploadImage(dataUri, repo, theme.palette.background.default)
     }, 500)
-  }, [flash, repo, getUri])
+  }, [flash, repo, getSvgUri, theme])
 
   const openGallery = useCallback(() => {
     dispatch(openModal('gallery'))

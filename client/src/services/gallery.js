@@ -3,7 +3,7 @@ import { cloudinary } from 'constants.js'
 
 const { CLOUD_NAME, UPLOAD_PRESET, TAG } = cloudinary
 const FETCH_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image`
-const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`
+const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
 
 export function listImages() {
   const version = Math.ceil(new Date().getTime() / 1000)
@@ -31,7 +31,7 @@ function createContext(obj) {
   return Object.keys(obj).map((key) => `${key}=${obj[key]}`).join('|')
 }
 
-export function uploadImage(dataUri, repo) {
+export function uploadImage(dataUri, repo, backgroundColor) {
   const headers = { 'Content-Type': 'application/json' }
 
   const data = {
@@ -41,6 +41,7 @@ export function uploadImage(dataUri, repo) {
     tags: TAG,
     context: createContext({
       repo: `${repo.name}/${repo.owner}`,
+      backgroundColor,
     }),
   }
 
