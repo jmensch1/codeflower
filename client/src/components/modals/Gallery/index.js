@@ -8,6 +8,7 @@ import Modal from 'components/core/Modal'
 // import Sidebar from './Sidebar'
 import { listImages, imageUrl } from 'services/gallery'
 import Thumbnails from './Thumbnails'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -56,18 +57,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 async function urlToSvg(url) {
-  return new Promise((resolve, reject) => {
-    var xhr = new XMLHttpRequest();
-
-    xhr.open('GET', url);
-    xhr.addEventListener('load', function(ev)
-    {
-        var xml = ev.target.response;
-        var dom = new DOMParser();
-        var svg = dom.parseFromString(xml, 'image/svg+xml');
-        resolve(svg.rootElement)
-    });
-    xhr.send(null);
+  return axios.get(url).then(({ data: xml }) => {
+    const dom = new DOMParser()
+    const svg = dom.parseFromString(xml, 'image/svg+xml')
+    return svg.rootElement
   })
 }
 
@@ -94,8 +87,11 @@ const Gallery = () => {
 
   useEffect(() => {
     if (!selectedImage) return
+
+    const prevSvg = mainRef.current.querySelector('svg')
     urlToSvg(imageUrl(selectedImage)).then(svg => {
       mainRef.current.appendChild(svg)
+      if (prevSvg) mainRef.current.removeChild(prevSvg)
     })
   }, [selectedImage])
 

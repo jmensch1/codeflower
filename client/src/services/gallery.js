@@ -19,9 +19,9 @@ export function imageUrl(image) {
   return `${FETCH_URL}/upload/v${version}/${public_id}.${format}`
 }
 
-export function thumbUrl(image, { width = 300, format = 'jpg'} = {}) {
+export function thumbUrl(image, { width = 300, height = 225, format = 'jpg'} = {}) {
   // https://cloudinary.com/documentation/transformation_reference
-  const transforms = `w_${width}`
+  const transforms = `w_${width},h_${height},c_fill`
 
   const { version, public_id } = image
   return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.${format}`
