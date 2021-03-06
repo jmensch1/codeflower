@@ -76,7 +76,12 @@ const Publish = ({ flash, transparent, setTransparent }) => {
     flash()
     setTimeout(async () => {
       const dataUri = await getSvgUri()
-      uploadImage(dataUri, repo, theme.palette.background.default)
+      const imageId = `${repo.name}-${Date.now()}`
+      uploadImage(dataUri, imageId, {
+        owner: repo.owner,
+        name: repo.name,
+        backgroundColor: theme.palette.background.default,
+      })
     }, 500)
   }, [flash, repo, getSvgUri, theme])
 

@@ -97,7 +97,7 @@ const Rack = ({ images, selectedImage, onSelect }) => {
             })}
             src={thumbUrl(image)}
             alt={image.public_id}
-            style={{ backgroundColor: image.context.custom?.backgroundColor }}
+            style={{ backgroundColor: image.context.backgroundColor }}
           />
         </div>
       ))}

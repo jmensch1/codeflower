@@ -1,16 +1,44 @@
 import axios from 'axios'
 import { cloudinary } from 'constants.js'
 
+////////////// CONFIG /////////////
+
 const { CLOUD_NAME, UPLOAD_PRESET, TAG } = cloudinary
 const FETCH_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image`
 const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
+
+///////////// HELPERS /////////////
+
+function packContext(context) {
+  return Object.keys(context).map((key) => {
+    const value = encodeURIComponent(context[key])
+    return `${key}=${value}`
+  }).join('|')
+}
+
+function unpackContext(context) {
+  if (!context) return {}
+
+  const { custom: packed } = context
+  return Object.keys(packed).reduce((unpacked, key) => {
+    unpacked[key] = decodeURIComponent(packed[key])
+    return unpacked
+  }, {})
+}
+
+///////////// EXPORTS /////////////
 
 export function listImages() {
   const version = Math.ceil(new Date().getTime() / 1000)
   const url = `${FETCH_URL}/list/v${version}/${TAG}.json`
 
   return axios.get(url)
-    .then(({ data: { resources: images }}) => images)
+    .then(({ data: { resources: images }}) => {
+      return images.map((image) => ({
+        ...image,
+        context: unpackContext(image.context),
+      }))
+    })
     .catch((err) => [])
 }
 
@@ -26,23 +54,23 @@ export function thumbUrl(image, { width = 300, height = 225 } = {}) {
   return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.png`
 }
 
-function createContext(obj) {
-  return Object.keys(obj).map((key) => `${key}=${obj[key]}`).join('|')
-}
-
-export function uploadImage(dataUri, repo, backgroundColor) {
+export function uploadImage(dataUri, imageId, context = {}) {
   const headers = { 'Content-Type': 'application/json' }
 
   const data = {
+    public_id: imageId,
     file: dataUri,
-    public_id: `${repo.name}-${Date.now()}`,
-    upload_preset: UPLOAD_PRESET,
+    folder: TAG,
     tags: TAG,
-    context: createContext({
-      repo: `${repo.name}/${repo.owner}`,
-      backgroundColor,
-    }),
+    upload_preset: UPLOAD_PRESET,
+    context: packContext(context),
   }
 
-  return axios.post(UPLOAD_URL, JSON.stringify(data), { headers })
+  return axios.post(UPLOAD_URL, JSON.stringify(data), {
+    headers,
+    onUploadProgress: (e) => {
+      // const percentCompleted = Math.round(100 * e.loaded / e.total)
+      // do something
+    }
+  })
 }
