@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Rack = ({ images, selectedImage, onSelect }) => {
+const Shelf = ({ images, selectedImage, onSelect }) => {
   const [hoveredId, setHoveredId] = useState(null)
   const selectedIndex = images.findIndex(image => image === selectedImage)
   const classes = useStyles({ numImages: images.length, selectedIndex })
@@ -105,4 +105,4 @@ const Rack = ({ images, selectedImage, onSelect }) => {
   )
 }
 
-export default Rack
+export default Shelf
