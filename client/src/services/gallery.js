@@ -6,6 +6,8 @@ import { cloudinary } from 'constants.js'
 const { CLOUD_NAME, UPLOAD_PRESET, TAG } = cloudinary
 const FETCH_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image`
 const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
+const UPLOAD_HEADERS = { 'Content-Type': 'application/json' }
+const DELETE_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/delete_by_token`
 
 ///////////// HELPERS /////////////
 
@@ -48,15 +50,21 @@ export function imageUrl(image) {
 }
 
 // https://cloudinary.com/documentation/transformation_reference
+// note that the order of the transforms is important because
+// the upload preset does an eager transform to create the thumbnail,
+// and the resulting url is in the order below
 export function thumbUrl(image, { width = 300, height = 225 } = {}) {
   const { version, public_id } = image
-  const transforms = `w_${width},h_${height},c_fill`
+  const transforms = `c_fill,h_${height},w_${width}`
   return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.png`
 }
 
-export function uploadImage(dataUri, imageId, context = {}) {
-  const headers = { 'Content-Type': 'application/json' }
-
+export function uploadImage(
+  dataUri,
+  imageId,
+  context = {},
+  onProgress = () => null,
+) {
   const data = {
     public_id: imageId,
     file: dataUri,
@@ -67,10 +75,20 @@ export function uploadImage(dataUri, imageId, context = {}) {
   }
 
   return axios.post(UPLOAD_URL, JSON.stringify(data), {
-    headers,
+    headers: UPLOAD_HEADERS,
     onUploadProgress: (e) => {
-      // const percentCompleted = Math.round(100 * e.loaded / e.total)
-      // do something
+      const percentCompleted = Math.round(100 * e.loaded / e.total)
+      onProgress(percentCompleted)
     }
+  })
+    .then(({ data: image }) => ({
+      ...image,
+      context: unpackContext(image.context),
+    }))
+}
+
+export function deleteImage(token) {
+  return axios.post(DELETE_URL, JSON.stringify({ token }), {
+    headers: UPLOAD_HEADERS,
   })
 }
