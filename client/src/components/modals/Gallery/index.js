@@ -1,3 +1,5 @@
+// NOTE: this is currently unused
+
 import React, { useCallback, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'

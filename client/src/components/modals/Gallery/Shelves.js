@@ -2,6 +2,11 @@ import React, { useRef, useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import useSize from 'hooks/useSize'
 import Shelf from './Shelf'
+import {
+  THUMB_WIDTH,
+  THUMB_SPACING,
+  LEFT_MARGIN,
+} from './config'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -17,13 +22,12 @@ const Shelves = ({ images, selectedImage, onSelect }) => {
     if (!dimensions) return
 
     const { width } = dimensions
-    const numPerShelf = Math.floor((width - 100) / 25) // TODO: better calc
+    const shelfWidth = width - 1.5 * LEFT_MARGIN - THUMB_WIDTH + THUMB_SPACING
+    const numPerShelf = Math.floor(shelfWidth / THUMB_SPACING)
     const numShelves = Math.ceil(images.length / numPerShelf)
 
-    const shelves = []
-    Array.from({ length: numShelves }).forEach((el, idx) => {
-      const shelf = images.slice(idx * numPerShelf, (idx + 1) * numPerShelf)
-      shelves.push(shelf)
+    const shelves = Array.from({ length: numShelves }).map((_, idx) => {
+      return images.slice(idx * numPerShelf, (idx + 1) * numPerShelf)
     })
 
     setShelves(shelves)

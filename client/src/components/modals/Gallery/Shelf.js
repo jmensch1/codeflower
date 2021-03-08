@@ -2,49 +2,67 @@ import React, { useState, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import { thumbUrl } from 'services/gallery'
+import {
+  THUMB_WIDTH,
+  THUMB_HEIGHT,
+  THUMB_SPACING,
+  SHELF_HEIGHT,
+  INDICATOR_SIZE,
+  LEFT_MARGIN,
+} from './config'
+import { checkerGradient } from 'services/utils/color'
 
-const THUMB_WIDTH = 100
-const THUMB_HEIGHT = 75 // TODO: tie this to aspect ratio constant
-const THUMB_SPACING = 25
-const BOTTOM_BAR_HEIGHT = 40
-const INDICATOR_SIZE = 10
-const LEFT_MARGIN = 20
+function indicatorX(idx) {
+  return (
+    LEFT_MARGIN +
+    idx * THUMB_SPACING +
+    0.5 * (THUMB_SPACING - INDICATOR_SIZE) -
+    1
+  )
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
-    height: BOTTOM_BAR_HEIGHT,
-    marginTop: 130,
+    height: THUMB_HEIGHT * 2 + 20,
+    '&:last-of-type': {
+      marginBottom: '3em',
+    }
   },
-  bottomBar: {
+  shelf: {
     position: 'absolute',
     left: 0,
     width: '100%',
     bottom: 0,
-    height: BOTTOM_BAR_HEIGHT,
-    backgroundColor: 'black',
-    border: '1px white solid',
+    height: SHELF_HEIGHT,
+    backgroundColor: theme.palette.background.paper,
+    border: `1px hsla(0, 0%, 100%, 0.5) solid`,
     borderRight: 'none',
     borderLeft: 'none',
-    zIndex: 1000,
+    zIndex: 2,
   },
   selectionIndicator: {
-    display: ({ selectedIndex }) => selectedIndex === -1 ? 'none' : 'block',
     position: 'absolute',
-    top: (BOTTOM_BAR_HEIGHT - INDICATOR_SIZE) / 2,
-    left: ({ selectedIndex: idx }) =>
-      LEFT_MARGIN + idx * THUMB_SPACING + (THUMB_SPACING - INDICATOR_SIZE) / 2,
-    height: INDICATOR_SIZE,
-    width: INDICATOR_SIZE,
-    borderRadius: '50%',
-    backgroundColor: 'white',
-    transition: 'left 0.2s ease-out',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: checkerGradient({
+      alpha: 0.2,
+      size: 4,
+    }),
+    '& > circle': {
+      display: ({ selectedIndex }) => selectedIndex === -1 ? 'none' : 'block',
+      fill: theme.palette.text.primary,
+      transform: ({ selectedIndex: idx }) => `translateX(${indicatorX(idx)}px)`,
+      transition: 'all 0.35s ease-in-out',
+    },
   },
   imageContainer: {
     width: THUMB_WIDTH,
-    height: THUMB_HEIGHT,
+    height: '100%',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     cursor: 'pointer',
     position: 'absolute',
@@ -52,13 +70,13 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
   },
   image: {
-    height: '100%',
+    height: THUMB_HEIGHT,
     width: '100%',
     display: 'block',
     transition: 'all 0.15s ease-out',
     border: `1px white solid`,
     pointerEvents: 'none',
-    borderRadius: 5,
+    borderRadius: 10,
   },
   hoveredImage: {
     transform: `translateY(-${THUMB_HEIGHT + 5}px)`,
@@ -79,10 +97,14 @@ const Shelf = ({ images, selectedImage, onSelect }) => {
 
   return (
     <div className={classes.root} onMouseLeave={clearHover}>
-      <div className={classes.bottomBar} onMouseEnter={clearHover}>
-        {selectedIndex !== -1 && (
-          <div className={classes.selectionIndicator} />
-        )}
+      <div className={classes.shelf} onMouseEnter={clearHover}>
+        <svg className={classes.selectionIndicator}>
+          <circle
+            cx={INDICATOR_SIZE}
+            cy={SHELF_HEIGHT / 2 - 1}
+            r={INDICATOR_SIZE}
+          />
+        </svg>
       </div>
       {images.map((image, idx) => (
         <div
