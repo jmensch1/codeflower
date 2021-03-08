@@ -28,13 +28,22 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {},
   imageBox: {
-    width: 300,
-    height: 225,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingBottom: '75%',  // NOTE: this is the reciprocal of the thumbnail aspect ratio
     border: '1px white solid',
-    margin: '0 auto',
+    position: 'relative',
+    backgroundColor: theme.palette.background.default,
+  },
+  image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+  },
+  loaderContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
   },
   message: {
     textAlign: 'center',
@@ -78,18 +87,21 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   }, [svg, aperture, theme])
 
   const getSvgUri = useCallback(async () => {
-    const origBackground = svg.style.backgroundColor
-    svg.style.backgroundColor = theme.palette.background.default
+    const svgClone = svg.cloneNode(true)
 
-    const svgAsXML = (new XMLSerializer()).serializeToString(svg)
+    svgClone.style.backgroundColor = theme.palette.background.default
+    svgClone.removeAttribute('id')
+    svgClone.removeAttribute('class')
+
+    // reset the viewbox so that png thumbnails look generally good
+    const { left, top, width, height } = aperture.viewBox
+    svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
+
+    const svgAsXML = (new XMLSerializer()).serializeToString(svgClone)
     const dataUri = 'data:image/svg+xml;base64,' + btoa(svgAsXML)
 
-    setTimeout(() => {
-      svg.style.backgroundColor = origBackground
-    })
-
     return dataUri
-  }, [svg, theme])
+  }, [svg, theme, aperture])
 
   const publish = useCallback(async () => {
     flash()
@@ -135,19 +147,17 @@ const Publish = ({ flash, transparent, setTransparent }) => {
 
   const uploadIndicator = (
     <div className={classes.imageBox}>
-      <CircularProgress size={18} color="inherit" />
+      <div className={classes.loaderContainer}>
+        <CircularProgress size={18} color="inherit" />
+      </div>
     </div>
   )
 
   const image = uploadedImage ? (
     <div className={classes.imageBox}>
       <img
-        src={uploadedImage.eager[0].secure_url}
-        style={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: uploadedImage.context.backgroundColor,
-        }}
+        src={uploadedImage.secure_url}
+        className={classes.image}
         alt='thumbnail'
       />
     </div>

@@ -76,6 +76,17 @@ const ForceDirectedGraph = () => {
       .select(container)
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
+    // highlight the viewbox (testing only)
+    // svg
+    //   .append('rect')
+    //   .attr('x', -width / 2)
+    //   .attr('y', -height / 2)
+    //   .attr('width', width)
+    //   .attr('height', height)
+    //   .style('stroke', 'red')
+    //   .style('stroke-width', 4)
+    //   .style('fill', 'transparent')
+
     const linkG = svg.append('g')
 
     const link = linkG
