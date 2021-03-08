@@ -10,9 +10,9 @@ const useStyles = makeStyles((theme) => ({
     '& svg': {
       position: 'absolute',
       top: 0,
-      bottom: 0,
       left: 0,
-      right: 0,
+      width: '100%',
+      height: '100%',
     }
   },
 }))
@@ -21,13 +21,22 @@ async function urlToSvg(url) {
   const { data: xml } = await axios.get(url)
   const dom = new DOMParser()
   const svg = dom.parseFromString(xml, 'image/svg+xml')
-  svg.rootElement.removeAttribute('id') // TODO: maybe remove id before upload?
   return svg.rootElement
 }
 
 const Main = ({ image }) => {
   const classes = useStyles()
   const container = useRef(null)
+
+  // NOTE: this seems to do the same as the one below, but requires less code
+  // See if there are any actual difference
+  // useEffect(() => {
+  //   if (!image) return
+  //
+  //   axios.get(imageUrl(image)).then(({ data: svgStr }) => {
+  //     container.current.innerHTML = svgStr
+  //   })
+  // }, [image])
 
   useEffect(() => {
     if (!image) return
