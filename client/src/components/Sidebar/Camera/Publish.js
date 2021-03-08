@@ -9,6 +9,7 @@ import { uploadImage, deleteImage } from 'services/gallery'
 import { useCamera } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { delay } from 'services/utils/general'
+import { svgToDataUri } from './utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,20 +88,11 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   }, [svg, aperture, theme])
 
   const getSvgUri = useCallback(async () => {
-    const svgClone = svg.cloneNode(true)
-
-    svgClone.style.backgroundColor = theme.palette.background.default
-    svgClone.removeAttribute('id')
-    svgClone.removeAttribute('class')
-
-    // reset the viewbox so that png thumbnails look generally good
-    const { left, top, width, height } = aperture.viewBox
-    svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
-
-    const svgAsXML = (new XMLSerializer()).serializeToString(svgClone)
-    const dataUri = 'data:image/svg+xml;base64,' + btoa(svgAsXML)
-
-    return dataUri
+    return svgToDataUri(
+      svg,
+      theme.palette.background.default,
+      aperture.viewBox,
+    )
   }, [svg, theme, aperture])
 
   const publish = useCallback(async () => {

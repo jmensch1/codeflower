@@ -8,6 +8,7 @@ import Slider from 'components/core/Slider'
 import Checkbox from 'components/core/Checkbox'
 import Select from 'components/core/Select'
 import { useCamera } from 'store/selectors'
+import { svgToDataUri, downloadDataUri } from './utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,25 +108,10 @@ const Download = ({ flash, transparent, setTransparent }) => {
     })
   }, [svg, aperture, scale, backgroundColor, repo])
 
-  // http://bl.ocks.org/curran/7cf9967028259ea032e8
   const saveSvg = useCallback(() => {
-    const origBackground = svg.style.backgroundColor
-    svg.style.backgroundColor = backgroundColor
-
-    const svgAsXML = (new XMLSerializer()).serializeToString(svg)
-    const dataURL = "data:image/svg+xml," + encodeURIComponent(svgAsXML)
-
-    const dl = document.createElement('a')
-    document.body.appendChild(dl) // This line makes it work in Firefox.
-    dl.setAttribute('href', dataURL)
-    dl.setAttribute('download', `${repo.name}.svg`)
-    dl.click()
-    document.body.removeChild(dl)
-
-    setTimeout(() => {
-      svg.style.backgroundColor = origBackground
-    })
-  }, [svg, backgroundColor, repo])
+    const dataUri = svgToDataUri(svg, backgroundColor, aperture.viewBox)
+    downloadDataUri(dataUri, `${repo.name}.svg`)
+  }, [svg, backgroundColor, aperture, repo])
 
   const download = useCallback(() => {
     flash()
