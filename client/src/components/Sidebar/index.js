@@ -8,12 +8,12 @@ import Folders from './Folders'
 import Authors from './Authors'
 import Controls from './Controls'
 import Camera from './Camera'
+import Gallery from 'components/modals/Gallery/Sidebar'
 import LanguageIcon from '@material-ui/icons/Language'
 import FolderIcon from '@material-ui/icons/FolderOpen'
 import PeopleIcon from '@material-ui/icons/People'
 import TuneIcon from '@material-ui/icons/Tune'
 import CameraIcon from '@material-ui/icons/CameraAlt'
-import Gallery from 'components/modals/Gallery/Sidebar'
 
 //////////////////// TAB CONFIG ///////////////////
 
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     bottom: 0,
-    transition: 'all 0.25s ease-out',
+    transition: 'all 0.5s ease-out',
     transform: ({ galleryIsOpen }) =>
       `translateX(${galleryIsOpen ? 0 : '-100%'})`
   },

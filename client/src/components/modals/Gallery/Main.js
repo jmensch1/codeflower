@@ -22,6 +22,12 @@ async function urlToSvg(url) {
   const { data: xml } = await axios.get(url)
   const dom = new DOMParser()
   const svg = dom.parseFromString(xml, 'image/svg+xml')
+
+  // TODO: can remove these lines after deleting old gallery images
+  // (which had class and id included in the svg file)
+  svg.rootElement.removeAttribute('id')
+  svg.rootElement.removeAttribute('class')
+
   return svg.rootElement
 }
 
