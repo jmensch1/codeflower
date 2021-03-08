@@ -24,6 +24,7 @@ const fileFill = (state) => state.settings.visStyles?.files.fill
 const visForces = (state) => state.settings.visForces
 const visPosition = (state) => state.settings.visPosition
 const camera = (state) => state.camera
+const gallery = (state) => state.gallery
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -83,6 +84,7 @@ export const useVisStyles = () => useSelector(visStyles)
 export const useVisForces = () => useSelector(visForces)
 export const useVisPosition = () => useSelector(visPosition)
 export const useCamera = () => useSelector(camera)
+export const useGallery = () => useSelector(gallery)
 
 ////////// PARAMATERIZED USE SELECTOR ///////////
 

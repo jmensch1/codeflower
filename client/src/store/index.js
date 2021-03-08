@@ -11,6 +11,7 @@ import files from './actions/files'
 import settings from './actions/settings'
 import modals from './actions/modals'
 import camera from './actions/camera'
+import gallery from './actions/gallery'
 
 const rootReducer = combineReducers({
   router,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   settings,
   modals,
   camera,
+  gallery,
 })
 
 const store = createStore(

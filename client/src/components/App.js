@@ -60,7 +60,6 @@ function App() {
   } = useLocation()
   const repo = useRepo()
 
-
   useEffect(() => {
     if (owner && name) dispatch(getRepo({ owner, name, branch }))
     else dispatch(openModal('search'))

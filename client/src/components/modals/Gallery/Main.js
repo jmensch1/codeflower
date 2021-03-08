@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { imageUrl } from 'services/gallery'
+import { useGallery } from 'store/selectors'
 import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +25,10 @@ async function urlToSvg(url) {
   return svg.rootElement
 }
 
-const Main = ({ image }) => {
+const Main = () => {
   const classes = useStyles()
   const container = useRef(null)
+  const { selectedImage: image } = useGallery()
 
   // NOTE: this seems to do the same as the one below, but requires less code
   // See if there are any actual difference

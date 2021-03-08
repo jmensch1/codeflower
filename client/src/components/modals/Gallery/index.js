@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { closeModal } from 'store/actions/modals'
-import { useModal } from 'store/selectors'
-import { listImages } from 'services/gallery'
+import { useModal, useGallery } from 'store/selectors'
+import { getImages, selectImage } from 'store/actions/gallery'
 import Modal from 'components/core/Modal'
 import Shelves from './Shelves'
 import Main from './Main'
@@ -41,8 +41,7 @@ const Gallery = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { isOpen } = useModal('gallery')
-  const [images, setImages] = useState([])
-  const [selectedImage, setSelectedImage] = useState(null)
+  const { images, selectedImage } = useGallery()
 
   const close = useCallback(() => {
     dispatch(closeModal('gallery'))
@@ -50,13 +49,14 @@ const Gallery = () => {
 
   useEffect(() => {
     if (!isOpen) return
+    dispatch(getImages())
+  }, [dispatch, isOpen])
 
-    listImages().then((images) => {
-      setImages(images)
-      setSelectedImage(images[0])
-    })
-  }, [isOpen])
+  const setSelectedImage = useCallback((image) => {
+    dispatch(selectImage(image))
+  }, [dispatch])
 
+  if (!images || !selectedImage) return null
   return (
     <Modal
       open={isOpen}
@@ -75,7 +75,7 @@ const Gallery = () => {
           />
         </div>
         <div className={classes.main} onClick={close}>
-          <Main image={selectedImage} />
+          <Main />
         </div>
       </div>
     </Modal>
