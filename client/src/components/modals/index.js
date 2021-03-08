@@ -3,8 +3,8 @@ import Search from './Search'
 import MaxNodes from './MaxNodes'
 import Credentials from './Credentials'
 import About from './About'
-import Export from './Export'
-import Gallery from './Gallery'
+// import Export from './Export'
+// import Gallery from './Gallery'
 
 const Modals = () => {
   return (
@@ -13,8 +13,8 @@ const Modals = () => {
       <MaxNodes />
       <Credentials />
       <About />
-      <Export />
-      <Gallery />
+      {/*<Export />*/}
+      {/*<Gallery />*/}
     </>
   )
 }

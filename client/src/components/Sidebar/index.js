@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useRepo } from 'store/selectors'
+import { useRepo, useModal } from 'store/selectors'
 import Header from './Header'
 import Tabs from './Tabs'
 import Languages from './Languages'
@@ -13,6 +13,7 @@ import FolderIcon from '@material-ui/icons/FolderOpen'
 import PeopleIcon from '@material-ui/icons/People'
 import TuneIcon from '@material-ui/icons/Tune'
 import CameraIcon from '@material-ui/icons/CameraAlt'
+import Gallery from 'components/modals/Gallery/Sidebar'
 
 //////////////////// TAB CONFIG ///////////////////
 
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    position: 'relative',
   },
   header: {
     padding: '10px 10px 15px 10px',
@@ -62,12 +64,24 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     overscrollBehavior: 'contain',
   },
+  gallery: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    bottom: 0,
+    transition: 'all 0.25s ease-out',
+    transform: ({ galleryIsOpen }) =>
+      `translateX(${galleryIsOpen ? 0 : '-100%'})`
+  },
 }))
 
 const Sidebar = () => {
-  const classes = useStyles()
+  const { isOpen: galleryIsOpen } = useModal('gallery')
+  const classes = useStyles({ galleryIsOpen })
   const repo = useRepo()
-  const [tab, setTab] = useState('camera')
+  const [tab, setTab] = useState('languages')
+
   const { Component } = TABS.find((t) => t.type === tab)
 
   if (!repo) return null
@@ -79,6 +93,9 @@ const Sidebar = () => {
       <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
       <div className={classes.content}>
         <Component />
+      </div>
+      <div className={classes.gallery}>
+        <Gallery />
       </div>
     </div>
   )

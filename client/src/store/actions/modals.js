@@ -26,7 +26,7 @@ export const toggleModal = (modalType, params = {}) => {
 
 const initialState = {
   gallery: {
-    isOpen: true,
+    isOpen: false,
     params: {},
   }
 }
