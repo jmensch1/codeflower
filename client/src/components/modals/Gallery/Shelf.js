@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1000,
   },
   selectionIndicator: {
+    display: ({ selectedIndex }) => selectedIndex === -1 ? 'none' : 'block',
     position: 'absolute',
     top: (BOTTOM_BAR_HEIGHT - INDICATOR_SIZE) / 2,
     left: ({ selectedIndex: idx }) =>
