@@ -5,9 +5,9 @@ import { checkerGradient } from 'services/utils/color'
 import Visualization from './Visualization'
 import ControlBar from './ControlBar'
 import Terminal from './Terminal'
-import FileViewer from './modals/FileViewer'
 import Aperture from './Aperture'
-import Gallery from './modals/Gallery/Main'
+import FileViewer from 'components/modals/FileViewer'
+import Gallery from 'components/modals/Gallery/Main'
 
 const useStyles = makeStyles((theme) => ({
   root: {

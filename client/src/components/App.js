@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 import { useLocation, useRepo } from 'store/selectors'
 import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
 import Sidebar from './Sidebar'
-import DragBar from './core/DragBar'
+import DragHandle from './core/DragHandle'
 import Main from './Main'
 import Modals from './modals'
 
@@ -21,17 +22,6 @@ const useStyles = makeStyles((theme) => ({
   app: {
     height: '100vh',
     display: 'flex',
-    // mask to maintain ew-resize cursor while dragging
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: ({ dragging }) => (dragging ? 1 : -1),
-      cursor: 'ew-resize',
-    },
   },
   sidebar: {
     width: ({ sidebarWidth }) => sidebarWidth,
@@ -40,6 +30,17 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     height: '100%',
   },
+  dragMask: {
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      cursor: 'ew-resize',
+    },
+  }
 }))
 
 const App = () => {
@@ -47,28 +48,29 @@ const App = () => {
   const [dragging, setDragging] = useState(false)
   const classes = useStyles({ sidebarWidth, dragging })
   const dispatch = useDispatch()
-  const {
-    query: { owner, name, branch },
-  } = useLocation()
   const repo = useRepo()
+  const { query: { owner, name, branch } } = useLocation()
 
   useEffect(() => {
     if (owner && name) dispatch(getRepo({ owner, name, branch }))
     else dispatch(openModal('search'))
   }, [dispatch, owner, name, branch])
 
+  const onDragStart = useCallback(() => setDragging(true), [])
+  const onDragEnd = useCallback(() => setDragging(false), [])
+
   return (
     <>
-      <div className={classes.app}>
+      <div className={clsx(classes.app, {[classes.dragMask]: dragging})}>
         {repo && (
           <>
             <div className={classes.sidebar}>
               <Sidebar />
             </div>
-            <DragBar
-              onDragStart={() => setDragging(true)}
+            <DragHandle
+              onDragStart={onDragStart}
               onDrag={setSidebarWidth}
-              onDragEnd={() => setDragging(false)}
+              onDragEnd={onDragEnd}
             />
           </>
         )}

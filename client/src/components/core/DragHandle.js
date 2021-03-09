@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const DragBar = ({ onDragStart, onDrag, onDragEnd }) => {
+const DragHandle = ({ onDragStart, onDrag, onDragEnd }) => {
   const classes = useStyles()
   const barRef = useRef(null)
 
@@ -34,4 +34,4 @@ const DragBar = ({ onDragStart, onDrag, onDragEnd }) => {
   return <div className={classes.root} ref={barRef} />
 }
 
-export default DragBar
+export default DragHandle
