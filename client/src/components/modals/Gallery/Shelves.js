@@ -22,7 +22,7 @@ const Shelves = ({ images, selectedImage, onSelect }) => {
 
     const { width } = dimensions
     const shelfWidth = width - 1.5 * LEFT_MARGIN - THUMB_WIDTH + THUMB_SPACING
-    const numPerShelf = Math.floor(shelfWidth / THUMB_SPACING)
+    const numPerShelf = Math.max(1, Math.floor(shelfWidth / THUMB_SPACING))
     const numShelves = Math.ceil(images.length / numPerShelf)
 
     return Array.from({ length: numShelves }).map((_, idx) => {
