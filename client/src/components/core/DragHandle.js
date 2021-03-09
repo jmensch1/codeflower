@@ -21,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     height: '100%',
-    width: 6,
+    width: ({ width }) => width,
     backgroundColor: theme.palette.divider,
     cursor: 'ew-resize',
   },
 }))
 
-const DragHandle = ({ onDrag }) => {
+const DragHandle = ({ onDrag, width }) => {
   const [dragging, setDragging] = useState(false)
-  const classes = useStyles({ dragging })
+  const classes = useStyles({ dragging, width })
   const barRef = useRef(null)
 
   useEffect(() => {

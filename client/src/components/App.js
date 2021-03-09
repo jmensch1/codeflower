@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useLocation, useRepo } from 'store/selectors'
+import { useLocation } from 'store/selectors'
 import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
 import { openModal } from 'store/actions/modals'
 import Sidebar from './Sidebar'
-import DragHandle from './core/DragHandle'
 import Main from './Main'
 import Modals from './modals'
-
-const INITIAL_SIDEBAR_WIDTH = 350
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -22,9 +19,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     display: 'flex',
   },
-  sidebar: {
-    width: ({ sidebarWidth }) => sidebarWidth,
-  },
   main: {
     flex: 1,
     height: '100%',
@@ -32,10 +26,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const App = () => {
-  const [sidebarWidth, setSidebarWidth] = useState(INITIAL_SIDEBAR_WIDTH)
-  const classes = useStyles({ sidebarWidth })
+  const classes = useStyles()
   const dispatch = useDispatch()
-  const repo = useRepo()
   const { query: { owner, name, branch } } = useLocation()
 
   useEffect(() => {
@@ -46,14 +38,7 @@ const App = () => {
   return (
     <>
       <div className={classes.app}>
-        {repo && (
-          <>
-            <div className={classes.sidebar}>
-              <Sidebar />
-            </div>
-            <DragHandle onDrag={setSidebarWidth} />
-          </>
-        )}
+        <Sidebar />
         <div className={classes.main}>
           <Main />
         </div>

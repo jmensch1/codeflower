@@ -1,102 +1,34 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useRepo, useModal } from 'store/selectors'
-import Header from './Header'
-import Tabs from './Tabs'
-import Languages from './Languages'
-import Folders from './Folders'
-import Authors from './Authors'
-import Controls from './Controls'
-import Camera from './Camera'
-import Gallery from 'components/modals/Gallery/Sidebar'
-import LanguageIcon from '@material-ui/icons/Language'
-import FolderIcon from '@material-ui/icons/FolderOpen'
-import PeopleIcon from '@material-ui/icons/People'
-import TuneIcon from '@material-ui/icons/Tune'
-import CameraIcon from '@material-ui/icons/CameraAlt'
+import Content from './Content'
+import DragHandle from 'components/core/DragHandle'
+import { useRepo } from 'store/selectors'
 
-//////////////////// TAB CONFIG ///////////////////
-
-const TABS = [
-  {
-    type: 'languages',
-    Icon: LanguageIcon,
-    Component: Languages,
-  },
-  {
-    type: 'folders',
-    Icon: FolderIcon,
-    Component: Folders,
-  },
-  {
-    type: 'authors',
-    Icon: PeopleIcon,
-    Component: Authors,
-  },
-  {
-    type: 'controls',
-    Icon: TuneIcon,
-    Component: Controls,
-  },
-  {
-    type: 'camera',
-    Icon: CameraIcon,
-    Component: Camera,
-  }
-]
-
-/////////////////////// COMPONENT ////////////////////
+const INITIAL_WIDTH = 350
+const HANDLE_WIDTH = 6
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  header: {
-    padding: '10px 10px 15px 10px',
   },
   content: {
-    flex: 1,
-    overflow: 'auto',
-    overscrollBehavior: 'contain',
-  },
-  gallery: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    bottom: 0,
-    transition: 'all 0.5s ease-out',
-    transform: ({ galleryIsOpen }) =>
-      `translateX(${galleryIsOpen ? 0 : '-100%'})`
+    width: ({ width }) => width - (HANDLE_WIDTH / 2),
   },
 }))
 
 const Sidebar = () => {
-  const { isOpen: galleryIsOpen } = useModal('gallery')
-  const classes = useStyles({ galleryIsOpen })
+  const [width, setWidth] = useState(INITIAL_WIDTH)
+  const classes = useStyles({ width })
   const repo = useRepo()
-  const [tab, setTab] = useState('languages')
-
-  const { Component } = TABS.find((t) => t.type === tab)
 
   if (!repo) return null
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
-        <Header />
-      </div>
-      <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
       <div className={classes.content}>
-        <Component />
+        <Content />
       </div>
-      <div className={classes.gallery}>
-        <Gallery />
-      </div>
+      <DragHandle onDrag={setWidth} width={HANDLE_WIDTH} />
     </div>
   )
 }
