@@ -4,7 +4,7 @@ import SubTabs from './SubTabs'
 import ForceControls from 'components/Visualization/ForceDirectedGraph/controls/ForceControls'
 import StyleControls from 'components/Visualization/ForceDirectedGraph/controls/StyleControls'
 // import PositionControls from 'components/Visualization/ForceDirectedGraph/controls/PositionControls'
-// import ThemeControls from 'components/theme/ThemeControls'
+import ThemeControls from 'components/theme/ThemeControls'
 
 //////////////////// TAB CONFIG ///////////////////
 
@@ -21,10 +21,10 @@ const TABS = [
   //   type: 'position',
   //   Component: PositionControls,
   // },
-  // {
-  //   type: 'other',
-  //   Component: ThemeControls,
-  // },
+  {
+    type: 'other',
+    Component: ThemeControls,
+  },
 ]
 
 /////////////////////// COMPONENT ////////////////////
