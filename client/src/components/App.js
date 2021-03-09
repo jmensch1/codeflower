@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 import { useLocation, useRepo } from 'store/selectors'
 import { useDispatch } from 'react-redux'
 import { getRepo } from 'store/actions/repo'
@@ -30,23 +29,11 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     height: '100%',
   },
-  dragMask: {
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      cursor: 'ew-resize',
-    },
-  }
 }))
 
 const App = () => {
   const [sidebarWidth, setSidebarWidth] = useState(INITIAL_SIDEBAR_WIDTH)
-  const [dragging, setDragging] = useState(false)
-  const classes = useStyles({ sidebarWidth, dragging })
+  const classes = useStyles({ sidebarWidth })
   const dispatch = useDispatch()
   const repo = useRepo()
   const { query: { owner, name, branch } } = useLocation()
@@ -56,22 +43,15 @@ const App = () => {
     else dispatch(openModal('search'))
   }, [dispatch, owner, name, branch])
 
-  const onDragStart = useCallback(() => setDragging(true), [])
-  const onDragEnd = useCallback(() => setDragging(false), [])
-
   return (
     <>
-      <div className={clsx(classes.app, {[classes.dragMask]: dragging})}>
+      <div className={classes.app}>
         {repo && (
           <>
             <div className={classes.sidebar}>
               <Sidebar />
             </div>
-            <DragHandle
-              onDragStart={onDragStart}
-              onDrag={setSidebarWidth}
-              onDragEnd={onDragEnd}
-            />
+            <DragHandle onDrag={setSidebarWidth} />
           </>
         )}
         <div className={classes.main}>
