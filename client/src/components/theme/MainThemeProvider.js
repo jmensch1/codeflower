@@ -1,18 +1,26 @@
 import React, { useMemo } from 'react'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { colorString } from 'services/utils'
-import { getPalette } from './utils'
+import { paletteType, palettes } from './utils'
 import { useVisStyles } from 'store/selectors'
 
 const MainThemeProvider = ({ children }) => {
-  const { fill: mainBackgroundColor } = useVisStyles().background
+  const { fill: bgColor } = useVisStyles().background
 
   const theme = useMemo(() => {
-    const backgroundColor = colorString(mainBackgroundColor)
-    const palette = getPalette(backgroundColor)
-    palette.background.default = backgroundColor
+    const type = paletteType(bgColor)
+    const base = palettes[type]
+
+    const palette = {
+      ...base,
+      background: {
+        ...base.background,
+        default: colorString(bgColor),
+      }
+    }
+
     return (outerTheme) => ({ ...outerTheme, palette })
-  }, [mainBackgroundColor])
+  }, [bgColor])
 
   return (
     <ThemeProvider theme={theme}>

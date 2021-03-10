@@ -1,19 +1,34 @@
 import React, { useMemo } from 'react'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { colorString } from 'services/utils'
-import { getPalette } from './utils'
+import { palettes, paletteType, lighten, darken } from './utils'
 import { useMainTheme } from 'store/selectors'
 
 const SidebarThemeProvider = ({ children }) => {
-  const { sidebarBackgroundColor } = useMainTheme()
+  const { sidebarBackgroundColor: bgColor } = useMainTheme()
 
   const theme = useMemo(() => {
-    const backgroundColor = colorString(sidebarBackgroundColor)
-    const palette = getPalette(backgroundColor)
-    palette.background.paper = backgroundColor // TODO change to default
-    palette.background.default = 'hsl(0, 0%, 14%)' // TODO should change depending on backgroundColor
+    const type = paletteType(bgColor)
+    const base = palettes[type]
+
+    const paperColor = bgColor
+    const defaultColor = type === 'light'
+      ? lighten(bgColor, 7)
+      : darken(bgColor, 7)
+
+    const palette = {
+      ...base,
+      background: {
+        ...base.background,
+        paper: colorString(paperColor),
+        default: colorString(defaultColor),
+      }
+    }
+
     return (outerTheme) => ({ ...outerTheme, palette })
-  }, [sidebarBackgroundColor])
+  }, [bgColor])
+
+
 
   return (
     <ThemeProvider theme={theme}>

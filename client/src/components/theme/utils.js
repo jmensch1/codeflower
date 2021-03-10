@@ -1,12 +1,24 @@
 import { createMuiTheme } from '@material-ui/core/styles'
-import { getLightness } from 'services/utils'
 
-const darkBaseTheme = createMuiTheme({ palette: { type: 'dark' }})
-const lightBaseTheme = createMuiTheme({ palette: { type: 'light' }})
+export const palettes = {
+  dark: createMuiTheme({ palette: { type: 'dark' }}).palette,
+  light: createMuiTheme({ palette: { type: 'light' }}).palette,
+}
 
-const darkPalette = darkBaseTheme.palette
-const lightPalette = lightBaseTheme.palette
+export function paletteType(backgroundColor) {
+  return backgroundColor.lightness > 50 ? 'light' : 'dark'
+}
 
-export function getPalette(backgroundColor) {
-  return getLightness(backgroundColor) > 50 ? lightPalette : darkPalette
+export function darken(color, by) {
+  return {
+    ...color,
+    lightness: Math.max(0, color.lightness - by),
+  }
+}
+
+export function lighten(color, by) {
+  return {
+    ...color,
+    lightness: Math.min(100, color.lightness + by),
+  }
 }
