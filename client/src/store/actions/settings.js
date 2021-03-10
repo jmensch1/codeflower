@@ -1,4 +1,3 @@
-import mainThemes from 'themes/mainThemes'
 import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
 import { setPath } from 'services/utils'
@@ -91,7 +90,15 @@ export const updateVisPosition = (path, value) => ({
 })
 
 const initialState = {
-  mainTheme: mainThemes.dark,
+  mainTheme: {
+    sidebarBackgroundColor: {
+      hue: 0,
+      saturation: 0,
+      lightness: 21,
+      alpha: 1,
+    },
+    fontSize: 14,
+  },
   visType: 'force',
   selectedLanguage: null,
   selectedFolderPath: null,

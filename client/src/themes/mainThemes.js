@@ -1,3 +1,5 @@
+// NOTE: unused
+
 const mainThemes = {
   dark: {
     id: 'dark',
