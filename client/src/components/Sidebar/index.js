@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
+    color: theme.palette.text.primary,
   },
   content: {
     width: ({ width }) => width - (HANDLE_WIDTH / 2),

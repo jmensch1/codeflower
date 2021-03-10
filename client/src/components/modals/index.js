@@ -1,21 +1,18 @@
 import React from 'react'
+import ThemeProvider from 'components/theme/ThemeProvider'
 import Search from './Search'
 import MaxNodes from './MaxNodes'
 import Credentials from './Credentials'
 import About from './About'
-// import Export from './Export'
-// import Gallery from './Gallery'
 
 const Modals = () => {
   return (
-    <>
+    <ThemeProvider type='modals'>
       <Search />
       <MaxNodes />
       <Credentials />
       <About />
-      {/*<Export />*/}
-      {/*<Gallery />*/}
-    </>
+    </ThemeProvider>
   )
 }
 

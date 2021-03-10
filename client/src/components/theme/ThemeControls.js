@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useMainTheme } from 'store/selectors'
 import { updateMainTheme } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
 import {
-  getPathsWithDefault,
+  getPaths,
   createUpdaters,
   getLightness,
   getAlpha,
@@ -57,12 +57,11 @@ const RANGES = {
 const ThemeControls = () => {
   const classes = useStyles()
   const mainTheme = useMainTheme()
-  const theme = useTheme()
   const dispatch = useDispatch()
 
   const values = useMemo(() => {
-    return getPathsWithDefault(mainTheme, PATHS, theme)
-  }, [mainTheme, theme])
+    return getPaths(mainTheme, PATHS)
+  }, [mainTheme])
 
   const updaters = useMemo(() => {
     return createUpdaters(PATHS, updateMainTheme, dispatch)

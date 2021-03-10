@@ -8,6 +8,9 @@ const mainThemes = {
         paper: 'hsl(0, 0%, 21%)',
       },
     },
+    typography: {
+      fontSize: 14,
+    },
     app: {
       cursor: 'pointer',
     },

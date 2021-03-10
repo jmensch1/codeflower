@@ -7,12 +7,13 @@ import { openModal } from 'store/actions/modals'
 import Sidebar from './Sidebar'
 import Main from './Main'
 import Modals from './modals'
+import ThemeProvider from './theme/ThemeProvider'
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
     a: {
       textDecoration: 'underline',
-      color: theme.palette.text.primary,
+      color: 'inherit',
     },
   },
   app: {
@@ -38,9 +39,13 @@ const App = () => {
   return (
     <>
       <div className={classes.app}>
-        <Sidebar />
+        <ThemeProvider type='sidebar'>
+          <Sidebar />
+        </ThemeProvider>
         <div className={classes.main}>
-          <Main />
+          <ThemeProvider type='main'>
+            <Main />
+          </ThemeProvider>
         </div>
       </div>
       <Modals />
