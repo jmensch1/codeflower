@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { uploadImage, deleteImage } from 'services/gallery'
 import { useCamera } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
-import { delay } from 'services/utils/general'
+import { delay } from 'services/utils'
 import { svgToDataUri } from './utils'
 
 const useStyles = makeStyles((theme) => ({

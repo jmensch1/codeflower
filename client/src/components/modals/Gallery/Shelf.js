@@ -10,7 +10,7 @@ import {
   INDICATOR_SIZE,
   LEFT_MARGIN,
 } from './config'
-import { checkerGradient } from 'services/utils/color'
+import { checkerGradient } from 'services/utils'
 
 function indicatorX(idx) {
   return (

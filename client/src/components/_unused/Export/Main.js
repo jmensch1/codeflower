@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { checkerGradient } from 'services/utils/color'
+import { checkerGradient } from 'services/utils'
 import { getSvgDimensions } from './utils'
 import PngCropper from './PngCropper'
 

@@ -7,7 +7,8 @@ import { openModal } from 'store/actions/modals'
 import Sidebar from './Sidebar'
 import Main from './Main'
 import Modals from './modals'
-import ThemeProvider from './theme/ThemeProvider'
+import MainThemeProvider from './theme/MainThemeProvider'
+import SidebarThemeProvider from './theme/SidebarThemeProvider'
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -39,13 +40,13 @@ const App = () => {
   return (
     <>
       <div className={classes.app}>
-        <ThemeProvider type='sidebar'>
+        <SidebarThemeProvider>
           <Sidebar />
-        </ThemeProvider>
+        </SidebarThemeProvider>
         <div className={classes.main}>
-          <ThemeProvider type='main'>
+          <MainThemeProvider>
             <Main />
-          </ThemeProvider>
+          </MainThemeProvider>
         </div>
       </div>
       <Modals />
