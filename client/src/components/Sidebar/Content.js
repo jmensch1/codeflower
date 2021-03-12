@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     bottom: 0,
+    zIndex: 2,
     transition: 'all 0.5s ease-out',
     transform: ({ galleryIsOpen }) =>
       `translateX(${galleryIsOpen ? 0 : '-100%'})`
