@@ -50,7 +50,7 @@ const ForceDirectedGraph = () => {
   const [visElements, setVisElements] = useState(null)
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
-  const { cameraOn } = useCamera()
+  const { showAperture } = useCamera()
 
   useEffect(() => {
     if (!tree) return
@@ -139,7 +139,7 @@ const ForceDirectedGraph = () => {
       {visElements && (
         <>
           <Enhancers visElements={visElements} />
-          {!cameraOn && <Extras alpha={alpha} onRestart={restart} />}
+          {!showAperture && <Extras alpha={alpha} onRestart={restart} />}
         </>
       )}
     </>

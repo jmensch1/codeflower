@@ -14,7 +14,12 @@ const useStyles = makeStyles((theme) => ({
 const TextButton = ({ label, className, ...rest }) => {
   const classes = useStyles()
   return (
-    <Button variant="text" className={clsx(classes.root, className)} {...rest}>
+    <Button
+      variant="text"
+      className={clsx(classes.root, className)}
+      disableRipple
+      {...rest}
+    >
       {label}
     </Button>
   )

@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = () => {
   const { isOpen: galleryIsOpen } = useModal('gallery')
-  const { cameraOn, transparent } = useCamera()
+  const { cameraOn, showAperture, transparent } = useCamera()
   const classes = useStyles({ cameraOn, transparent, galleryIsOpen })
 
   return (
     <div className={classes.root}>
       <Visualization />
       {cameraOn && <Aperture />}
-      <div style={{ visibility: cameraOn ? 'hidden' : 'visible' }}>
+      <div style={{ visibility: showAperture ? 'hidden' : 'visible' }}>
         <ControlBar />
         <Terminal />
         <FileViewer />

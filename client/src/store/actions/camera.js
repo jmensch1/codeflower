@@ -9,9 +9,11 @@ export const updateCamera = (updates) => ({
 
 const initialState = {
   cameraOn: false,
-  flashOn: false,
   transparent: false,
   aspectRatio: null,
+  aperture: null,
+  showAperture: false,
+  svg: null,
 }
 
 const reducer = (state = initialState, action) => {

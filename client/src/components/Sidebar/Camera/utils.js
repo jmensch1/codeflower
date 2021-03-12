@@ -25,3 +25,26 @@ export function downloadDataUri(dataUri, filename) {
   dl.click()
   document.body.removeChild(dl)
 }
+
+// const TARGET_WIDTH = 3000
+//
+// // eslint-disable-next-line
+// const getPngUri = useCallback(async () => {
+//   if (!svg || !aperture) return
+//
+//   const { viewBox } = aperture
+//   const scale = TARGET_WIDTH / (viewBox.width * window.devicePixelRatio)
+//
+//   return svgAsPngUri(svg, {
+//     ...viewBox,
+//     scale,
+//     excludeCss: true,
+//     encoderOptions: 1.0,
+//     backgroundColor: theme.palette.background.default,
+//   })
+// }, [svg, aperture, theme])
+
+// const deleteAfterUpload = useCallback(() => {
+//   deleteImage(uploadedImage.delete_token)
+//     .then(() => setUploadedImage(null))
+// }, [uploadedImage])

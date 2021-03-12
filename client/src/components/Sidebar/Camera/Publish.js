@@ -1,19 +1,22 @@
 import React, { useCallback, useState } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
-import { svgAsPngUri } from 'save-svg-as-png'
-import { useRepo } from 'store/selectors'
+import { useRepo, useCamera } from 'store/selectors'
+import { openModal } from 'store/actions/modals'
+import { getImages } from 'store/actions/gallery'
+import { updateCamera } from 'store/actions/camera'
+import { uploadImage } from 'services/gallery'
+import { svgToDataUri } from './utils'
+import Checkbox from 'components/core/Checkbox'
 import TextButton from 'components/core/TextButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { uploadImage, deleteImage } from 'services/gallery'
-import { useCamera } from 'store/selectors'
-import { openModal } from 'store/actions/modals'
-import { delay } from 'services/utils'
-import { svgToDataUri } from './utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     userSelect: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
   },
   instructions: {
     fontSize: '0.875em',
@@ -27,18 +30,13 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  button: {},
   imageBox: {
-    paddingBottom: '75%',  // NOTE: this is the reciprocal of the thumbnail aspect ratio
-    border: '1px white solid',
+    border: `1px ${theme.palette.text.primary} solid`,
     position: 'relative',
-    backgroundColor: theme.palette.background.default,
   },
   image: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
     width: '100%',
+    display: 'block',
   },
   loaderContainer: {
     position: 'absolute',
@@ -46,116 +44,120 @@ const useStyles = makeStyles((theme) => ({
     left: '50%',
     transform: 'translate(-50%,-50%)',
   },
+  loadingMask: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: theme.palette.type === 'light' ? '#fff' : '#000',
+    opacity: 0.7,
+  },
   message: {
     textAlign: 'center',
     fontStyle: 'italic',
     fontSize: '0.875em',
-    marginTop: '0.25em',
-    marginBottom: '1.5em',
+    marginTop: '0.5em',
   },
   buttons: {
     display: 'flex',
     justifyContent: 'space-between',
+    marginTop: '1em',
+  },
+  button: {
+    textTransform: 'lowercase',
+    padding: '0.25em 1em',
+    fontWeight: 'normal',
+  },
+  apertureToggle: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    paddingTop: '2em',
   },
 }))
 
-const TARGET_WIDTH = 3000
-
-const Publish = ({ flash, transparent, setTransparent }) => {
+const Publish = () => {
   const repo = useRepo()
-  const theme = useTheme()
   const classes = useStyles()
-  const { svg, aperture } = useCamera()
+  const { svg, aperture, showAperture, flash } = useCamera()
   const dispatch = useDispatch()
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(false)
+  const [dataUri, setDataUri] = useState(null)
 
-  // eslint-disable-next-line
-  const getPngUri = useCallback(async () => {
-    if (!svg || !aperture) return
-
-    const { viewBox } = aperture
-    const scale = TARGET_WIDTH / (viewBox.width * window.devicePixelRatio)
-
-    return svgAsPngUri(svg, {
-      ...viewBox,
-      scale,
-      excludeCss: true,
-      encoderOptions: 1.0,
-      backgroundColor: theme.palette.background.default,
-    })
-  }, [svg, aperture, theme])
-
-  const getSvgUri = useCallback(async () => {
-    return svgToDataUri(
-      svg,
-      theme.palette.background.default,
+  const preview = useCallback(async () => {
+    await flash()
+    const dataUri = await svgToDataUri(
+      svg(),
+      undefined,  // TODO: switch param order so this isn't necessary
       aperture.viewBox,
     )
-  }, [svg, theme, aperture])
+    setDataUri(dataUri)
+  }, [flash, svg, aperture])
 
   const publish = useCallback(async () => {
-    flash()
     setIsUploading(true)
 
-    await delay()
-    const dataUri = await getSvgUri()
     const imageId = `${repo.name}-${Date.now()}`
     uploadImage(dataUri, imageId, {
       owner: repo.owner,
       name: repo.name,
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: svg().style.backgroundColor,
     })
       .then((image) => {
-        console.log(image)
         setUploadedImage(image)
         setIsUploading(false)
+        dispatch(getImages())
       })
       .catch((error) => {
-        console.log('error:', error)
         setIsUploading(false)
-        setError('Upload failed.')
+        setError(true)
       })
-  }, [flash, repo, getSvgUri, theme])
+  }, [svg, dataUri, repo, dispatch])
 
   const openGallery = useCallback(() => {
     dispatch(openModal('gallery'))
   }, [dispatch])
 
-  const deleteAfterUpload = useCallback(() => {
-    deleteImage(uploadedImage.delete_token)
-      .then(() => setUploadedImage(null))
-  }, [uploadedImage])
+  const toggleAperture = useCallback(() => {
+    dispatch(updateCamera({ showAperture: !showAperture }))
+  }, [dispatch, showAperture])
 
-  const publishButton = (
+  const reset = useCallback(() => {
+    setDataUri(null)
+    setError(false)
+    setUploadedImage(null)
+  }, [])
+
+  const previewButton = (
     <TextButton
+      label="preview"
+      onClick={preview}
       className={classes.button}
-      onClick={publish}
-      label="publish"
       style={{ width: '100%' }}
     />
   )
 
-  const uploadIndicator = (
-    <div className={classes.imageBox}>
-      <div className={classes.loaderContainer}>
-        <CircularProgress size={18} color="inherit" />
-      </div>
-    </div>
-  )
-
-  const image = uploadedImage ? (
+  const previewImage = (
     <div className={classes.imageBox}>
       <img
-        src={uploadedImage.secure_url}
+        src={dataUri}
         className={classes.image}
         alt='thumbnail'
       />
+      {isUploading && (
+        <>
+          <div className={classes.loadingMask} />
+          <div className={classes.loaderContainer}>
+            <CircularProgress size={24} color="inherit" />
+          </div>
+        </>
+      )}
     </div>
-  ) : null
-
-  const errorImage = <div className={classes.imageBox} />
+  )
 
   const message = (text) => (
     <div className={classes.message}>{ text }</div>
@@ -165,23 +167,28 @@ const Publish = ({ flash, transparent, setTransparent }) => {
     <div className={classes.buttons}>
       <TextButton
         className={classes.button}
-        onClick={() => setUploadedImage(null)}
-        label='ok'
+        onClick={reset}
+        label='cancel'
       />
       <TextButton
         className={classes.button}
-        onClick={deleteAfterUpload}
-        label='delete'
+        onClick={publish}
+        label='publish'
       />
     </div>
   )
 
-  const errorButton = (
+  const postUploadButtons = (
     <div className={classes.buttons}>
       <TextButton
         className={classes.button}
-        onClick={() => setError(null)}
-        label='ok'
+        onClick={openGallery}
+        label='view'
+      />
+      <TextButton
+        className={classes.button}
+        onClick={reset}
+        label='done'
       />
     </div>
   )
@@ -192,36 +199,21 @@ const Publish = ({ flash, transparent, setTransparent }) => {
         Add an image to the{' '}
         <span onClick={openGallery} className={classes.link}>gallery</span>.
       </div>
-      {(() => {
-        if (!isUploading && !uploadedImage && !error)
-          return publishButton
-
-        if (isUploading)
-          return (
-            <>
-              { uploadIndicator }
-              { message('uploading') }
-            </>
-          )
-
-        if (uploadedImage)
-          return (
-            <>
-              { image }
-              { message('uploaded successful') }
-              { buttons }
-            </>
-          )
-
-        if (error)
-          return (
-            <>
-              { errorImage }
-              { message('upload failed') }
-              { errorButton }
-            </>
-          )
-      })()}
+      {!dataUri && previewButton}
+      {dataUri && previewImage}
+      {dataUri && !isUploading && !uploadedImage && !error && message(`${repo.owner}/${repo.name}`)}
+      {dataUri && !isUploading && error && message('error publishing. maybe try again?')}
+      {dataUri && !isUploading && !uploadedImage && buttons}
+      {dataUri && isUploading && message('publishing')}
+      {dataUri && uploadedImage && message('published')}
+      {dataUri && uploadedImage && postUploadButtons}
+      <div className={classes.apertureToggle}>
+        <Checkbox
+          checked={showAperture}
+          onChange={toggleAperture}
+          label='show aperture'
+        />
+      </div>
     </div>
   )
 }

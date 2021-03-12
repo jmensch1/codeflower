@@ -4,14 +4,14 @@ import { makeStyles } from '@material-ui/core/styles'
 import { updateCamera } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
 import SubTabs from '../SubTabs'
-import Download from './Download'
+// import Download from './Download'
 import Publish from './Publish'
 
 const TABS = [
-  {
-    type: 'download',
-    Component: Download,
-  },
+  // {
+  //   type: 'download',
+  //   Component: Download,
+  // },
   {
     type: 'publish',
     Component: Publish,
@@ -53,16 +53,12 @@ const Camera = () => {
       cameraOn: false,
       transparent: false,
       aspectRatio: null,
+      showAperture: false,
     }))
   }, [tab, dispatch])
 
   const setTransparent = useCallback((transparent) => {
     dispatch(updateCamera({ transparent }))
-  }, [dispatch])
-
-  const flash = useCallback(() => {
-    dispatch(updateCamera({ flashOn: true }))
-    setTimeout(() => dispatch(updateCamera({ flashOn: false })), 100)
   }, [dispatch])
 
   return (
@@ -72,7 +68,6 @@ const Camera = () => {
       </div>
       <div className={classes.content}>
         <Component
-          flash={flash}
           transparent={transparent}
           setTransparent={setTransparent}
         />

@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { updateCamera } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
 import useSize from 'hooks/useSize'
+import { delay } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,24 +20,23 @@ const useStyles = makeStyles((theme) => ({
   aperture: {
     border: `1px ${theme.palette.text.primary} dashed`,
     position: 'absolute',
-    pointerEvents: 'none',
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: ({ flashOn }) =>
-        flashOn ? `hsla(0,0%,100%,0.5)` : `hsla(0,0%,100%,0)`,
-      transition: 'background-color 0.1s ease-out',
-    }
   },
   blocker: {
     position: 'absolute',
     backgroundColor: '#000',
     opacity: 0.8,
-  }
+  },
+  flash: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    opacity: 0,
+    transition: 'opacity 0.03s ease-out',
+    pointerEvents: 'none',
+  },
 }))
 
 // returns the dimensions of the largest possible rectangle,
@@ -97,11 +97,12 @@ export function getViewboxAperture(svg, aperture) {
 }
 
 const Aperture = () => {
-  const { flashOn, aspectRatio } = useCamera()
+  const { aspectRatio, showAperture } = useCamera()
   const [aperture, setAperture] = useState(null)
-  const classes = useStyles({ flashOn })
-  const container = useRef(null)
-  const containerRect = useSize(container)
+  const classes = useStyles()
+  const containerRef = useRef(null)
+  const containerRect = useSize(containerRef)
+  const flashRef = useRef(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -120,18 +121,26 @@ const Aperture = () => {
 
     const viewboxAperture = getViewboxAperture(svg, screenAperture)
 
+    const flash = async () => {
+      flashRef.current.style.opacity = 0.5
+      await delay(100)
+      flashRef.current.style.opacity = 0
+      await delay(300)
+    }
+
     setAperture(screenAperture)
     dispatch(updateCamera({
       aperture: {
         screen: screenAperture,
         viewBox: viewboxAperture,
       },
-      svg,
+      svg: () => svg,
+      flash,
     }))
   }, [containerRect, aspectRatio, dispatch])
 
   const content = useMemo(() => {
-    if (!aperture) return null
+    if (!aperture || !showAperture) return null
 
     const { left, top, width, height } = aperture
     return (
@@ -158,10 +167,11 @@ const Aperture = () => {
         />
       </>
     )
-  }, [aperture, classes])
+  }, [aperture, showAperture, classes])
 
   return (
-    <div className={classes.root} ref={container}>
+    <div className={classes.root} ref={containerRef}>
+      <div className={classes.flash} ref={flashRef} />
       { content }
     </div>
   )
