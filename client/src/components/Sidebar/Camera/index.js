@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { updateCamera } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
-import SubTabs from '../SubTabs'
+import SubTabs from '../core/SubTabs'
 // import Download from './Download'
 import Publish from './Publish'
 

@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import RootThemeProvider from 'components/theme/RootThemeProvider'
+import store from 'store'
 import history from 'services/history'
-import store from './store'
-import App from './components/App'
+import RootThemeProvider from 'components/theme/RootThemeProvider'
+import App from 'components/App'
 
 console.log(process.env)
 
