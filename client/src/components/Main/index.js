@@ -6,8 +6,8 @@ import Visualization from './Visualization'
 import ControlBar from './ControlBar'
 import Terminal from './Terminal'
 import Aperture from './Aperture'
+import Gallery from './Gallery'
 import FileViewer from 'components/modals/FileViewer'
-import Gallery from 'components/modals/Gallery/Main'
 
 const useStyles = makeStyles((theme) => ({
   root: {
