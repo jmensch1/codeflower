@@ -134,7 +134,6 @@ const Aperture = () => {
         screen: screenAperture,
         viewBox: viewboxAperture,
       },
-      svg: () => svg,
       flash,
     }))
   }, [containerRect, aspectRatio, dispatch])

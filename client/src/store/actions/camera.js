@@ -13,7 +13,6 @@ const initialState = {
   aspectRatio: null,
   aperture: null,
   showAperture: false,
-  svg: null,
 }
 
 const reducer = (state = initialState, action) => {

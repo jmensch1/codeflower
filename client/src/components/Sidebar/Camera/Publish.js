@@ -81,17 +81,18 @@ const useStyles = makeStyles((theme) => ({
 const Publish = () => {
   const repo = useRepo()
   const classes = useStyles()
-  const { svg, aperture, showAperture, flash } = useCamera()
+  const { aperture, showAperture, flash } = useCamera()
   const dispatch = useDispatch()
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
   const [error, setError] = useState(false)
   const [dataUri, setDataUri] = useState(null)
+  const svg = document.querySelector('#vis-container')
 
   const preview = useCallback(async () => {
     await flash()
     const dataUri = await svgToDataUri(
-      svg(),
+      svg,
       undefined,  // TODO: switch param order so this isn't necessary
       aperture.viewBox,
     )
@@ -105,7 +106,7 @@ const Publish = () => {
     uploadImage(dataUri, imageId, {
       owner: repo.owner,
       name: repo.name,
-      backgroundColor: svg().style.backgroundColor,
+      backgroundColor: svg.style.backgroundColor,
     })
       .then((image) => {
         setUploadedImage(image)
