@@ -1,10 +1,11 @@
+import baseTheme from 'themes/baseTheme'
 import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
 import { setPath } from 'services/utils'
 
 export const types = {
-  SET_MAIN_THEME: 'settings/SET_MAIN_THEME',
-  UPDATE_MAIN_THEME: 'settings/UPDATE_MAIN_THEME',
+  SET_BASE_THEME: 'settings/SET_BASE_THEME',
+  UPDATE_BASE_THEME: 'settings/UPDATE_BASE_THEME',
   SET_VIS_TYPE: 'settings/SET_VIS_TYPE',
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
@@ -19,13 +20,13 @@ export const types = {
   UPDATE_VIS_POSITION: 'settings/UPDATE_VIS_POSITION',
 }
 
-export const setMainTheme = (mainTheme) => ({
-  type: types.SET_MAIN_THEME,
-  data: mainTheme,
+export const setBaseTheme = (baseTheme) => ({
+  type: types.SET_BASE_THEME,
+  data: baseTheme,
 })
 
-export const updateMainTheme = (path, value) => ({
-  type: types.UPDATE_MAIN_THEME,
+export const updateBaseTheme = (path, value) => ({
+  type: types.UPDATE_BASE_THEME,
   data: { path, value },
 })
 
@@ -90,15 +91,7 @@ export const updateVisPosition = (path, value) => ({
 })
 
 const initialState = {
-  mainTheme: {
-    sidebarBackgroundColor: {
-      hue: 0,
-      saturation: 0,
-      lightness: 21,
-      alpha: 1,
-    },
-    fontSize: 14,
-  },
+  baseTheme,
   visType: 'force',
   selectedLanguage: null,
   selectedFolderPath: null,
@@ -115,16 +108,16 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_MAIN_THEME:
+    case types.SET_BASE_THEME:
       return {
         ...state,
-        mainTheme: action.data,
+        baseTheme: action.data,
       }
-    case types.UPDATE_MAIN_THEME:
+    case types.UPDATE_BASE_THEME:
       return {
         ...state,
-        mainTheme: setPath(
-          state.mainTheme,
+        baseTheme: setPath(
+          state.baseTheme,
           action.data.path,
           action.data.value
         ),

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
-import { useMainTheme } from 'store/selectors'
-import { updateMainTheme } from 'store/actions/settings'
+import { useBaseTheme } from 'store/selectors'
+import { updateBaseTheme } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
 import LightnessSlider from 'components/core/LightnessSlider'
 import { getPaths, createUpdaters } from 'services/utils'
@@ -26,15 +26,15 @@ const RANGES = {
 
 const ThemeControls = () => {
   const classes = useStyles()
-  const mainTheme = useMainTheme()
+  const baseTheme = useBaseTheme()
   const dispatch = useDispatch()
 
   const values = useMemo(() => {
-    return getPaths(mainTheme, PATHS)
-  }, [mainTheme])
+    return getPaths(baseTheme, PATHS)
+  }, [baseTheme])
 
   const updaters = useMemo(() => {
-    return createUpdaters(PATHS, updateMainTheme, dispatch)
+    return createUpdaters(PATHS, updateBaseTheme, dispatch)
   }, [dispatch])
 
   return (

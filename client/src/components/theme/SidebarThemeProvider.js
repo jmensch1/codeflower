@@ -2,10 +2,10 @@ import React, { useMemo } from 'react'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { colorString } from 'services/utils'
 import { palettes, paletteType, lighten, darken } from './utils'
-import { useMainTheme } from 'store/selectors'
+import { useBaseTheme } from 'store/selectors'
 
 const SidebarThemeProvider = ({ children }) => {
-  const { sidebarBackgroundColor: bgColor } = useMainTheme()
+  const { sidebarBackgroundColor: bgColor } = useBaseTheme()
 
   const theme = useMemo(() => {
     const type = paletteType(bgColor)

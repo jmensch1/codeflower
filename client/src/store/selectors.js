@@ -12,7 +12,7 @@ const authors = (state) => state.repo?.authors
 const rootFolder = (state) => state.repo?.tree
 const files = (state) => state.files
 const settings = (state) => state.settings
-const mainTheme = (state) => state.settings.mainTheme
+const baseTheme = (state) => state.settings.baseTheme
 const visType = (state) => state.settings.visType
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
 const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
@@ -78,7 +78,7 @@ export const useSelectedFolder = () => useSelector(selectedFolder)
 export const useLanguageCounts = () => useSelector(languageCounts)
 export const useLanguageColors = () => useSelector(languageColors)
 export const useContext = () => useSelector(context)
-export const useMainTheme = () => useSelector(mainTheme)
+export const useBaseTheme = () => useSelector(baseTheme)
 export const useVisType = () => useSelector(visType)
 export const useVisStyles = () => useSelector(visStyles)
 export const useVisForces = () => useSelector(visForces)

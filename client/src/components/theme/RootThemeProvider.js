@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { useMainTheme } from 'store/selectors'
+import { useBaseTheme } from 'store/selectors'
 
 const RootThemeProvider = ({ children }) => {
-  const { fontSize } = useMainTheme()
+  const { fontSize } = useBaseTheme()
 
   const theme = useMemo(() => createMuiTheme({
     palette: { type: 'dark' },
