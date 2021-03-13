@@ -99,7 +99,7 @@ export function checkerGradient({
   size = 20,
   backgroundColor = 'hsla(0,0%,0%,1)',
 } = {}) {
-  const isDarkBackground = getLightness(backgroundColor) < 50
+  const isDarkBackground = getLightness(backgroundColor) <= 50
   const lightness = isDarkBackground ? 100 : 0
 
   return `

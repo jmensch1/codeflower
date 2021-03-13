@@ -6,6 +6,7 @@ import {
   useHighlightedFolderPath,
   useVisStyles,
   useVisPosition,
+  useCamera,
 } from 'store/selectors'
 import { colorString } from 'services/utils'
 import { isWithinFolder } from 'services/repo'
@@ -19,6 +20,7 @@ export default function useAddStyles({ svg, nodeG, node, linkG, link }) {
   const highlightedFolderPath = useHighlightedFolderPath()
   const visStyles = useVisStyles()
   const visPosition = useVisPosition()
+  const { transparent } = useCamera()
 
   const { file, folder } = useMemo(
     () => ({
@@ -30,8 +32,11 @@ export default function useAddStyles({ svg, nodeG, node, linkG, link }) {
 
   //// BACKGROUND ////
   useEffect(() => {
-    svg.style('background-color', colorString(visStyles.background.fill))
-  }, [svg, visStyles.background.fill])
+    svg.style(
+      'background-color',
+      transparent ? '' : colorString(visStyles.background.fill)
+    )
+  }, [svg, visStyles.background.fill, transparent])
 
   //// FILES ////
 

@@ -4,10 +4,8 @@ import { useDispatch } from 'react-redux'
 import { useRepo, useCamera } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { getImages } from 'store/actions/gallery'
-import { updateCamera } from 'store/actions/camera'
 import { uploadImage } from 'services/gallery'
 import { svgToDataUri } from './utils'
-import Checkbox from 'components/core/Checkbox'
 import TextButton from 'components/core/TextButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -69,19 +67,12 @@ const useStyles = makeStyles((theme) => ({
     padding: '0.25em 1em',
     fontWeight: 'normal',
   },
-  apertureToggle: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    paddingTop: '2em',
-  },
 }))
 
 const Publish = () => {
   const repo = useRepo()
   const classes = useStyles()
-  const { aperture, showAperture, flash } = useCamera()
+  const { aperture, flash } = useCamera()
   const dispatch = useDispatch()
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
@@ -122,10 +113,6 @@ const Publish = () => {
   const openGallery = useCallback(() => {
     dispatch(openModal('gallery'))
   }, [dispatch])
-
-  const toggleAperture = useCallback(() => {
-    dispatch(updateCamera({ showAperture: !showAperture }))
-  }, [dispatch, showAperture])
 
   const reset = useCallback(() => {
     setDataUri(null)
@@ -208,13 +195,6 @@ const Publish = () => {
       {dataUri && isUploading && message('publishing')}
       {dataUri && uploadedImage && message('published')}
       {dataUri && uploadedImage && postUploadButtons}
-      <div className={classes.apertureToggle}>
-        <Checkbox
-          checked={showAperture}
-          onChange={toggleAperture}
-          label='show aperture'
-        />
-      </div>
     </div>
   )
 }

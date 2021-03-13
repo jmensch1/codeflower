@@ -48,3 +48,32 @@ export function downloadDataUri(dataUri, filename) {
 //   deleteImage(uploadedImage.delete_token)
 //     .then(() => setUploadedImage(null))
 // }, [uploadedImage])
+
+// useEffect(() => {
+//   if (!svg || !repo) return
+//
+//   const repoInfo = d3
+//     .select(svg)
+//     .append('text')
+//     .attr('class', 'repo-info')
+//     .text(`${repo.owner} / ${repo.name}`)
+//     .style('fill', 'white')
+//     .style('font-size', 16)
+//     .style('font-family', 'sans-serif')
+//     .style('visibility', 'hidden')
+//
+//   return () => repoInfo.remove()
+// }, [svg, repo])
+//
+// useEffect(() => {
+//   if (!svg || !aperture) return
+//
+//   const { left, top, height } = aperture.viewBox
+//
+//   d3
+//     .select(svg)
+//     .select('.repo-info')
+//     .attr('x', left + 10)
+//     .attr('y', top + height - 10)
+//     .style('visibility', showRepoInfo ? 'visible' : 'hidden')
+// }, [svg, showRepoInfo, aperture])

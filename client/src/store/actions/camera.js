@@ -1,10 +1,15 @@
 export const types = {
   UPDATE_CAMERA: 'camera/UPDATE_CAMERA',
+  RESET_CAMERA: 'camera/RESET_CAMERA',
 }
 
 export const updateCamera = (updates) => ({
   type: types.UPDATE_CAMERA,
   data: updates,
+})
+
+export const resetCamera = () => ({
+  type: types.RESET_CAMERA,
 })
 
 const initialState = {
@@ -22,6 +27,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...action.data,
       }
+    case types.RESET_CAMERA:
+      return initialState
     default:
       return state
   }

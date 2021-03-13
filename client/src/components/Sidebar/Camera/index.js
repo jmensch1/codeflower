@@ -1,20 +1,21 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { updateCamera } from 'store/actions/camera'
+import { updateCamera, resetCamera } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
+import Checkbox from 'components/core/Checkbox'
 import SubTabs from '../core/SubTabs'
-// import Download from './Download'
 import Publish from './Publish'
+import Download from './Download'
 
 const TABS = [
-  // {
-  //   type: 'download',
-  //   Component: Download,
-  // },
   {
     type: 'publish',
     Component: Publish,
+  },
+  {
+    type: 'download',
+    Component: Download,
   },
 ]
 
@@ -34,32 +35,33 @@ const useStyles = makeStyles((theme) => ({
     overscrollBehavior: 'contain',
     padding: 20,
   },
+  apertureToggle: {
+    padding: '1em',
+    borderTop: `1px ${theme.palette.divider} solid`,
+  },
 }))
 
 const Camera = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [tab, setTab] = useState('publish')
+  const [tab, setTab] = useState('download')
   const { Component } = TABS.find((t) => t.type === tab)
-  const { transparent } = useCamera()
+  const { showAperture } = useCamera()
+
+  useEffect(() => {
+    dispatch(updateCamera({ cameraOn: true }))
+    return () => dispatch(resetCamera())
+  }, [dispatch])
 
   useEffect(() => {
     dispatch(updateCamera({
-      cameraOn: true,
       aspectRatio: tab === 'download' ? null : 4 / 3,
-    }))
-
-    return () => dispatch(updateCamera({
-      cameraOn: false,
-      transparent: false,
-      aspectRatio: null,
-      showAperture: false,
     }))
   }, [tab, dispatch])
 
-  const setTransparent = useCallback((transparent) => {
-    dispatch(updateCamera({ transparent }))
-  }, [dispatch])
+  const toggleAperture = useCallback(() => {
+    dispatch(updateCamera({ showAperture: !showAperture }))
+  }, [dispatch, showAperture])
 
   return (
     <div className={classes.root}>
@@ -67,9 +69,13 @@ const Camera = () => {
         <SubTabs tabs={TABS} activeTab={tab} onChange={setTab} />
       </div>
       <div className={classes.content}>
-        <Component
-          transparent={transparent}
-          setTransparent={setTransparent}
+        <Component />
+      </div>
+      <div className={classes.apertureToggle}>
+        <Checkbox
+          checked={showAperture}
+          onChange={toggleAperture}
+          label='show aperture'
         />
       </div>
     </div>

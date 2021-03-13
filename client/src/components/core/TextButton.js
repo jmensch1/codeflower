@@ -7,7 +7,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'transparent',
     border: `1px ${theme.palette.divider} solid`,
-    padding: '6px 10px',
+    textTransform: 'lowercase',
+    padding: '0.25em 1em',
+    fontWeight: 'normal',
   },
 }))
 

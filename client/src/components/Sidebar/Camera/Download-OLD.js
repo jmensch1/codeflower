@@ -1,33 +1,27 @@
-import React, { useCallback, useState, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useCallback, useState, useEffect, useMemo } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { saveSvgAsPng } from 'save-svg-as-png'
+import * as d3 from 'd3'
 import { useRepo } from 'store/selectors'
 import TextButton from 'components/core/TextButton'
 import Slider from 'components/core/Slider'
 import Checkbox from 'components/core/Checkbox'
 import Select from 'components/core/Select'
 import { useCamera } from 'store/selectors'
-import { updateCamera } from 'store/actions/camera'
 import { svgToDataUri, downloadDataUri } from './utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     userSelect: 'none',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+    '& > *': {
+      marginBottom: '1.25em',
+    }
   },
   instructions: {
     fontSize: '0.875em',
     fontStyle: 'italic',
     marginBottom: '2em',
     textAlign: 'left',
-  },
-  config: {
-    '& > *:not(:last-child)': {
-      marginBottom: '1.25em',
-    }
   },
   format: {
     display: 'flex',
@@ -56,23 +50,47 @@ const useStyles = makeStyles((theme) => ({
 const FORMATS = ['png', 'svg']
 const SCALE_RANGE = [1, 6]
 
-const Download = () => {
-  const dispatch = useDispatch()
+const Download = ({ flash, transparent, setTransparent }) => {
   const repo = useRepo()
   const theme = useTheme()
   const classes = useStyles()
   const [format, setFormat] = useState(FORMATS[0])
   const [scale, setScale] = useState(2)
-  const { flash, aperture, transparent } = useCamera()
-  const svg = document.querySelector('#vis-container')
+  const [showRepoInfo, setShowRepoInfo] = useState(true)
+  const { svg, aperture } = useCamera()
 
   const backgroundColor = useMemo(() => {
     return transparent ? 'transparent' : theme.palette.background.default
   }, [theme, transparent])
 
-  const setTransparent = useCallback((transparent) => {
-    dispatch(updateCamera({ transparent }))
-  }, [dispatch])
+  useEffect(() => {
+    if (!svg || !repo) return
+
+    const repoInfo = d3
+      .select(svg)
+      .append('text')
+      .attr('class', 'repo-info')
+      .text(`${repo.owner} / ${repo.name}`)
+      .style('fill', 'white')
+      .style('font-size', 16)
+      .style('font-family', 'sans-serif')
+      .style('visibility', 'hidden')
+
+    return () => repoInfo.remove()
+  }, [svg, repo])
+
+  useEffect(() => {
+    if (!svg || !aperture) return
+
+    const { left, top, height } = aperture.viewBox
+
+    d3
+      .select(svg)
+      .select('.repo-info')
+      .attr('x', left + 10)
+      .attr('y', top + height - 10)
+      .style('visibility', showRepoInfo ? 'visible' : 'hidden')
+  }, [svg, showRepoInfo, aperture])
 
   const savePng = useCallback(() => {
     if (!svg || !aperture) return
@@ -112,30 +130,33 @@ const Download = () => {
       <div className={classes.instructions}>
         Download a snapshot of the main window.
       </div>
-      <div className={classes.config}>
-        <div className={classes.format}>
-          <div>image format</div>
-          <Select
-            value={format}
-            onChange={setFormat}
-            options={FORMATS}
-          />
-        </div>
-        {format !== 'svg' && (
-          <Slider
-            value={scale}
-            onChange={setScale}
-            range={SCALE_RANGE}
-            label='dimensions'
-            renderValue={renderDimensions}
-          />
-        )}
-        <Checkbox
-          label='transparent background'
-          checked={transparent}
-          onChange={setTransparent}
+      <div className={classes.format}>
+        <div>image format</div>
+        <Select
+          value={format}
+          onChange={setFormat}
+          options={FORMATS}
         />
       </div>
+      {format !== 'svg' && (
+        <Slider
+          value={scale}
+          onChange={setScale}
+          range={SCALE_RANGE}
+          label='image dimensions'
+          renderValue={renderDimensions}
+        />
+      )}
+      <Checkbox
+        label='transparent background'
+        checked={transparent}
+        onChange={setTransparent}
+      />
+      <Checkbox
+        label='stamp owner/name'
+        checked={showRepoInfo}
+        onChange={setShowRepoInfo}
+      />
       <TextButton
         className={classes.button}
         label='download'
