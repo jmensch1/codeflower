@@ -31,7 +31,7 @@ export function getAperture(containerRect, aspectRatio) {
 }
 
 // converts the given aperture to the svg's viewBox coordinate system
-export function getViewboxAperture(svg, aperture) {
+export function getViewBoxAperture(svg, aperture) {
   const { left, top, width, height } = aperture
   const matrix = svg.getCTM().inverse()
 
