@@ -6,9 +6,9 @@ import { useDispatch } from 'react-redux'
 import { updateCamera } from 'store/actions/camera'
 import { useCamera } from 'store/selectors'
 import useSize from 'hooks/useSize'
-import { delay } from 'services/utils'
 import Aperture from './Aperture'
 import CheckerBackground from './CheckerBackground'
+import Flash from './Flash'
 import { getAperture, getViewboxAperture } from './utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -20,26 +20,14 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     pointerEvents: 'none',
   },
-  flash: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#fff',
-    opacity: 0,
-    transition: 'opacity 0.03s ease-out',
-    pointerEvents: 'none',
-  },
 }))
 
 const Camera = () => {
-  const { aspectRatio, showAperture, transparent } = useCamera()
+  const { aspectRatio, showAperture } = useCamera()
   const [aperture, setAperture] = useState(null)
   const classes = useStyles()
   const containerRef = useRef(null)
   const containerRect = useSize(containerRef)
-  const flashRef = useRef(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -58,30 +46,22 @@ const Camera = () => {
 
     const viewboxAperture = getViewboxAperture(svg, screenAperture)
 
-    const flash = async () => {
-      flashRef.current.style.opacity = 0.5
-      await delay(100)
-      flashRef.current.style.opacity = 0
-      await delay(300)
-    }
-
     setAperture(screenAperture)
     dispatch(updateCamera({
       aperture: {
         screen: screenAperture,
         viewBox: viewboxAperture,
       },
-      flash,
     }))
   }, [containerRect, aspectRatio, dispatch])
 
   return (
     <div className={classes.root} ref={containerRef}>
-      <div className={classes.flash} ref={flashRef} />
+      <Flash />
       {aperture && showAperture && (
         <Aperture aperture={aperture} />
       )}
-      <CheckerBackground visible={transparent} />
+      <CheckerBackground />
     </div>
   )
 }

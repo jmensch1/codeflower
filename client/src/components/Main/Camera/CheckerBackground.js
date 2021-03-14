@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { checkerGradient } from 'services/utils'
+import { useCamera } from 'store/selectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const CheckerBackground = ({ visible }) => {
+const CheckerBackground = () => {
+  const { transparent: visible } = useCamera()
   const classes = useStyles({ visible })
   return <div className={classes.root} />
 }
