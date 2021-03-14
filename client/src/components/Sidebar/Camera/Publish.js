@@ -5,7 +5,6 @@ import { useRepo, useCamera } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
 import { getImages } from 'store/actions/gallery'
 import { uploadImage } from 'services/gallery'
-import { svgToDataUri } from './utils'
 import TextButton from 'components/core/TextButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -72,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 const Publish = () => {
   const repo = useRepo()
   const classes = useStyles()
-  const { aperture, flash } = useCamera()
+  const { flash, getSvgUri } = useCamera()
   const dispatch = useDispatch()
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
@@ -82,13 +81,9 @@ const Publish = () => {
 
   const preview = useCallback(async () => {
     await flash()
-    const dataUri = await svgToDataUri(
-      svg,
-      undefined,  // TODO: switch param order so this isn't necessary
-      aperture.viewBox,
-    )
+    const dataUri = await getSvgUri()
     setDataUri(dataUri)
-  }, [flash, svg, aperture])
+  }, [flash, getSvgUri])
 
   const publish = useCallback(async () => {
     setIsUploading(true)

@@ -7,11 +7,20 @@ const ImageMaker = ({ svg, aperture }) => {
   const dispatch = useDispatch()
   const { fill: backgroundColor } = useVisStyles().background
 
-  const getSvgUri = useCallback(() => {
-    console.log('getting svg uri')
-  }, [svg, aperture, backgroundColor])
+  const getSvgUri = useCallback(async () => {
+    const svgClone = svg.cloneNode(true)
 
-  const getPngUri = useCallback((scale) => {
+    svgClone.removeAttribute('id')
+    svgClone.removeAttribute('class')
+
+    const { left, top, width, height } = aperture.viewBox
+    svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
+
+    const svgAsXML = (new XMLSerializer()).serializeToString(svgClone)
+    return 'data:image/svg+xml;base64,' + btoa(svgAsXML)
+  }, [svg, aperture])
+
+  const getPngUri = useCallback(async (scale) => {
     console.log('gettiing png uri:', scale)
   }, [svg, aperture, backgroundColor])
 

@@ -9,7 +9,7 @@ import Checkbox from 'components/core/Checkbox'
 import Select from 'components/core/Select'
 import { useCamera } from 'store/selectors'
 import { updateCamera } from 'store/actions/camera'
-import { svgToDataUri, downloadDataUri } from './utils'
+import { downloadDataUri } from './utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,7 @@ const Download = () => {
   const classes = useStyles()
   const [format, setFormat] = useState(FORMATS[0])
   const [scale, setScale] = useState(2)
-  const { flash, aperture, transparent } = useCamera()
+  const { flash, aperture, transparent, getSvgUri } = useCamera()
   const svg = document.querySelector('#vis-container')
 
   const backgroundColor = useMemo(() => {
@@ -90,10 +90,10 @@ const Download = () => {
     })
   }, [svg, aperture, scale, backgroundColor, repo])
 
-  const saveSvg = useCallback(() => {
-    const dataUri = svgToDataUri(svg, backgroundColor, aperture.viewBox)
+  const saveSvg = useCallback(async () => {
+    const dataUri = await getSvgUri()
     downloadDataUri(dataUri, `${repo.name}.svg`)
-  }, [svg, backgroundColor, aperture, repo])
+  }, [repo, getSvgUri])
 
   const download = useCallback(() => {
     flash()
