@@ -1,11 +1,10 @@
 import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { useVisStyles } from 'store/selectors'
 import { updateCamera } from 'store/actions/camera'
+import { svgAsPngUri } from 'save-svg-as-png'
 
 const ImageMaker = ({ svg, aperture }) => {
   const dispatch = useDispatch()
-  const { fill: backgroundColor } = useVisStyles().background
 
   const getSvgUri = useCallback(async () => {
     const svgClone = svg.cloneNode(true)
@@ -21,8 +20,17 @@ const ImageMaker = ({ svg, aperture }) => {
   }, [svg, aperture])
 
   const getPngUri = useCallback(async (scale) => {
-    console.log('gettiing png uri:', scale)
-  }, [svg, aperture, backgroundColor])
+    const { viewBox, screen } = aperture
+    const ratio = viewBox.width / screen.width
+    const adjustedScale = scale / (window.devicePixelRatio * ratio)
+
+    return await svgAsPngUri(svg, {
+      ...viewBox,
+      scale: adjustedScale,
+      excludeCss: true,
+      encoderOptions: 1.0,
+    })
+  }, [svg, aperture])
 
   useEffect(() => {
     dispatch(updateCamera({ getSvgUri, getPngUri }))

@@ -1,7 +1,6 @@
-import React, { useCallback, useState, useMemo } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { saveSvgAsPng } from 'save-svg-as-png'
+import { makeStyles } from '@material-ui/core/styles'
 import { useRepo } from 'store/selectors'
 import TextButton from 'components/core/TextButton'
 import Slider from 'components/core/Slider'
@@ -59,45 +58,28 @@ const SCALE_RANGE = [1, 6]
 const Download = () => {
   const dispatch = useDispatch()
   const repo = useRepo()
-  const theme = useTheme()
   const classes = useStyles()
   const [format, setFormat] = useState(FORMATS[0])
   const [scale, setScale] = useState(2)
-  const { flash, aperture, transparent, getSvgUri } = useCamera()
-  const svg = document.querySelector('#vis-container')
-
-  const backgroundColor = useMemo(() => {
-    return transparent ? 'transparent' : theme.palette.background.default
-  }, [theme, transparent])
+  const { flash, aperture, transparent, getSvgUri, getPngUri } = useCamera()
 
   const setTransparent = useCallback((transparent) => {
     dispatch(updateCamera({ transparent }))
   }, [dispatch])
 
-  const savePng = useCallback(() => {
-    if (!svg || !aperture) return
-
-    const { viewBox, screen } = aperture
-    const ratio = viewBox.width / screen.width
-    const adjustedScale = scale / (window.devicePixelRatio * ratio)
-
-    saveSvgAsPng(svg, `${repo.name}.png`, {
-      ...viewBox,
-      scale: adjustedScale,
-      excludeCss: true,
-      encoderOptions: 1.0,
-      backgroundColor,
-    })
-  }, [svg, aperture, scale, backgroundColor, repo])
+  const savePng = useCallback(async () => {
+    const dataUri = await getPngUri(scale)
+    downloadDataUri(dataUri, `${repo.name}.png`)
+  }, [getPngUri, scale, repo])
 
   const saveSvg = useCallback(async () => {
     const dataUri = await getSvgUri()
     downloadDataUri(dataUri, `${repo.name}.svg`)
   }, [repo, getSvgUri])
 
-  const download = useCallback(() => {
-    flash()
-    setTimeout(format === 'svg' ? saveSvg : savePng, 500)
+  const download = useCallback(async () => {
+    await flash()
+    ;({ svg: saveSvg, png: savePng }[format]())
   }, [flash, format, savePng, saveSvg])
 
   const renderDimensions = useCallback(() => {

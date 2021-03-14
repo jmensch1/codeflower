@@ -18,6 +18,9 @@ const initialState = {
   aspectRatio: null,
   aperture: null,
   showAperture: false,
+  flash: null,
+  getSvgUri: null,
+  getPngUri: null,
 }
 
 const reducer = (state = initialState, action) => {

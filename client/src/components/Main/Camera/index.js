@@ -1,7 +1,7 @@
 import React from 'react'
-import CheckerBackground from './CheckerBackground'
 import Core from './Core'
 import Flash from './Flash'
+import CheckerBackground from './CheckerBackground'
 
 const Camera = () => {
   return (
