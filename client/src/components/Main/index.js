@@ -5,7 +5,7 @@ import { checkerGradient } from 'services/utils'
 import Visualization from './Visualization'
 import ControlBar from './ControlBar'
 import Terminal from './Terminal'
-import Aperture from './Aperture'
+import Camera from './Camera'
 import Gallery from './Gallery'
 import FileViewer from 'components/modals/FileViewer'
 
@@ -55,7 +55,7 @@ const Main = () => {
   return (
     <div className={classes.root}>
       <Visualization />
-      {cameraOn && <Aperture />}
+      {cameraOn && <Camera />}
       <div style={{ visibility: showAperture ? 'hidden' : 'visible' }}>
         <ControlBar />
         <Terminal />
