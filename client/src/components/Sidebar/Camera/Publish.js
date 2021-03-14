@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
-import { useRepo, useCamera } from 'store/selectors'
+import { useRepo, useCamera, useGallery } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
-import { getImages } from 'store/actions/gallery'
-import { uploadImage } from 'services/gallery'
+import { publishImage, publishReset } from 'store/actions/gallery'
 import TextButton from 'components/core/TextButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -71,13 +70,10 @@ const useStyles = makeStyles((theme) => ({
 const Publish = () => {
   const repo = useRepo()
   const classes = useStyles()
-  const { flash, getSvgUri } = useCamera()
   const dispatch = useDispatch()
-  const [isUploading, setIsUploading] = useState(false)
-  const [uploadedImage, setUploadedImage] = useState(null)
-  const [error, setError] = useState(false)
+  const { flash, getSvgUri } = useCamera()
   const [dataUri, setDataUri] = useState(null)
-  const svg = document.querySelector('#vis-container')
+  const { isPublishing, publishedImage, publishError } = useGallery()
 
   const preview = useCallback(async () => {
     await flash()
@@ -85,25 +81,9 @@ const Publish = () => {
     setDataUri(dataUri)
   }, [flash, getSvgUri])
 
-  const publish = useCallback(async () => {
-    setIsUploading(true)
-
-    const imageId = `${repo.name}-${Date.now()}`
-    uploadImage(dataUri, imageId, {
-      owner: repo.owner,
-      name: repo.name,
-      backgroundColor: svg.style.backgroundColor,
-    })
-      .then((image) => {
-        setUploadedImage(image)
-        setIsUploading(false)
-        dispatch(getImages())
-      })
-      .catch((error) => {
-        setIsUploading(false)
-        setError(true)
-      })
-  }, [svg, dataUri, repo, dispatch])
+  const publish = useCallback(() => {
+    dispatch(publishImage(dataUri))
+  }, [dispatch, dataUri])
 
   const openGallery = useCallback(() => {
     dispatch(openModal('gallery'))
@@ -111,9 +91,8 @@ const Publish = () => {
 
   const reset = useCallback(() => {
     setDataUri(null)
-    setError(false)
-    setUploadedImage(null)
-  }, [])
+    dispatch(publishReset())
+  }, [dispatch])
 
   const previewButton = (
     <TextButton
@@ -131,7 +110,7 @@ const Publish = () => {
         className={classes.image}
         alt='thumbnail'
       />
-      {isUploading && (
+      {isPublishing && (
         <>
           <div className={classes.loadingMask} />
           <div className={classes.loaderContainer}>
@@ -146,7 +125,7 @@ const Publish = () => {
     <div className={classes.message}>{ text }</div>
   )
 
-  const buttons = (
+  const prePublishButtons = (
     <div className={classes.buttons}>
       <TextButton
         className={classes.button}
@@ -161,7 +140,7 @@ const Publish = () => {
     </div>
   )
 
-  const postUploadButtons = (
+  const postPublishButtons = (
     <div className={classes.buttons}>
       <TextButton
         className={classes.button}
@@ -184,12 +163,12 @@ const Publish = () => {
       </div>
       {!dataUri && previewButton}
       {dataUri && previewImage}
-      {dataUri && !isUploading && !uploadedImage && !error && message(`${repo.owner}/${repo.name}`)}
-      {dataUri && !isUploading && error && message('error publishing. maybe try again?')}
-      {dataUri && !isUploading && !uploadedImage && buttons}
-      {dataUri && isUploading && message('publishing')}
-      {dataUri && uploadedImage && message('published')}
-      {dataUri && uploadedImage && postUploadButtons}
+      {dataUri && !isPublishing && !publishedImage && !publishError && message(`${repo.owner}/${repo.name}`)}
+      {dataUri && !isPublishing && publishError && message('error publishing. maybe try again?')}
+      {dataUri && !isPublishing && !publishedImage && prePublishButtons}
+      {dataUri && isPublishing && message('publishing')}
+      {dataUri && publishedImage && message('published')}
+      {dataUri && publishedImage && postPublishButtons}
     </div>
   )
 }

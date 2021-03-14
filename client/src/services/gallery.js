@@ -50,7 +50,7 @@ export function imageUrl(image) {
 }
 
 // https://cloudinary.com/documentation/transformation_reference
-// note that the order of the transforms is important because
+// NOTE: the order of the transforms is important because
 // the upload preset does an eager transform to create the thumbnail,
 // and the resulting url is in the order below
 export function thumbUrl(image, { width = 300, height = 225 } = {}) {
@@ -59,13 +59,13 @@ export function thumbUrl(image, { width = 300, height = 225 } = {}) {
   return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.png`
 }
 
-export function uploadImage(
+export async function uploadImage(
   dataUri,
   imageId,
   context = {},
   onProgress = () => null,
 ) {
-  const data = {
+  const opts = {
     public_id: imageId,
     file: dataUri,
     folder: TAG,
@@ -74,17 +74,18 @@ export function uploadImage(
     context: packContext(context),
   }
 
-  return axios.post(UPLOAD_URL, JSON.stringify(data), {
+  const { data: image } = await axios.post(UPLOAD_URL, JSON.stringify(opts), {
     headers: UPLOAD_HEADERS,
     onUploadProgress: (e) => {
       const percentCompleted = Math.round(100 * e.loaded / e.total)
       onProgress(percentCompleted)
     }
   })
-    .then(({ data: image }) => ({
-      ...image,
-      context: unpackContext(image.context),
-    }))
+
+  return {
+    ...image,
+    context: unpackContext(image.context),
+  }
 }
 
 export function deleteImage(token) {
