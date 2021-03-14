@@ -1,7 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useCamera, useModal } from 'store/selectors'
-import { checkerGradient } from 'services/utils'
 import Visualization from './Visualization'
 import ControlBar from './ControlBar'
 import Terminal from './Terminal'
@@ -14,25 +13,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     position: 'relative',
     height: '100%',
-
-    // camera transparency
-    background: ({ transparent}) => transparent
-      ? checkerGradient({
-          alpha: 0.04,
-          backgroundColor: theme.palette.background.default
-        })
-      : 'none',
-    '&:after': {
-      display: ({ transparent }) => transparent ? 'block' : 'none',
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: -1,
-      backgroundColor: theme.palette.background.default,
-    },
   },
   gallery: {
     position: 'absolute',
@@ -49,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = () => {
   const { isOpen: galleryIsOpen } = useModal('gallery')
-  const { cameraOn, showAperture, transparent } = useCamera()
-  const classes = useStyles({ cameraOn, transparent, galleryIsOpen })
+  const { cameraOn, showAperture } = useCamera()
+  const classes = useStyles({ cameraOn, galleryIsOpen })
 
   return (
     <div className={classes.root}>

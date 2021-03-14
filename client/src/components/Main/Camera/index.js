@@ -8,6 +8,7 @@ import { useCamera } from 'store/selectors'
 import useSize from 'hooks/useSize'
 import { delay } from 'services/utils'
 import Aperture from './Aperture'
+import CheckerBackground from './CheckerBackground'
 import { getAperture, getViewboxAperture } from './utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Camera = () => {
-  const { aspectRatio, showAperture } = useCamera()
+  const { aspectRatio, showAperture, transparent } = useCamera()
   const [aperture, setAperture] = useState(null)
   const classes = useStyles()
   const containerRef = useRef(null)
@@ -80,6 +81,7 @@ const Camera = () => {
       {aperture && showAperture && (
         <Aperture aperture={aperture} />
       )}
+      <CheckerBackground visible={transparent} />
     </div>
   )
 }
