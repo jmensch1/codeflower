@@ -36,7 +36,7 @@ const Main = () => {
     <div className={classes.root}>
       <Visualization />
       {cameraOn && <Camera />}
-      <div style={{ visibility: showAperture ? 'hidden' : 'visible' }}>
+      <div style={{ display: showAperture ? 'none' : 'block' }}>
         <ControlBar />
         <Terminal />
         <FileViewer />
