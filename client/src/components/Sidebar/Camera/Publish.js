@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
-import { useRepo, useCamera, useGallery } from 'store/selectors'
+import { useRepo, useGallery } from 'store/selectors'
 import { openModal } from 'store/actions/modals'
-import { publishImage, publishReset } from 'store/actions/gallery'
+import { getPreview, publishImage, publishReset } from 'store/actions/gallery'
 import TextButton from 'components/core/TextButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -71,27 +71,19 @@ const Publish = () => {
   const repo = useRepo()
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { flash, getSvgUri } = useCamera()
-  const [dataUri, setDataUri] = useState(null)
-  const { isPublishing, publishedImage, publishError } = useGallery()
+  const {
+    previewImage,
+    isPublishing,
+    publishedImage,
+    publishError,
+  } = useGallery()
 
-  const preview = useCallback(async () => {
-    await flash()
-    const dataUri = await getSvgUri()
-    setDataUri(dataUri)
-  }, [flash, getSvgUri])
-
-  const publish = useCallback(() => {
-    dispatch(publishImage(dataUri))
-  }, [dispatch, dataUri])
+  const preview = useCallback(() => dispatch(getPreview()), [dispatch])
+  const publish = useCallback(() => dispatch(publishImage()), [dispatch])
+  const reset = useCallback(() => dispatch(publishReset()), [dispatch])
 
   const openGallery = useCallback(() => {
     dispatch(openModal('gallery'))
-  }, [dispatch])
-
-  const reset = useCallback(() => {
-    setDataUri(null)
-    dispatch(publishReset())
   }, [dispatch])
 
   const previewButton = (
@@ -103,9 +95,9 @@ const Publish = () => {
     />
   )
 
-  const previewImage = (
+  const image = (
     <div className={classes.imageBox}>
-      <img src={dataUri} className={classes.image} alt="thumbnail" />
+      <img src={previewImage} className={classes.image} alt="thumbnail" />
       {isPublishing && (
         <>
           <div className={classes.loadingMask} />
@@ -137,7 +129,7 @@ const Publish = () => {
         onClick={openGallery}
         label="view"
       />
-      <TextButton className={classes.button} onClick={reset} label="done" />
+      <TextButton className={classes.button} onClick={reset} label="ok" />
     </div>
   )
 
@@ -150,21 +142,21 @@ const Publish = () => {
         </span>
         .
       </div>
-      {!dataUri && previewButton}
-      {dataUri && previewImage}
-      {dataUri &&
+      {!previewImage && previewButton}
+      {previewImage && image}
+      {previewImage &&
         !isPublishing &&
         !publishedImage &&
         !publishError &&
         message(`${repo.owner}/${repo.name}`)}
-      {dataUri &&
+      {previewImage &&
         !isPublishing &&
         publishError &&
         message('error publishing. maybe try again?')}
-      {dataUri && !isPublishing && !publishedImage && prePublishButtons}
-      {dataUri && isPublishing && message('publishing')}
-      {dataUri && publishedImage && message('published')}
-      {dataUri && publishedImage && postPublishButtons}
+      {previewImage && !isPublishing && !publishedImage && prePublishButtons}
+      {previewImage && isPublishing && message('publishing')}
+      {previewImage && publishedImage && message('published')}
+      {previewImage && publishedImage && postPublishButtons}
     </div>
   )
 }

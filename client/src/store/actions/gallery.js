@@ -1,10 +1,11 @@
 import { listImages, uploadImage } from 'services/gallery'
 import { colorString } from 'services/utils'
-import { repo, visStyles } from 'store/selectors'
+import { repo, visStyles, gallery, camera } from 'store/selectors'
 
 export const types = {
   GET_IMAGES_SUCCESS: 'gallery/GET_IMAGES_SUCCESS',
   SELECT_IMAGE: 'gallery/SELECT_IMAGE',
+  PREVIEW_IMAGE: 'gallery/PREVIEW_IMAGE',
   PUBLISH_IMAGE_PENDING: 'gallery/PUBLISH_IMAGE_PENDING',
   PUBLISH_IMAGE_SUCCESS: 'gallery/PUBLISH_IMAGE_SUCCESS',
   PUBLISH_IMAGE_FAILURE: 'gallery/PUBLISH_IMAGE_FAILURE',
@@ -26,16 +27,29 @@ export const selectImage = (selectedImage) => ({
   data: selectedImage,
 })
 
-export const publishImage = (dataUri) => {
+export const getPreview = () => {
+  return async (dispatch, getState) => {
+    const { getSvgUri, flash } = camera(getState())
+    await flash()
+    const dataUri = await getSvgUri()
+    return dispatch({
+      type: types.PREVIEW_IMAGE,
+      data: dataUri,
+    })
+  }
+}
+
+export const publishImage = () => {
   return (dispatch, getState) => {
     dispatch({ type: types.PUBLISH_IMAGE_PENDING })
 
     const state = getState()
+    const { previewImage } = gallery(state)
     const { owner, name } = repo(state)
     const { fill } = visStyles(state).background
     const backgroundColor = colorString(fill)
 
-    uploadImage(dataUri, `${repo.name}-${Date.now()}`, {
+    uploadImage(previewImage, `${repo.name}-${Date.now()}`, {
       owner,
       name,
       backgroundColor,
@@ -63,6 +77,7 @@ export const publishReset = () => ({
 const initialState = {
   images: null,
   selectedImage: null,
+  previewImage: null,
   isPublishing: false,
   publishedImage: null,
   publishError: null,
@@ -81,6 +96,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedImage: action.data,
       }
+    case types.PREVIEW_IMAGE: {
+      return {
+        ...state,
+        previewImage: action.data,
+      }
+    }
     case types.PUBLISH_IMAGE_PENDING:
       return {
         ...state,
@@ -103,6 +124,8 @@ const reducer = (state = initialState, action) => {
     case types.PUBLISH_RESET:
       return {
         ...state,
+        isPublishing: false,
+        previewImage: null,
         publishedImage: null,
         publishError: null,
       }

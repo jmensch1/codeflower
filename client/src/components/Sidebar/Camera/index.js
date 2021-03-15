@@ -56,7 +56,7 @@ const Camera = () => {
 
   useEffect(() => {
     dispatch(updateCamera({
-      aspectRatio: 'publish'
+      aspectRatio: tab === 'publish'
         ? gallery.THUMB_WIDTH / gallery.THUMB_HEIGHT
         : null,
       transparent: false,

@@ -23,8 +23,8 @@ export const visStyles = (state) => state.settings.visStyles
 const fileFill = (state) => state.settings.visStyles?.files.fill
 const visForces = (state) => state.settings.visForces
 const visPosition = (state) => state.settings.visPosition
-const camera = (state) => state.camera
-const gallery = (state) => state.gallery
+export const camera = (state) => state.camera
+export const gallery = (state) => state.gallery
 const context = (state) => {
   const { context } = state.router.location.query
   return {
