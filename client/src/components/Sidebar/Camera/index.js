@@ -7,6 +7,7 @@ import Checkbox from 'components/core/Checkbox'
 import SubTabs from '../core/SubTabs'
 import Publish from './Publish'
 import Download from './Download'
+import { gallery } from 'constants.js'
 
 const TABS = [
   {
@@ -54,9 +55,10 @@ const Camera = () => {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(updateCamera({
-      aspectRatio: tab === 'download' ? null : 4 / 3,
-    }))
+    const aspectRatio = tab === 'publish'
+      ? gallery.THUMB_WIDTH / gallery.THUMB_HEIGHT
+      : null
+    dispatch(updateCamera({ aspectRatio }))
   }, [tab, dispatch])
 
   const toggleAperture = useCallback(() => {

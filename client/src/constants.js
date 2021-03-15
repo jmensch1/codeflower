@@ -6,10 +6,16 @@ export const api = {
   WS_URL: process.env.REACT_APP_API_URL_WS,
 }
 
-export const cloudinary = {
+export const gallery = {
   CLOUD_NAME: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
   UPLOAD_PRESET: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET,
   TAG: process.env.REACT_APP_CLOUDINARY_TAG,
+
+  // NOTE: these values are coordinated with the eager transform
+  // set up in the cloudinary console.
+  // https://cloudinary.com/console/c-9659fbfdd8d322037b50919efe1e18/upload_presets/54d926b2eb7381fc67905d62d90c15bd/edit
+  THUMB_WIDTH: 300,
+  THUMB_HEIGHT: 225,
 }
 
 export const about = {

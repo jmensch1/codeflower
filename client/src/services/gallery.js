@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { cloudinary } from 'constants.js'
+import { gallery } from 'constants.js'
 
 ////////////// CONFIG /////////////
 
-const { CLOUD_NAME, UPLOAD_PRESET, TAG } = cloudinary
+const { CLOUD_NAME, UPLOAD_PRESET, TAG, THUMB_WIDTH, THUMB_HEIGHT } = gallery
 const FETCH_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image`
 const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
 const UPLOAD_HEADERS = { 'Content-Type': 'application/json' }
@@ -53,9 +53,9 @@ export function imageUrl(image) {
 // NOTE: the order of the transforms is important because
 // the upload preset does an eager transform to create the thumbnail,
 // and the resulting url is in the order below
-export function thumbUrl(image, { width = 300, height = 225 } = {}) {
+export function thumbUrl(image) {
   const { version, public_id } = image
-  const transforms = `c_fill,h_${height},w_${width}`
+  const transforms = `c_fill,h_${THUMB_HEIGHT},w_${THUMB_WIDTH}`
   return `${FETCH_URL}/upload/${transforms}/v${version}/${public_id}.png`
 }
 
