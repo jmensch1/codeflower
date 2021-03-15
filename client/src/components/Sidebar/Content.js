@@ -77,10 +77,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const SidebarContent = () => {
-  const { isOpen: galleryIsOpen } = useModal('languages')
+  const { isOpen: galleryIsOpen } = useModal('gallery')
   const classes = useStyles({ galleryIsOpen })
   const repo = useRepo()
-  const [tab, setTab] = useState('camera')
+  const [tab, setTab] = useState('languages')
 
   const { Component } = TABS.find((t) => t.type === tab)
 
