@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     height: THUMB_HEIGHT * 2 + 20,
     '&:last-of-type': {
       marginBottom: '3em',
-    }
+    },
   },
   shelf: {
     position: 'absolute',
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
       size: 4,
     }),
     '& > circle': {
-      display: ({ selectedIndex }) => selectedIndex === -1 ? 'none' : 'block',
+      display: ({ selectedIndex }) => (selectedIndex === -1 ? 'none' : 'block'),
       fill: theme.palette.text.primary,
       transform: ({ selectedIndex: idx }) => `translateX(${indicatorX(idx)}px)`,
       transition: 'all 0.35s ease-in-out',
@@ -85,15 +85,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Shelf = ({ images, selectedImage, onSelect }) => {
   const [hoveredId, setHoveredId] = useState(null)
-  const selectedIndex = images.findIndex(image => image === selectedImage)
+  const selectedIndex = images.findIndex((image) => image === selectedImage)
   const classes = useStyles({ numImages: images.length, selectedIndex })
 
   const clearHover = useCallback(() => setHoveredId(null), [])
 
-  const selectImage = useCallback((image) => {
-    onSelect(image)
-    setHoveredId(null)
-  }, [onSelect])
+  const selectImage = useCallback(
+    (image) => {
+      onSelect(image)
+      setHoveredId(null)
+    },
+    [onSelect]
+  )
 
   return (
     <div className={classes.root} onMouseLeave={clearHover}>

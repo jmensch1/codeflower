@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     userSelect: 'none',
     '& > *': {
       marginBottom: '1.25em',
-    }
+    },
   },
   instructions: {
     fontSize: '0.875em',
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
       fontSize: '1em',
       userSelect: 'none',
-    }
+    },
   },
   slider: {
     width: '100%',
@@ -84,8 +84,7 @@ const Download = ({ flash, transparent, setTransparent }) => {
 
     const { left, top, height } = aperture.viewBox
 
-    d3
-      .select(svg)
+    d3.select(svg)
       .select('.repo-info')
       .attr('x', left + 10)
       .attr('y', top + height - 10)
@@ -132,34 +131,30 @@ const Download = ({ flash, transparent, setTransparent }) => {
       </div>
       <div className={classes.format}>
         <div>image format</div>
-        <Select
-          value={format}
-          onChange={setFormat}
-          options={FORMATS}
-        />
+        <Select value={format} onChange={setFormat} options={FORMATS} />
       </div>
       {format !== 'svg' && (
         <Slider
           value={scale}
           onChange={setScale}
           range={SCALE_RANGE}
-          label='image dimensions'
+          label="image dimensions"
           renderValue={renderDimensions}
         />
       )}
       <Checkbox
-        label='transparent background'
+        label="transparent background"
         checked={transparent}
         onChange={setTransparent}
       />
       <Checkbox
-        label='stamp owner/name'
+        label="stamp owner/name"
         checked={showRepoInfo}
         onChange={setShowRepoInfo}
       />
       <TextButton
         className={classes.button}
-        label='download'
+        label="download"
         onClick={download}
       />
     </div>

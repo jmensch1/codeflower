@@ -35,9 +35,7 @@ const Header = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.title}>
-        Gallery
-      </div>
+      <div className={classes.title}>Gallery</div>
       <IconButton
         aria-label="close"
         className={classes.closeButton}

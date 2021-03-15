@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1em',
     '& > *': {
       marginTop: '1.5em',
-    }
+    },
   },
   button: {
     padding: '0.5em',
@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
-    }
-  }
+    },
+  },
 }))
 
 const Sidebar = ({ settings, onChangeSettings }) => {
@@ -37,8 +37,8 @@ const Sidebar = ({ settings, onChangeSettings }) => {
       ? ''
       : theme.palette.background.default
 
-    const svgAsXML = (new XMLSerializer()).serializeToString(svg)
-    const dataURL = "data:image/svg+xml," + encodeURIComponent(svgAsXML)
+    const svgAsXML = new XMLSerializer().serializeToString(svg)
+    const dataURL = 'data:image/svg+xml,' + encodeURIComponent(svgAsXML)
 
     const dl = document.createElement('a')
     document.body.appendChild(dl) // This line makes it work in Firefox.
@@ -77,17 +77,23 @@ const Sidebar = ({ settings, onChangeSettings }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.button} onClick={saveSvg}>Save SVG</div>
-      <div className={classes.button} onClick={savePng}>Save PNG</div>
+      <div className={classes.button} onClick={saveSvg}>
+        Save SVG
+      </div>
+      <div className={classes.button} onClick={savePng}>
+        Save PNG
+      </div>
       <Checkbox
-        label='transparent background'
+        label="transparent background"
         checked={settings.transparent}
-        onChange={() => onChangeSettings({...settings, transparent: !settings.transparent })}
+        onChange={() =>
+          onChangeSettings({ ...settings, transparent: !settings.transparent })
+        }
       />
       <Select
         value={settings.format}
         options={['png', 'svg']}
-        onChange={(format) => onChangeSettings({...settings, format })}
+        onChange={(format) => onChangeSettings({ ...settings, format })}
       />
     </div>
   )

@@ -60,16 +60,10 @@ const Export = () => {
       <Header onClose={close} />
       <div className={classes.content}>
         <div className={classes.sidebar}>
-          <Sidebar
-            settings={settings}
-            onChangeSettings={setSettings}
-          />
+          <Sidebar settings={settings} onChangeSettings={setSettings} />
         </div>
         <div className={classes.main}>
-          <Main
-            settings={settings}
-            onChangeSettings={setSettings}
-          />
+          <Main settings={settings} onChangeSettings={setSettings} />
         </div>
       </div>
     </Modal>

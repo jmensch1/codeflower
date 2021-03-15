@@ -57,14 +57,12 @@ const Main = ({ settings }) => {
       {svg && settings.format === 'svg' && (
         <div
           className={classes.svgContainer}
-          ref={(node => node && node.appendChild(svg))}
+          ref={(node) => node && node.appendChild(svg)}
         />
       )}
       {svg && settings.format === 'png' && (
         <div className={classes.svgContainer}>
-          <PngCropper
-            svg={svg}
-          />
+          <PngCropper svg={svg} />
         </div>
       )}
       {/*<div

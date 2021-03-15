@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const Camera = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [tab, setTab] = useState('download')
+  const [tab, setTab] = useState('publish')
   const { Component } = TABS.find((t) => t.type === tab)
   const { showAperture } = useCamera()
 
@@ -55,9 +55,8 @@ const Camera = () => {
   }, [dispatch])
 
   useEffect(() => {
-    const aspectRatio = tab === 'publish'
-      ? gallery.THUMB_WIDTH / gallery.THUMB_HEIGHT
-      : null
+    const aspectRatio =
+      tab === 'publish' ? gallery.THUMB_WIDTH / gallery.THUMB_HEIGHT : null
     dispatch(updateCamera({ aspectRatio }))
   }, [tab, dispatch])
 
@@ -77,7 +76,7 @@ const Camera = () => {
         <Checkbox
           checked={showAperture}
           onChange={toggleAperture}
-          label='show aperture'
+          label="show aperture"
         />
       </div>
     </div>

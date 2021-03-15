@@ -16,17 +16,13 @@ const MainThemeProvider = ({ children }) => {
       background: {
         ...base.background,
         default: colorString(bgColor),
-      }
+      },
     }
 
     return (outerTheme) => ({ ...outerTheme, palette })
   }, [bgColor])
 
-  return (
-    <ThemeProvider theme={theme}>
-      {children}
-    </ThemeProvider>
-  )
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
 }
 
 export default MainThemeProvider

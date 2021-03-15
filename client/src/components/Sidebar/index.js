@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   content: {
-    width: ({ width }) => width - (HANDLE_WIDTH / 2),
+    width: ({ width }) => width - HANDLE_WIDTH / 2,
   },
 }))
 

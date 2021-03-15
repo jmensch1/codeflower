@@ -6,7 +6,7 @@ import { useCamera } from 'store/selectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: ({ visible }) => visible ? 'block' : 'none',
+    display: ({ visible }) => (visible ? 'block' : 'none'),
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -32,10 +32,7 @@ const Aperture = ({ aperture }) => {
   const { left, top, width, height } = aperture
   return (
     <div className={classes.root}>
-      <div
-        className={classes.aperture}
-        style={{ left, top, width, height }}
-      />
+      <div className={classes.aperture} style={{ left, top, width, height }} />
       <div
         className={classes.blocker}
         style={{ top: 0, bottom: 0, left: 0, width: left }}

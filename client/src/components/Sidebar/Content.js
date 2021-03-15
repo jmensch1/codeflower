@@ -42,7 +42,7 @@ const TABS = [
     type: 'camera',
     Icon: CameraIcon,
     Component: Camera,
-  }
+  },
 ]
 
 /////////////////////// COMPONENT ////////////////////
@@ -72,12 +72,12 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 2,
     transition: 'all 0.5s ease-out',
     transform: ({ galleryIsOpen }) =>
-      `translateX(${galleryIsOpen ? 0 : '-100%'})`
+      `translateX(${galleryIsOpen ? 0 : '-100%'})`,
   },
 }))
 
 const SidebarContent = () => {
-  const { isOpen: galleryIsOpen } = useModal('gallery')
+  const { isOpen: galleryIsOpen } = useModal('languages')
   const classes = useStyles({ galleryIsOpen })
   const repo = useRepo()
   const [tab, setTab] = useState('camera')

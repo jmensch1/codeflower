@@ -26,19 +26,19 @@ const Flash = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(updateCamera({
-      flash: async () => {
-        flashRef.current.style.opacity = 0.5
-        await delay(100)
-        flashRef.current.style.opacity = 0
-        await delay(300)
-      },
-    }))
+    dispatch(
+      updateCamera({
+        flash: async () => {
+          flashRef.current.style.opacity = 0.5
+          await delay(100)
+          flashRef.current.style.opacity = 0
+          await delay(300)
+        },
+      })
+    )
   }, [dispatch])
 
-  return (
-    <div className={classes.root} ref={flashRef} />
-  )
+  return <div className={classes.root} ref={flashRef} />
 }
 
 export default Flash

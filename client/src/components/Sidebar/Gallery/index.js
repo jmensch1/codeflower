@@ -28,9 +28,12 @@ const Gallery = () => {
     if (!images) dispatch(getImages())
   }, [dispatch, images])
 
-  const setSelectedImage = useCallback((image) => {
-    dispatch(selectImage(image))
-  }, [dispatch])
+  const setSelectedImage = useCallback(
+    (image) => {
+      dispatch(selectImage(image))
+    },
+    [dispatch]
+  )
 
   if (!images || !selectedImage) return null
   return (

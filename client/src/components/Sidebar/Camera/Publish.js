@@ -105,11 +105,7 @@ const Publish = () => {
 
   const previewImage = (
     <div className={classes.imageBox}>
-      <img
-        src={dataUri}
-        className={classes.image}
-        alt='thumbnail'
-      />
+      <img src={dataUri} className={classes.image} alt="thumbnail" />
       {isPublishing && (
         <>
           <div className={classes.loadingMask} />
@@ -121,21 +117,15 @@ const Publish = () => {
     </div>
   )
 
-  const message = (text) => (
-    <div className={classes.message}>{ text }</div>
-  )
+  const message = (text) => <div className={classes.message}>{text}</div>
 
   const prePublishButtons = (
     <div className={classes.buttons}>
-      <TextButton
-        className={classes.button}
-        onClick={reset}
-        label='cancel'
-      />
+      <TextButton className={classes.button} onClick={reset} label="cancel" />
       <TextButton
         className={classes.button}
         onClick={publish}
-        label='publish'
+        label="publish"
       />
     </div>
   )
@@ -145,13 +135,9 @@ const Publish = () => {
       <TextButton
         className={classes.button}
         onClick={openGallery}
-        label='view'
+        label="view"
       />
-      <TextButton
-        className={classes.button}
-        onClick={reset}
-        label='done'
-      />
+      <TextButton className={classes.button} onClick={reset} label="done" />
     </div>
   )
 
@@ -159,12 +145,22 @@ const Publish = () => {
     <div className={classes.root}>
       <div className={classes.instructions}>
         Add an image to the{' '}
-        <span onClick={openGallery} className={classes.link}>gallery</span>.
+        <span onClick={openGallery} className={classes.link}>
+          gallery
+        </span>
+        .
       </div>
       {!dataUri && previewButton}
       {dataUri && previewImage}
-      {dataUri && !isPublishing && !publishedImage && !publishError && message(`${repo.owner}/${repo.name}`)}
-      {dataUri && !isPublishing && publishError && message('error publishing. maybe try again?')}
+      {dataUri &&
+        !isPublishing &&
+        !publishedImage &&
+        !publishError &&
+        message(`${repo.owner}/${repo.name}`)}
+      {dataUri &&
+        !isPublishing &&
+        publishError &&
+        message('error publishing. maybe try again?')}
       {dataUri && !isPublishing && !publishedImage && prePublishButtons}
       {dataUri && isPublishing && message('publishing')}
       {dataUri && publishedImage && message('published')}

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {},
   imageBox: {
-    paddingBottom: '75%',  // NOTE: this is the reciprocal of the thumbnail aspect ratio
+    paddingBottom: '75%', // NOTE: this is the reciprocal of the thumbnail aspect ratio
     border: '1px white solid',
     position: 'relative',
     backgroundColor: theme.palette.background.default,
@@ -88,11 +88,7 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   }, [svg, aperture, theme])
 
   const getSvgUri = useCallback(async () => {
-    return svgToDataUri(
-      svg,
-      theme.palette.background.default,
-      aperture.viewBox,
-    )
+    return svgToDataUri(svg, theme.palette.background.default, aperture.viewBox)
   }, [svg, theme, aperture])
 
   const publish = useCallback(async () => {
@@ -124,8 +120,7 @@ const Publish = ({ flash, transparent, setTransparent }) => {
   }, [dispatch])
 
   const deleteAfterUpload = useCallback(() => {
-    deleteImage(uploadedImage.delete_token)
-      .then(() => setUploadedImage(null))
+    deleteImage(uploadedImage.delete_token).then(() => setUploadedImage(null))
   }, [uploadedImage])
 
   const publishButton = (
@@ -150,28 +145,26 @@ const Publish = ({ flash, transparent, setTransparent }) => {
       <img
         src={uploadedImage.secure_url}
         className={classes.image}
-        alt='thumbnail'
+        alt="thumbnail"
       />
     </div>
   ) : null
 
   const errorImage = <div className={classes.imageBox} />
 
-  const message = (text) => (
-    <div className={classes.message}>{ text }</div>
-  )
+  const message = (text) => <div className={classes.message}>{text}</div>
 
   const buttons = (
     <div className={classes.buttons}>
       <TextButton
         className={classes.button}
         onClick={() => setUploadedImage(null)}
-        label='ok'
+        label="ok"
       />
       <TextButton
         className={classes.button}
         onClick={deleteAfterUpload}
-        label='delete'
+        label="delete"
       />
     </div>
   )
@@ -181,7 +174,7 @@ const Publish = ({ flash, transparent, setTransparent }) => {
       <TextButton
         className={classes.button}
         onClick={() => setError(null)}
-        label='ok'
+        label="ok"
       />
     </div>
   )
@@ -190,35 +183,37 @@ const Publish = ({ flash, transparent, setTransparent }) => {
     <div className={classes.root}>
       <div className={classes.instructions}>
         Add an image to the{' '}
-        <span onClick={openGallery} className={classes.link}>gallery</span>.
+        <span onClick={openGallery} className={classes.link}>
+          gallery
+        </span>
+        .
       </div>
       {(() => {
-        if (!isUploading && !uploadedImage && !error)
-          return publishButton
+        if (!isUploading && !uploadedImage && !error) return publishButton
 
         if (isUploading)
           return (
             <>
-              { uploadIndicator }
-              { message('uploading') }
+              {uploadIndicator}
+              {message('uploading')}
             </>
           )
 
         if (uploadedImage)
           return (
             <>
-              { image }
-              { message('uploaded successful') }
-              { buttons }
+              {image}
+              {message('uploaded successful')}
+              {buttons}
             </>
           )
 
         if (error)
           return (
             <>
-              { errorImage }
-              { message('upload failed') }
-              { errorButton }
+              {errorImage}
+              {message('upload failed')}
+              {errorButton}
             </>
           )
       })()}

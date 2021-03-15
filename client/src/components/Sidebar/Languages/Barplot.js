@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
   bar: {
     height: 10,
     borderRadius: 2,
-
   },
 }))
 
@@ -49,14 +48,14 @@ const Barplot = () => {
       {counts.map((count, idx) => (
         <div key={count.language}>
           <div className={classes.label}>
-            <span>{ count.language }</span>
-            <span>{ count.lines }</span>
+            <span>{count.language}</span>
+            <span>{count.lines}</span>
           </div>
           <div
             className={classes.bar}
             style={{
               backgroundColor: colors[count.language],
-              width: `${100 * count.lines / totals.lines}%`,
+              width: `${(100 * count.lines) / totals.lines}%`,
             }}
           />
         </div>

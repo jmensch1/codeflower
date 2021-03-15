@@ -30,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { query: { owner, name, branch } } = useLocation()
+  const {
+    query: { owner, name, branch },
+  } = useLocation()
 
   useEffect(() => {
     if (owner && name) dispatch(getRepo({ owner, name, branch }))

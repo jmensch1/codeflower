@@ -38,11 +38,11 @@ const CameraCore = () => {
     const screenAperture = aspectRatio
       ? getAperture(containerRect, aspectRatio)
       : {
-        left: 0,
-        top: 0,
-        width: containerRect.width,
-        height: containerRect.height
-      }
+          left: 0,
+          top: 0,
+          width: containerRect.width,
+          height: containerRect.height,
+        }
 
     const viewBoxAperture = getViewBoxAperture(svg, screenAperture)
 

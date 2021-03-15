@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
         right: 0,
         zIndex: 10000,
         cursor: 'ew-resize',
-        display: ({ dragging }) => dragging ? 'block' : 'none',
+        display: ({ dragging }) => (dragging ? 'block' : 'none'),
       },
-    }
+    },
   },
   root: {
     height: '100%',

@@ -28,7 +28,7 @@ const initialState = {
   gallery: {
     isOpen: false,
     params: {},
-  }
+  },
 }
 
 const reducer = (state = initialState, action) => {

@@ -5,7 +5,7 @@ import { useCamera } from 'store/selectors'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: ({ visible }) => visible ? 'block' : 'none',
+    display: ({ visible }) => (visible ? 'block' : 'none'),
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     background: checkerGradient({
       alpha: 0.04,
-      backgroundColor: theme.palette.background.default
+      backgroundColor: theme.palette.background.default,
     }),
     '&:after': {
       content: '""',

@@ -42,7 +42,7 @@ const PngCropper = ({ svg }) => {
       onCropComplete={onCropComplete}
       onZoomChange={setZoom}
       showGrid={false}
-      style={{ maxWidth: '100%', maxHeight: '100%', display: 'block'}}
+      style={{ maxWidth: '100%', maxHeight: '100%', display: 'block' }}
     />
   )
 

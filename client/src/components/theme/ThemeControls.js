@@ -15,13 +15,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PATHS = [
-  'fontSize',
-  'sidebarBackgroundColor',
-]
+const PATHS = ['fontSize', 'sidebarBackgroundColor']
 
 const RANGES = {
-  'fontSize': [8, 20, 1],
+  fontSize: [8, 20, 1],
 }
 
 const ThemeControls = () => {

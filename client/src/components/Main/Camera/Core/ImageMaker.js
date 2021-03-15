@@ -15,22 +15,25 @@ const ImageMaker = ({ svg, aperture }) => {
     const { left, top, width, height } = aperture.viewBox
     svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
 
-    const svgAsXML = (new XMLSerializer()).serializeToString(svgClone)
+    const svgAsXML = new XMLSerializer().serializeToString(svgClone)
     return 'data:image/svg+xml;base64,' + btoa(svgAsXML)
   }, [svg, aperture])
 
-  const getPngUri = useCallback(async (scale) => {
-    const { viewBox, screen } = aperture
-    const ratio = viewBox.width / screen.width
-    const adjustedScale = scale / (window.devicePixelRatio * ratio)
+  const getPngUri = useCallback(
+    async (scale) => {
+      const { viewBox, screen } = aperture
+      const ratio = viewBox.width / screen.width
+      const adjustedScale = scale / (window.devicePixelRatio * ratio)
 
-    return await svgAsPngUri(svg, {
-      ...viewBox,
-      scale: adjustedScale,
-      excludeCss: true,
-      encoderOptions: 1.0,
-    })
-  }, [svg, aperture])
+      return await svgAsPngUri(svg, {
+        ...viewBox,
+        scale: adjustedScale,
+        excludeCss: true,
+        encoderOptions: 1.0,
+      })
+    },
+    [svg, aperture]
+  )
 
   useEffect(() => {
     dispatch(updateCamera({ getSvgUri, getPngUri }))

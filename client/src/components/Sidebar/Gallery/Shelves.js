@@ -2,11 +2,7 @@ import React, { useRef, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import useSize from 'hooks/useSize'
 import Shelf from './Shelf'
-import {
-  THUMB_WIDTH,
-  THUMB_SPACING,
-  LEFT_MARGIN,
-} from './config'
+import { THUMB_WIDTH, THUMB_SPACING, LEFT_MARGIN } from './config'
 
 const useStyles = makeStyles((theme) => ({
   root: {},

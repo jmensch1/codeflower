@@ -20,10 +20,14 @@ export const gallery = {
 
 export const about = {
   WEB_URL: window.location.origin,
-  CHROME_URL: 'https://chrome.google.com/webstore/detail/codeflower/mnlengnbfpfgcfdgfpkjekoaeophmmeh',
+  CHROME_URL:
+    'https://chrome.google.com/webstore/detail/codeflower/mnlengnbfpfgcfdgfpkjekoaeophmmeh',
   FIREFOX_URL: 'https://addons.mozilla.org/en-US/firefox/addon/codeflower/',
   GITHUB_URL: 'https://github.com/jmensch1/codeflower',
-  CONTRIBUTORS_URL: 'https://github.com/jmensch1/codeflower/blob/dev/.github/CONTRIBUTING.md',
-  BUG_REPORT_URL: 'https://github.com/jmensch1/codeflower/issues/new?assignees=&labels=&template=bug_report.md&title=',
-  FEATURE_REQUEST_URL: 'https://github.com/jmensch1/codeflower/issues/new?assignees=&labels=&template=feature_request.md&title=',
+  CONTRIBUTORS_URL:
+    'https://github.com/jmensch1/codeflower/blob/dev/.github/CONTRIBUTING.md',
+  BUG_REPORT_URL:
+    'https://github.com/jmensch1/codeflower/issues/new?assignees=&labels=&template=bug_report.md&title=',
+  FEATURE_REQUEST_URL:
+    'https://github.com/jmensch1/codeflower/issues/new?assignees=&labels=&template=feature_request.md&title=',
 }

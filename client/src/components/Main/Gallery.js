@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       width: '100%',
       height: '100%',
-    }
+    },
   },
 }))
 
@@ -50,7 +50,7 @@ const Main = () => {
     if (!image) return
 
     const prevSvg = container.current.querySelector('svg')
-    urlToSvg(imageUrl(image)).then(svg => {
+    urlToSvg(imageUrl(image)).then((svg) => {
       container.current.appendChild(svg)
       if (prevSvg) container.current.removeChild(prevSvg)
     })

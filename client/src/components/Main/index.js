@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 2, // on top of terminal
     transition: 'all 0.5s ease-out',
     transform: ({ galleryIsOpen }) =>
-      `translateX(${galleryIsOpen ? 0 : '100%'})`
+      `translateX(${galleryIsOpen ? 0 : '100%'})`,
   },
 }))
 

@@ -1,8 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 
 export const palettes = {
-  dark: createMuiTheme({ palette: { type: 'dark' }}).palette,
-  light: createMuiTheme({ palette: { type: 'light' }}).palette,
+  dark: createMuiTheme({ palette: { type: 'dark' } }).palette,
+  light: createMuiTheme({ palette: { type: 'light' } }).palette,
 }
 
 export function paletteType(backgroundColor) {

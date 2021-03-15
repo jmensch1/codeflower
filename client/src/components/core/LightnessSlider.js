@@ -6,14 +6,17 @@ const LIGHTNESS_RANGE = [0, 100]
 const BACKGROUND = grayscaleGradient()
 
 const LightnessSlider = ({ color, onChange, ...rest }) => {
-  const handleChange = useCallback((lightness) => {
-    onChange({
-      hue: 0,
-      saturation: 0,
-      lightness,
-      alpha: 1,
-    })
-  }, [onChange])
+  const handleChange = useCallback(
+    (lightness) => {
+      onChange({
+        hue: 0,
+        saturation: 0,
+        lightness,
+        alpha: 1,
+      })
+    },
+    [onChange]
+  )
 
   return (
     <Slider
@@ -22,7 +25,7 @@ const LightnessSlider = ({ color, onChange, ...rest }) => {
       onChange={handleChange}
       background={BACKGROUND}
       renderValue={toFixed0}
-      { ...rest }
+      {...rest}
     />
   )
 }

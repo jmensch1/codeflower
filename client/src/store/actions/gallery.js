@@ -47,10 +47,12 @@ export const publishImage = (dataUri) => {
         })
         dispatch(getImages())
       })
-      .catch((error) => dispatch({
-        type: types.PUBLISH_IMAGE_FAILURE,
-        data: error.message,
-      }))
+      .catch((error) =>
+        dispatch({
+          type: types.PUBLISH_IMAGE_FAILURE,
+          data: error.message,
+        })
+      )
   }
 }
 

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   config: {
     '& > *:not(:last-child)': {
       marginBottom: '1.25em',
-    }
+    },
   },
   format: {
     display: 'flex',
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
       fontSize: '1em',
       userSelect: 'none',
-    }
+    },
   },
   slider: {
     width: '100%',
@@ -63,9 +63,12 @@ const Download = () => {
   const [scale, setScale] = useState(2)
   const { flash, aperture, transparent, getSvgUri, getPngUri } = useCamera()
 
-  const setTransparent = useCallback((transparent) => {
-    dispatch(updateCamera({ transparent }))
-  }, [dispatch])
+  const setTransparent = useCallback(
+    (transparent) => {
+      dispatch(updateCamera({ transparent }))
+    },
+    [dispatch]
+  )
 
   const savePng = useCallback(async () => {
     const dataUri = await getPngUri(scale)
@@ -97,30 +100,26 @@ const Download = () => {
       <div className={classes.config}>
         <div className={classes.format}>
           <div>image format</div>
-          <Select
-            value={format}
-            onChange={setFormat}
-            options={FORMATS}
-          />
+          <Select value={format} onChange={setFormat} options={FORMATS} />
         </div>
         {format !== 'svg' && (
           <Slider
             value={scale}
             onChange={setScale}
             range={SCALE_RANGE}
-            label='dimensions'
+            label="dimensions"
             renderValue={renderDimensions}
           />
         )}
         <Checkbox
-          label='transparent background'
+          label="transparent background"
           checked={transparent}
           onChange={setTransparent}
         />
       </div>
       <TextButton
         className={classes.button}
-        label='download'
+        label="download"
         onClick={download}
       />
     </div>

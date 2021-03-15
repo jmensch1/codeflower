@@ -51,7 +51,7 @@ const Main = () => {
   return (
     <div className={classes.root}>
       <div className={classes.inner}>
-        <img className={classes.image} alt='export' src={dataUri} />
+        <img className={classes.image} alt="export" src={dataUri} />
       </div>
     </div>
   )

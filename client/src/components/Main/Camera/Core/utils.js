@@ -3,21 +3,20 @@
 // Values are expressed in the screen coordinate system and are relative
 // to the containerRect.
 export function getAperture(containerRect, aspectRatio) {
-  const {
-    width: containerWidth,
-    height: containerHeight,
-  } = containerRect
+  const { width: containerWidth, height: containerHeight } = containerRect
 
   const containerAspectRatio = containerWidth / containerHeight
 
-  const { width, height } = containerAspectRatio > aspectRatio
-    ? {
-      width: aspectRatio / containerAspectRatio,
-      height: 1,
-    } : {
-      width: 1,
-      height: containerAspectRatio / aspectRatio
-    }
+  const { width, height } =
+    containerAspectRatio > aspectRatio
+      ? {
+          width: aspectRatio / containerAspectRatio,
+          height: 1,
+        }
+      : {
+          width: 1,
+          height: containerAspectRatio / aspectRatio,
+        }
 
   const left = (1 - width) / 2
   const top = (1 - height) / 2

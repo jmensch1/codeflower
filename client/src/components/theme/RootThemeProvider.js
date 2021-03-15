@@ -6,10 +6,14 @@ import { useBaseTheme } from 'store/selectors'
 const RootThemeProvider = ({ children }) => {
   const { fontSize } = useBaseTheme()
 
-  const theme = useMemo(() => createMuiTheme({
-    palette: { type: 'dark' },
-    typography: { fontSize },
-  }), [fontSize])
+  const theme = useMemo(
+    () =>
+      createMuiTheme({
+        palette: { type: 'dark' },
+        typography: { fontSize },
+      }),
+    [fontSize]
+  )
 
   return (
     <ThemeProvider theme={theme}>

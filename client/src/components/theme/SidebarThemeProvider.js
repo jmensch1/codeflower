@@ -12,9 +12,8 @@ const SidebarThemeProvider = ({ children }) => {
     const base = palettes[type]
 
     const paperColor = bgColor
-    const defaultColor = type === 'light'
-      ? lighten(bgColor, 7)
-      : darken(bgColor, 7)
+    const defaultColor =
+      type === 'light' ? lighten(bgColor, 7) : darken(bgColor, 7)
 
     const palette = {
       ...base,
@@ -22,19 +21,13 @@ const SidebarThemeProvider = ({ children }) => {
         ...base.background,
         paper: colorString(paperColor),
         default: colorString(defaultColor),
-      }
+      },
     }
 
     return (outerTheme) => ({ ...outerTheme, palette })
   }, [bgColor])
 
-
-
-  return (
-    <ThemeProvider theme={theme}>
-      {children}
-    </ThemeProvider>
-  )
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
 }
 
 export default SidebarThemeProvider

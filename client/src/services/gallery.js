@@ -12,10 +12,12 @@ const DELETE_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/delete_by_toke
 ///////////// HELPERS /////////////
 
 function packContext(context) {
-  return Object.keys(context).map((key) => {
-    const value = encodeURIComponent(context[key])
-    return `${key}=${value}`
-  }).join('|')
+  return Object.keys(context)
+    .map((key) => {
+      const value = encodeURIComponent(context[key])
+      return `${key}=${value}`
+    })
+    .join('|')
 }
 
 function unpackContext(context) {
@@ -34,8 +36,9 @@ export function listImages() {
   const version = Math.ceil(new Date().getTime() / 1000)
   const url = `${FETCH_URL}/list/v${version}/${TAG}.json`
 
-  return axios.get(url)
-    .then(({ data: { resources: images }}) => {
+  return axios
+    .get(url)
+    .then(({ data: { resources: images } }) => {
       return images.map((image) => ({
         ...image,
         context: unpackContext(image.context),
@@ -63,7 +66,7 @@ export async function uploadImage(
   dataUri,
   imageId,
   context = {},
-  onProgress = () => null,
+  onProgress = () => null
 ) {
   const opts = {
     public_id: imageId,
@@ -77,9 +80,9 @@ export async function uploadImage(
   const { data: image } = await axios.post(UPLOAD_URL, JSON.stringify(opts), {
     headers: UPLOAD_HEADERS,
     onUploadProgress: (e) => {
-      const percentCompleted = Math.round(100 * e.loaded / e.total)
+      const percentCompleted = Math.round((100 * e.loaded) / e.total)
       onProgress(percentCompleted)
-    }
+    },
   })
 
   return {
