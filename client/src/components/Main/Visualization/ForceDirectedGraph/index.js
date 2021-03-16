@@ -7,6 +7,7 @@ import useAddForces from './useAddForces'
 import useAddMouse from './useAddMouse'
 import useAddZoom from './useAddZoom'
 import Extras from './Extras'
+import useKeyPressed from 'hooks/useKeyPressed'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,16 +16,17 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100%',
+    cursor: ({ inDragMode }) => inDragMode ? 'grab' : 'default',
     '& .file': {
-      cursor: 'pointer',
+      cursor: ({ inDragMode }) => inDragMode ? 'inherit' : 'pointer',
     },
     '& circle:not(.file)': {
-      cursor: 'move',
+      cursor: ({ inDragMode }) => inDragMode ? 'inherit' : 'move',
     },
   },
 }))
 
-const Enhancers = ({ visElements }) => {
+const Enhancers = ({ visElements, inDragMode }) => {
   const {
     svg,
     nodes,
@@ -38,14 +40,21 @@ const Enhancers = ({ visElements }) => {
 
   useAddStyles({ svg, node, nodeG, link, linkG })
   useAddForces({ simulation, nodes, links })
-  useAddMouse({ node, simulation })
-  useAddZoom({ svg, node, link })
+  useAddMouse({ node, simulation, inDragMode })
+  useAddZoom({ svg, node, link, inDragMode })
 
   return null
 }
 
 const ForceDirectedGraph = () => {
-  const classes = useStyles()
+  /*
+    NOTE: hold shift to enter drag mode. This will disable the tooltip
+    and node-drag functionality, which is useful when the nodes are so
+    large that they fill all or most of the screen, and would effectively
+    block the full-vis-drag functionality from d3.zoom.
+  */
+  const inDragMode = useKeyPressed('Shift')
+  const classes = useStyles({ inDragMode })
   const tree = useSelectedFolder()
   const [visElements, setVisElements] = useState(null)
   const [alpha, setAlpha] = useState(0)
@@ -138,7 +147,7 @@ const ForceDirectedGraph = () => {
       <svg className={classes.root} id="vis-container" />
       {visElements && (
         <>
-          <Enhancers visElements={visElements} />
+          <Enhancers visElements={visElements} inDragMode={inDragMode} />
           {!showAperture && <Extras alpha={alpha} onRestart={restart} />}
         </>
       )}

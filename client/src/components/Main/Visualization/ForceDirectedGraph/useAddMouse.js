@@ -4,14 +4,14 @@ import * as d3 from 'd3'
 import { openFile } from 'store/actions/files'
 import { useTooltip } from '../Tooltip'
 
-export default function useAddMouse({ node, simulation }) {
+export default function useAddMouse({ node, simulation, inDragMode }) {
   const dispatch = useDispatch()
   const setTooltip = useTooltip()
 
   const open = useCallback((file) => dispatch(openFile(file)), [dispatch])
 
   useEffect(() => {
-    if (!simulation || !node) return
+    if (!simulation || !node || inDragMode) return
 
     //// DRAGGING ////
 
@@ -68,6 +68,7 @@ export default function useAddMouse({ node, simulation }) {
       node.on('mousemove', null)
       node.on('mouseout', null)
       node.on('click', null)
+      setTooltip(null)
     }
-  }, [simulation, node, setTooltip, open])
+  }, [simulation, node, setTooltip, open, inDragMode])
 }
