@@ -1,0 +1,297 @@
+{
+    "type": "success",
+    "data": {
+        "owner": "siduck76",
+        "name": "neovim-dots",
+        "branch": "main",
+        "repoId": "siduck76#neovim-dots#9_7",
+        "branches": {
+            "main": "7bcc9a0687928e7ea8118fc6cc91c0b5682bd28c"
+        },
+        "authors": [
+            {
+                "id": 0,
+                "commits": 74,
+                "name": "siduck76",
+                "email": "siduckk76@protonmail.com",
+                "numFilesTouched": 36
+            },
+            {
+                "id": 1,
+                "commits": 1,
+                "name": "Alok",
+                "email": "73450969+alok8bb@users.noreply.github.com",
+                "numFilesTouched": 0
+            },
+            {
+                "id": 2,
+                "commits": 1,
+                "name": "siduck76",
+                "email": "siduck13@gmail.com",
+                "numFilesTouched": 0
+            }
+        ],
+        "tree": {
+            "name": "root",
+            "path": "root",
+            "children": [
+                {
+                    "name": "lua",
+                    "path": "root/lua",
+                    "children": [
+                        {
+                            "name": "bufferline",
+                            "path": "root/lua/bufferline",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 1,
+                                    "comment": 1,
+                                    "language": "Lua",
+                                    "size": 52,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/bufferline/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "gitsigns",
+                            "path": "root/lua/gitsigns",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 0,
+                                    "comment": 1,
+                                    "language": "Lua",
+                                    "size": 26,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/gitsigns/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "mappings",
+                            "path": "root/lua/mappings",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 2,
+                                    "comment": 2,
+                                    "language": "Lua",
+                                    "size": 10,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/mappings/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "nvim-compe",
+                            "path": "root/lua/nvim-compe",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 4,
+                                    "comment": 1,
+                                    "language": "Lua",
+                                    "size": 44,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/nvim-compe/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "nvim-lspconfig",
+                            "path": "root/lua/nvim-lspconfig",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 5,
+                                    "comment": 2,
+                                    "language": "Lua",
+                                    "size": 28,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/nvim-lspconfig/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "nvimTree",
+                            "path": "root/lua/nvimTree",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 8,
+                                    "comment": 1,
+                                    "language": "Lua",
+                                    "size": 75,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/nvimTree/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "pluginsList",
+                            "path": "root/lua/pluginsList",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 1,
+                                    "comment": 1,
+                                    "language": "Lua",
+                                    "size": 28,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/pluginsList/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "statusline",
+                            "path": "root/lua/statusline",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 20,
+                                    "comment": 0,
+                                    "language": "Lua",
+                                    "size": 184,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/statusline/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "telescope-nvim",
+                            "path": "root/lua/telescope-nvim",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 4,
+                                    "comment": 2,
+                                    "language": "Lua",
+                                    "size": 69,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/telescope-nvim/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "treesitter",
+                            "path": "root/lua/treesitter",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 1,
+                                    "comment": 0,
+                                    "language": "Lua",
+                                    "size": 16,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/treesitter/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "utils",
+                            "path": "root/lua/utils",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 11,
+                                    "comment": 3,
+                                    "language": "Lua",
+                                    "size": 29,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/utils/lua.lua"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "web-devicons",
+                            "path": "root/lua/web-devicons",
+                            "children": [
+                                {
+                                    "name": "lua.lua",
+                                    "blank": 1,
+                                    "comment": 0,
+                                    "language": "Lua",
+                                    "size": 60,
+                                    "authorIds": [
+                                        0
+                                    ],
+                                    "path": "root/lua/web-devicons/lua.lua"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "plugin",
+                    "path": "root/plugin",
+                    "children": [
+                        {
+                            "name": "packer_compiled.vim",
+                            "blank": 9,
+                            "comment": 1,
+                            "language": "vim script",
+                            "size": 127,
+                            "authorIds": [
+                                0
+                            ],
+                            "path": "root/plugin/packer_compiled.vim"
+                        }
+                    ]
+                },
+                {
+                    "name": "init.lua",
+                    "blank": 14,
+                    "comment": 4,
+                    "language": "Lua",
+                    "size": 43,
+                    "authorIds": [
+                        0
+                    ],
+                    "path": "root/init.lua"
+                },
+                {
+                    "name": "LICENSE",
+                    "languageUnknown": true,
+                    "reasonUnknown": "language unknown (#3)",
+                    "authorIds": [],
+                    "path": "root/LICENSE"
+                },
+                {
+                    "name": "README.md",
+                    "blank": 37,
+                    "comment": 0,
+                    "language": "Markdown",
+                    "size": 78,
+                    "authorIds": [
+                        0
+                    ],
+                    "path": "root/README.md"
+                }
+            ]
+        }
+    }
+}
