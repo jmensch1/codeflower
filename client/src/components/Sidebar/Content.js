@@ -5,13 +5,13 @@ import Header from './core/Header'
 import Tabs from './core/Tabs'
 import Languages from './Languages'
 import Folders from './Folders'
-import Authors from './Authors'
+// import Authors from './Authors'
 import Controls from './Controls'
 import Camera from './Camera'
 import Gallery from './Gallery'
 import LanguageIcon from '@material-ui/icons/Language'
 import FolderIcon from '@material-ui/icons/FolderOpen'
-import PeopleIcon from '@material-ui/icons/People'
+// import PeopleIcon from '@material-ui/icons/People'
 import TuneIcon from '@material-ui/icons/Tune'
 import CameraIcon from '@material-ui/icons/CameraAlt'
 
@@ -28,11 +28,11 @@ const TABS = [
     Icon: FolderIcon,
     Component: Folders,
   },
-  {
-    type: 'authors',
-    Icon: PeopleIcon,
-    Component: Authors,
-  },
+  // {
+  //   type: 'authors',
+  //   Icon: PeopleIcon,
+  //   Component: Authors,
+  // },
   {
     type: 'controls',
     Icon: TuneIcon,

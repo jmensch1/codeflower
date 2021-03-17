@@ -53,14 +53,14 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
   Log(2, '5. Cleaning Cloc Data')
   let cloc = await getCleanClocData(repoId, onUpdate)
 
-  Log(2, '6. Getting Authors')
-  let authors = await getAuthors(repoId, onUpdate)
-
-  Log(2, '7. Merging Cloc and Authors')
-  cloc = mergeAuthorsIntoCloc(cloc, authors, onUpdate)
-
-  Log(2, '8. Cleaning Authors')
-  authors = authors.map(({ files, ...rest }) => rest)
+  // Log(2, '6. Getting Authors')
+  // let authors = await getAuthors(repoId, onUpdate)
+  //
+  // Log(2, '7. Merging Cloc and Authors')
+  // cloc = mergeAuthorsIntoCloc(cloc, authors, onUpdate)
+  //
+  // Log(2, '8. Cleaning Authors')
+  // authors = authors.map(({ files, ...rest }) => rest)
 
   Log(2, '9. Converting Cloc to Tree')
   const tree = clocToTree(cloc, onUpdate)
@@ -80,7 +80,7 @@ async function cloc({ owner, name, branch, username, password }, onUpdate) {
     branch,
     repoId,
     branches,
-    authors,
+    // authors,
     tree,
   }
 }

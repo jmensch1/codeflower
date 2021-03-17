@@ -58,6 +58,10 @@ async function getAuthorsData(repoId, onUpdate) {
 
   authors = groupAuthorsByEmail(authors)
 
+  /*
+    NOTE: this can easily crash the server if the number of commits and/or
+    authors is large.
+  */
   const authorFiles = await Promise.all(
     authors.map((author) => {
       return getFilesForAuthor(cwd, author.email)
