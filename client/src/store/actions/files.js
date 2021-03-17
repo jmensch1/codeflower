@@ -57,6 +57,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         openedFile: null,
+        error: null,
+        isLoading: false,
       }
     case types.GET_FILE_PENDING:
       return {

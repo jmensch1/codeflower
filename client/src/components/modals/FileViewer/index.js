@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   modalContent: {
     opacity: ({ opacity }) => opacity,
+    maxWidth: '100em',
   },
 }))
 
@@ -79,7 +80,7 @@ const FileViewer = () => {
       </div>
       <Footer
         openedFile={openedFile}
-        isLoading={!file || isLoading}
+        isLoading={isLoading}
         opacity={opacity}
         setOpacity={setOpacity}
       />

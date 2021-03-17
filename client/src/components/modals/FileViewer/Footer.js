@@ -46,7 +46,11 @@ const Footer = ({ openedFile, isLoading, opacity, setOpacity }) => {
     <div className={classes.root}>
       <div className={classes.leftContent}>
         {isLoading ? (
-          <CircularProgress size={14} color="inherit" />
+          <CircularProgress
+            size={14}
+            color="inherit"
+            style={{ display: 'block' }}
+          />
         ) : (
           <div>
             {openedFile?.languageUnknown ? (
