@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     position: 'relative',
     height: '100%',
+    overflow: 'hidden',
   },
   gallery: {
     position: 'absolute',
