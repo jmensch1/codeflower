@@ -3,7 +3,7 @@ import { api } from 'constants.js'
 
 // FOR DEVELOPMENT ONLY
 import testRepo from './data/cloc.json'
-const USE_TEST_REPO = true
+const USE_TEST_REPO = false
 
 const { HTTP_URL, WS_URL } = api
 
