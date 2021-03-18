@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
   closeButton: {
     position: 'absolute',
-    right: '1em',
+    left: '0.5em',
     top: '50%',
     transform: 'translateY(-50%)',
     color: theme.palette.grey[500],
   },
 }))
 
-const Header = () => {
+const Header = ({ image }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -35,7 +35,7 @@ const Header = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.title}>Gallery</div>
+      <div className={classes.title}>{image.context.owner} / {image.context.name}</div>
       <IconButton
         aria-label="close"
         className={classes.closeButton}

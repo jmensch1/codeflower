@@ -49,8 +49,8 @@ const Main = () => {
   useEffect(() => {
     if (!image) return
 
-    const prevSvg = container.current.querySelector('svg')
     urlToSvg(imageUrl(image)).then((svg) => {
+      const prevSvg = container.current.querySelector('svg')
       container.current.appendChild(svg)
       if (prevSvg) container.current.removeChild(prevSvg)
     })
