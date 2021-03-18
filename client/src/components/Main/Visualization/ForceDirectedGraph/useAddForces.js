@@ -8,13 +8,13 @@ const INITIAL_VIS_FORCES = {
   alphaDecay: 0.0228,
   charge: {
     enabled: true,
-    strength: -200,
+    strength: -300,
     distanceMin: 1,
     distanceMax: 2000,
   },
   forceXY: {
     enabled: true,
-    strength: 0.4,
+    strength: 0.5,
   },
   link: {
     enabled: true,
