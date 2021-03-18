@@ -6,7 +6,7 @@ const periwinkle = {
       hueRange: [170, 360],
       saturation: 100,
       lightness: 50,
-      alpha: 1.0,
+      alpha: 0.9,
     },
     stroke: {
       hue: 0,
@@ -16,8 +16,8 @@ const periwinkle = {
     },
     strokeWidth: 0.5,
     radius: {
-      coeff: 1.0,
-      exponent: 0.4,
+      coeff: 6.0,
+      exponent: 0.2,
     },
   },
   folders: {
@@ -75,8 +75,8 @@ const bumblebee = {
     },
     strokeWidth: 0.5,
     radius: {
-      coeff: 1.0,
-      exponent: 0.4,
+      coeff: 6.0,
+      exponent: 0.2,
     },
   },
   folders: {
@@ -134,8 +134,8 @@ const rainbow = {
     },
     strokeWidth: 0,
     radius: {
-      coeff: 1.0,
-      exponent: 0.4,
+      coeff: 6.0,
+      exponent: 0.2,
     },
   },
   folders: {
