@@ -2,7 +2,7 @@ import axios from 'axios'
 import { api } from 'constants.js'
 
 // FOR DEVELOPMENT ONLY
-import testRepo from './data/cloc.json'
+import testRepo from './data/CRA.json'
 const USE_TEST_REPO = false
 
 const { HTTP_URL, WS_URL } = api

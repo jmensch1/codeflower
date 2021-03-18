@@ -35,7 +35,7 @@ const Header = ({ image }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.title}>{image.context.owner} / {image.context.name}</div>
+      <div className={classes.title}>{image.context.owner}/{image.context.name}</div>
       <IconButton
         aria-label="close"
         className={classes.closeButton}

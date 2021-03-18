@@ -71,7 +71,7 @@ export async function uploadImage(
   const opts = {
     public_id: imageId,
     file: dataUri,
-    folder: TAG,
+    // folder: TAG,
     tags: TAG,
     upload_preset: UPLOAD_PRESET,
     context: packContext(context),

@@ -49,7 +49,7 @@ export const publishImage = () => {
     const { fill } = visStyles(state).background
     const backgroundColor = colorString(fill)
 
-    uploadImage(previewImage, `${repo.name}-${Date.now()}`, {
+    uploadImage(previewImage, `${name}-${Date.now()}`, {
       owner,
       name,
       backgroundColor,
