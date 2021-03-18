@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import CameraIcon from '@material-ui/icons/CameraAlt'
+import LibraryIcon from '@material-ui/icons/LocalLibrary'
 import { openModal } from 'store/actions/modals'
 import ToggleButton from '../core/ToggleButton'
 
@@ -18,8 +18,8 @@ const GalleryButton = () => {
       buttons={[
         {
           value: false,
-          Icon: CameraIcon,
-          text: 'gallery',
+          Icon: LibraryIcon,
+          text: 'library',
         },
       ]}
     />

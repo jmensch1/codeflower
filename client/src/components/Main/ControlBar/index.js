@@ -31,11 +31,11 @@ const ControlBar = () => {
       <VisThemeButtons />
       <Divider />
       {/*<ControlsButton />*/}
+      <GalleryButton />
       <FullscreenButton />
       <AboutButton />
       {/*<Divider />
       <LinkButton />*/}
-      <GalleryButton />
     </Bar>
   )
 }

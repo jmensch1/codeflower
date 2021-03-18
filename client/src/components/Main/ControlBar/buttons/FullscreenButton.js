@@ -22,7 +22,7 @@ const FullscreenButton = () => {
         {
           value: false,
           Icon: FullscreenIcon,
-          text: 'go full screen',
+          text: 'full screen',
         },
       ]}
     />

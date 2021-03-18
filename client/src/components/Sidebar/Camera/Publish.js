@@ -138,7 +138,7 @@ const Publish = () => {
       <div className={classes.instructions}>
         Add an image to the{' '}
         <span onClick={openGallery} className={classes.link}>
-          gallery
+          library
         </span>
         .
       </div>
