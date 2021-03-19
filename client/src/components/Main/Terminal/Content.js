@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { subscribe, unsubscribe } from 'store/actions/repo'
-import { createUseStyles } from 'react-jss'
+import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = createUseStyles((theme) => {
+const useStyles = makeStyles((theme) => {
   return {
     root: {
       position: 'absolute',
