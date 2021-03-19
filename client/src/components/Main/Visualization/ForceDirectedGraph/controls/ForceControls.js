@@ -35,7 +35,7 @@ const RANGES = {
   'link.strength': [0, 1, 0.01],
   'link.distance.files': [0, 150, 1],
   'link.distance.folders': [0, 150, 1],
-  'link.iterations': [0, 5, 1],
+  'link.iterations': [0, 10, 1],
   'forceXY.strength': [0, 1, 0.01],
 }
 

@@ -8,13 +8,13 @@ const INITIAL_VIS_FORCES = {
   alphaDecay: 0.0228,
   charge: {
     enabled: true,
-    strength: -300,
+    strength: -200,
     distanceMin: 1,
     distanceMax: 2000,
   },
   forceXY: {
     enabled: true,
-    strength: 0.5,
+    strength: 0.6,
   },
   link: {
     enabled: true,
@@ -23,7 +23,7 @@ const INITIAL_VIS_FORCES = {
       files: 10,
       folders: 10,
     },
-    iterations: 4,
+    iterations: 7,
   },
   center: {
     enabled: true,

@@ -1,3 +1,6 @@
+const DEFAULT_COEFF = 3.0
+const DEFAULT_EXPONENT = 0.25
+
 const periwinkle = {
   id: 'periwinkle',
   files: {
@@ -16,8 +19,8 @@ const periwinkle = {
     },
     strokeWidth: 0.5,
     radius: {
-      coeff: 6.0,
-      exponent: 0.2,
+      coeff: DEFAULT_COEFF,
+      exponent: DEFAULT_EXPONENT,
     },
   },
   folders: {
@@ -75,8 +78,8 @@ const bumblebee = {
     },
     strokeWidth: 0.5,
     radius: {
-      coeff: 6.0,
-      exponent: 0.2,
+      coeff: DEFAULT_COEFF,
+      exponent: DEFAULT_EXPONENT,
     },
   },
   folders: {
@@ -134,8 +137,8 @@ const rainbow = {
     },
     strokeWidth: 0,
     radius: {
-      coeff: 6.0,
-      exponent: 0.2,
+      coeff: DEFAULT_COEFF,
+      exponent: DEFAULT_EXPONENT,
     },
   },
   folders: {
