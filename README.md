@@ -55,7 +55,7 @@ will take you directly to the create-react-app visualization shown above. (Curre
 
 #### 2. as a browser extension
 
-The app is also available as a extension for [chrome](https://chrome.google.com/webstore/detail/codeflower/mnlengnbfpfgcfdgfpkjekoaeophmmeh) and a [firefox](https://addons.mozilla.org/en-US/firefox/addon/codeflower/). If you install the browser extension, you can visualize repos inside Github with a single click:
+The app is also available as an extension for [chrome](https://chrome.google.com/webstore/detail/codeflower/mnlengnbfpfgcfdgfpkjekoaeophmmeh) and a [firefox](https://addons.mozilla.org/en-US/firefox/addon/codeflower/). If you install the browser extension, you can visualize repos inside Github with a single click:
 
 ![chrome-extension](docs/images/chrome.png)
 
@@ -63,7 +63,7 @@ The app is also available as a extension for [chrome](https://chrome.google.com/
 
 The app uses SVG to render the visualization, which means that every file and folder is an individual DOM node. This creates a lot of work for the browser, and as the number of nodes grows larger you'll start to encounter performance problems. The optimal repo size seems to be between a couple of hundred nodes (large enough to be interesting) and 2500 or so (too large to render smoothly).
 
-It's possible that a Canvas or Web-GL based solution would help with performance for large repos, but those solutions would also limit the interactivity of the visualization. Ideas are welcome!
+It's possible that a Canvas or Web-GL based solution would help with performance for large repos, but those solutions would likely also limit the interactivity of the visualization. Ideas are welcome!
 
 ### Credits
 
