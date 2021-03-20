@@ -49,7 +49,7 @@ The app lives at [codeflower.la](https://codeflower.la). Enter a git clone url i
 
 You can skip the search field entirely by embedding the owner and name of the repo in the URL. For example,
 
-[codeflower.la/?owner=facebook&name=create-react-app](codeflower.la/?owner=facebook&name=create-react-app)
+[codeflower.la/?owner=facebook&name=create-react-app](https://codeflower.la/?owner=facebook&name=create-react-app)
 
 will take you directly to the create-react-app visualization shown above. (Currently this option only works for Github-hosted repos.)
 
