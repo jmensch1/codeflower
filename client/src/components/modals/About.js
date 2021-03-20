@@ -70,20 +70,21 @@ const About = () => {
       </Graph>
       <Graph>
         The inner nodes represent the directories in the repo, and the outer
-        ones represent the files. The radius of each outer node is proportional
-        to the number of lines of code in the corresponding file.
+        ones represent the files. The color of the file nodes indicates what
+        language each file is written in. And the radius of the file nodes
+        increases with the number of lines of code in the file.
       </Graph>
       <Graph>
-        Hover on the nodes to see the names of the directories/files. Click on
-        the outer nodes to bring up the full text of the corresponding file. You
-        can also pan the vis by clicking-and-dragging, and zoom it with the
-        mouse wheel.
+        You can hover on the nodes to see the names of the directories/files. Click on
+        the file nodes to bring up the full text of the file. You can also pan
+        the vis by clicking-and-dragging, and zoom it with the mouse wheel.
       </Graph>
 
       <Heading>The Tech</Heading>
       <Graph>
-        We've got React/Redux on the frontend, and a Node server&mdash;with
-        websockets&mdash;on the back. Line counts come from{' '}
+        We've got React/Redux on the frontend, and a Node server on the back.
+        Language determinations and line counts
+        come from{' '}
         <Link href="https://github.com/AlDanial/cloc">cloc</Link>.
       </Graph>
       <Graph>
@@ -99,18 +100,6 @@ const About = () => {
         <Link href={BUG_REPORT_URL}>bug reports</Link>, and{' '}
         <Link href={FEATURE_REQUEST_URL}>feature requests</Link> are most
         welcome. 🙏
-      </Graph>
-
-      <Heading>Credits</Heading>
-      <Graph>
-        Tons of credit to{' '}
-        <Link href="https://twitter.com/francoisz">
-          Fran&#231;ois Zaninotto
-        </Link>
-        , who figured out that cloc output could be used to generate a
-        force-directed graph, and wrote the original{' '}
-        <Link href="https://github.com/fzaninotto/CodeFlower">CodeFlower</Link>{' '}
-        vizualization.
       </Graph>
     </Dialog>
   )
