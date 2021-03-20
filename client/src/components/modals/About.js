@@ -75,16 +75,16 @@ const About = () => {
         increases with the number of lines of code in the file.
       </Graph>
       <Graph>
-        You can hover on the nodes to see the names of the directories/files. Click on
-        the file nodes to bring up the full text of the file. You can also pan
-        the vis by clicking-and-dragging, and zoom it with the mouse wheel.
+        You can hover on the nodes to see the names of the directories/files.
+        Click on the file nodes to bring up the full text of the file. You can
+        also pan the vis by clicking-and-dragging, and zoom it with the mouse
+        wheel.
       </Graph>
 
       <Heading>The Tech</Heading>
       <Graph>
         We've got React/Redux on the frontend, and a Node server on the back.
-        Language determinations and line counts
-        come from{' '}
+        Language determinations and line counts come from{' '}
         <Link href="https://github.com/AlDanial/cloc">cloc</Link>.
       </Graph>
       <Graph>

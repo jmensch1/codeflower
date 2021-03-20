@@ -16,12 +16,12 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100%',
-    cursor: ({ inDragMode }) => inDragMode ? 'grab' : 'default',
+    cursor: ({ inDragMode }) => (inDragMode ? 'grab' : 'default'),
     '& .file': {
-      cursor: ({ inDragMode }) => inDragMode ? 'inherit' : 'pointer',
+      cursor: ({ inDragMode }) => (inDragMode ? 'inherit' : 'pointer'),
     },
     '& circle:not(.file)': {
-      cursor: ({ inDragMode }) => inDragMode ? 'inherit' : 'move',
+      cursor: ({ inDragMode }) => (inDragMode ? 'inherit' : 'move'),
     },
   },
 }))

@@ -38,7 +38,7 @@ const Buttons = ({ prev, next, isPlaying, toggleIsPlaying }) => {
   return (
     <div className={classes.root}>
       <div className={classes.playPauseButton}>
-        { isPlaying ? (
+        {isPlaying ? (
           <PauseIcon className={classes.icon} onClick={toggleIsPlaying} />
         ) : (
           <PlayIcon className={classes.icon} onClick={toggleIsPlaying} />

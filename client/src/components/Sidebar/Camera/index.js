@@ -55,12 +55,13 @@ const Camera = () => {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(updateCamera({
-      aspectRatio: tab === 'publish'
-        ? gallery.THUMB_WIDTH / gallery.THUMB_HEIGHT
-        : null,
-      transparent: false,
-    }))
+    dispatch(
+      updateCamera({
+        aspectRatio:
+          tab === 'publish' ? gallery.THUMB_WIDTH / gallery.THUMB_HEIGHT : null,
+        transparent: false,
+      })
+    )
   }, [tab, dispatch])
 
   const toggleAperture = useCallback(() => {

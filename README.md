@@ -14,7 +14,7 @@ You can interact with the viz in a number of ways:
   - use the mousewheel to zoom in and out
   - drag the dark part of the viz the move the whole thing around
   - drag an individual folder or file node to move it around
-  - hover on a folder or file node to see its path in the file tree
+  - hover on a folder or file node to see its name
   - click on a file node to view the full text of the file
   - hover on a line in the table to suppress all files that are not in the language you're hovering on
   - use the gradient picker to change the colors assigned to the languages

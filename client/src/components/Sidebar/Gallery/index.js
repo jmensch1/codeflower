@@ -47,11 +47,16 @@ const Gallery = () => {
     func()
   }, [])
 
-  const move = useCallback((step) => {
-    const index = images.findIndex((i) => i.public_id === selectedImage.public_id)
-    const nextIndex = (index + step + images.length) % images.length
-    setSelectedImage(images[nextIndex])
-  }, [images, selectedImage, setSelectedImage])
+  const move = useCallback(
+    (step) => {
+      const index = images.findIndex(
+        (i) => i.public_id === selectedImage.public_id
+      )
+      const nextIndex = (index + step + images.length) % images.length
+      setSelectedImage(images[nextIndex])
+    },
+    [images, selectedImage, setSelectedImage]
+  )
 
   const prev = useMemo(() => move.bind(null, -1), [move])
   const next = useMemo(() => move.bind(null, 1), [move])
@@ -61,10 +66,13 @@ const Gallery = () => {
 
   useEffect(() => {
     const onKeyDown = ({ key }) => {
-      switch(key) {
-        case 'ArrowLeft': return backward()
-        case 'ArrowRight': return forward()
-        default: return
+      switch (key) {
+        case 'ArrowLeft':
+          return backward()
+        case 'ArrowRight':
+          return forward()
+        default:
+          return
       }
     }
     document.addEventListener('keydown', onKeyDown)
@@ -88,7 +96,7 @@ const Gallery = () => {
           selectedImage={selectedImage}
         />
       </div>
-      { isPlaying && <Interval next={next} delay={2500} /> }
+      {isPlaying && <Interval next={next} delay={2500} />}
     </div>
   )
 }
