@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useVisStyles } from 'store/selectors'
 import { updateVisStyles } from 'store/actions/settings'
-import LightnessSlider from 'components/core/LightnessSlider'
+import ColorPicker from 'components/core/ColorPicker'
+import Swatch from 'components/core/Swatch'
 import Collapse from 'components/core/Collapse'
 import { getPaths, createUpdaters } from 'services/utils'
 
@@ -30,13 +31,14 @@ const BackgroundControls = () => {
   return (
     <div className={classes.root}>
       <Collapse
-        label="lightness"
+        label="fill"
         level={1}
-        headerRight={values['background.fill'].lightness.toFixed(0)}
+        headerRight={<Swatch color={values['background.fill']} />}
       >
-        <LightnessSlider
+        <ColorPicker
           color={values['background.fill']}
           onChange={updaters['background.fill']}
+          showAlpha={false}
         />
       </Collapse>
     </div>

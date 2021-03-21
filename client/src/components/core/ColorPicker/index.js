@@ -33,7 +33,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ColorPicker = ({ color, onChange, showLabels = true }) => {
+const ColorPicker = ({
+  color,
+  onChange,
+  showLabels = true,
+  showAlpha = true,
+}) => {
   const classes = useStyles()
   const colorRef = useRef(null)
 
@@ -107,21 +112,23 @@ const ColorPicker = ({ color, onChange, showLabels = true }) => {
         />
       </div>
 
-      <div className={classes.slider}>
-        {showLabels && (
-          <div className={classes.label}>
-            <span>alpha</span>
-            <span>{color.alpha.toFixed(2)}</span>
-          </div>
-        )}
-        <Slider
-          value={color.alpha}
-          onChange={onChangeAlpha}
-          range={ALPHA_RANGE}
-          renderValue={(x) => x.toFixed(2)}
-          background={alphaGradient({ hue: color.hue })}
-        />
-      </div>
+      {showAlpha && (
+        <div className={classes.slider}>
+          {showLabels && (
+            <div className={classes.label}>
+              <span>alpha</span>
+              <span>{color.alpha.toFixed(2)}</span>
+            </div>
+          )}
+          <Slider
+            value={color.alpha}
+            onChange={onChangeAlpha}
+            range={ALPHA_RANGE}
+            renderValue={(x) => x.toFixed(2)}
+            background={alphaGradient({ hue: color.hue })}
+          />
+        </div>
+      )}
     </div>
   )
 }
