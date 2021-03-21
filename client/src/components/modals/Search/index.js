@@ -59,7 +59,6 @@ const Search = () => {
           aria-label="close"
           className={classes.closeButton}
           onClick={close}
-          size="large"
         >
           <CloseIcon fontSize="large" />
         </IconButton>
