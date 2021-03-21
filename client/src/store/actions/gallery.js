@@ -1,6 +1,7 @@
 import { listImages, uploadImage } from 'services/gallery'
 import { colorString } from 'services/utils'
-import { repo, visStyles, gallery, camera } from 'store/selectors'
+import { select } from 'store/selectors'
+import db from 'services/firebase'
 
 export const types = {
   GET_IMAGES_SUCCESS: 'gallery/GET_IMAGES_SUCCESS',
@@ -29,7 +30,9 @@ export const selectImage = (selectedImage) => ({
 
 export const getPreview = () => {
   return async (dispatch, getState) => {
-    const { getSvgUri, flash } = camera(getState())
+    const state = getState()
+    const { getSvgUri, flash } = select.camera(state)
+
     await flash()
     const dataUri = await getSvgUri()
     return dispatch({
@@ -40,33 +43,50 @@ export const getPreview = () => {
 }
 
 export const publishImage = () => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch({ type: types.PUBLISH_IMAGE_PENDING })
 
     const state = getState()
-    const { previewImage } = gallery(state)
-    const { owner, name } = repo(state)
-    const { fill } = visStyles(state).background
-    const backgroundColor = colorString(fill)
+    const repo = select.repo(state)
+    const gallery = select.gallery(state)
+    const visStyles = select.visStyles(state)
+    const visForces = select.visForces(state)
+    const visPosition = select.visPosition(state)
 
-    uploadImage(previewImage, `${name}-${Date.now()}`, {
-      owner,
-      name,
-      backgroundColor,
-    })
-      .then((image) => {
-        dispatch({
-          type: types.PUBLISH_IMAGE_SUCCESS,
-          data: image,
-        })
-        dispatch(getImages())
+    const { owner, name } = repo
+    const { previewImage } = gallery
+    const { fill } = visStyles.background
+    const backgroundColor = colorString(fill)
+    const imageId = `${name}-${Date.now()}`
+
+    try {
+      const image = await uploadImage(previewImage, imageId, {
+        owner,
+        name,
+        backgroundColor,
       })
-      .catch((error) =>
-        dispatch({
-          type: types.PUBLISH_IMAGE_FAILURE,
-          data: error.message,
-        })
-      )
+
+      await db.collection('gallery').doc(imageId).set({
+        image,
+        vis: {
+          styles: visStyles,
+          forces: visForces,
+          position: visPosition,
+        },
+        repo: JSON.stringify(repo), // avoids an invalid nesting error
+      })
+
+      dispatch({
+        type: types.PUBLISH_IMAGE_SUCCESS,
+        data: image,
+      })
+      dispatch(getImages())
+    } catch (error) {
+      dispatch({
+        type: types.PUBLISH_IMAGE_FAILURE,
+        data: error.message,
+      })
+    }
   }
 }
 

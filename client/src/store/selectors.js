@@ -7,7 +7,7 @@ import { colorArray } from 'services/utils'
 
 const location = (state) => state.router.location
 const query = (state) => state.query
-export const repo = (state) => state.repo
+const repo = (state) => state.repo
 const authors = (state) => state.repo?.authors
 const rootFolder = (state) => state.repo?.tree
 const files = (state) => state.files
@@ -19,12 +19,12 @@ const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
 const selectedAuthorId = (state) => state.settings.selectedAuthorId
 const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
-export const visStyles = (state) => state.settings.visStyles
+const visStyles = (state) => state.settings.visStyles
 const fileFill = (state) => state.settings.visStyles?.files.fill
 const visForces = (state) => state.settings.visForces
 const visPosition = (state) => state.settings.visPosition
-export const camera = (state) => state.camera
-export const gallery = (state) => state.gallery
+const camera = (state) => state.camera
+const gallery = (state) => state.gallery
 const context = (state) => {
   const { context } = state.router.location.query
   return {
@@ -59,6 +59,17 @@ const languageColors = createSelector(
     }, {})
   }
 )
+
+///////// SELECT (FOR USE IN THUNKS) //////////
+
+export const select = {
+  repo,
+  visStyles,
+  visForces,
+  visPosition,
+  camera,
+  gallery,
+}
 
 ////////// USE SELECTOR ///////////
 
