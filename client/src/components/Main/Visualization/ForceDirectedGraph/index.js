@@ -16,12 +16,19 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100%',
-    cursor: ({ inDragMode }) => (inDragMode ? 'grab' : 'default'),
-    '& .file': {
-      cursor: ({ inDragMode }) => (inDragMode ? 'inherit' : 'pointer'),
-    },
-    '& circle:not(.file)': {
-      cursor: ({ inDragMode }) => (inDragMode ? 'inherit' : 'move'),
+    '& > svg': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      cursor: ({ inDragMode }) => (inDragMode ? 'grab' : 'default'),
+      '& .file': {
+        cursor: ({ inDragMode }) => (inDragMode ? 'inherit' : 'pointer'),
+      },
+      '& circle:not(.file)': {
+        cursor: ({ inDragMode }) => (inDragMode ? 'inherit' : 'move'),
+      },
     },
   },
 }))
@@ -83,6 +90,7 @@ const ForceDirectedGraph = () => {
     const { width, height } = container.getBoundingClientRect()
     const svg = d3
       .select(container)
+      .append('svg')
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
     // highlight the viewbox (testing only)
@@ -96,7 +104,7 @@ const ForceDirectedGraph = () => {
     //   .style('stroke-width', 4)
     //   .style('fill', 'transparent')
 
-    const linkG = svg.append('g')
+    const linkG = svg.append('g').attr('class', 'links')
 
     const link = linkG
       .selectAll('line')
@@ -104,7 +112,7 @@ const ForceDirectedGraph = () => {
       .join('line')
       .attr('class', 'link')
 
-    const nodeG = svg.append('g')
+    const nodeG = svg.append('g').attr('class', 'nodes')
 
     const node = nodeG
       .selectAll('circle')
@@ -144,7 +152,7 @@ const ForceDirectedGraph = () => {
 
   return (
     <>
-      <svg className={classes.root} id="vis-container" />
+      <div className={classes.root} id="vis-container" />
       {visElements && (
         <>
           <Enhancers visElements={visElements} inDragMode={inDragMode} />

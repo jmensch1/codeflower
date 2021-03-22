@@ -30,10 +30,11 @@ const CameraCore = () => {
   const containerRect = useSize(containerRef)
   const dispatch = useDispatch()
 
-  const svg = useMemo(() => document.querySelector('#vis-container'), [])
+  // NOTE: can't memoize this because svg changes
+  const svg = document.querySelector('#vis-container > svg')
 
   const aperture = useMemo(() => {
-    if (!containerRect) return null
+    if (!svg || !containerRect) return null
 
     const screenAperture = aspectRatio
       ? getAperture(containerRect, aspectRatio)
