@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelectedFolder, useCamera } from 'store/selectors'
+import { useSelectedFolder, useCamera, useGallery } from 'store/selectors'
 import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
 import useAddMouse from './useAddMouse'
@@ -67,6 +67,7 @@ const ForceDirectedGraph = () => {
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
   const { showAperture } = useCamera()
+  const { svgString } = useGallery()
 
   useEffect(() => {
     if (!tree) return
@@ -87,38 +88,58 @@ const ForceDirectedGraph = () => {
     //// DOM ////
 
     const container = document.querySelector('#vis-container')
-    const { width, height } = container.getBoundingClientRect()
-    const svg = d3
-      .select(container)
-      .append('svg')
-      .attr('viewBox', [-width / 2, -height / 2, width, height])
 
-    // highlight the viewbox (testing only)
-    // svg
-    //   .append('rect')
-    //   .attr('x', -width / 2)
-    //   .attr('y', -height / 2)
-    //   .attr('width', width)
-    //   .attr('height', height)
-    //   .style('stroke', 'red')
-    //   .style('stroke-width', 4)
-    //   .style('fill', 'transparent')
+    let svg, linkG, link, nodeG, node
 
-    const linkG = svg.append('g').attr('class', 'links')
+    if (!svgString) {
 
-    const link = linkG
-      .selectAll('line')
-      .data(links)
-      .join('line')
-      .attr('class', 'link')
+      const { width, height } = container.getBoundingClientRect()
+      svg = d3
+        .select(container)
+        .append('svg')
+        .attr('viewBox', [-width / 2, -height / 2, width, height])
 
-    const nodeG = svg.append('g').attr('class', 'nodes')
+      // highlight the viewbox (testing only)
+      // svg
+      //   .append('rect')
+      //   .attr('x', -width / 2)
+      //   .attr('y', -height / 2)
+      //   .attr('width', width)
+      //   .attr('height', height)
+      //   .style('stroke', 'red')
+      //   .style('stroke-width', 4)
+      //   .style('fill', 'transparent')
 
-    const node = nodeG
-      .selectAll('circle')
-      .data(nodes)
-      .join('circle')
-      .attr('class', (d) => (d.children ? 'folder' : 'file'))
+      linkG = svg.append('g').attr('class', 'links')
+
+      link = linkG
+        .selectAll('line')
+        .data(links)
+        .join('line')
+        .attr('class', 'link')
+
+      nodeG = svg.append('g').attr('class', 'nodes')
+
+      node = nodeG
+        .selectAll('circle')
+        .data(nodes)
+        .join('circle')
+        .attr('class', (d) => (d.children ? 'folder' : 'file'))
+
+    } else {
+
+      const decoded = atob(svgString.replace('data:image/svg+xml;base64,', ''))
+      const dom = new DOMParser()
+      const el = dom.parseFromString(decoded, 'image/svg+xml').rootElement
+      container.appendChild(el)
+
+      svg = d3.select(container).select('svg')
+      linkG = svg.select('.links')
+      link = linkG.selectAll('line').data(links)
+      nodeG = svg.select('.nodes')
+      node = nodeG.selectAll('circle').data(nodes)
+
+    }
 
     //// SIMULATION ////
 
@@ -144,7 +165,7 @@ const ForceDirectedGraph = () => {
     return () => {
       container.innerHTML = ''
     }
-  }, [tree, restartKey])
+  }, [tree, svgString, restartKey])
 
   const restart = useCallback(() => {
     setRestartKey((key) => 1 - key)
