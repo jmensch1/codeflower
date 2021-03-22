@@ -7,13 +7,13 @@ creates some weird behavior.
 Also rotation messes up the translate x/y.
 */
 
-import React, { useMemo, useRef, useEffect, useCallback } from 'react'
+import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useVisPosition } from 'store/selectors'
 import { updateVisPosition } from 'store/actions/settings'
 import Slider from 'components/core/Slider'
-import { getPaths, toFixed0, toFixed2 } from 'services/utils'
+import { getPaths, createUpdaters, toFixed0, toFixed2 } from 'services/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,42 +29,21 @@ const RANGES = {
   'zoom.x': [-1000, 1000],
   'zoom.y': [-1000, 1000],
   'zoom.k': [0.1, 10],
-  rotation: [0, 360],
+  'rotation': [0, 360],
 }
 
 const PositionControls = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const visPosition = useVisPosition()
-  const zoomRef = useRef(null)
 
   const values = useMemo(() => {
     return getPaths(visPosition, PATHS)
   }, [visPosition])
 
-  useEffect(() => {
-    zoomRef.current = visPosition.zoom
-  }, [visPosition.zoom])
-
-  const updateZoom = useCallback(
-    (newValues) => {
-      dispatch(
-        updateVisPosition('zoom', {
-          ...zoomRef.current,
-          ...newValues,
-          source: 'slider',
-        })
-      )
-    },
-    [dispatch]
-  )
-
-  const updateRotation = useCallback(
-    (rotation) => {
-      dispatch(updateVisPosition('rotation', rotation))
-    },
-    [dispatch]
-  )
+  const updaters = useMemo(() => {
+    return createUpdaters(PATHS, updateVisPosition, dispatch)
+  }, [dispatch])
 
   if (!visPosition) return null
   return (
@@ -73,28 +52,28 @@ const PositionControls = () => {
         label="translate x"
         range={RANGES['zoom.x']}
         value={values['zoom.x']}
-        onChange={(x) => updateZoom({ x })}
+        onChange={updaters['zoom.x']}
         renderValue={toFixed0}
       />
       <Slider
         label="translate y"
         range={RANGES['zoom.y']}
         value={values['zoom.y']}
-        onChange={(y) => updateZoom({ y })}
+        onChange={updaters['zoom.y']}
         renderValue={toFixed0}
       />
       <Slider
         label="scale"
         range={RANGES['zoom.k']}
         value={values['zoom.k']}
-        onChange={(k) => updateZoom({ k })}
+        onChange={updaters['zoom.k']}
         renderValue={toFixed2}
       />
       <Slider
         label="rotation"
         range={RANGES['rotation']}
         value={values['rotation']}
-        onChange={updateRotation}
+        onChange={updaters['rotation']}
         renderValue={toFixed0}
       />
     </div>

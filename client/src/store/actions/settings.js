@@ -103,7 +103,11 @@ const initialState = {
   visForces: null,
   visPosition: {
     rotation: 0,
-    zoom: null,
+    zoom: {
+      x: 0,
+      y: 0,
+      k: 1,
+    },
   },
 }
 
