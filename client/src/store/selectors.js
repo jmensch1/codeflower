@@ -69,6 +69,7 @@ export const select = {
   visPosition,
   camera,
   gallery,
+  selectedFolderPath,
 }
 
 ////////// USE SELECTOR ///////////

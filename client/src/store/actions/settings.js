@@ -1,6 +1,7 @@
 import baseTheme from 'themes/baseTheme'
 import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
+import { types as galleryTypes } from './gallery'
 import { setPath } from 'services/utils'
 
 export const types = {
@@ -169,7 +170,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         visStyles: {
           ...setPath(state.visStyles, action.data.path, action.data.value),
-          id: undefined,
+          id: null,
         },
       }
     case types.SET_VIS_FORCES:
@@ -199,6 +200,14 @@ const reducer = (state = initialState, action) => {
           action.data.path,
           action.data.value
         ),
+      }
+    case galleryTypes.RESTORE_IMAGE:
+      return {
+        ...state,
+        visStyles: action.data.vis.styles,
+        visForces: action.data.vis.forces,
+        visPosition: action.data.vis.position,
+        selectedFolderPath: action.data.selectedFolderPath,
       }
     default:
       return state

@@ -11,6 +11,7 @@ export const types = {
   PUBLISH_IMAGE_SUCCESS: 'gallery/PUBLISH_IMAGE_SUCCESS',
   PUBLISH_IMAGE_FAILURE: 'gallery/PUBLISH_IMAGE_FAILURE',
   PUBLISH_RESET: 'gallery/PUBLISH_RESET',
+  RESTORE_IMAGE: 'gallery/RESTORE_IMAGE',
 }
 
 export const getImages = () => {
@@ -48,6 +49,7 @@ export const publishImage = () => {
 
     const state = getState()
     const repo = select.repo(state)
+    const selectedFolderPath = select.selectedFolderPath(state)
     const gallery = select.gallery(state)
     const visStyles = select.visStyles(state)
     const visForces = select.visForces(state)
@@ -74,6 +76,7 @@ export const publishImage = () => {
           position: visPosition,
         },
         repo: JSON.stringify(repo), // avoids an invalid nesting error
+        selectedFolderPath,
       })
 
       dispatch({
@@ -87,6 +90,18 @@ export const publishImage = () => {
         data: error.message,
       })
     }
+  }
+}
+
+export const restoreImage = (id) => {
+  return async (dispatch, getState) => {
+    const imageRef = await db.collection('gallery').doc(id).get()
+    const image = imageRef.data()
+    image.repo = JSON.parse(image.repo)
+    dispatch({
+      type: types.RESTORE_IMAGE,
+      data: image,
+    })
   }
 }
 

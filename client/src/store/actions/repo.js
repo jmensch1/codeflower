@@ -3,6 +3,7 @@ import { getFolderPaths } from 'services/repo'
 import { openModal, closeModal } from './modals'
 import { delay } from 'services/utils'
 import { MAX_NODES } from 'constants.js'
+import { types as galleryTypes } from './gallery'
 
 export const types = {
   SUBSCRIBE: 'repo/SUBSCRIBE',
@@ -106,6 +107,8 @@ const initialState = null
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_REPO_SUCCESS:
+      return action.data.repo
+    case galleryTypes.RESTORE_IMAGE:
       return action.data.repo
     default:
       return state
