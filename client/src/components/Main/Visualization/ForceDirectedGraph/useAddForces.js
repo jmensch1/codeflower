@@ -40,7 +40,7 @@ const INITIAL_VIS_FORCES = {
 export default function useAddForces({ simulation, nodes, links }) {
   const dispatch = useDispatch()
   const visForces = useVisForces()
-  const { svgString } = useGallery()
+  const { svgString, savedVis } = useGallery()
   const skipInitial = useRef(0)
 
   useEffect(() => {
@@ -49,8 +49,8 @@ export default function useAddForces({ simulation, nodes, links }) {
     // TODO: this logic sucks
     // also svgString doesn't change if you reselect the same image from the
     // gallery, so the simulation runs in that scenario
-    skipInitial.current = !!svgString ? 2 : 0
-  }, [svgString])
+    skipInitial.current = !!savedVis ? 2 : 0
+  }, [savedVis])
 
   useEffect(() => {
     dispatch(setVisForces(INITIAL_VIS_FORCES))
@@ -71,11 +71,6 @@ export default function useAddForces({ simulation, nodes, links }) {
   // update forces
   useEffect(() => {
     if (!visForces) return
-
-    if (skipInitial.current > 0) {
-      skipInitial.current -= 1
-      return
-    }
 
     simulation
       .force('center')
@@ -107,6 +102,11 @@ export default function useAddForces({ simulation, nodes, links }) {
       .iterations(visForces.link.iterations)
 
     simulation.alphaDecay(visForces.alphaDecay)
+
+    if (skipInitial.current > 0) {
+      skipInitial.current -= 1
+      return
+    }
 
     simulation.alpha(1).restart()
   }, [simulation, visForces])

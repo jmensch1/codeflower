@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     width: '100%',
     height: '100%',
+    backgroundColor: theme.palette.background.default,
     '& > svg': {
       position: 'absolute',
       top: 0,
@@ -67,7 +68,7 @@ const ForceDirectedGraph = () => {
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
   const { showAperture } = useCamera()
-  const { svgString } = useGallery()
+  const { svgString, savedVis } = useGallery()
 
   useEffect(() => {
     if (!tree) return
@@ -91,8 +92,9 @@ const ForceDirectedGraph = () => {
 
     let svg, linkG, link, nodeG, node
 
-    if (!svgString) {
-
+    // TODO: probably take out the else block, no need for svgString
+    if (true || !svgString) {
+      
       const { width, height } = container.getBoundingClientRect()
       svg = d3
         .select(container)
@@ -145,19 +147,54 @@ const ForceDirectedGraph = () => {
 
     const simulation = d3.forceSimulation().stop()
 
-    simulation
-      .on('tick', () => {
-        link
-          .attr('x1', (d) => d.source.x)
-          .attr('y1', (d) => d.source.y)
-          .attr('x2', (d) => d.target.x)
-          .attr('y2', (d) => d.target.y)
+    const onTick = () => {
+      link
+        .attr('x1', (d) => d.source.x)
+        .attr('y1', (d) => d.source.y)
+        .attr('x2', (d) => d.target.x)
+        .attr('y2', (d) => d.target.y)
 
-        node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
+      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
 
-        setAlpha(simulation.alpha())
+      setAlpha(simulation.alpha())
+    }
+
+    simulation.on('tick', onTick).on('end', () => setAlpha(0))
+
+    //// RESTORE ////
+
+    if (savedVis) {
+      console.log('restoring')
+
+      // restore node positions
+      nodes.forEach((node, index) => {
+        node.x = savedVis[index].x
+        node.y = savedVis[index].y
       })
-      .on('end', () => setAlpha(0))
+
+      // set alpha to 0 so there's no movement when you drag
+      simulation.alpha(0)
+
+      // draw the vis
+      onTick()
+
+      // prevent flash caused by applying zoom transform
+      nodeG.style('display', 'none')
+      linkG.style('display', 'none')
+      setTimeout(() => {
+        nodeG.style('display', 'block')
+        linkG.style('display', 'block')
+      }, 500)
+    }
+
+    //// SAVE ////
+
+    window.saveVis = () => {
+      return nodes.map(node => ({
+        x: node.x,
+        y: node.y,
+      }))
+    }
 
     //// FINISH ////
 
@@ -165,7 +202,7 @@ const ForceDirectedGraph = () => {
     return () => {
       container.innerHTML = ''
     }
-  }, [tree, svgString, restartKey])
+  }, [tree, svgString, savedVis, restartKey])
 
   const restart = useCallback(() => {
     setRestartKey((key) => 1 - key)

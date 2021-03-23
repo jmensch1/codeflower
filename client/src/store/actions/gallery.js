@@ -54,6 +54,7 @@ export const publishImage = () => {
     const visStyles = select.visStyles(state)
     const visForces = select.visForces(state)
     const visPosition = select.visPosition(state)
+    const savedVis = window.saveVis()
 
     const { owner, name } = repo
     const { previewImage } = gallery
@@ -75,6 +76,7 @@ export const publishImage = () => {
           styles: visStyles,
           forces: visForces,
           position: visPosition,
+          saved: savedVis,
         },
         repo: JSON.stringify(repo), // avoids an invalid nesting error
         selectedFolderPath,
@@ -118,6 +120,7 @@ const initialState = {
   publishedImage: null,
   publishError: null,
   svgString: null,
+  savedVis: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -169,7 +172,8 @@ const reducer = (state = initialState, action) => {
     case types.RESTORE_IMAGE:
       return {
         ...state,
-        svgString: action.data.svg, 
+        svgString: action.data.svg,
+        savedVis: action.data.vis.saved,
       }
     default:
       return state
