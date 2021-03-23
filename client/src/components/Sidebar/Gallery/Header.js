@@ -58,16 +58,21 @@ const Header = ({ image }) => {
         <CloseIcon />
       </IconButton>
       <div className={classes.title}>
-        {image.context.owner}/{image.context.name}
+        {image
+          ? `${image.context.owner}/${image.context.name}`
+          : 'No images'
+        }
       </div>
-      <IconButton
-        aria-label="restore"
-        className={classes.restoreButton}
-        onClick={restore}
-        size="small"
-      >
-        <RestoreIcon />
-      </IconButton>
+      {image && (
+        <IconButton
+          aria-label="restore"
+          className={classes.restoreButton}
+          onClick={restore}
+          size="small"
+        >
+          <RestoreIcon />
+        </IconButton>
+      )}
     </div>
   )
 }

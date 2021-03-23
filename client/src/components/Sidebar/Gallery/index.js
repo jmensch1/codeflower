@@ -79,24 +79,28 @@ const Gallery = () => {
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [backward, forward])
 
-  if (!images || !selectedImage) return null
+  if (!images) return null
   return (
     <div className={classes.root}>
       <Header image={selectedImage} />
-      <Buttons
-        prev={backward}
-        next={forward}
-        isPlaying={isPlaying}
-        toggleIsPlaying={toggleIsPlaying}
-      />
-      <div className={classes.shelves}>
-        <Shelves
-          images={images}
-          onSelect={setSelectedImage}
-          selectedImage={selectedImage}
-        />
-      </div>
-      {isPlaying && <Interval next={next} delay={2500} />}
+      {selectedImage && (
+        <>
+          <Buttons
+            prev={backward}
+            next={forward}
+            isPlaying={isPlaying}
+            toggleIsPlaying={toggleIsPlaying}
+          />
+          <div className={classes.shelves}>
+            <Shelves
+              images={images}
+              onSelect={setSelectedImage}
+              selectedImage={selectedImage}
+            />
+          </div>
+          {isPlaying && <Interval next={next} delay={2500} />}
+        </>
+      )}
     </div>
   )
 }

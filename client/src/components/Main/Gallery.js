@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     position: 'relative',
+    backgroundColor: theme.palette.background.default,
     '& svg': {
       position: 'absolute',
       top: 0,
