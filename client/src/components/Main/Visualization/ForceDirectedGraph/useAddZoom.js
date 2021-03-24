@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 import { useVisPosition } from 'store/selectors'
 import { updateVisPosition } from 'store/actions/settings'
 
-export default function useAddZoom({ svg, node, link, zoomG }) {
+export default function useAddZoom({ svg, zoomG }) {
   const dispatch = useDispatch()
   const { zoom: transform } = useVisPosition()
   const [zoom, setZoom] = useState(null)

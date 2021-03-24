@@ -6,6 +6,7 @@ import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
 import useAddMouse from './useAddMouse'
 import useAddZoom from './useAddZoom'
+import useAddRotation from './useAddRotation'
 import Extras from './Extras'
 import useKeyPressed from 'hooks/useKeyPressed'
 
@@ -47,10 +48,11 @@ const Enhancers = ({ visElements, inDragMode }) => {
     zoomG,
   } = visElements
 
-  useAddStyles({ svg, node, nodeG, link, linkG })
+  useAddStyles({ svg, node, link })
   useAddForces({ simulation, nodes, links })
-  useAddMouse({ node, nodeG, simulation, inDragMode })
-  useAddZoom({ svg, node, link, inDragMode, zoomG })
+  useAddMouse({ node, simulation, inDragMode })
+  useAddZoom({ svg, zoomG })
+  useAddRotation({ nodeG, linkG })
 
   return null
 }

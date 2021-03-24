@@ -5,7 +5,6 @@ import {
   useHighlightedAuthorId,
   useHighlightedFolderPath,
   useVisStyles,
-  useVisPosition,
   useCamera,
 } from 'store/selectors'
 import { colorString } from 'services/utils'
@@ -19,7 +18,6 @@ export default function useAddStyles({ svg, nodeG, node, linkG, link }) {
   const highlightedAuthorId = useHighlightedAuthorId()
   const highlightedFolderPath = useHighlightedFolderPath()
   const visStyles = useVisStyles()
-  const visPosition = useVisPosition()
   const { transparent } = useCamera()
 
   const { file, folder } = useMemo(
@@ -159,11 +157,4 @@ export default function useAddStyles({ svg, nodeG, node, linkG, link }) {
       link.style('stroke-opacity', 1.0)
     }
   }, [node, link, highlightedFolderPath])
-
-  //// ROTATION ////
-
-  useEffect(() => {
-    nodeG.style('transform', `rotate(${visPosition.rotation}deg)`)
-    linkG.style('transform', `rotate(${visPosition.rotation}deg)`)
-  }, [nodeG, linkG, visPosition.rotation])
 }
