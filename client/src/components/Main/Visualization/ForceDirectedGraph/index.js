@@ -44,12 +44,13 @@ const Enhancers = ({ visElements, inDragMode }) => {
     linkG,
     link,
     simulation,
+    zoomG,
   } = visElements
 
   useAddStyles({ svg, node, nodeG, link, linkG })
   useAddForces({ simulation, nodes, links })
-  useAddMouse({ node, simulation, inDragMode })
-  useAddZoom({ svg, node, link, inDragMode })
+  useAddMouse({ node, nodeG, simulation, inDragMode })
+  useAddZoom({ svg, node, link, inDragMode, zoomG })
 
   return null
 }
@@ -90,11 +91,11 @@ const ForceDirectedGraph = () => {
 
     const container = document.querySelector('#vis-container')
 
-    let svg, linkG, link, nodeG, node
+    let svg, zoomG, linkG, link, nodeG, node
 
     // TODO: probably take out the else block, no need for svgString
     if (true || !svgString) {
-      
+
       const { width, height } = container.getBoundingClientRect()
       svg = d3
         .select(container)
@@ -111,8 +112,18 @@ const ForceDirectedGraph = () => {
       //   .style('stroke', 'red')
       //   .style('stroke-width', 4)
       //   .style('fill', 'transparent')
+      //
+      // svg.append('circle')
+      //   .attr('cx', 0)
+      //   .attr('cy', 0)
+      //   .attr('r', 10)
+      //   .style('stroke', 'red')
+      //   .style('stroke-width', 4)
+      //   .style('fill', 'transparent')
 
-      linkG = svg.append('g').attr('class', 'links')
+      zoomG = svg.append('g').attr('class', 'graph')
+
+      linkG = zoomG.append('g').attr('class', 'links')
 
       link = linkG
         .selectAll('line')
@@ -120,7 +131,7 @@ const ForceDirectedGraph = () => {
         .join('line')
         .attr('class', 'link')
 
-      nodeG = svg.append('g').attr('class', 'nodes')
+      nodeG = zoomG.append('g').attr('class', 'nodes')
 
       node = nodeG
         .selectAll('circle')
@@ -198,7 +209,7 @@ const ForceDirectedGraph = () => {
 
     //// FINISH ////
 
-    setVisElements({ svg, nodes, nodeG, node, links, linkG, link, simulation })
+    setVisElements({ svg, nodes, nodeG, node, links, linkG, link, simulation, zoomG })
     return () => {
       container.innerHTML = ''
     }

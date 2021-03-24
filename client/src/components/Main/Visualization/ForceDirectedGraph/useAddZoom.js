@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 import { useVisPosition } from 'store/selectors'
 import { updateVisPosition } from 'store/actions/settings'
 
-export default function useAddZoom({ svg, node, link }) {
+export default function useAddZoom({ svg, node, link, zoomG }) {
   const dispatch = useDispatch()
   const { zoom: transform } = useVisPosition()
   const [zoom, setZoom] = useState(null)
@@ -30,8 +30,7 @@ export default function useAddZoom({ svg, node, link }) {
 
   useEffect(() => {
     function zoomed({ transform }) {
-      node.attr('transform', transform)
-      link.attr('transform', transform)
+      zoomG.attr('transform', transform)
     }
 
     function zoomedWheel({ transform }) {
@@ -51,5 +50,5 @@ export default function useAddZoom({ svg, node, link }) {
     return () => {
       zoom.on('zoom', null)
     }
-  }, [svg, node, link, setTransform])
+  }, [svg, zoomG, setTransform])
 }
