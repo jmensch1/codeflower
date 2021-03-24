@@ -39,20 +39,19 @@ const Enhancers = ({ visElements, inDragMode }) => {
   const {
     svg,
     nodes,
-    nodeG,
     node,
     links,
-    linkG,
     link,
     simulation,
     zoomG,
+    rotationG,
   } = visElements
 
   useAddStyles({ svg, node, link })
   useAddForces({ simulation, nodes, links })
   useAddMouse({ node, simulation, inDragMode })
   useAddZoom({ svg, zoomG })
-  useAddRotation({ nodeG, linkG })
+  useAddRotation({ rotationG })
 
   return null
 }
@@ -99,17 +98,16 @@ const ForceDirectedGraph = () => {
       .append('svg')
       .attr('viewBox', [-width / 2, -height / 2, width, height])
 
-    const zoomG = svg.append('g').attr('class', 'graph')
-
-    const linkG = zoomG.append('g').attr('class', 'links')
+    const zoomG = svg.append('g').attr('class', 'zoom')
+    const rotationG = zoomG.append('g').attr('class', 'rotation')
+    const linkG = rotationG.append('g').attr('class', 'links')
+    const nodeG = rotationG.append('g').attr('class', 'nodes')
 
     const link = linkG
       .selectAll('line')
       .data(links)
       .join('line')
       .attr('class', 'link')
-
-    const nodeG = zoomG.append('g').attr('class', 'nodes')
 
     const node = nodeG
       .selectAll('circle')
@@ -172,7 +170,7 @@ const ForceDirectedGraph = () => {
 
     //// FINISH ////
 
-    setVisElements({ svg, nodes, nodeG, node, links, linkG, link, simulation, zoomG })
+    setVisElements({ svg, nodes, node, links, link, simulation, zoomG, rotationG })
     return () => {
       container.innerHTML = ''
     }
