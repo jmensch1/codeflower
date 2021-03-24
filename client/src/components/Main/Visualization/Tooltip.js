@@ -6,9 +6,6 @@ const tooltipContext = createContext()
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
-    top: ({ y }) => y,
-    left: ({ x }) => x,
-    visibility: ({ visible }) => (visible ? 'visible' : 'hidden'),
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
     borderRadius: '5px',
@@ -20,17 +17,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const TooltipProvider = ({ children }) => {
+  const classes = useStyles()
   const [tooltip, setTooltip] = useState(null)
-
-  const classes = useStyles({
-    visible: !!tooltip,
-    x: tooltip?.x,
-    y: tooltip?.y,
-  })
 
   return (
     <>
-      <div className={classes.root}>{tooltip?.content}</div>
+      {tooltip && (
+        <div
+          className={classes.root}
+          style={{ left: tooltip.x, top: tooltip.y }}
+        >
+          {tooltip.content}
+        </div>
+      )}
       <tooltipContext.Provider value={setTooltip}>
         {children}
       </tooltipContext.Provider>
