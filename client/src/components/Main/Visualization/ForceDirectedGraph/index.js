@@ -71,7 +71,7 @@ const ForceDirectedGraph = () => {
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
   const { showAperture } = useCamera()
-  const { svgString, savedVis } = useGallery()
+  const { savedVis } = useGallery()
 
   useEffect(() => {
     if (!tree) return
@@ -92,69 +92,30 @@ const ForceDirectedGraph = () => {
     //// DOM ////
 
     const container = document.querySelector('#vis-container')
+    const { width, height } = container.getBoundingClientRect()
 
-    let svg, zoomG, linkG, link, nodeG, node
+    const svg = d3
+      .select(container)
+      .append('svg')
+      .attr('viewBox', [-width / 2, -height / 2, width, height])
 
-    // TODO: probably take out the else block, no need for svgString
-    if (true || !svgString) {
+    const zoomG = svg.append('g').attr('class', 'graph')
 
-      const { width, height } = container.getBoundingClientRect()
-      svg = d3
-        .select(container)
-        .append('svg')
-        .attr('viewBox', [-width / 2, -height / 2, width, height])
+    const linkG = zoomG.append('g').attr('class', 'links')
 
-      // highlight the viewbox (testing only)
-      // svg
-      //   .append('rect')
-      //   .attr('x', -width / 2)
-      //   .attr('y', -height / 2)
-      //   .attr('width', width)
-      //   .attr('height', height)
-      //   .style('stroke', 'red')
-      //   .style('stroke-width', 4)
-      //   .style('fill', 'transparent')
-      //
-      // svg.append('circle')
-      //   .attr('cx', 0)
-      //   .attr('cy', 0)
-      //   .attr('r', 10)
-      //   .style('stroke', 'red')
-      //   .style('stroke-width', 4)
-      //   .style('fill', 'transparent')
+    const link = linkG
+      .selectAll('line')
+      .data(links)
+      .join('line')
+      .attr('class', 'link')
 
-      zoomG = svg.append('g').attr('class', 'graph')
+    const nodeG = zoomG.append('g').attr('class', 'nodes')
 
-      linkG = zoomG.append('g').attr('class', 'links')
-
-      link = linkG
-        .selectAll('line')
-        .data(links)
-        .join('line')
-        .attr('class', 'link')
-
-      nodeG = zoomG.append('g').attr('class', 'nodes')
-
-      node = nodeG
-        .selectAll('circle')
-        .data(nodes)
-        .join('circle')
-        .attr('class', (d) => (d.children ? 'folder' : 'file'))
-
-    } else {
-
-      const decoded = atob(svgString.replace('data:image/svg+xml;base64,', ''))
-      const dom = new DOMParser()
-      const el = dom.parseFromString(decoded, 'image/svg+xml').rootElement
-      container.appendChild(el)
-
-      svg = d3.select(container).select('svg')
-      linkG = svg.select('.links')
-      link = linkG.selectAll('line').data(links)
-      nodeG = svg.select('.nodes')
-      node = nodeG.selectAll('circle').data(nodes)
-
-    }
+    const node = nodeG
+      .selectAll('circle')
+      .data(nodes)
+      .join('circle')
+      .attr('class', (d) => (d.children ? 'folder' : 'file'))
 
     //// SIMULATION ////
 
@@ -215,7 +176,7 @@ const ForceDirectedGraph = () => {
     return () => {
       container.innerHTML = ''
     }
-  }, [tree, svgString, savedVis, restartKey])
+  }, [tree, savedVis, restartKey])
 
   const restart = useCallback(() => {
     setRestartKey((key) => 1 - key)

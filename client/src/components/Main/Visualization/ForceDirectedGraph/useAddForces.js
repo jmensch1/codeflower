@@ -40,7 +40,7 @@ const INITIAL_VIS_FORCES = {
 export default function useAddForces({ simulation, nodes, links }) {
   const dispatch = useDispatch()
   const visForces = useVisForces()
-  const { svgString, savedVis } = useGallery()
+  const { savedVis } = useGallery()
   const skipInitial = useRef(0)
 
   useEffect(() => {
