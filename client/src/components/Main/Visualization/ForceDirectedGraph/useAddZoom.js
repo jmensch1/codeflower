@@ -2,7 +2,7 @@ import { useEffect, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import * as d3 from 'd3'
 import { useVisPosition } from 'store/selectors'
-import { updateVisPosition } from 'store/actions/settings'
+import { updateVisPosition } from 'store/actions/vis'
 
 export default function useAddZoom({ svg, zoomG }) {
   const dispatch = useDispatch()

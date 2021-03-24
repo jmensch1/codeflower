@@ -7,6 +7,7 @@ import { routerMiddleware } from 'connected-react-router'
 import router from './actions/router'
 import query from './actions/query'
 import repo from './actions/repo'
+import vis from './actions/vis'
 import files from './actions/files'
 import settings from './actions/settings'
 import modals from './actions/modals'
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   modals,
   camera,
   gallery,
+  vis,
 })
 
 const store = createStore(

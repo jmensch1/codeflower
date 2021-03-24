@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
-import { useVisForces, useGallery } from 'store/selectors'
-import { setVisForces } from 'store/actions/settings'
+import { useVisForces, useSavedVis } from 'store/selectors'
+import { setVisForces } from 'store/actions/vis'
 import { useDispatch } from 'react-redux'
 
 const INITIAL_VIS_FORCES = {
@@ -40,7 +40,7 @@ const INITIAL_VIS_FORCES = {
 export default function useAddForces({ simulation, nodes, links }) {
   const dispatch = useDispatch()
   const visForces = useVisForces()
-  const { savedVis } = useGallery()
+  const savedVis = useSavedVis()
   const skipInitial = useRef(0)
 
   useEffect(() => {

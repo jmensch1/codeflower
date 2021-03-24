@@ -70,7 +70,6 @@ export const publishImage = () => {
       })
 
       await db.collection('gallery').doc(imageId).set({
-        svg: previewImage,
         image,
         vis: {
           styles: visStyles,
@@ -168,12 +167,6 @@ const reducer = (state = initialState, action) => {
         previewImage: null,
         publishedImage: null,
         publishError: null,
-      }
-    case types.RESTORE_IMAGE:
-      return {
-        ...state,
-        svgString: action.data.svg,
-        savedVis: action.data.vis.saved,
       }
     default:
       return state

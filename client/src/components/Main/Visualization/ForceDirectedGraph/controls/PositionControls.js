@@ -11,7 +11,7 @@ import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { useVisPosition } from 'store/selectors'
-import { updateVisPosition } from 'store/actions/settings'
+import { updateVisPosition } from 'store/actions/vis'
 import Slider from 'components/core/Slider'
 import { getPaths, createUpdaters, toFixed0, toFixed2 } from 'services/utils'
 

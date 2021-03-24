@@ -11,18 +11,23 @@ const repo = (state) => state.repo
 const authors = (state) => state.repo?.authors
 const rootFolder = (state) => state.repo?.tree
 const files = (state) => state.files
+
 const settings = (state) => state.settings
 const baseTheme = (state) => state.settings.baseTheme
-const visType = (state) => state.settings.visType
 const selectedFolderPath = (state) => state.settings.selectedFolderPath
 const highlightedFolderPath = (state) => state.settings.highlightedFolderPath
 const selectedLanguage = (state) => state.settings.selectedLanguage
 const selectedAuthorId = (state) => state.settings.selectedAuthorId
 const highlightedAuthorId = (state) => state.settings.highlightedAuthorId
-const visStyles = (state) => state.settings.visStyles
-const fileFill = (state) => state.settings.visStyles?.files.fill
-const visForces = (state) => state.settings.visForces
-const visPosition = (state) => state.settings.visPosition
+
+const visType = (state) => state.vis.type
+const visStyles = (state) => state.vis.styles
+const fileFill = (state) => state.vis.styles.files.fill
+const visForces = (state) => state.vis.forces
+const visPosition = (state) => state.vis.position
+const savedVis = (state) => state.vis.saved
+const visFuncs = (state) => state.vis.funcs
+
 const camera = (state) => state.camera
 const gallery = (state) => state.gallery
 const context = (state) => {
@@ -91,10 +96,14 @@ export const useLanguageCounts = () => useSelector(languageCounts)
 export const useLanguageColors = () => useSelector(languageColors)
 export const useContext = () => useSelector(context)
 export const useBaseTheme = () => useSelector(baseTheme)
+
 export const useVisType = () => useSelector(visType)
 export const useVisStyles = () => useSelector(visStyles)
 export const useVisForces = () => useSelector(visForces)
 export const useVisPosition = () => useSelector(visPosition)
+export const useSavedVis = () => useSelector(savedVis)
+export const useVisFuncs = () => useSelector(visFuncs)
+
 export const useCamera = () => useSelector(camera)
 export const useGallery = () => useSelector(gallery)
 

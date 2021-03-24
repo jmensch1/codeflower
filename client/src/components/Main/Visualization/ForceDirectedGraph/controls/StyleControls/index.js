@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useVisStyles } from 'store/selectors'
-import { updateVisStyles } from 'store/actions/settings'
+import { updateVisStyles } from 'store/actions/vis'
 import { useDispatch } from 'react-redux'
 import Checkbox from 'components/core/Checkbox'
 import FileControls from './FileControls'

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GradientPicker from 'components/core/GradientPicker'
 import { useVisStyles } from 'store/selectors'
-import { updateVisStyles } from 'store/actions/settings'
+import { updateVisStyles } from 'store/actions/vis'
 import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({

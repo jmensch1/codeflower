@@ -1,5 +1,4 @@
 import baseTheme from 'themes/baseTheme'
-import visThemes from 'themes/visThemes'
 import { types as repoTypes } from './repo'
 import { types as galleryTypes } from './gallery'
 import { setPath } from 'services/utils'
@@ -7,18 +6,11 @@ import { setPath } from 'services/utils'
 export const types = {
   SET_BASE_THEME: 'settings/SET_BASE_THEME',
   UPDATE_BASE_THEME: 'settings/UPDATE_BASE_THEME',
-  SET_VIS_TYPE: 'settings/SET_VIS_TYPE',
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
   HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
   SELECT_AUTHOR: 'settings/SELECT_AUTHOR',
   HIGHLIGHT_AUTHOR: 'settings/HIGHLIGHT_AUTHOR',
-  SET_VIS_STYLES: 'settings/SET_VIS_STYLES',
-  UPDATE_VIS_STYLES: 'settings/UPDATE_VIS_STYLES',
-  SET_VIS_FORCES: 'settings/SET_VIS_FORCES',
-  UPDATE_VIS_FORCES: 'settings/UPDATE_VIS_FORCES',
-  SET_VIS_POSITION: 'settings/SET_VIS_POSITION',
-  UPDATE_VIS_POSITION: 'settings/UPDATE_VIS_POSITION',
 }
 
 export const setBaseTheme = (baseTheme) => ({
@@ -29,11 +21,6 @@ export const setBaseTheme = (baseTheme) => ({
 export const updateBaseTheme = (path, value) => ({
   type: types.UPDATE_BASE_THEME,
   data: { path, value },
-})
-
-export const setVisType = (visType) => ({
-  type: types.SET_VIS_TYPE,
-  data: visType,
 })
 
 export const selectLanguage = (language) => ({
@@ -61,54 +48,13 @@ export const highlightAuthor = (authorId) => ({
   data: authorId,
 })
 
-export const setVisStyles = (visStyles) => ({
-  type: types.SET_VIS_STYLES,
-  data: visStyles,
-})
-
-export const updateVisStyles = (path, value) => ({
-  type: types.UPDATE_VIS_STYLES,
-  data: { path, value },
-})
-
-export const setVisForces = (visForces) => ({
-  type: types.SET_VIS_FORCES,
-  data: visForces,
-})
-
-export const updateVisForces = (path, value) => ({
-  type: types.UPDATE_VIS_FORCES,
-  data: { path, value },
-})
-
-export const setVisPosition = (visPosition) => ({
-  type: types.SET_VIS_POSITION,
-  data: visPosition,
-})
-
-export const updateVisPosition = (path, value) => ({
-  type: types.UPDATE_VIS_POSITION,
-  data: { path, value },
-})
-
 const initialState = {
   baseTheme,
-  visType: 'force',
   selectedLanguage: null,
   selectedFolderPath: null,
   highlightedFolderPath: null,
   selectedAuthorId: null,
   highlightedAuthorId: null,
-  visStyles: visThemes.periwinkle,
-  visForces: null,
-  visPosition: {
-    rotation: 0,
-    zoom: {
-      x: 0,
-      y: 0,
-      k: 1,
-    },
-  },
 }
 
 const reducer = (state = initialState, action) => {
@@ -126,11 +72,6 @@ const reducer = (state = initialState, action) => {
           action.data.path,
           action.data.value
         ),
-      }
-    case types.SET_VIS_TYPE:
-      return {
-        ...state,
-        visType: action.data,
       }
     case types.SELECT_LANGUAGE:
       return {
@@ -164,53 +105,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         highlightedAuthorId: action.data,
       }
-    case types.SET_VIS_STYLES:
-      return {
-        ...state,
-        visStyles: action.data,
-      }
-    case types.UPDATE_VIS_STYLES:
-      return {
-        ...state,
-        visStyles: {
-          ...setPath(state.visStyles, action.data.path, action.data.value),
-          id: null,
-        },
-      }
-    case types.SET_VIS_FORCES:
-      return {
-        ...state,
-        visForces: action.data,
-      }
-    case types.UPDATE_VIS_FORCES:
-      return {
-        ...state,
-        visForces: setPath(
-          state.visForces,
-          action.data.path,
-          action.data.value
-        ),
-      }
-    case types.SET_VIS_POSITION:
-      return {
-        ...state,
-        visPosition: action.data,
-      }
-    case types.UPDATE_VIS_POSITION:
-      return {
-        ...state,
-        visPosition: setPath(
-          state.visPosition,
-          action.data.path,
-          action.data.value
-        ),
-      }
     case galleryTypes.RESTORE_IMAGE:
       return {
         ...state,
-        visStyles: action.data.vis.styles,
-        visForces: action.data.vis.forces,
-        visPosition: action.data.vis.position,
         selectedFolderPath: action.data.selectedFolderPath,
       }
     default:

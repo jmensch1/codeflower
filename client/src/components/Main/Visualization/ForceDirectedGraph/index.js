@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import * as d3 from 'd3'
 import { makeStyles } from '@material-ui/core/styles'
-import { useSelectedFolder, useCamera, useGallery } from 'store/selectors'
+import { useSelectedFolder, useCamera, useSavedVis } from 'store/selectors'
 import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
 import useAddMouse from './useAddMouse'
@@ -70,7 +70,7 @@ const ForceDirectedGraph = () => {
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
   const { showAperture } = useCamera()
-  const { savedVis } = useGallery()
+  const savedVis = useSavedVis()
 
   useEffect(() => {
     if (!tree) return
