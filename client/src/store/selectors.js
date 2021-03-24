@@ -72,6 +72,7 @@ export const select = {
   visStyles,
   visForces,
   visPosition,
+  visFuncs,
   camera,
   gallery,
   selectedFolderPath,

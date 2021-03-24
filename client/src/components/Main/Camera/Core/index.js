@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { updateCamera } from 'store/actions/camera'
-import { useCamera } from 'store/selectors'
+import { useCamera, useVisFuncs } from 'store/selectors'
 import useSize from 'hooks/useSize'
 import Aperture from './Aperture'
 import ImageMaker from './ImageMaker'
@@ -29,9 +29,9 @@ const CameraCore = () => {
   const containerRef = useRef(null)
   const containerRect = useSize(containerRef)
   const dispatch = useDispatch()
+  const { getSvg } = useVisFuncs()
 
-  // NOTE: can't memoize this because svg changes
-  const svg = document.querySelector('#vis-container > svg')
+  const svg = useMemo(() => (getSvg ? getSvg() : null), [getSvg])
 
   const aperture = useMemo(() => {
     if (!svg || !containerRect) return null

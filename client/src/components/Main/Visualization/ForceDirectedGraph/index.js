@@ -1,7 +1,9 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState, useRef } from 'react'
 import * as d3 from 'd3'
+import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useCamera, useSavedVis } from 'store/selectors'
+import { setVisFuncs } from 'store/actions/vis'
 import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
 import useAddMouse from './useAddMouse'
@@ -63,6 +65,7 @@ const ForceDirectedGraph = () => {
     large that they fill all or most of the screen, and would effectively
     block the full-vis-drag functionality from d3.zoom.
   */
+  const containerRef = useRef(null)
   const inDragMode = useKeyPressed('Shift')
   const classes = useStyles({ inDragMode })
   const tree = useSelectedFolder()
@@ -71,6 +74,11 @@ const ForceDirectedGraph = () => {
   const [restartKey, setRestartKey] = useState(0)
   const { showAperture } = useCamera()
   const savedVis = useSavedVis()
+  const dispatch = useDispatch()
+
+  const saveVisFuncs = useCallback((funcs) => {
+    dispatch(setVisFuncs(funcs))
+  }, [dispatch])
 
   useEffect(() => {
     if (!tree) return
@@ -90,7 +98,7 @@ const ForceDirectedGraph = () => {
 
     //// DOM ////
 
-    const container = document.querySelector('#vis-container')
+    const container = containerRef.current
     const { width, height } = container.getBoundingClientRect()
 
     const svg = d3
@@ -161,12 +169,10 @@ const ForceDirectedGraph = () => {
 
     //// SAVE ////
 
-    window.saveVis = () => {
-      return nodes.map(node => ({
-        x: node.x,
-        y: node.y,
-      }))
-    }
+    saveVisFuncs({
+      saveVis: () => nodes.map(({ x, y }) => ({ x, y })),
+      getSvg: () => svg.node(),
+    })
 
     //// FINISH ////
 
@@ -174,7 +180,7 @@ const ForceDirectedGraph = () => {
     return () => {
       container.innerHTML = ''
     }
-  }, [tree, savedVis, restartKey])
+  }, [tree, savedVis, saveVisFuncs, restartKey])
 
   const restart = useCallback(() => {
     setRestartKey((key) => 1 - key)
@@ -182,7 +188,7 @@ const ForceDirectedGraph = () => {
 
   return (
     <>
-      <div className={classes.root} id="vis-container" />
+      <div ref={containerRef} className={classes.root} />
       {visElements && (
         <>
           <Enhancers visElements={visElements} inDragMode={inDragMode} />

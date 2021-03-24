@@ -50,17 +50,17 @@ export const publishImage = () => {
     const state = getState()
     const repo = select.repo(state)
     const selectedFolderPath = select.selectedFolderPath(state)
-    const gallery = select.gallery(state)
+    const { previewImage } = select.gallery(state)
     const visStyles = select.visStyles(state)
     const visForces = select.visForces(state)
     const visPosition = select.visPosition(state)
-    const savedVis = window.saveVis()
+    const { saveVis } = select.visFuncs(state)
 
     const { owner, name } = repo
-    const { previewImage } = gallery
     const { fill } = visStyles.background
     const backgroundColor = colorString(fill)
     const imageId = `${name}-${Date.now()}`
+    const savedVis = saveVis()
 
     try {
       const image = await uploadImage(previewImage, imageId, {
@@ -118,8 +118,6 @@ const initialState = {
   isPublishing: false,
   publishedImage: null,
   publishError: null,
-  svgString: null,
-  savedVis: null,
 }
 
 const reducer = (state = initialState, action) => {
