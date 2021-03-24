@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
-import { useVisForces, useSavedVis } from 'store/selectors'
+import { useVisForces } from 'store/selectors'
 import { setVisForces } from 'store/actions/vis'
 import { useDispatch } from 'react-redux'
 
@@ -37,20 +37,23 @@ const INITIAL_VIS_FORCES = {
   },
 }
 
-export default function useAddForces({ simulation, nodes, links }) {
+export default function useAddForces({ visData, simulation }) {
   const dispatch = useDispatch()
   const visForces = useVisForces()
-  const savedVis = useSavedVis()
-  const skipInitial = useRef(0)
+  const skipRestart = useRef({
+    simulation: false,
+    visForces: false,
+  })
 
   useEffect(() => {
-    // NOTE: need to skip 2 cycles because both visForces and simulation
-    // change when you load from the gallery
-    // TODO: this logic sucks
-    // also svgString doesn't change if you reselect the same image from the
-    // gallery, so the simulation runs in that scenario
-    skipInitial.current = !!savedVis ? 2 : 0
-  }, [savedVis])
+    // don't restart the simulation if the vis comes from saved data.
+    // both the simulation and visForces are updated (separately)
+    // so we need to skip a cycle for each
+    if (visData.saved) {
+      skipRestart.current.simulation = true
+      skipRestart.current.visForces = true
+    }
+  }, [visData])
 
   useEffect(() => {
     dispatch(setVisForces(INITIAL_VIS_FORCES))
@@ -59,14 +62,14 @@ export default function useAddForces({ simulation, nodes, links }) {
   // init forces
   useEffect(() => {
     simulation
-      .nodes(nodes)
-      .force('link', d3.forceLink().links(links))
+      .nodes(visData.nodes)
+      .force('link', d3.forceLink().links(visData.links))
       .force('charge', d3.forceManyBody())
       .force('collide', d3.forceCollide())
       .force('center', d3.forceCenter())
       .force('forceX', d3.forceX())
       .force('forceY', d3.forceY())
-  }, [simulation, nodes, links])
+  }, [visData, simulation])
 
   // update forces
   useEffect(() => {
@@ -75,22 +78,27 @@ export default function useAddForces({ simulation, nodes, links }) {
     simulation
       .force('center')
       .strength(visForces.center.strength * visForces.center.enabled)
+
     simulation
       .force('charge')
       .strength(visForces.charge.strength * visForces.charge.enabled)
       .distanceMin(visForces.charge.distanceMin)
       .distanceMax(visForces.charge.distanceMax)
+
     simulation
       .force('collide')
       .strength(visForces.collide.strength * visForces.collide.enabled)
       .radius(visForces.collide.radius)
       .iterations(visForces.collide.iterations)
+
     simulation
       .force('forceX')
       .strength(visForces.forceXY.strength * visForces.forceXY.enabled)
+
     simulation
       .force('forceY')
       .strength(visForces.forceXY.strength * visForces.forceXY.enabled)
+      
     simulation
       .force('link')
       .strength(visForces.link.strength * visForces.link.enabled)
@@ -103,11 +111,11 @@ export default function useAddForces({ simulation, nodes, links }) {
 
     simulation.alphaDecay(visForces.alphaDecay)
 
-    if (skipInitial.current > 0) {
-      skipInitial.current -= 1
-      return
-    }
-
+    if (skipRestart.current.simulation || skipRestart.current.visForces) return
     simulation.alpha(1).restart()
   }, [simulation, visForces])
+
+  // skip only one cycle for each
+  useEffect(() => (skipRestart.current.simulation = false), [simulation])
+  useEffect(() => (skipRestart.current.visForces = false), [visForces])
 }

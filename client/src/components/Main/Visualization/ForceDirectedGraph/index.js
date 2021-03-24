@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback, useState, useRef } from 'react'
+import React, { useEffect, useCallback, useState, useRef, useMemo } from 'react'
 import * as d3 from 'd3'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { useSelectedFolder, useCamera, useSavedVis } from 'store/selectors'
 import { setVisFuncs } from 'store/actions/vis'
-import useAddStyles from './useAddStyles'
 import useAddForces from './useAddForces'
+import useAddStyles from './useAddStyles'
 import useAddMouse from './useAddMouse'
 import useAddZoom from './useAddZoom'
 import useAddRotation from './useAddRotation'
@@ -37,20 +37,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Enhancers = ({ visElements, inDragMode }) => {
+const Enhancers = ({ visData, visElements, inDragMode }) => {
   const {
     svg,
-    nodes,
     node,
-    links,
     link,
     simulation,
     zoomG,
     rotationG,
   } = visElements
 
+  useAddForces({ visData, simulation })
   useAddStyles({ svg, node, link })
-  useAddForces({ simulation, nodes, links })
   useAddMouse({ node, simulation, inDragMode })
   useAddZoom({ svg, zoomG })
   useAddRotation({ rotationG })
@@ -59,12 +57,6 @@ const Enhancers = ({ visElements, inDragMode }) => {
 }
 
 const ForceDirectedGraph = () => {
-  /*
-    NOTE: hold shift to enter drag mode. This will disable the tooltip
-    and node-drag functionality, which is useful when the nodes are so
-    large that they fill all or most of the screen, and would effectively
-    block the full-vis-drag functionality from d3.zoom.
-  */
   const containerRef = useRef(null)
   const inDragMode = useKeyPressed('Shift')
   const classes = useStyles({ inDragMode })
@@ -80,10 +72,8 @@ const ForceDirectedGraph = () => {
     dispatch(setVisFuncs(funcs))
   }, [dispatch])
 
-  useEffect(() => {
-    if (!tree) return
-
-    //// DATA ////
+  const visData = useMemo(() => {
+    if (!tree) return null
 
     const root = d3.hierarchy(tree)
 
@@ -95,6 +85,22 @@ const ForceDirectedGraph = () => {
     // and you don't get the weird look where the smaller ones are on
     // top but the links are invisible
     nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
+
+    if (savedVis)
+      nodes.forEach((node, index) => {
+        node.x = savedVis[index].x
+        node.y = savedVis[index].y
+      })
+
+    return {
+      nodes,
+      links,
+      saved: savedVis,
+    }
+  }, [tree, savedVis])
+
+  useEffect(() => {
+    if (!visData) return
 
     //// DOM ////
 
@@ -113,13 +119,13 @@ const ForceDirectedGraph = () => {
 
     const link = linkG
       .selectAll('line')
-      .data(links)
+      .data(visData.links)
       .join('line')
       .attr('class', 'link')
 
     const node = nodeG
       .selectAll('circle')
-      .data(nodes)
+      .data(visData.nodes)
       .join('circle')
       .attr('class', (d) => (d.children ? 'folder' : 'file'))
 
@@ -143,15 +149,7 @@ const ForceDirectedGraph = () => {
 
     //// RESTORE ////
 
-    if (savedVis) {
-      console.log('restoring')
-
-      // restore node positions
-      nodes.forEach((node, index) => {
-        node.x = savedVis[index].x
-        node.y = savedVis[index].y
-      })
-
+    if (visData.saved) {
       // set alpha to 0 so there's no movement when you drag
       simulation.alpha(0)
 
@@ -170,17 +168,17 @@ const ForceDirectedGraph = () => {
     //// SAVE ////
 
     saveVisFuncs({
-      saveVis: () => nodes.map(({ x, y }) => ({ x, y })),
+      saveVis: () => visData.nodes.map(({ x, y }) => ({ x, y })),
       getSvg: () => svg.node(),
     })
 
     //// FINISH ////
 
-    setVisElements({ svg, nodes, node, links, link, simulation, zoomG, rotationG })
+    setVisElements({ svg, node, link, simulation, zoomG, rotationG })
     return () => {
       container.innerHTML = ''
     }
-  }, [tree, savedVis, saveVisFuncs, restartKey])
+  }, [visData, saveVisFuncs, restartKey])
 
   const restart = useCallback(() => {
     setRestartKey((key) => 1 - key)
@@ -189,9 +187,13 @@ const ForceDirectedGraph = () => {
   return (
     <>
       <div ref={containerRef} className={classes.root} />
-      {visElements && (
+      {visData && visElements && (
         <>
-          <Enhancers visElements={visElements} inDragMode={inDragMode} />
+          <Enhancers
+            visData={visData}
+            visElements={visElements}
+            inDragMode={inDragMode}
+          />
           {!showAperture && <Extras alpha={alpha} onRestart={restart} />}
         </>
       )}
