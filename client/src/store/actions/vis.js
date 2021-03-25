@@ -139,6 +139,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.data.vis,
+        saved: {
+          nodes: action.data.vis.saved,
+          svgString: action.data.svgString,
+        }
       }
     default:
       return state

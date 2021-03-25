@@ -86,12 +86,6 @@ const ForceDirectedGraph = () => {
     // top but the links are invisible
     nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
 
-    if (savedVis)
-      nodes.forEach((node, index) => {
-        node.x = savedVis[index].x
-        node.y = savedVis[index].y
-      })
-
     return {
       nodes,
       links,
@@ -105,33 +99,61 @@ const ForceDirectedGraph = () => {
     //// DOM ////
 
     const container = containerRef.current
-    const { width, height } = container.getBoundingClientRect()
+    let svg, zoomG, rotationG, linkG, nodeG, link, node
 
-    const svg = d3
-      .select(container)
-      .append('svg')
-      .attr('viewBox', [-width / 2, -height / 2, width, height])
+    if (visData.saved) {
 
-    const zoomG = svg.append('g').attr('class', 'zoom')
-    const rotationG = zoomG.append('g').attr('class', 'rotation')
-    const linkG = rotationG.append('g').attr('class', 'links')
-    const nodeG = rotationG.append('g').attr('class', 'nodes')
+      const { svgString } = visData.saved
+      const decoded = atob(svgString.replace('data:image/svg+xml;base64,', ''))
+      const dom = new DOMParser()
+      const el = dom.parseFromString(decoded, 'image/svg+xml').rootElement
+      container.appendChild(el)
 
-    const link = linkG
-      .selectAll('line')
-      .data(visData.links)
-      .join('line')
-      .attr('class', 'link')
+      svg = d3.select(container).select('svg')
+      zoomG = svg.select('.zoom')
+      rotationG = svg.select('.rotation')
+      linkG = svg.select('.links')
+      nodeG = svg.select('.nodes')
+      link = linkG.selectAll('line')
+      node = nodeG.selectAll('circle')
 
-    const node = nodeG
-      .selectAll('circle')
-      .data(visData.nodes)
-      .join('circle')
-      .attr('class', (d) => (d.children ? 'folder' : 'file'))
+      node.nodes().forEach((el, index) => {
+        visData.nodes[index].x = parseFloat(el.getAttribute('cx'))
+        visData.nodes[index].y = parseFloat(el.getAttribute('cy'))
+      })
+
+      link.data(visData.links)
+      node.data(visData.nodes)
+
+    } else {
+      const { width, height } = container.getBoundingClientRect()
+
+      svg = d3
+        .select(container)
+        .append('svg')
+        .attr('viewBox', [-width / 2, -height / 2, width, height])
+
+      zoomG = svg.append('g').attr('class', 'zoom')
+      rotationG = zoomG.append('g').attr('class', 'rotation')
+      linkG = rotationG.append('g').attr('class', 'links')
+      nodeG = rotationG.append('g').attr('class', 'nodes')
+
+      link = linkG
+        .selectAll('line')
+        .data(visData.links)
+        .join('line')
+        .attr('class', 'link')
+
+      node = nodeG
+        .selectAll('circle')
+        .data(visData.nodes)
+        .join('circle')
+        .attr('class', (d) => (d.children ? 'folder' : 'file'))
+    }
 
     //// SIMULATION ////
 
-    const simulation = d3.forceSimulation().stop()
+    const simulation = d3.forceSimulation().stop().alpha(0)
 
     const onTick = () => {
       link
@@ -146,24 +168,6 @@ const ForceDirectedGraph = () => {
     }
 
     simulation.on('tick', onTick).on('end', () => setAlpha(0))
-
-    //// RESTORE ////
-
-    if (visData.saved) {
-      // set alpha to 0 so there's no movement when you drag
-      simulation.alpha(0)
-
-      // draw the vis
-      onTick()
-
-      // prevent flash caused by applying zoom transform
-      nodeG.style('display', 'none')
-      linkG.style('display', 'none')
-      setTimeout(() => {
-        nodeG.style('display', 'block')
-        linkG.style('display', 'block')
-      }, 500)
-    }
 
     //// SAVE ////
 

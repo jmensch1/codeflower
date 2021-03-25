@@ -70,6 +70,7 @@ export const publishImage = () => {
       })
 
       await db.collection('gallery').doc(imageId).set({
+        svgString: previewImage,
         image,
         vis: {
           styles: visStyles,
