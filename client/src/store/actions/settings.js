@@ -109,6 +109,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         selectedFolderPath: action.data.selectedFolderPath,
+        highlightedFolderPath: null,
       }
     default:
       return state

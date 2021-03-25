@@ -1,4 +1,5 @@
 import visThemes from 'themes/visThemes'
+import { types as repoTypes } from './repo'
 import { types as galleryTypes } from './gallery'
 import { setPath } from 'services/utils'
 
@@ -128,6 +129,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         funcs: action.data,
+      }
+    case repoTypes.GET_REPO_SUCCESS:
+      return {
+        ...state,
+        saved: null,
       }
     case galleryTypes.RESTORE_IMAGE:
       return {
