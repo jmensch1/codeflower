@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { useLanguageCounts, useLanguageColors } from 'store/selectors'
+import { useLanguageCounts, useLanguageColors, useVisStyles } from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         left: 0,
         width: '100%',
         height: '100%',
+        '& circle': {
+          stroke: theme.palette.divider,
+        },
       },
     },
     '& tbody tr': {
@@ -42,6 +45,7 @@ const LanguagesTable = () => {
   const counts = useLanguageCounts()
   const colors = useLanguageColors()
   const dispatch = useDispatch()
+  const visStyles = useVisStyles()
 
   const totals = useMemo(() => {
     return counts.reduce(
@@ -79,7 +83,13 @@ const LanguagesTable = () => {
             <td>{count.lines}</td>
             <td>
               <svg>
-                <circle r={8} cx="50%" cy="50%" fill={colors[count.language]} />
+                <circle
+                  r={8}
+                  cx="50%"
+                  cy="50%"
+                  fill={colors[count.language]}
+                  strokeWidth={1 - visStyles.files.fill.alpha}
+                />
               </svg>
             </td>
           </tr>
