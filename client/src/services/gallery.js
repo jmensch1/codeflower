@@ -5,7 +5,9 @@ import { gallery } from 'constants.js'
 
 const { CLOUD_NAME, UPLOAD_PRESET, TAG, THUMB_WIDTH, THUMB_HEIGHT } = gallery
 const FETCH_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image`
+const FETCH_DATA_URL = `https://res.cloudinary.com/${CLOUD_NAME}/raw`
 const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
+const UPLOAD_DATA_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`
 const UPLOAD_HEADERS = { 'Content-Type': 'application/json' }
 const DELETE_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/delete_by_token`
 
@@ -71,7 +73,7 @@ export async function uploadImage(
   const opts = {
     public_id: imageId,
     file: dataUri,
-    // folder: TAG,
+    folder: TAG,
     tags: TAG,
     upload_preset: UPLOAD_PRESET,
     context: packContext(context),
@@ -89,6 +91,49 @@ export async function uploadImage(
     ...image,
     context: unpackContext(image.context),
   }
+}
+
+export async function uploadImageData(
+  data,
+  imageId,
+  context = {},
+  onProgress = () => null
+) {
+  const file = 'data:text/plain;base64,' + btoa(JSON.stringify(data))
+
+  const opts = {
+    public_id: `${imageId}.json`,
+    file,
+    folder: TAG,
+    tags: TAG,
+    upload_preset: UPLOAD_PRESET,
+    context: packContext(context),
+  }
+
+  const { data: image } = await axios.post(UPLOAD_DATA_URL, JSON.stringify(opts), {
+    headers: UPLOAD_HEADERS,
+    onUploadProgress: (e) => {
+      const percentCompleted = Math.round((100 * e.loaded) / e.total)
+      onProgress(percentCompleted)
+    },
+  })
+
+  return {
+    ...image,
+    context: unpackContext(image.context),
+  }
+}
+
+export async function getSvgString(image) {
+  const { data } = await axios.get(imageUrl(image))
+  return data
+}
+
+export async function getImageData(image) {
+  const { version, public_id } = image
+  const url = `${FETCH_DATA_URL}/upload/v${version}/${public_id}.json`
+  const { data } = await axios.get(url)
+  return data
 }
 
 export function deleteImage(token) {

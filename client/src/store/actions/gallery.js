@@ -1,7 +1,6 @@
-import { listImages, uploadImage } from 'services/gallery'
+import { listImages, uploadImage, uploadImageData, getImageData, getSvgString } from 'services/gallery'
 import { colorString } from 'services/utils'
 import { select } from 'store/selectors'
-import db from 'services/firebase'
 
 export const types = {
   GET_IMAGES_SUCCESS: 'gallery/GET_IMAGES_SUCCESS',
@@ -54,33 +53,29 @@ export const publishImage = () => {
     const visStyles = select.visStyles(state)
     const visForces = select.visForces(state)
     const visPosition = select.visPosition(state)
-    const { saveVis } = select.visFuncs(state)
 
     const { owner, name } = repo
     const { fill } = visStyles.background
     const backgroundColor = colorString(fill)
     const imageId = `${name}-${Date.now()}`
-    const savedVis = saveVis()
 
     try {
-      const image = await uploadImage(previewImage, imageId, {
-        owner,
-        name,
-        backgroundColor,
-      })
-
-      await db.collection('gallery').doc(imageId).set({
-        svgString: previewImage,
-        image,
-        vis: {
-          styles: visStyles,
-          forces: visForces,
-          position: visPosition,
-          saved: savedVis,
-        },
-        repo: JSON.stringify(repo), // avoids an invalid nesting error
-        selectedFolderPath,
-      })
+      const [ image ] = await Promise.all([
+        uploadImage(previewImage, imageId, {
+          owner,
+          name,
+          backgroundColor,
+        }),
+        uploadImageData({
+          repo,
+          selectedFolderPath,
+          vis: {
+            styles: visStyles,
+            forces: visForces,
+            position: visPosition,
+          },
+        }, imageId),
+      ])
 
       dispatch({
         type: types.PUBLISH_IMAGE_SUCCESS,
@@ -96,14 +91,17 @@ export const publishImage = () => {
   }
 }
 
-export const restoreImage = (id) => {
+export const restoreImage = (image) => {
   return async (dispatch, getState) => {
-    const imageRef = await db.collection('gallery').doc(id).get()
-    const image = imageRef.data()
-    image.repo = JSON.parse(image.repo)
+    const [data, svgString] = await Promise.all([
+      getImageData(image),
+      getSvgString(image)
+    ])
+    data.svgString = svgString
+
     dispatch({
       type: types.RESTORE_IMAGE,
-      data: image,
+      data,
     })
   }
 }

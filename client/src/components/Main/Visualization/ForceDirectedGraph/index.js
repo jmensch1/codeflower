@@ -103,10 +103,9 @@ const ForceDirectedGraph = () => {
 
     if (visData.saved) {
 
-      const { svgString } = visData.saved
-      const decoded = atob(svgString.replace('data:image/svg+xml;base64,', ''))
+      const svgString = visData.saved.getSvgString()
       const dom = new DOMParser()
-      const el = dom.parseFromString(decoded, 'image/svg+xml').rootElement
+      const el = dom.parseFromString(svgString, 'image/svg+xml').rootElement
       container.appendChild(el)
 
       svg = d3.select(container).select('svg')
@@ -172,7 +171,6 @@ const ForceDirectedGraph = () => {
     //// SAVE ////
 
     saveVisFuncs({
-      saveVis: () => visData.nodes.map(({ x, y }) => ({ x, y })),
       getSvg: () => svg.node(),
     })
 

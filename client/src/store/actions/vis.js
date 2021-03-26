@@ -140,9 +140,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...action.data.vis,
         saved: {
-          nodes: action.data.vis.saved,
-          svgString: action.data.svgString,
-        }
+          getSvgString: () => action.data.svgString,
+        },
       }
     default:
       return state
