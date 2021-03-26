@@ -1,16 +1,12 @@
 import React, { useEffect, useCallback, useState, useRef, useMemo } from 'react'
-import * as d3 from 'd3'
-import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
+import { useDispatch } from 'react-redux'
+import * as d3 from 'd3'
+import useKeyPressed from 'hooks/useKeyPressed'
 import { useSelectedFolder, useCamera, useSavedVis } from 'store/selectors'
 import { setVisFuncs } from 'store/actions/vis'
-import useAddForces from './useAddForces'
-import useAddStyles from './useAddStyles'
-import useAddMouse from './useAddMouse'
-import useAddZoom from './useAddZoom'
-import useAddRotation from './useAddRotation'
+import VisHooks from './VisHooks'
 import Extras from './Extras'
-import useKeyPressed from 'hooks/useKeyPressed'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,25 +33,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Enhancers = ({ visData, visElements, inDragMode }) => {
-  const {
-    svg,
-    node,
-    link,
-    simulation,
-    zoomG,
-    rotationG,
-  } = visElements
-
-  useAddForces({ visData, simulation })
-  useAddStyles({ svg, node, link })
-  useAddMouse({ node, simulation, inDragMode })
-  useAddZoom({ svg, zoomG })
-  useAddRotation({ rotationG })
-
-  return null
-}
-
 const ForceDirectedGraph = () => {
   const containerRef = useRef(null)
   const inDragMode = useKeyPressed('Shift')
@@ -67,10 +44,6 @@ const ForceDirectedGraph = () => {
   const { showAperture } = useCamera()
   const savedVis = useSavedVis()
   const dispatch = useDispatch()
-
-  const saveVisFuncs = useCallback((funcs) => {
-    dispatch(setVisFuncs(funcs))
-  }, [dispatch])
 
   const visData = useMemo(() => {
     if (!tree) return null
@@ -168,19 +141,21 @@ const ForceDirectedGraph = () => {
 
     simulation.on('tick', onTick).on('end', () => setAlpha(0))
 
-    //// SAVE ////
-
-    saveVisFuncs({
-      getSvg: () => svg.node(),
-    })
-
     //// FINISH ////
 
     setVisElements({ svg, node, link, simulation, zoomG, rotationG })
+
     return () => {
       container.innerHTML = ''
     }
-  }, [visData, saveVisFuncs, restartKey])
+  }, [visData, restartKey])
+
+  useEffect(() => {
+    if (!visElements) return
+
+    const getSvg = () => visElements.svg.node()
+    dispatch(setVisFuncs({ getSvg }))
+  }, [dispatch, visElements])
 
   const restart = useCallback(() => {
     setRestartKey((key) => 1 - key)
@@ -191,12 +166,17 @@ const ForceDirectedGraph = () => {
       <div ref={containerRef} className={classes.root} />
       {visData && visElements && (
         <>
-          <Enhancers
+          <VisHooks
             visData={visData}
             visElements={visElements}
             inDragMode={inDragMode}
           />
-          {!showAperture && <Extras alpha={alpha} onRestart={restart} />}
+          {!showAperture && (
+            <Extras
+              alpha={alpha}
+              onRestart={restart}
+            />
+          )}
         </>
       )}
     </>
