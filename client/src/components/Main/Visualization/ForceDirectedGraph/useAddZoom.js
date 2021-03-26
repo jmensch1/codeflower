@@ -20,8 +20,7 @@ export default function useAddZoom({ svg, zoomG }) {
   useEffect(() => {
     if (!zoom) return
 
-    const t = d3
-      .zoomIdentity
+    const t = d3.zoomIdentity
       .translate(transform.x, transform.y)
       .scale(transform.k)
 

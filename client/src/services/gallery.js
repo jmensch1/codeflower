@@ -74,7 +74,8 @@ export function listImages() {
   const version = Math.ceil(new Date().getTime() / 1000)
   const url = `${FETCH_URL}/list/v${version}/${TAG}.json`
 
-  return axios.get(url)
+  return axios
+    .get(url)
     .then(({ data: { resources: images } }) => images.map(convertFormat))
     .catch((err) => [])
 }
@@ -102,18 +103,13 @@ export async function uploadImage(
     },
   })
 
-
   return {
     id: image.public_id,
     deleteFile: deleteFile.bind(null, image.delete_token),
   }
 }
 
-export async function uploadImageData(
-  data,
-  imageId,
-  onProgress = () => null
-) {
+export async function uploadImageData(data, imageId, onProgress = () => null) {
   const file = 'data:text/plain;base64,' + btoa(JSON.stringify(data))
 
   const opts = {
@@ -124,13 +120,17 @@ export async function uploadImageData(
     upload_preset: UPLOAD_PRESET,
   }
 
-  const { data: upload } = await axios.post(UPLOAD_DATA_URL, JSON.stringify(opts), {
-    headers: UPLOAD_HEADERS,
-    onUploadProgress: (e) => {
-      const percentCompleted = Math.round((100 * e.loaded) / e.total)
-      onProgress(percentCompleted)
-    },
-  })
+  const { data: upload } = await axios.post(
+    UPLOAD_DATA_URL,
+    JSON.stringify(opts),
+    {
+      headers: UPLOAD_HEADERS,
+      onUploadProgress: (e) => {
+        const percentCompleted = Math.round((100 * e.loaded) / e.total)
+        onProgress(percentCompleted)
+      },
+    }
+  )
 
   return {
     id: upload.public_id,

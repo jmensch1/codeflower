@@ -1,4 +1,10 @@
-import { listImages, uploadImage, uploadImageData, getImageData, getSvgString } from 'services/gallery'
+import {
+  listImages,
+  uploadImage,
+  uploadImageData,
+  getImageData,
+  getSvgString,
+} from 'services/gallery'
 import { colorString } from 'services/utils'
 import { select } from 'store/selectors'
 
@@ -60,22 +66,25 @@ export const publishImage = () => {
     const imageId = `${name}-${Date.now()}`
 
     try {
-      const [ image ] = await Promise.all([
+      const [image] = await Promise.all([
         uploadImage(previewImage, imageId, {
           repoId,
           owner,
           name,
           backgroundColor,
         }),
-        uploadImageData({
-          repo,
-          selectedFolderPath,
-          vis: {
-            styles: visStyles,
-            forces: visForces,
-            position: visPosition,
+        uploadImageData(
+          {
+            repo,
+            selectedFolderPath,
+            vis: {
+              styles: visStyles,
+              forces: visForces,
+              position: visPosition,
+            },
           },
-        }, imageId),
+          imageId
+        ),
       ])
 
       dispatch({
@@ -96,7 +105,7 @@ export const restoreImage = (image) => {
   return async (dispatch, getState) => {
     const [data, svgString] = await Promise.all([
       getImageData(image),
-      getSvgString(image)
+      getSvgString(image),
     ])
     data.svgString = svgString
 

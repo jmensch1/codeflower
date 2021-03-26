@@ -63,8 +63,8 @@ const ForceControls = () => {
           rel="noreferrer"
         >
           forces
-        </a>
-        {' '}that apply to the graph.
+        </a>{' '}
+        that apply to the graph.
       </div>
 
       <Collapse label="charge" disabled={!values['charge.enabled']} initialOpen>

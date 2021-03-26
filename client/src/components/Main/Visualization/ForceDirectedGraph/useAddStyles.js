@@ -29,7 +29,7 @@ export default function useAddStyles({ svg, node, link }) {
   )
 
   //// BACKGROUND ////
-  
+
   useEffect(() => {
     svg.style(
       'background-color',

@@ -27,7 +27,7 @@ const RANGES = {
   'zoom.x': [-1000, 1000],
   'zoom.y': [-1000, 1000],
   'zoom.k': [0.1, 10],
-  'rotation': [0, 360],
+  rotation: [0, 360],
 }
 
 const PositionControls = () => {

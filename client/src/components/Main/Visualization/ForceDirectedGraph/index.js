@@ -174,14 +174,8 @@ const ForceDirectedGraph = () => {
       <div ref={containerRef} className={classes.root} />
       {visElements && (
         <>
-          <VisHooks
-            visElements={visElements}
-            inDragMode={inDragMode}
-          />
-          <Extras
-            alpha={alpha}
-            onRestart={restart}
-          />
+          <VisHooks visElements={visElements} inDragMode={inDragMode} />
+          <Extras alpha={alpha} onRestart={restart} />
         </>
       )}
     </>

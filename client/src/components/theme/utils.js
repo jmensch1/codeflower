@@ -11,8 +11,8 @@ export const palettes = {
 // TODO: apply this to the checker gradient in services/utils/color
 export function paletteType(backgroundColor) {
   const { r, g, b } = tinyColor(colorString(backgroundColor)).toRgb()
-  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
-  return (yiq >= 128) ? 'light' : 'dark'
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000
+  return yiq >= 128 ? 'light' : 'dark'
 }
 
 export function darken(color, by) {

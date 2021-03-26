@@ -1,7 +1,11 @@
 import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { useLanguageCounts, useLanguageColors, useVisStyles } from 'store/selectors'
+import {
+  useLanguageCounts,
+  useLanguageColors,
+  useVisStyles,
+} from 'store/selectors'
 import { selectLanguage } from 'store/actions/settings'
 
 const useStyles = makeStyles((theme) => ({

@@ -6,18 +6,15 @@ import { svgAsPngUri } from 'save-svg-as-png'
 const ImageMaker = ({ svg, aperture }) => {
   const dispatch = useDispatch()
 
-  const getSvgUri = useCallback(
-    async () => {
-      const svgClone = svg.cloneNode(true)
+  const getSvgUri = useCallback(async () => {
+    const svgClone = svg.cloneNode(true)
 
-      const { left, top, width, height } = aperture.viewBox
-      svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
+    const { left, top, width, height } = aperture.viewBox
+    svgClone.setAttribute('viewBox', `${left} ${top} ${width} ${height}`)
 
-      const svgAsXML = new XMLSerializer().serializeToString(svgClone)
-      return 'data:image/svg+xml;base64,' + btoa(svgAsXML)
-    },
-    [svg, aperture]
-  )
+    const svgAsXML = new XMLSerializer().serializeToString(svgClone)
+    return 'data:image/svg+xml;base64,' + btoa(svgAsXML)
+  }, [svg, aperture])
 
   const getPngUri = useCallback(
     async (scale) => {

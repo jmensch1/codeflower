@@ -49,9 +49,7 @@ const Gallery = () => {
 
   const move = useCallback(
     (step) => {
-      const index = images.findIndex(
-        (i) => i.id === selectedImage.id
-      )
+      const index = images.findIndex((i) => i.id === selectedImage.id)
       const nextIndex = (index + step + images.length) % images.length
       setSelectedImage(images[nextIndex])
     },

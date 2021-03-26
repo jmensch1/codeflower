@@ -87,11 +87,7 @@ const reducer = (state = initialState, action) => {
     case types.UPDATE_VIS_FORCES:
       return {
         ...state,
-        forces: setPath(
-          state.forces,
-          action.data.path,
-          action.data.value
-        ),
+        forces: setPath(state.forces, action.data.path, action.data.value),
       }
     case types.SET_VIS_STYLES:
       return {
@@ -102,11 +98,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         styles: {
-          ...setPath(
-            state.styles,
-            action.data.path,
-            action.data.value
-          ),
+          ...setPath(state.styles, action.data.path, action.data.value),
           id: null,
         },
       }
@@ -118,11 +110,7 @@ const reducer = (state = initialState, action) => {
     case types.UPDATE_VIS_POSITION:
       return {
         ...state,
-        position: setPath(
-          state.position,
-          action.data.path,
-          action.data.value
-        ),
+        position: setPath(state.position, action.data.path, action.data.value),
       }
     case types.SET_VIS_FUNCS:
       return {
