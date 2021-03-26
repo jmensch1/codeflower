@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import { thumbUrl } from 'services/gallery'
 import {
   THUMB_WIDTH,
   THUMB_HEIGHT,
@@ -111,19 +110,19 @@ const Shelf = ({ images, selectedImage, onSelect }) => {
       </div>
       {images.map((image, idx) => (
         <div
-          key={image.public_id}
+          key={image.id}
           className={classes.imageContainer}
           style={{ left: LEFT_MARGIN + idx * THUMB_SPACING }}
           onClick={selectImage.bind(null, image)}
-          onMouseEnter={setHoveredId.bind(null, image.public_id)}
+          onMouseEnter={setHoveredId.bind(null, image.id)}
         >
           <img
             className={clsx(classes.image, {
-              [classes.hoveredImage]: hoveredId === image.public_id,
+              [classes.hoveredImage]: hoveredId === image.id,
             })}
-            src={thumbUrl(image)}
-            alt={image.public_id}
-            style={{ backgroundColor: image.context.backgroundColor }}
+            src={image.thumbUrl}
+            alt={image.id}
+            style={{ backgroundColor: image.metadata.backgroundColor }}
           />
         </div>
       ))}

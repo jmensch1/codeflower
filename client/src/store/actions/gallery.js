@@ -54,7 +54,7 @@ export const publishImage = () => {
     const visForces = select.visForces(state)
     const visPosition = select.visPosition(state)
 
-    const { owner, name } = repo
+    const { repoId, owner, name } = repo
     const { fill } = visStyles.background
     const backgroundColor = colorString(fill)
     const imageId = `${name}-${Date.now()}`
@@ -62,6 +62,7 @@ export const publishImage = () => {
     try {
       const [ image ] = await Promise.all([
         uploadImage(previewImage, imageId, {
+          repoId,
           owner,
           name,
           backgroundColor,

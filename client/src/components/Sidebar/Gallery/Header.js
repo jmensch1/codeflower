@@ -58,7 +58,7 @@ const Header = ({ image }) => {
       </IconButton>
       <div className={classes.title}>
         {image
-          ? `${image.context.owner}/${image.context.name}`
+          ? `${image.metadata.owner}/${image.metadata.name}`
           : 'No images'
         }
       </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { imageUrl } from 'services/gallery'
 import { useGallery } from 'store/selectors'
 import axios from 'axios'
 
@@ -50,7 +49,7 @@ const Main = () => {
   useEffect(() => {
     if (!image) return
 
-    urlToSvg(imageUrl(image)).then((svg) => {
+    urlToSvg(image.imageUrl).then((svg) => {
       const prevSvg = container.current.querySelector('svg')
       container.current.appendChild(svg)
       if (prevSvg) container.current.removeChild(prevSvg)
