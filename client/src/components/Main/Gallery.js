@@ -22,12 +22,6 @@ async function urlToSvg(url) {
   const { data: xml } = await axios.get(url)
   const dom = new DOMParser()
   const svg = dom.parseFromString(xml, 'image/svg+xml')
-
-  // TODO: can remove these lines after deleting old gallery images
-  // (which had class and id included in the svg file)
-  svg.rootElement.removeAttribute('id')
-  svg.rootElement.removeAttribute('class')
-
   return svg.rootElement
 }
 
@@ -37,11 +31,11 @@ const Main = () => {
   const { selectedImage: image } = useGallery()
 
   // NOTE: this seems to do the same as the one below, but requires less code
-  // See if there are any actual difference
+  // See if there are any actual differences
   // useEffect(() => {
   //   if (!image) return
   //
-  //   axios.get(imageUrl(image)).then(({ data: svgStr }) => {
+  //   axios.get(image.imageUrl).then(({ data: svgStr }) => {
   //     container.current.innerHTML = svgStr
   //   })
   // }, [image])
