@@ -3,8 +3,6 @@ NOTE: this may not work because the wheel zoom doesn't seem to
 have a predictable range for translate x/y. So the sliders can't be
 given an accurate range in advance. And making the range dynamic
 creates some weird behavior.
-
-Also rotation messes up the translate x/y.
 */
 
 import React, { useMemo } from 'react'

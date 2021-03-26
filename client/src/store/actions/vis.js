@@ -67,7 +67,6 @@ const initialState = {
     },
   },
   funcs: {
-    saveVis: null,
     getSvg: null,
   },
   saved: null,

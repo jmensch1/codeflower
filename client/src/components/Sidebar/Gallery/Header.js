@@ -43,8 +43,7 @@ const Header = ({ image }) => {
   }, [dispatch])
 
   const restore = useCallback(() => {
-    dispatch(restoreImage(image))
-    close()
+    dispatch(restoreImage(image)).then(close)
   }, [dispatch, image, close])
 
   return (

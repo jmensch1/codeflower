@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
-import { useVisForces } from 'store/selectors'
+import { useVisForces, useSavedVis } from 'store/selectors'
 import { setVisForces } from 'store/actions/vis'
 import { useDispatch } from 'react-redux'
 
@@ -37,9 +37,10 @@ const INITIAL_VIS_FORCES = {
   },
 }
 
-export default function useAddForces({ visData, simulation }) {
+export default function useAddForces({ nodes, links, simulation }) {
   const dispatch = useDispatch()
   const visForces = useVisForces()
+  const savedVis = useSavedVis()
   const skipRestart = useRef({
     simulation: false,
     visForces: false,
@@ -49,11 +50,11 @@ export default function useAddForces({ visData, simulation }) {
     // don't restart the simulation if the vis comes from saved data.
     // both the simulation and visForces are updated (separately)
     // so we need to skip a cycle for each
-    if (visData.saved) {
+    if (!!savedVis) {
       skipRestart.current.simulation = true
       skipRestart.current.visForces = true
     }
-  }, [visData])
+  }, [savedVis])
 
   useEffect(() => {
     dispatch(setVisForces(INITIAL_VIS_FORCES))
@@ -62,18 +63,20 @@ export default function useAddForces({ visData, simulation }) {
   // init forces
   useEffect(() => {
     simulation
-      .nodes(visData.nodes)
-      .force('link', d3.forceLink().links(visData.links))
+      .nodes(nodes)
+      .force('link', d3.forceLink().links(links))
       .force('charge', d3.forceManyBody())
       .force('collide', d3.forceCollide())
       .force('center', d3.forceCenter())
       .force('forceX', d3.forceX())
       .force('forceY', d3.forceY())
-  }, [visData, simulation])
+  }, [nodes, links, simulation])
 
   // update forces
   useEffect(() => {
     if (!visForces) return
+
+    simulation.alphaDecay(visForces.alphaDecay)
 
     simulation
       .force('center')
@@ -98,7 +101,7 @@ export default function useAddForces({ visData, simulation }) {
     simulation
       .force('forceY')
       .strength(visForces.forceXY.strength * visForces.forceXY.enabled)
-      
+
     simulation
       .force('link')
       .strength(visForces.link.strength * visForces.link.enabled)
@@ -108,8 +111,6 @@ export default function useAddForces({ visData, simulation }) {
           : visForces.link.distance.files
       )
       .iterations(visForces.link.iterations)
-
-    simulation.alphaDecay(visForces.alphaDecay)
 
     if (skipRestart.current.simulation || skipRestart.current.visForces) return
     simulation.alpha(1).restart()

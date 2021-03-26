@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useCallback, useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import * as d3 from 'd3'
@@ -33,6 +33,76 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+function getVisData(tree) {
+  const root = d3.hierarchy(tree)
+
+  // remove unknown languages
+  const nodes = root.descendants().filter((n) => !n.data.languageUnknown)
+  const links = root.links().filter((l) => !l.target.data.languageUnknown)
+
+  // this ensures that larger nodes are on top of smaller ones,
+  // and you don't get the weird look where the smaller ones are on
+  // top but the links are invisible
+  nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
+
+  return { nodes, links }
+}
+
+function createVis(container, tree) {
+  const { nodes, links } = getVisData(tree)
+  const { width, height } = container.getBoundingClientRect()
+
+  const svg = d3
+    .select(container)
+    .append('svg')
+    .attr('viewBox', [-width / 2, -height / 2, width, height])
+
+  const zoomG = svg.append('g').attr('class', 'zoom')
+  const rotationG = zoomG.append('g').attr('class', 'rotation')
+  const linkG = rotationG.append('g').attr('class', 'links')
+  const nodeG = rotationG.append('g').attr('class', 'nodes')
+
+  const link = linkG
+    .selectAll('line')
+    .data(links)
+    .join('line')
+    .attr('class', 'link')
+
+  const node = nodeG
+    .selectAll('circle')
+    .data(nodes)
+    .join('circle')
+    .attr('class', (d) => (d.children ? 'folder' : 'file'))
+
+  return { svg, zoomG, rotationG, node, link, nodes, links }
+}
+
+function restoreVis(container, tree, svgString) {
+  const { nodes, links } = getVisData(tree)
+
+  const dom = new DOMParser()
+  const el = dom.parseFromString(svgString, 'image/svg+xml').rootElement
+  container.appendChild(el)
+
+  const svg = d3.select(container).select('svg')
+  const zoomG = svg.select('.zoom')
+  const rotationG = svg.select('.rotation')
+  const linkG = svg.select('.links')
+  const nodeG = svg.select('.nodes')
+  const link = linkG.selectAll('line')
+  const node = nodeG.selectAll('circle')
+
+  node.nodes().forEach((el, index) => {
+    nodes[index].x = parseFloat(el.getAttribute('cx'))
+    nodes[index].y = parseFloat(el.getAttribute('cy'))
+  })
+
+  link.data(links)
+  node.data(nodes)
+
+  return { svg, zoomG, rotationG, node, link, nodes, links }
+}
+
 const ForceDirectedGraph = () => {
   const containerRef = useRef(null)
   const inDragMode = useKeyPressed('Shift')
@@ -45,110 +115,49 @@ const ForceDirectedGraph = () => {
   const savedVis = useSavedVis()
   const dispatch = useDispatch()
 
-  const visData = useMemo(() => {
-    if (!tree) return null
-
-    const root = d3.hierarchy(tree)
-
-    // remove unknown languages
-    const nodes = root.descendants().filter((n) => !n.data.languageUnknown)
-    const links = root.links().filter((l) => !l.target.data.languageUnknown)
-
-    // this ensures that larger nodes are on top of smaller ones,
-    // and you don't get the weird look where the smaller ones are on
-    // top but the links are invisible
-    nodes.sort((a, b) => (a.data.size || 0) - (b.data.size || 0))
-
-    return {
-      nodes,
-      links,
-      saved: savedVis,
-    }
-  }, [tree, savedVis])
-
   useEffect(() => {
-    if (!visData) return
-
-    //// DOM ////
+    if (!tree) return
 
     const container = containerRef.current
-    let svg, zoomG, rotationG, linkG, nodeG, link, node
 
-    if (visData.saved) {
+    const { svg, zoomG, rotationG, node, link, nodes, links } = !!savedVis
+      ? restoreVis(container, tree, savedVis.getSvgString())
+      : createVis(container, tree)
 
-      const svgString = visData.saved.getSvgString()
-      const dom = new DOMParser()
-      const el = dom.parseFromString(svgString, 'image/svg+xml').rootElement
-      container.appendChild(el)
+    const simulation = d3
+      .forceSimulation()
+      .on('tick', () => {
+        link
+          .attr('x1', (d) => d.source.x)
+          .attr('y1', (d) => d.source.y)
+          .attr('x2', (d) => d.target.x)
+          .attr('y2', (d) => d.target.y)
 
-      svg = d3.select(container).select('svg')
-      zoomG = svg.select('.zoom')
-      rotationG = svg.select('.rotation')
-      linkG = svg.select('.links')
-      nodeG = svg.select('.nodes')
-      link = linkG.selectAll('line')
-      node = nodeG.selectAll('circle')
+        node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
 
-      node.nodes().forEach((el, index) => {
-        visData.nodes[index].x = parseFloat(el.getAttribute('cx'))
-        visData.nodes[index].y = parseFloat(el.getAttribute('cy'))
+        setAlpha(simulation.alpha())
       })
+      .on('end', () => setAlpha(0))
+      .stop()
+      .alpha(0)
 
-      link.data(visData.links)
-      node.data(visData.nodes)
-
-    } else {
-      const { width, height } = container.getBoundingClientRect()
-
-      svg = d3
-        .select(container)
-        .append('svg')
-        .attr('viewBox', [-width / 2, -height / 2, width, height])
-
-      zoomG = svg.append('g').attr('class', 'zoom')
-      rotationG = zoomG.append('g').attr('class', 'rotation')
-      linkG = rotationG.append('g').attr('class', 'links')
-      nodeG = rotationG.append('g').attr('class', 'nodes')
-
-      link = linkG
-        .selectAll('line')
-        .data(visData.links)
-        .join('line')
-        .attr('class', 'link')
-
-      node = nodeG
-        .selectAll('circle')
-        .data(visData.nodes)
-        .join('circle')
-        .attr('class', (d) => (d.children ? 'folder' : 'file'))
-    }
-
-    //// SIMULATION ////
-
-    const simulation = d3.forceSimulation().stop().alpha(0)
-
-    const onTick = () => {
-      link
-        .attr('x1', (d) => d.source.x)
-        .attr('y1', (d) => d.source.y)
-        .attr('x2', (d) => d.target.x)
-        .attr('y2', (d) => d.target.y)
-
-      node.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
-
-      setAlpha(simulation.alpha())
-    }
-
-    simulation.on('tick', onTick).on('end', () => setAlpha(0))
-
-    //// FINISH ////
-
-    setVisElements({ svg, node, link, simulation, zoomG, rotationG })
+    setVisElements({
+      nodes,
+      links,
+      svg,
+      zoomG,
+      rotationG,
+      node,
+      link,
+      simulation,
+    })
 
     return () => {
       container.innerHTML = ''
+      simulation.stop().alpha(0)
+      setAlpha(0)
     }
-  }, [visData, restartKey])
+  }, [tree, savedVis, restartKey])
 
   useEffect(() => {
     if (!visElements) return
@@ -164,10 +173,9 @@ const ForceDirectedGraph = () => {
   return (
     <>
       <div ref={containerRef} className={classes.root} />
-      {visData && visElements && (
+      {visElements && (
         <>
           <VisHooks
-            visData={visData}
             visElements={visElements}
             inDragMode={inDragMode}
           />
