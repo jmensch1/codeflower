@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import * as d3 from 'd3'
 import useKeyPressed from 'hooks/useKeyPressed'
-import { useSelectedFolder, useCamera, useSavedVis } from 'store/selectors'
+import { useSelectedFolder, useSavedVis } from 'store/selectors'
 import { setVisFuncs } from 'store/actions/vis'
 import VisHooks from './VisHooks'
 import Extras from './Extras'
@@ -111,7 +111,6 @@ const ForceDirectedGraph = () => {
   const [visElements, setVisElements] = useState(null)
   const [alpha, setAlpha] = useState(0)
   const [restartKey, setRestartKey] = useState(0)
-  const { showAperture } = useCamera()
   const savedVis = useSavedVis()
   const dispatch = useDispatch()
 
@@ -179,12 +178,10 @@ const ForceDirectedGraph = () => {
             visElements={visElements}
             inDragMode={inDragMode}
           />
-          {!showAperture && (
-            <Extras
-              alpha={alpha}
-              onRestart={restart}
-            />
-          )}
+          <Extras
+            alpha={alpha}
+            onRestart={restart}
+          />
         </>
       )}
     </>

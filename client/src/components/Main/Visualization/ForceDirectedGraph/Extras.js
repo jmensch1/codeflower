@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { useCamera } from 'store/selectors'
 import IconButton from '@material-ui/core/IconButton'
 import RefreshIcon from '@material-ui/icons/Refresh'
 
@@ -30,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Extras = ({ alpha, onRestart }) => {
   const classes = useStyles({ alpha })
+  const { showAperture } = useCamera()
 
+  if (showAperture) return null
   return (
     <div className={classes.root}>
       <IconButton

@@ -56,7 +56,7 @@ const ForceControls = () => {
   return (
     <div className={classes.root}>
       <div className={classes.instructions}>
-        Adjust the&nbsp;
+        Adjust the{' '}
         <a
           href="https://github.com/d3/d3-force"
           target="_blank"
@@ -64,7 +64,7 @@ const ForceControls = () => {
         >
           forces
         </a>
-        &nbsp;that apply to the graph.
+        {' '}that apply to the graph.
       </div>
 
       <Collapse label="charge" disabled={!values['charge.enabled']} initialOpen>
