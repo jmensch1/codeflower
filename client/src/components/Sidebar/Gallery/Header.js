@@ -1,11 +1,18 @@
+/*
+  NOTE: restore functionality disabled for a few reasons:
+  1. can't load files when image is restored (because no clone happens)
+  2. older images in codeflower-prod can't be restored because they
+  don't weren't uploaded with the JSON file
+*/
+
 import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { closeModal } from 'store/actions/modals'
-import { restoreImage } from 'store/actions/gallery'
+// import { restoreImage } from 'store/actions/gallery'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/ArrowBack'
-import RestoreIcon from '@material-ui/icons/Restore'
+// import RestoreIcon from '@material-ui/icons/Restore'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,9 +49,9 @@ const Header = ({ image }) => {
     dispatch(closeModal('gallery'))
   }, [dispatch])
 
-  const restore = useCallback(() => {
-    dispatch(restoreImage(image)).then(close)
-  }, [dispatch, image, close])
+  // const restore = useCallback(() => {
+  //   dispatch(restoreImage(image)).then(close)
+  // }, [dispatch, image, close])
 
   return (
     <div className={classes.root}>
@@ -59,7 +66,7 @@ const Header = ({ image }) => {
       <div className={classes.title}>
         {image ? `${image.metadata.owner}/${image.metadata.name}` : 'No images'}
       </div>
-      {image && (
+      {/*{image && (
         <IconButton
           aria-label="restore"
           className={classes.restoreButton}
@@ -68,7 +75,7 @@ const Header = ({ image }) => {
         >
           <RestoreIcon />
         </IconButton>
-      )}
+      )}*/}
     </div>
   )
 }
