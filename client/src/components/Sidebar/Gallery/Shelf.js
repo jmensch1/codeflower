@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
       display: ({ selectedIndex }) => (selectedIndex === -1 ? 'none' : 'block'),
       fill: theme.palette.text.primary,
       transform: ({ selectedIndex: idx }) => `translateX(${indicatorX(idx)}px)`,
-      transition: 'all 0.2s ease-in-out',
+      // transition: 'all 0.2s ease-in-out',
     },
   },
   imageContainer: {
