@@ -49,9 +49,9 @@
 
     // add codeflower to nav menu
     var navButton = $(
-      '<li class="d-flex">' +
+      '<li data-view-component="true" class="d-flex">' +
         '<a ' +
-          'class="codeflower-init js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" ' +
+          'class="codeflower-init UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item" ' +
           'data-tab-item="codeflower-tab" ' +
           'href="#">' +
           octicon +
@@ -88,7 +88,7 @@
       e.preventDefault();
 
       // unselect other menu items
-      $('.js-selected-navigation-item')
+      $('.js-responsive-underlinenav-item')
         .removeClass('selected')
         .removeAttr('aria-current');
 
@@ -96,6 +96,9 @@
       $('.codeflower-init:not(.dropdown-item)')
         .addClass('selected')
         .attr('aria-current', 'page');
+
+      // close the dropdown menu
+      $('.details-overlay').attr('open', false);
 
       // inject codeflower into the DOM
       injectCodeflower();
