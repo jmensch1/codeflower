@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
   },
   code: {
     whiteSpace: 'pre-wrap',
-    fontSize: '1.2em',
     margin: 0,
     height: '100%',
     overflow: 'auto',
