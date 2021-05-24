@@ -4,34 +4,43 @@
 (function($) {
 
   // request the name of the repo on the page
-  chrome.runtime.sendMessage({type: 'request-repo'}, function(repo) {
+  chrome.runtime.sendMessage({type: 'request-repo'}, (repo) => {
 
-    // when we get a response, first grab the config file
-    var configUrl = chrome.extension.getURL('/config.json');
-    $.getJSON(configUrl, function(config) {
+    console.log('palette:', repo.palette)
+
+    // set body background color
+    $('body').css('background-color', repo.palette.bgColor)
+
+    // grab the config file
+    const configUrl = chrome.extension.getURL('/config.json')
+    $.getJSON(configUrl, ({ originUrl }) => {
 
       // construct url for the inner iframe
-      var url = config.originUrl +
-                '?context=chrome' +
-                '&owner=' + repo.owner +
-                '&name='  + repo.name +
-                (repo.branch ? '&branch=' + repo.branch : '');
+      const srcUrl = [
+        originUrl,
+        '?context=chrome',
+        `&owner=${repo.owner}`,
+        `&name=${repo.name}`,
+        (repo.branch ? `&branch=${repo.branch}` : ''),
+      ].join('')
 
       // add the inner iframe to the body
-      var frame = $(
-        '<iframe ' +
-          'src="' + url + '" ' +
-          'style="width: 100%; height: 100%; border: none;" ' +
-          'allowfullscreen>' +
-        '</iframe>'
-      );
-      $('body').append(frame);
+      const frame = $('<iframe>')
+        .attr('src', srcUrl)
+        .attr('allowfullscreen', true)
+        .css({
+          width: '100%',
+          height: '100%',
+          border: 'none',
+        })
+
+      $('body').append(frame)
 
       // remove the loading mask when frame loads
-      // frame.on('load', function() {
-      //   $('.loading-mask').remove()
-      // });
-    });
-  });
+      frame.on('load', () => {
+        $('.loading-mask').remove()
+      })
+    })
+  })
 
-})(jQuery);
+})(jQuery)

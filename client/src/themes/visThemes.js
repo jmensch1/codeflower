@@ -52,9 +52,9 @@ const periwinkle = {
   },
   background: {
     fill: {
-      hue: 0,
-      saturation: 0,
-      lightness: 14,
+      hue: 216,
+      saturation: 28,
+      lightness: 7,
       alpha: 1,
     },
   },
@@ -111,9 +111,9 @@ const bumblebee = {
   },
   background: {
     fill: {
-      hue: 0,
-      saturation: 0,
-      lightness: 14,
+      hue: 216,
+      saturation: 28,
+      lightness: 7,
       alpha: 1,
     },
   },
@@ -170,9 +170,9 @@ const rainbow = {
   },
   background: {
     fill: {
-      hue: 0,
-      saturation: 0,
-      lightness: 14,
+      hue: 216,
+      saturation: 28,
+      lightness: 7,
       alpha: 1,
     },
   },

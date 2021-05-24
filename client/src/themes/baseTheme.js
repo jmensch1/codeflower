@@ -1,8 +1,8 @@
 const baseTheme = {
   sidebarBackgroundColor: {
-    hue: 0,
-    saturation: 0,
-    lightness: 21,
+    hue: 215,
+    saturation: 21,
+    lightness: 11,
     alpha: 1,
   },
   fontSize: 14,

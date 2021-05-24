@@ -9,8 +9,6 @@ body {
   right: 0;
   bottom: 0;
   overflow: hidden;
-  background-color: hsla(0, 0%, 14%, 1);
-  z-index: -1;
 }
 
 .loading-mask .background {
@@ -25,7 +23,6 @@ body {
 }
 
 .loading-mask .loader {
-  display: none;
   position: absolute;
   top: 0;
   left: 0;
