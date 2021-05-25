@@ -1,20 +1,9 @@
-import tinycolor from 'tinycolor2'
-import baseTheme from './baseTheme'
+import { colorObject } from 'services/utils'
+import theme from './baseTheme'
 
 const DEFAULT_COEFF = 3.0
 const DEFAULT_EXPONENT = 0.25
-
-function getColorObject(color) {
-  const parsed = tinycolor(color).toHsl()
-  return {
-    hue: parsed.h,
-    saturation: parsed.s * 100,
-    lightness: parsed.l * 100,
-    alpha: parsed.a,
-  }
-}
-
-const DEFAULT_BACKGROUND = getColorObject(baseTheme.palette.background.default)
+const DEFAULT_BACKGROUND = colorObject(theme.palette.background.default)
 
 const periwinkle = {
   id: 'periwinkle',

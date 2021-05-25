@@ -8,6 +8,18 @@ export function getAlpha(color) {
   return tinycolor(color).getAlpha()
 }
 
+// convert string to object
+export function colorObject(color) {
+  const parsed = tinycolor(color).toHsl()
+  return {
+    hue: parsed.h,
+    saturation: parsed.s * 100,
+    lightness: parsed.l * 100,
+    alpha: parsed.a,
+  }
+}
+
+// convert object to string
 export function colorString(color) {
   const { hue, saturation, lightness, alpha } = color
   return `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`

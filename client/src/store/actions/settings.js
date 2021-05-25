@@ -1,27 +1,13 @@
-import baseTheme from 'themes/baseTheme'
 import { types as repoTypes } from './repo'
 import { types as galleryTypes } from './gallery'
-import { setPath } from 'services/utils'
 
 export const types = {
-  SET_BASE_THEME: 'settings/SET_BASE_THEME',
-  UPDATE_BASE_THEME: 'settings/UPDATE_BASE_THEME',
   SELECT_LANGUAGE: 'settings/SELECT_LANGUAGE',
   SELECT_FOLDER: 'settings/SELECT_FOLDER',
   HIGHLIGHT_FOLDER: 'settings/HIGHLIGHT_FOLDER',
   SELECT_AUTHOR: 'settings/SELECT_AUTHOR',
   HIGHLIGHT_AUTHOR: 'settings/HIGHLIGHT_AUTHOR',
 }
-
-export const setBaseTheme = (baseTheme) => ({
-  type: types.SET_BASE_THEME,
-  data: baseTheme,
-})
-
-export const updateBaseTheme = (path, value) => ({
-  type: types.UPDATE_BASE_THEME,
-  data: { path, value },
-})
 
 export const selectLanguage = (language) => ({
   type: types.SELECT_LANGUAGE,
@@ -49,7 +35,6 @@ export const highlightAuthor = (authorId) => ({
 })
 
 const initialState = {
-  baseTheme,
   selectedLanguage: null,
   selectedFolderPath: null,
   highlightedFolderPath: null,
@@ -59,20 +44,6 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_BASE_THEME:
-      return {
-        ...state,
-        baseTheme: action.data,
-      }
-    case types.UPDATE_BASE_THEME:
-      return {
-        ...state,
-        baseTheme: setPath(
-          state.baseTheme,
-          action.data.path,
-          action.data.value
-        ),
-      }
     case types.SELECT_LANGUAGE:
       return {
         ...state,

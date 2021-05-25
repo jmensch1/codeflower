@@ -14,16 +14,7 @@
 
 (function($) {
 
-  const theme = {
-    palette: {
-      type: 'dark',
-      background: {
-        default: $('body').css('background-color'),
-        paper: $('header').css('background-color'),
-      },
-      divider: $('.color-border-secondary').css('border-color'),
-    }
-  }
+  let repo, theme
 
   //////////////// FUNCTIONS /////////////////
 
@@ -43,6 +34,21 @@
       owner: ownerAndName[1],
       name:  ownerAndName[2],
       branch: branch && branch[1]
+    }
+  }
+
+  // extract material UI theme from page
+  // https://material-ui.com/customization/default-theme/
+  function getTheme() {
+    return {
+      palette: {
+        type: $('body').css('color-scheme'),
+        background: {
+          default: $('body').css('background-color'),
+          paper: $('header').css('background-color'),
+        },
+        divider: $('.color-border-secondary').css('border-color'),
+      }
     }
   }
 
@@ -164,24 +170,22 @@
   /////////////////// MAIN ///////////////////
 
   $(document).ready(function() {
+    if (!extensionActive()) return
 
-    if (extensionActive()) {
-      // add menu item on initial load and when tab changes
-      // see https://github.com/defunkt/jquery-pjax
-      addButtons()
-      $(document).on('pjax:complete', addButtons)
+    // extract info from page
+    repo = getRepo()
+    theme = getTheme()
 
-      // response to requests for the repo from the frame script
-      chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        if (request.type === 'get-repo') {
-          sendResponse({
-            repo: getRepo(),
-            theme,
-          })
-        }
-      })
-    }
+    // add menu item on initial load and when tab changes
+    // see https://github.com/defunkt/jquery-pjax
+    addButtons()
+    $(document).on('pjax:complete', addButtons)
 
+    // response to requests for the repo from the frame script
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.type === 'get-repo')
+        sendResponse({ repo, theme })
+    })
   })
 
 })(jQuery)

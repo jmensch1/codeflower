@@ -6,7 +6,7 @@
   // request the name of the repo on the page
   chrome.runtime.sendMessage({type: 'request-repo'}, ({ repo, theme }) => {
 
-    // set body background color
+    // set body background color to avoid white flash
     $('body').css('background-color', theme.palette.background.default)
 
     // grab the config file
@@ -22,8 +22,6 @@
       })
 
       const srcUrl = `${originUrl}?${params}`
-
-      console.log('srcUrl:', srcUrl);
 
       // add the inner iframe to the body
       const frame = $('<iframe>')
