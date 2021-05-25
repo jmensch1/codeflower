@@ -4,25 +4,26 @@
 (function($) {
 
   // request the name of the repo on the page
-  chrome.runtime.sendMessage({type: 'request-repo'}, (repo) => {
-
-    console.log('palette:', repo.palette)
+  chrome.runtime.sendMessage({type: 'request-repo'}, ({ repo, theme }) => {
 
     // set body background color
-    $('body').css('background-color', repo.palette.bgColor)
+    $('body').css('background-color', theme.palette.background.default)
 
     // grab the config file
     const configUrl = chrome.extension.getURL('/config.json')
     $.getJSON(configUrl, ({ originUrl }) => {
 
-      // construct url for the inner iframe
-      const srcUrl = [
-        originUrl,
-        '?context=chrome',
-        `&owner=${repo.owner}`,
-        `&name=${repo.name}`,
-        (repo.branch ? `&branch=${repo.branch}` : ''),
-      ].join('')
+      const params = $.param({
+        context: 'chrome',
+        owner: repo.owner,
+        name: repo.name,
+        branch: repo.branch || undefined,
+        theme: JSON.stringify(theme),
+      })
+
+      const srcUrl = `${originUrl}?${params}`
+
+      console.log('srcUrl:', srcUrl);
 
       // add the inner iframe to the body
       const frame = $('<iframe>')

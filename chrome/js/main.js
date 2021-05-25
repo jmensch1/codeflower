@@ -14,10 +14,15 @@
 
 (function($) {
 
-  const palette = {
-    bgColor: $('body').css('background-color'),
-    headerBgColor: $('header').css('background-color'),
-    borderColor: $('.color-border-secondary').css('border-color'),
+  const theme = {
+    palette: {
+      type: 'dark',
+      background: {
+        default: $('body').css('background-color'),
+        paper: $('header').css('background-color'),
+      },
+      divider: $('.color-border-secondary').css('border-color'),
+    }
   }
 
   //////////////// FUNCTIONS /////////////////
@@ -137,7 +142,7 @@
       .css({
         width: '100%',
         height: '0',
-        border: `1px ${palette.borderColor} solid`,
+        border: `1px ${theme.palette.divider} solid`,
         'border-radius': '6px',
       })
 
@@ -169,9 +174,10 @@
       // response to requests for the repo from the frame script
       chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.type === 'get-repo') {
-          const repo = getRepo()
-          repo.palette = palette
-          sendResponse(repo)
+          sendResponse({
+            repo: getRepo(),
+            theme,
+          })
         }
       })
     }

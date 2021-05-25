@@ -1,5 +1,20 @@
+import tinycolor from 'tinycolor2'
+import baseTheme from './baseTheme'
+
 const DEFAULT_COEFF = 3.0
 const DEFAULT_EXPONENT = 0.25
+
+function getColorObject(color) {
+  const parsed = tinycolor(color).toHsl()
+  return {
+    hue: parsed.h,
+    saturation: parsed.s * 100,
+    lightness: parsed.l * 100,
+    alpha: parsed.a,
+  }
+}
+
+const DEFAULT_BACKGROUND = getColorObject(baseTheme.palette.background.default)
 
 const periwinkle = {
   id: 'periwinkle',
@@ -51,12 +66,7 @@ const periwinkle = {
     strokeWidth: 1,
   },
   background: {
-    fill: {
-      hue: 216,
-      saturation: 28,
-      lightness: 7,
-      alpha: 1,
-    },
+    fill: DEFAULT_BACKGROUND,
   },
 }
 
@@ -110,12 +120,7 @@ const bumblebee = {
     strokeWidth: 0.5,
   },
   background: {
-    fill: {
-      hue: 216,
-      saturation: 28,
-      lightness: 7,
-      alpha: 1,
-    },
+    fill: DEFAULT_BACKGROUND,
   },
 }
 
@@ -169,12 +174,7 @@ const rainbow = {
     strokeWidth: 1,
   },
   background: {
-    fill: {
-      hue: 216,
-      saturation: 28,
-      lightness: 7,
-      alpha: 1,
-    },
+    fill: DEFAULT_BACKGROUND,
   },
 }
 
