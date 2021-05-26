@@ -39,15 +39,17 @@
 
   // extract material UI theme from page
   // https://material-ui.com/customization/default-theme/
+  // the defaults are the dark-dimmed theme (as of 5/26/21)
+  // the theme is passed to the client through the iframe src (see frame.js)
   function getTheme() {
     return {
       palette: {
-        type: $('body').css('color-scheme'),
+        type: $('body').css('color-scheme') || 'dark',
         background: {
-          default: $('body').css('background-color'),
-          paper: $('header').css('background-color'),
+          default: $('body').css('--color-bg-canvas') || '#22272e',
+          paper: $('body').css('--color-header-bg') || '#2d333b',
         },
-        divider: $('.color-border-secondary').css('border-color'),
+        divider: $('body').css('--color-border-secondary') || '#373e47',
       }
     }
   }
@@ -158,6 +160,7 @@
 
     setTimeout(() => {
       // avoid a flash of white background
+      // necessary because transparent iframe isn't working
       frame.css('height', '100%')
 
       // scroll the page so that the iframe is vertically centered
@@ -181,7 +184,7 @@
     addButtons()
     $(document).on('pjax:complete', addButtons)
 
-    // response to requests for the repo from the frame script
+    // pass repo and theme to the frame script
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.type === 'get-repo')
         sendResponse({ repo, theme })

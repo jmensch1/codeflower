@@ -9,8 +9,6 @@ import history from 'services/history'
 import theme from 'themes/baseTheme'
 import App from 'components/App'
 
-console.log(process.env)
-
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>

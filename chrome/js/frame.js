@@ -36,9 +36,9 @@
       $('body').append(frame)
 
       // remove the loading mask when frame loads
-      frame.on('load', () => {
-        $('.loading-mask').remove()
-      })
+      // frame.on('load', () => {
+      //   $('.loading-mask').remove()
+      // })
     })
   })
 
