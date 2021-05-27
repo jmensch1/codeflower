@@ -176,7 +176,11 @@
     if (!extensionActive()) return
 
     const theme = getTheme()
+
+    // add menu item on initial load and when tab changes
+    // see https://github.com/defunkt/jquery-pjax
     addButtons(theme)
+    $(document).on('pjax:complete', () => addButtons(theme))
 
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       switch(request.type) {
