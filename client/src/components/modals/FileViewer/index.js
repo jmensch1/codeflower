@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     overscrollBehavior: 'contain',
     padding: '1em',
+    fontSize: ({ fontSize }) => fontSize,
   },
   modalContent: {
     opacity: ({ opacity }) => opacity,
@@ -33,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
 
 const FileViewer = () => {
   const [opacity, setOpacity] = useState(0.95)
-  const classes = useStyles({ opacity })
+  const [fontSize, setFontSize] = useState(14)
+  const classes = useStyles({ opacity, fontSize })
   const dispatch = useDispatch()
   const { files, openedFile, isLoading, error } = useFiles()
   const preRef = useRef(null)
@@ -82,6 +84,8 @@ const FileViewer = () => {
         isLoading={isLoading}
         opacity={opacity}
         setOpacity={setOpacity}
+        fontSize={fontSize}
+        setFontSize={setFontSize}
       />
     </Modal>
   )
