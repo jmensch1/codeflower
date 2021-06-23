@@ -1,5 +1,5 @@
 // show warning if number of nodes in repo is greater than this
-export const MAX_NODES = 2000
+export const MAX_NODES = 3000
 
 export const api = {
   HTTP_URL: process.env.REACT_APP_API_URL_HTTP,
