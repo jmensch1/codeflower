@@ -5,6 +5,7 @@ import * as d3 from 'd3'
 import useKeyPressed from 'hooks/useKeyPressed'
 import { useSelectedFolder, useSavedVis } from 'store/selectors'
 import { setVisFuncs } from 'store/actions/vis'
+import { setVisPosition } from 'store/actions/vis'
 import VisHooks from './VisHooks'
 import Extras from './Extras'
 
@@ -157,6 +158,29 @@ const ForceDirectedGraph = () => {
       setAlpha(0)
     }
   }, [tree, savedVis, restartKey])
+
+  useEffect(() => {
+    if (!visElements) return
+
+    const numNodes = visElements.nodes.length
+    const zoom = (() => {
+      if (numNodes > 2000) return 0.5
+      if (numNodes > 1000) return 0.75
+      if (numNodes > 250) return 1
+      return 2
+    })()
+
+    dispatch(
+      setVisPosition({
+        zoom: {
+          x: 0,
+          y: 0,
+          k: zoom,
+        },
+        rotation: 0,
+      })
+    )
+  }, [dispatch, visElements])
 
   useEffect(() => {
     if (!visElements) return
