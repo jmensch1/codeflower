@@ -43,14 +43,16 @@
   // the defaults are the dark-dimmed theme (as of 5/26/21)
   // the theme is passed to the client through the iframe src (see frame.js)
   function getTheme() {
+    const trimmed = (val) => val ? val.trim() : undefined
+
     return {
       palette: {
-        type: $('body').css('color-scheme').trim() || 'dark',
+        type: trimmed($('body').css('color-scheme')) || 'dark',
         background: {
-          default: $('body').css('--color-bg-canvas').trim() || '#22272e',
-          paper: $('body').css('--color-header-bg').trim() || '#2d333b',
+          default: trimmed($('body').css('--color-bg-canvas')) || '#22272e',
+          paper: trimmed($('body').css('--color-header-bg')) || '#2d333b',
         },
-        divider: $('body').css('--color-border-secondary').trim() || '#373e47',
+        divider: trimmed($('body').css('--color-border-secondary')) || '#373e47',
       }
     }
   }
