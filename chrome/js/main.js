@@ -45,12 +45,12 @@
   function getTheme() {
     return {
       palette: {
-        type: $('body').css('color-scheme') || 'dark',
+        type: $('body').css('color-scheme').trim() || 'dark',
         background: {
-          default: $('body').css('--color-bg-canvas') || '#22272e',
-          paper: $('body').css('--color-header-bg') || '#2d333b',
+          default: $('body').css('--color-bg-canvas').trim() || '#22272e',
+          paper: $('body').css('--color-header-bg').trim() || '#2d333b',
         },
-        divider: $('body').css('--color-border-secondary') || '#373e47',
+        divider: $('body').css('--color-border-secondary').trim() || '#373e47',
       }
     }
   }
