@@ -21,14 +21,10 @@ const {
 
 //////////////// PRIVATE ///////////////////
 
-async function cloc({ owner, name, branch, username, password }, onUpdate) {
+async function cloc({ owner, name, branch, creds }, onUpdate) {
   if (!owner || !name) throw config.errors.NeedOwnerAndName
 
   const repoId = `${owner}#${name}#${connPool.addConn()}`
-  const creds = {
-    username: username && encodeURIComponent(username),
-    password: password && encodeURIComponent(password),
-  }
 
   Log(2, `NEW REPO: ${repoId}`)
 

@@ -24,17 +24,11 @@ function handleErrors(error, onError, onUpdate) {
 
   if (error.stack) {
     // replace access token, if any, in stack trace
-    error.stack = error.stack.replace(
-      /https:\/\/.*?@/g,
-      'https://******@'
-    )
+    error.stack = error.stack.replace(/https:\/\/.*?@/g, 'https://******@')
     onUpdate(error.stack)
   }
 
-  if (error.params) {
-    delete error.params.username
-    delete error.params.password
-  }
+  if (error.params) delete error.params.creds
 
   onError({
     name: error.name || 'ServerError',

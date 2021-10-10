@@ -36,8 +36,7 @@ const env = checkEnv([
   'WS_PORT',
   'MIXPANEL_TOKEN',
   'SENTRY_DSN',
-  'GITHUB_TEST_USERNAME',
-  'GITHUB_TEST_PASSWORD',
+  'GITHUB_TEST_PERSONAL_ACCESS_TOKEN',
 ])
 
 ///////////////////// EXPORT ///////////////////////
@@ -98,12 +97,12 @@ module.exports = {
     },
     NeedCredentials: {
       name: 'NeedCredentials',
-      message: 'A github username and password are required to access this repo.',
+      message: 'A personal access token is required to access this repo.',
       statusCode: 401,
     },
     CredentialsInvalid: {
       name: 'CredentialsInvalid',
-      message: 'The given github username/password combination is invalid.',
+      message: 'The given personal access token is invalid.',
       statusCode: 401,
     },
     RepoNotFound: {
@@ -145,9 +144,8 @@ module.exports = {
 
   github: {
     creds: {
-      username: env.GITHUB_TEST_USERNAME,
-      password: env.GITHUB_TEST_PASSWORD,
-    }
+      token: env.GITHUB_TEST_PERSONAL_ACCESS_TOKEN,
+    },
   },
 
   logLevel: 2,

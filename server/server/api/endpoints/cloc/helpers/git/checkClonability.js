@@ -20,10 +20,11 @@ function getBranches(lsRemoteOutput) {
 }
 
 async function checkClonability({ owner, name, branch, creds, onUpdate }) {
+  const token = creds ? creds.token : undefined
   const lsRemote = concat([
     'GIT_TERMINAL_PROMPT=0',
     'git ls-remote',
-    `-h "https://${creds.password ? `${creds.password}@` : ''}github.com/${owner}/${name}"`,
+    `-h "https://${token ? `${token}@` : ''}github.com/${owner}/${name}"`,
   ])
 
   // echo the command (but not the access token)
@@ -38,7 +39,7 @@ async function checkClonability({ owner, name, branch, creds, onUpdate }) {
   } catch (err) {
     const { stderr } = err
     if (stderr.match(/fatal: could not read/))
-      throw creds.username && creds.password
+      throw token
         ? config.errors.CredentialsInvalid
         : config.errors.NeedCredentials
     else if (stderr.match(/Repository not found/))
@@ -47,7 +48,7 @@ async function checkClonability({ owner, name, branch, creds, onUpdate }) {
   }
 
   // check if branch exists
-  const branches = getBranches(stdout) 
+  const branches = getBranches(stdout)
   if (branch && !Object.keys(branches).includes(branch))
     throw config.errors.BranchNotFound
   return branches

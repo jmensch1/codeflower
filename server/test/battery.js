@@ -154,9 +154,10 @@ const TESTS = [{
       owner: 'Unitech',
       name:  'pm2',
       branch: '',
-      username: 'whatthe',
-      password: 'hell'
-    }
+      creds: {
+        token: 'faketoken',
+      },
+    },
   },
   test: {
     desc: 'Public repo, no branch specified, dummy creds provided.',
@@ -170,8 +171,9 @@ const TESTS = [{
       owner: 'jmensch1',
       name:  'sutter-quiz',
       branch: 'releases/1.0',
-      username: 'wrong',
-      password: 'credentials'
+      creds: {
+        token: 'faketoken',
+      },
     }
   },
   test: {
@@ -186,8 +188,7 @@ const TESTS = [{
       owner: 'jmensch1',
       name:  'sutter-quiz',
       branch: 'releases/1.0',
-      username: config.github.creds.username,
-      password: config.github.creds.password
+      creds: config.github.creds,
     }
   },
   test: {

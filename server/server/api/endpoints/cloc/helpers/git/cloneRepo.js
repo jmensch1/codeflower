@@ -8,10 +8,8 @@ const fs = require('fs')
 
 // turns a repo object into a git clone url
 function gitCloneUrl(owner, name, creds) {
-  let url = `https://github.com/${owner}/${name}.git`
-  if (creds.username && creds.password)
-    url = url.replace('://', `://${creds.username}:${creds.password}@`)
-  return url
+  const token = creds ? creds.token : undefined
+  return `https://${token ? `${token}@` : ''}github.com/${owner}/${name}.git`
 }
 
 // runs git clone and returns a promise
@@ -29,8 +27,8 @@ async function cloneRepo({ repoId, owner, name, branch, creds, onUpdate }) {
     `root`,
   ])
 
-  // replace username and password, if any, with asterisks, before sending to client
-  const outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@')
+  // replace token, if any, with asterisks, before sending to client
+  const outText = clone.replace(/https:\/\/.*?@/, 'https://******@')
   onUpdate('\n>> ' + outText)
 
   await exec(clone, { cwd, onUpdate })

@@ -12,8 +12,7 @@ Regardless of what protocol is used, a request to the server contains the follow
 1. owner -- the owner of the repo
 2. name -- the name of the repo
 3. branch -- the branch to be analyzed. This is optional, and defaults to the default branch (typically, master).
-4. username -- a github username. Required only for private repos.
-5. password -- a github password. Required only for private repos.
+4. creds -- and object that contains a personal access token -- { token: '[the token]' }
 
 The specific format for the two protocols is discussed below.
 
@@ -30,8 +29,9 @@ JSON.stringify({
     owner: "mrcoder",
     name: "theproject",
     branch: "develop",
-    username: "hi",
-    password: "there
+    creds: {
+        token: 'personalaccesstoken'
+    }
 })
 ```
 
@@ -44,8 +44,9 @@ JSON.stringify({
         owner: "mrcoder",
         name: "theproject",
         branch: "develop",
-        username: "hi",
-        password: "there
+        creds: {
+            token: 'personalaccesstoken'
+        }
     }
 })
 ```
