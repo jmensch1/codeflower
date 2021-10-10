@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: codeflower
+    build: .
+    env_file: .env.local
+    volumes:
+      - ./:/app
+    ports:
+      - 8000:8000
+    command: npm run dev

@@ -4,7 +4,7 @@ FROM node:12
 RUN apt-get update && apt-get -y install cron
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
