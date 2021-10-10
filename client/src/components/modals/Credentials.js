@@ -76,7 +76,7 @@ const Credentials = () => {
                   without a personal access token.
                 </p>
                 <p>
-                  Obvi you shouldn't be careful with personal creds, so if you want
+                  Obvi you should be careful with personal creds, so if you want
                   to continue, here's how you could do it relatively safely:
                 </p>
                 <ul>
