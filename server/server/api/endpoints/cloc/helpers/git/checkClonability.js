@@ -30,7 +30,7 @@ async function checkClonability({ owner, name, branch, creds, onUpdate }) {
   // echo the command (but not the access token)
   const cmd = lsRemote
     .replace('GIT_TERMINAL_PROMPT=0', '')
-    .replace(/\/\/.*?@/, '//******@')
+    .replace(/\/\/.*?@/g, '//******@')
 
   onUpdate(`>> ${cmd}`)
 
