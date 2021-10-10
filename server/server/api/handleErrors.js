@@ -23,10 +23,10 @@ function handleErrors(error, onError, onUpdate) {
   Log('SERVER ERROR', error)
 
   if (error.stack) {
-    // replace username and password, if any, in stack trace
+    // replace access token, if any, in stack trace
     error.stack = error.stack.replace(
       /https:\/\/.*?@/g,
-      'https://******:******@'
+      'https://******@'
     )
     onUpdate(error.stack)
   }
