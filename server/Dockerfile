@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:14-buster
 
 # install cron
 RUN apt-get update && apt-get -y install cron
