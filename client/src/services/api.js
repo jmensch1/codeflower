@@ -11,8 +11,7 @@ export const getRepo = async ({
   owner,
   name,
   branch,
-  username,
-  password,
+  creds,
   onUpdate = (text) => null,
 }) => {
   if (USE_TEST_REPO) {
@@ -32,8 +31,7 @@ export const getRepo = async ({
             owner,
             name,
             branch,
-            username,
-            password,
+            creds,
           },
         })
       )

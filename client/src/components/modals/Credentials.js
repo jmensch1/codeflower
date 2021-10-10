@@ -36,8 +36,7 @@ const useStyles = makeStyles((theme) => ({
 const Credentials = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [token, setToken] = useState('')
   const {
     isOpen,
     params: { owner, name, branch, error },
@@ -49,12 +48,10 @@ const Credentials = () => {
         owner,
         name,
         branch,
-        username,
-        password,
+        creds: { token },
       })
     )
-    setUsername('')
-    setPassword('')
+    setToken('')
     dispatch(closeModal('credentials'))
   }
 
@@ -76,29 +73,26 @@ const Credentials = () => {
               <Typography component="div">
                 <p>
                   {owner}/{name} is a private repo, so it can't be cloned
-                  without credentials.
+                  without a personal access token.
                 </p>
                 <p>
-                  Obvi you shouldn't share your personal creds, so if you want
+                  Obvi you shouldn't be careful with personal creds, so if you want
                   to continue, here's how you could do it relatively safely:
                 </p>
                 <ul>
                   <li>Create a dummy github account</li>
                   <li>Give that account read access to this repo</li>
-                  <li>Enter the creds for that account below</li>
+                  <li>Create a personal access token for that account</li>
+                  <li>Enter that token below</li>
                 </ul>
-                <p>
-                  Note that if 2FA is enabled on the account, cloning requires a
-                  personal access token in place of a password.
-                </p>
+                <p>Sorry can't make this any easier :(</p>
               </Typography>
             )
           case 'CredentialsInvalid':
             return (
               <Typography component="div">
                 <p>
-                  The credentials you provided didn't work. Feel free to try
-                  other ones.
+                  The token you provided didn't work. Feel free to try again.
                 </p>
               </Typography>
             )
@@ -114,21 +108,14 @@ const Credentials = () => {
       >
         <input
           className={classes.textField}
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="github username"
-        />
-        <input
-          className={classes.textField}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="github password or token"
+          value={token}
+          onChange={(e) => setToken(e.target.value)}
+          placeholder="personal access token"
         />
         <TextButton
           label="Go"
           onClick={search}
-          disabled={!username || !password}
+          disabled={!token}
           className={classes.searchButton}
         />
       </div>

@@ -29,13 +29,13 @@ function onUpdate(data) {
   subscriptions.forEach((sub) => sub(data))
 }
 
-export const getRepo = ({ owner, name, branch, username, password }) => {
+export const getRepo = ({ owner, name, branch, creds }) => {
   return async (dispatch) => {
     //// GET REPO ////
 
     dispatch({
       type: types.GET_REPO_PENDING,
-      data: { owner, name, branch, username, password },
+      data: { owner, name, branch, creds },
     })
 
     dispatch(openModal('terminal'))
@@ -47,8 +47,7 @@ export const getRepo = ({ owner, name, branch, username, password }) => {
         owner,
         name,
         branch,
-        username,
-        password,
+        creds,
         onUpdate,
       })
     } catch (error) {
