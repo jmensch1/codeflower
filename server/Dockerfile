@@ -17,6 +17,10 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
+# add github sha to environment from build arg
+ARG GITHUB_SHA
+ENV GITHUB_SHA=${GITHUB_SHA}
+
 # cron setup
 COPY ./cron/crontab /etc/cron.d/crontab
 RUN chmod 0644 /etc/cron.d/crontab
