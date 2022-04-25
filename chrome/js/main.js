@@ -67,8 +67,9 @@
       .css({
         height: `calc(100vh - ${2 * verticalMargin}px)`,
         width: `calc(100vw - ${2 * horizontalMargin}px)`,
+        marginTop: `${verticalMargin}px`,
+        marginLeft: `${horizontalMargin}px`,
         padding: '0',
-        margin: '0 auto',
       })
 
     const frame = $('<iframe>')
