@@ -16,7 +16,7 @@ function sendMessage(message) {
   $('body').css('background-color', theme.palette.background.default)
   await sendMessage({ type: 'set' })
 
-  const configUrl = chrome.extension.getURL('/config.json')
+  const configUrl = chrome.runtime.getURL('/config.json')
   const { originUrl } = await $.getJSON(configUrl)
 
   const params = $.param({

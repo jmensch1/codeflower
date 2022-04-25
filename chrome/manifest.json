@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Codeflower",
   "version": "1.0.7",
   "description": "Visualize repos on github.",
@@ -9,13 +9,15 @@
   },
   "author": "Jake Mensch",
   "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
+    "service_worker": "js/background.js"
   },
   "content_scripts": [{
     "matches": ["https://github.com/*"],
     "js": ["js/jquery.js", "js/main.js"]
   }],
-  "web_accessible_resources": ["html/frame.html"],
+  "web_accessible_resources": [{
+    "resources": ["html/frame.html"],
+    "matches": ["https://github.com/*"]
+  }],
   "offline_enabled": false
 }
