@@ -23,7 +23,7 @@
   },
   "homepage": "",
   "dependencies": {
-    "@sentry/node": "^5.29.2",
+    "@sentry/node": "^6.19.7",
     "cloc": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
